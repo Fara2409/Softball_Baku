@@ -121,8 +121,17 @@ function rosterGrid(){
       <div class="pc-txt"><div class="nm">${first(p)}<br>${last(p)}</div><div class="sub">#${p.number} · ${p.pos[0]?.[0]||''}</div></div>
       ${p.t.RAT==null?'':rt(Math.round(p.t.RAT*10)/10,'lg')}</a>`).join('')+'</div>';
 }
+function ytId(u){ const m=(u||'').match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([\w-]{11})/); return m?m[1]:null; }
+function ytThumbCheck(el){ if(el.naturalWidth<=120) ytThumbFail(el); }
+function ytThumbFail(el){
+  if(el.src.includes('maxresdefault')) el.src=`https://i.ytimg.com/vi/${el.dataset.yt}/hqdefault.jpg`;
+  else if(el.dataset.local && !el.src.endsWith(el.dataset.local)){ el.onerror=null; el.src=el.dataset.local; }
+}
 function featureGame(g){
-  const img=g.image?`<img src="${g.image}" alt="${g.teams.A.name} vs ${g.teams.B.name}">`:'';
+  const yt=ytId(g.video), alt=`${g.teams.A.name} vs ${g.teams.B.name}`;
+  // обложка с YouTube; если нет HD-обложки — обычная; если YouTube недоступен — своя картинка
+  const img=yt?`<img src="https://i.ytimg.com/vi/${yt}/maxresdefault.jpg" alt="${alt}" data-yt="${yt}" data-local="${g.image||''}" onload="ytThumbCheck(this)" onerror="ytThumbFail(this)">`
+    :g.image?`<img src="${g.image}" alt="${alt}">`:'';
   const media=g.video?`<a class="gmedia" href="${g.video}" target="_blank" rel="noopener">${img}<span class="play">▶</span></a>`:`<div class="gmedia">${img}</div>`;
   return `<div class="card feature">${media}<div class="fbody"><div class="meta"><span class="eyebrow">${S.games.length===1?T('firstGame'):T('lastGame')}</span><span>${fmtDate(g.date)} · ${g.venue}</span></div>
     ${linescore(g)}<div class="btns">${g.video?`<a class="btn yt" href="${g.video}" target="_blank" rel="noopener">▶ ${T('youtube')}</a>`:`<span class="btn muted">${T('videoSoon')}</span>`}</div></div></div>`;
