@@ -17,7 +17,21 @@ nav a.active{background:var(--panel2);color:var(--text)}
 .demo{background:#3a2a0b;color:var(--amber);text-align:center;font-size:13px;padding:6px;font-weight:600;letter-spacing:.5px}
 main{max-width:1180px;margin:0 auto;padding:28px clamp(14px,3vw,32px) 60px}
 .loading{color:var(--muted);padding:60px;text-align:center}
-.foot{color:var(--dim);font-size:12px;text-align:center;padding:30px 16px;border-top:1px solid var(--line)}
+/* footer */
+.foot{margin-top:40px;background:linear-gradient(180deg,#0a1424 0%,#060d18 100%);color:var(--muted);font-size:14px;position:relative;overflow:hidden}
+.foot-stripe{display:flex;height:4px}
+.foot-stripe i{flex:1}
+.foot-inner{max-width:1180px;margin:0 auto;padding:44px clamp(16px,3vw,32px) 34px;display:grid;grid-template-columns:1.6fr 1fr 1.2fr 1.2fr 160px;gap:32px;align-items:start}
+.foot-brand .brand{font-size:17px;color:var(--text)}
+.foot-brand p{margin:14px 0 16px;line-height:1.6;max-width:340px;color:var(--muted)}
+.foot-pill{display:inline-block;padding:7px 12px;border-radius:999px;border:1px solid #3a2a0b;background:#1d160a;color:var(--amber);font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
+.foot-col{display:flex;flex-direction:column;gap:10px}
+.foot-col h4{margin:4px 0 4px;color:var(--text);font-size:12px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase}
+.foot-col a{color:var(--muted);font-weight:600;transition:color .15s;display:inline-flex;align-items:center;gap:8px}
+.foot-col a:hover{color:var(--amber)}
+.yt-dot{display:inline-flex;align-items:center;justify-content:center;width:22px;height:16px;border-radius:4px;background:#c4302b;color:#fff;font-size:9px;padding-left:1px}
+.foot-diamond{width:150px;height:150px;justify-self:end;opacity:.9}
+.foot-bottom{max-width:1180px;margin:0 auto;padding:16px clamp(16px,3vw,32px) 22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--dim)}
 h1,h2,h3{margin:0}
 .eyebrow{color:var(--amber);font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase}
 .section-title{display:flex;align-items:baseline;justify-content:space-between;margin:36px 0 14px}
@@ -154,4 +168,4 @@ a.gmedia:hover .play{transform:translate(-50%,-50%) scale(1.08)}
 .posname{margin-top:10px;font-weight:700;color:var(--text);font-size:16px}
 .empty{padding:28px;text-align:center;color:var(--muted);margin-top:16px}
 .tbar{display:inline-block;width:6px;height:16px;border-radius:2px;margin-right:10px;vertical-align:-2px}
-@media (max-width:820px){ .top{flex-wrap:wrap;gap:10px} .season{padding:26px 22px} .feature{grid-template-columns:1fr} .roster{grid-template-columns:1fr} .season-num{display:none} }
+@media (max-width:820px){ .foot-inner{grid-template-columns:1fr 1fr;gap:26px} .foot-brand{grid-column:1/-1} .foot-diamond{display:none} .foot-bottom{justify-content:center;text-align:center} .top{flex-wrap:wrap;gap:10px} .season{padding:26px 22px} .feature{grid-template-columns:1fr} .roster{grid-template-columns:1fr} .season-num{display:none} }

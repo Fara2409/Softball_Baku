@@ -10,7 +10,7 @@ const I18N={
     date:'Дата',team:'Команда',result:'Итог',win:'Победа',loss:'Поражение',tie:'Ничья',winL:'победа',lossL:'поражение',tieL:'ничья',runs:'ран',
     seasonStarts:d=>`Сезон ${d.season} стартует ${d.start}`,daysLeft:n=>`До старта ${n} ${pluralDays('ru',n)}`,seasonGames:'Игры сезона',
     noGames:'Игр пока нет. Первая игра сезона появится здесь.',noStats:'Статистика появится после первой игры сезона.',mainPos:'основная позиция',
-    roster:'Состав',firstGame:'Первая игра',videoSoon:'Видео скоро',final:'Итог',notFound:'Не найдено',loadErr:'Не удалось загрузить данные',footer:'рейтинг считается автоматически после каждой игры',mvp:'MVP',city:'Баку'},
+    roster:'Состав',tagline:'Любительский софтбол в Баку. Рейтинг игроков, статистика и ролики каждой игры.',site:'Сайт',watch:'Смотреть',where:'Где играем',lastVideo:'Последняя игра на YouTube',place:'Амирджан, Баку, Азербайджан',seasonPill:d=>`Сезон ${d.season} · старт ${d.start}`,language:'Язык',firstGame:'Первая игра',videoSoon:'Видео скоро',final:'Итог',notFound:'Не найдено',loadErr:'Не удалось загрузить данные',footer:'рейтинг считается автоматически после каждой игры',mvp:'MVP',city:'Баку'},
   az:{rating:'Reytinq',games:'Oyunlar',players:'Oyunçular',lastGame:'Son oyun',potg:'Oyunun ən yaxşısı',leaders:'Mövsümün liderləri',avgPerGame:'oyun başına orta reytinq',
     table:'Oyunçuların reytinqi',qualHint:n=>`reytinqdə — ən azı ${n} oyun · sıralamaq üçün sütuna toxunun`,player:'Oyunçu',position:'Mövqe',pos:'Mövqe',
     youtube:'YouTube-da izlə',boxscore:'Oyun protokolu',season:'Mövsüm',avgRating:'Orta reytinq',noRating:'Reytinq ilk oyundan sonra görünəcək',
@@ -18,7 +18,7 @@ const I18N={
     date:'Tarix',team:'Komanda',result:'Nəticə',win:'Qələbə',loss:'Məğlubiyyət',tie:'Heç-heçə',winL:'qələbə',lossL:'məğlubiyyət',tieL:'heç-heçə',runs:'ran',
     seasonStarts:d=>`${d.season} mövsümü ${d.start} başlayır`,daysLeft:n=>`Başlanğıca ${n} gün qalıb`,seasonGames:'Mövsümün oyunları',
     noGames:'Hələ oyun yoxdur. Mövsümün ilk oyunu burada görünəcək.',noStats:'Statistika mövsümün ilk oyunundan sonra görünəcək.',mainPos:'əsas mövqe',
-    roster:'Heyət',firstGame:'İlk oyun',videoSoon:'Video tezliklə',final:'Yekun',notFound:'Tapılmadı',loadErr:'Məlumatları yükləmək alınmadı',footer:'reytinq hər oyundan sonra avtomatik hesablanır',mvp:'MVP',city:'Bakı'},
+    roster:'Heyət',tagline:'Bakıda həvəskar softbol. Oyunçuların reytinqi, statistika və hər oyunun videosu.',site:'Sayt',watch:'İzlə',where:'Harada oynayırıq',lastVideo:'Son oyun YouTube-da',place:'Əmircan, Bakı, Azərbaycan',seasonPill:d=>`${d.season} mövsümü · ${d.start}`,language:'Dil',firstGame:'İlk oyun',videoSoon:'Video tezliklə',final:'Yekun',notFound:'Tapılmadı',loadErr:'Məlumatları yükləmək alınmadı',footer:'reytinq hər oyundan sonra avtomatik hesablanır',mvp:'MVP',city:'Bakı'},
   en:{rating:'Ratings',games:'Games',players:'Players',lastGame:'Last game',potg:'Player of the game',leaders:'Season leaders',avgPerGame:'average rating per game',
     table:'Player ratings',qualHint:n=>`qualified — ${n}+ ${plural('en',n)} · click a column to sort`,player:'Player',position:'Position',pos:'Pos',
     youtube:'Watch on YouTube',boxscore:'Box score',season:'Season',avgRating:'Average rating',noRating:'Rating appears after the first game',
@@ -26,7 +26,7 @@ const I18N={
     date:'Date',team:'Team',result:'Result',win:'Win',loss:'Loss',tie:'Tie',winL:'win',lossL:'loss',tieL:'tie',runs:'runs',
     seasonStarts:d=>`Season ${d.season} starts ${d.start}`,daysLeft:n=>`${n} ${n===1?'day':'days'} to go`,seasonGames:'Season games',
     noGames:'No games yet. The first game of the season will appear here.',noStats:'Stats will appear after the first game of the season.',mainPos:'primary position',
-    roster:'Roster',firstGame:'First game',videoSoon:'Video coming soon',final:'Final',notFound:'Not found',loadErr:'Could not load data',footer:'ratings are calculated automatically after every game',mvp:'MVP',city:'Baku'}
+    roster:'Roster',tagline:'Amateur softball in Baku. Player ratings, stats and a video of every game.',site:'Site',watch:'Watch',where:'Where we play',lastVideo:'Latest game on YouTube',place:'Amirajan, Baku, Azerbaijan',seasonPill:d=>`Season ${d.season} · from ${d.start}`,language:'Language',firstGame:'First game',videoSoon:'Video coming soon',final:'Final',notFound:'Not found',loadErr:'Could not load data',footer:'ratings are calculated automatically after every game',mvp:'MVP',city:'Baku'}
 };
 const POS_NAMES={
   ru:{P:'Питчер',C:'Кэтчер','1B':'1-я база','2B':'2-я база','3B':'3-я база',SS:'Шортстоп',LF:'Левый аутфилд',CF:'Центральный аутфилд',RF:'Правый аутфилд',SF:'Шорт-филдер'},
@@ -229,15 +229,44 @@ function game(id){
 function chrome(){
   document.documentElement.lang=LANG;
   document.querySelectorAll('[data-t]').forEach(el=>el.textContent=T(el.dataset.t));
-  document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('active',b.dataset.lang===LANG));
-  document.getElementById('foot').textContent=`${S.league||'Softball Baku'} · ${T('city')} · ${T('footer')}`;
+  document.querySelectorAll('.top .lang button').forEach(b=>b.classList.toggle('active',b.dataset.lang===LANG));
+  document.getElementById('foot').innerHTML=footer();
+  document.querySelectorAll('.foot .lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
 }
+function footer(){
+  const lg=S.league||'Softball Baku', vid=[...(S.games||[])].reverse().find(g=>g.video)?.video;
+  const startTxt=S.start?(LANG==='en'?fmtDate(S.start,{day:'numeric',month:'long'}):fromDate(S.start)):'';
+  const langs=['ru','az','en'].map(l=>`<button data-lang="${l}" class="${l===LANG?'active':''}">${l.toUpperCase()}</button>`).join('');
+  return `<div class="foot-stripe"><i style="background:var(--bina)"></i><i style="background:var(--amber)"></i><i style="background:var(--flames)"></i></div>
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <a class="brand" href="#rating"><span class="brand-mark">◆</span><span class="brand-text">SOFTBALL <b>BAKU</b></span></a>
+      <p>${T('tagline')}</p>
+      ${S.season?`<span class="foot-pill">${T('seasonPill')({season:S.season,start:startTxt})}</span>`:''}
+    </div>
+    <div class="foot-col"><h4>${T('site')}</h4><a href="#rating">${T('rating')}</a><a href="#games">${T('games')}</a></div>
+    <div class="foot-col"><h4>${T('watch')}</h4>${vid?`<a href="${vid}" target="_blank" rel="noopener"><span class="yt-dot">▶</span>${T('lastVideo')}</a>`:`<span class="muted">${T('videoSoon')}</span>`}</div>
+    <div class="foot-col"><h4>${T('where')}</h4><span>${T('place')}</span></div>
+    <svg class="foot-diamond" viewBox="0 0 200 200" aria-hidden="true">
+      <path d="M100 185 L15 100 A120 120 0 0 1 185 100 Z" fill="none" stroke="#1f3150" stroke-width="2"/>
+      <path d="M100 170 L45 115 L100 60 L155 115 Z" fill="rgba(239,159,39,.06)" stroke="#2a3a55" stroke-width="2"/>
+      <rect x="149" y="109" width="12" height="12" transform="rotate(45 155 115)" fill="#8fa0b8"/>
+      <rect x="94" y="54" width="12" height="12" transform="rotate(45 100 60)" fill="#8fa0b8"/>
+      <rect x="39" y="109" width="12" height="12" transform="rotate(45 45 115)" fill="#8fa0b8"/>
+      <path d="M92 166 h16 v6 l-8 7 l-8 -7 z" fill="#EF9F27"/>
+      <circle cx="100" cy="118" r="4" fill="#2a3a55"/>
+    </svg>
+  </div>
+  <div class="foot-bottom"><span>© ${new Date().getFullYear()} ${lg} · ${T('footer')}</span>
+    <div class="lang" role="group" aria-label="${T('language')}">${langs}</div></div>`;
+}
+function setLang(l){ LANG=l; try{localStorage.setItem('lang',LANG);}catch(e){} chrome(); route(); }
 function route(){
   const h=(location.hash||'').slice(1), i=h.indexOf('-');
   const page=i<0?h:h.slice(0,i), id=i<0?'':h.slice(i+1);
   document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.dataset.nav===((page==='games'||page==='game')?'games':'home')));
   if(page==='player') player(id); else if(page==='game') game(id); else if(page==='games') games(); else home();
 }
-document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>{LANG=b.dataset.lang; try{localStorage.setItem('lang',LANG);}catch(e){} chrome(); route();});
+document.querySelectorAll('.top .lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
 load().then(()=>{document.getElementById('demo-banner').hidden=!S.demo; chrome(); route(); window.addEventListener('hashchange',()=>{route();window.scrollTo(0,0);});})
   .catch(e=>{chrome(); app().innerHTML=`<p class="muted">${T('loadErr')}: ${e.message}</p>`;});
