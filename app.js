@@ -72,7 +72,7 @@ const S={players:{},games:[]};
 async function load(){
   const get=u=>fetch(u,{cache:'no-cache'}).then(r=>{if(!r.ok) throw new Error(u); return r.json();});
   const [idx,pl]=await Promise.all([get('data/index.json'),get('data/players.json')]);
-  Object.assign(S,{links:idx.links||{},league:idx.league,season:idx.season,start:idx.season_start,demo:!!(idx.demo||pl.demo)});
+  Object.assign(S,{analytics:idx.analytics||{},links:idx.links||{},league:idx.league,season:idx.season,start:idx.season_start,demo:!!(idx.demo||pl.demo)});
   pl.players.forEach(p=>S.players[p.id]={...p,log:[]});
   S.games=await Promise.all((idx.games||[]).map(id=>get(`data/games/${id}.json`)));
   S.games.sort((a,b)=>a.date.localeCompare(b.date));
@@ -265,6 +265,14 @@ function footer(){
   <div class="foot-bottom"><span>© ${new Date().getFullYear()} ${lg} · ${T('footer')}</span>
     <div class="lang" role="group" aria-label="${T('language')}">${langs}</div></div>`;
 }
+/* ---------- Счётчик посещений (GoatCounter, без cookies) ---------- */
+function countView(){ try{ if(window.goatcounter&&window.goatcounter.count) window.goatcounter.count({path:'/'+((location.hash||'').slice(1)||'rating')}); }catch(e){} }
+function initAnalytics(){
+  const code=S.analytics&&S.analytics.goatcounter; if(!code) return;
+  window.goatcounter={no_onload:true};
+  const sc=document.createElement('script'); sc.async=true; sc.src='https://gc.zgo.at/count.js';
+  sc.dataset.goatcounter=`https://${code}.goatcounter.com/count`; sc.onload=countView; document.head.appendChild(sc);
+}
 function setLang(l){ LANG=l; try{localStorage.setItem('lang',LANG);}catch(e){} chrome(); route(); }
 function route(){
   const h=(location.hash||'').slice(1), i=h.indexOf('-');
@@ -273,5 +281,5 @@ function route(){
   if(page==='player') player(id); else if(page==='game') game(id); else if(page==='games') games(); else home();
 }
 document.querySelectorAll('.top .lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
-load().then(()=>{document.getElementById('demo-banner').hidden=!S.demo; chrome(); route(); window.addEventListener('hashchange',()=>{route();window.scrollTo(0,0);});})
+load().then(()=>{document.getElementById('demo-banner').hidden=!S.demo; chrome(); route(); initAnalytics(); window.addEventListener('hashchange',()=>{route();window.scrollTo(0,0);countView();});})
   .catch(e=>{chrome(); app().innerHTML=`<p class="muted">${T('loadErr')}: ${e.message}</p>`;});
