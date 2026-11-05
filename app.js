@@ -240,7 +240,7 @@ function footer(){
   const ICON={youtube:'<svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4" fill="#c4302b"/><path d="M10 9l5 3-5 3z" fill="#fff"/></svg>',
     whatsapp:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#25D366"/><path d="M8.5 7.5c.3-.4.8-.4 1 0l.9 1.9c.1.3 0 .6-.2.8l-.6.6c.6 1.3 1.7 2.4 3 3l.6-.6c.2-.2.5-.3.8-.2l1.9.9c.4.2.4.7 0 1-1 1.1-2.4 1.3-3.7.6-2-1-3.6-2.6-4.6-4.6-.7-1.3-.5-2.7.9-3.4z" fill="#fff"/></svg>'};
   const socials=Object.entries(ICON).filter(([k])=>L[k]).map(([k,svg])=>`<a class="soc" href="${L[k]}" target="_blank" rel="noopener" aria-label="${k}" title="${k==='youtube'?T('channel'):'WhatsApp'}">${svg}</a>`).join('');
-  const langs=['ru','az','en'].map(l=>`<button data-lang="${l}" class="${l===LANG?'active':''}">${l.toUpperCase()}</button>`).join('');
+  const langs=['az','ru','en'].map(l=>`<button data-lang="${l}" class="${l===LANG?'active':''}">${l.toUpperCase()}</button>`).join('');
   return `<div class="foot-stripe"><i style="background:var(--bina)"></i><i style="background:var(--amber)"></i><i style="background:var(--flames)"></i></div>
   <div class="foot-inner">
     <div class="foot-brand">

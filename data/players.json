@@ -55,6 +55,20 @@
     "P"
    ],
    "photo": "players/sergey-antipov.jpg"
+  },
+  {
+   "id": "sediyar-aliyev",
+   "first": "Sediyar",
+   "last": "Aliyev",
+   "first_ru": "Седияр",
+   "last_ru": "Алиев",
+   "first_az": "Sədiyar",
+   "last_az": "Əliyev",
+   "number": 16,
+   "positions": [
+    "C"
+   ],
+   "photo": "players/sediyar-aliyev.jpg"
   }
  ]
 }
