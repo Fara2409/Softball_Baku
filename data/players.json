@@ -97,6 +97,20 @@
     "3B"
    ],
    "photo": "players/farhad-eyvazov.jpg"
+  },
+  {
+   "id": "danylo-shapovalov",
+   "first": "Danylo",
+   "last": "Shapovalov",
+   "first_ru": "Данил",
+   "last_ru": "Шаповалов",
+   "first_az": "Danilo",
+   "last_az": "Şapovalov",
+   "number": 30,
+   "positions": [
+    "LF"
+   ],
+   "photo": "players/danylo-shapovalov.jpg"
   }
  ]
 }
