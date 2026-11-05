@@ -2,12 +2,31 @@
  "players": [
   {
    "id": "sergey-molchanov",
-   "first": "Sergey", "last": "Molchanov",
-   "first_ru": "Сергей", "last_ru": "Молчанов",
-   "first_az": "Sergey", "last_az": "Molçanov",
+   "first": "Sergey",
+   "last": "Molchanov",
+   "first_ru": "Сергей",
+   "last_ru": "Молчанов",
+   "first_az": "Sergey",
+   "last_az": "Molçanov",
    "number": 34,
-   "positions": ["SS"],
+   "positions": [
+    "SS"
+   ],
    "photo": "players/sergey-molchanov.jpg"
+  },
+  {
+   "id": "mushfig-ibrahimov",
+   "first": "Mushfig",
+   "last": "Ibrahimov",
+   "first_ru": "Мушфиг",
+   "last_ru": "Ибрагимов",
+   "first_az": "Müşfiq",
+   "last_az": "İbrahimov",
+   "number": 37,
+   "positions": [
+    "1B"
+   ],
+   "photo": "players/mushfig-ibrahimov.jpg"
   }
  ]
 }
