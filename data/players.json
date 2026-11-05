@@ -27,6 +27,20 @@
     "1B"
    ],
    "photo": "players/mushfig-ibrahimov.jpg"
+  },
+  {
+   "id": "parviz-ismayilov",
+   "first": "Parviz",
+   "last": "Ismayilov",
+   "first_ru": "Пярвиз",
+   "last_ru": "Исмайлов",
+   "first_az": "Pərviz",
+   "last_az": "İsmayılov",
+   "number": 7,
+   "positions": [
+    "2B"
+   ],
+   "photo": "players/parviz-ismayilov.jpg"
   }
  ]
 }
