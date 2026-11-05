@@ -1,9 +1,6 @@
 {
+ "league": "Softball Baku",
  "season": "2027",
- "demo": true,
- "games": [
-  "2026-11-08",
-  "2026-11-15",
-  "2026-11-22"
- ]
+ "season_start": "2027-01-01",
+ "games": []
 }
