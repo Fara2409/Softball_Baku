@@ -10,7 +10,7 @@ const I18N={
     date:'Дата',team:'Команда',result:'Итог',win:'Победа',loss:'Поражение',tie:'Ничья',winL:'победа',lossL:'поражение',tieL:'ничья',runs:'ран',
     seasonStarts:d=>`Сезон ${d.season} стартует ${d.start}`,daysLeft:n=>`До старта ${n} ${pluralDays('ru',n)}`,seasonGames:'Игры сезона',
     noGames:'Игр пока нет. Первая игра сезона появится здесь.',noStats:'Статистика появится после первой игры сезона.',mainPos:'основная позиция',
-    roster:'Состав',tagline:'Любительский софтбол в Баку. Рейтинг игроков, статистика и ролики каждой игры.',site:'Сайт',watch:'Смотреть',where:'Где играем',lastVideo:'Последняя игра на YouTube',place:'Амирджан, Баку, Азербайджан',seasonPill:d=>`Сезон ${d.season} · старт ${d.start}`,language:'Язык',firstGame:'Первая игра',videoSoon:'Видео скоро',final:'Итог',notFound:'Не найдено',loadErr:'Не удалось загрузить данные',footer:'рейтинг считается автоматически после каждой игры',mvp:'MVP',city:'Баку'},
+    roster:'Состав',tagline:'Любительский софтбол в Баку. Рейтинг игроков, статистика и ролики каждой игры.',site:'Сайт',watch:'Смотреть',where:'Где играем',lastVideo:'Последняя игра на YouTube',channel:'Наш YouTube-канал',place:'Амирджан, Баку, Азербайджан',seasonPill:d=>`Сезон ${d.season} · старт ${d.start}`,language:'Язык',firstGame:'Первая игра',videoSoon:'Видео скоро',final:'Итог',notFound:'Не найдено',loadErr:'Не удалось загрузить данные',footer:'рейтинг считается автоматически после каждой игры',mvp:'MVP',city:'Баку'},
   az:{rating:'Reytinq',games:'Oyunlar',players:'Oyunçular',lastGame:'Son oyun',potg:'Oyunun ən yaxşısı',leaders:'Mövsümün liderləri',avgPerGame:'oyun başına orta reytinq',
     table:'Oyunçuların reytinqi',qualHint:n=>`reytinqdə — ən azı ${n} oyun · sıralamaq üçün sütuna toxunun`,player:'Oyunçu',position:'Mövqe',pos:'Mövqe',
     youtube:'YouTube-da izlə',boxscore:'Oyun protokolu',season:'Mövsüm',avgRating:'Orta reytinq',noRating:'Reytinq ilk oyundan sonra görünəcək',
@@ -18,7 +18,7 @@ const I18N={
     date:'Tarix',team:'Komanda',result:'Nəticə',win:'Qələbə',loss:'Məğlubiyyət',tie:'Heç-heçə',winL:'qələbə',lossL:'məğlubiyyət',tieL:'heç-heçə',runs:'ran',
     seasonStarts:d=>`${d.season} mövsümü ${d.start} başlayır`,daysLeft:n=>`Başlanğıca ${n} gün qalıb`,seasonGames:'Mövsümün oyunları',
     noGames:'Hələ oyun yoxdur. Mövsümün ilk oyunu burada görünəcək.',noStats:'Statistika mövsümün ilk oyunundan sonra görünəcək.',mainPos:'əsas mövqe',
-    roster:'Heyət',tagline:'Bakıda həvəskar softbol. Oyunçuların reytinqi, statistika və hər oyunun videosu.',site:'Sayt',watch:'İzlə',where:'Harada oynayırıq',lastVideo:'Son oyun YouTube-da',place:'Əmircan, Bakı, Azərbaycan',seasonPill:d=>`${d.season} mövsümü · ${d.start}`,language:'Dil',firstGame:'İlk oyun',videoSoon:'Video tezliklə',final:'Yekun',notFound:'Tapılmadı',loadErr:'Məlumatları yükləmək alınmadı',footer:'reytinq hər oyundan sonra avtomatik hesablanır',mvp:'MVP',city:'Bakı'},
+    roster:'Heyət',tagline:'Bakıda həvəskar softbol. Oyunçuların reytinqi, statistika və hər oyunun videosu.',site:'Sayt',watch:'İzlə',where:'Harada oynayırıq',lastVideo:'Son oyun YouTube-da',channel:'YouTube kanalımız',place:'Əmircan, Bakı, Azərbaycan',seasonPill:d=>`${d.season} mövsümü · ${d.start}`,language:'Dil',firstGame:'İlk oyun',videoSoon:'Video tezliklə',final:'Yekun',notFound:'Tapılmadı',loadErr:'Məlumatları yükləmək alınmadı',footer:'reytinq hər oyundan sonra avtomatik hesablanır',mvp:'MVP',city:'Bakı'},
   en:{rating:'Ratings',games:'Games',players:'Players',lastGame:'Last game',potg:'Player of the game',leaders:'Season leaders',avgPerGame:'average rating per game',
     table:'Player ratings',qualHint:n=>`qualified — ${n}+ ${plural('en',n)} · click a column to sort`,player:'Player',position:'Position',pos:'Pos',
     youtube:'Watch on YouTube',boxscore:'Box score',season:'Season',avgRating:'Average rating',noRating:'Rating appears after the first game',
@@ -26,7 +26,7 @@ const I18N={
     date:'Date',team:'Team',result:'Result',win:'Win',loss:'Loss',tie:'Tie',winL:'win',lossL:'loss',tieL:'tie',runs:'runs',
     seasonStarts:d=>`Season ${d.season} starts ${d.start}`,daysLeft:n=>`${n} ${n===1?'day':'days'} to go`,seasonGames:'Season games',
     noGames:'No games yet. The first game of the season will appear here.',noStats:'Stats will appear after the first game of the season.',mainPos:'primary position',
-    roster:'Roster',tagline:'Amateur softball in Baku. Player ratings, stats and a video of every game.',site:'Site',watch:'Watch',where:'Where we play',lastVideo:'Latest game on YouTube',place:'Amirajan, Baku, Azerbaijan',seasonPill:d=>`Season ${d.season} · from ${d.start}`,language:'Language',firstGame:'First game',videoSoon:'Video coming soon',final:'Final',notFound:'Not found',loadErr:'Could not load data',footer:'ratings are calculated automatically after every game',mvp:'MVP',city:'Baku'}
+    roster:'Roster',tagline:'Amateur softball in Baku. Player ratings, stats and a video of every game.',site:'Site',watch:'Watch',where:'Where we play',lastVideo:'Latest game on YouTube',channel:'Our YouTube channel',place:'Amirajan, Baku, Azerbaijan',seasonPill:d=>`Season ${d.season} · from ${d.start}`,language:'Language',firstGame:'First game',videoSoon:'Video coming soon',final:'Final',notFound:'Not found',loadErr:'Could not load data',footer:'ratings are calculated automatically after every game',mvp:'MVP',city:'Baku'}
 };
 const POS_NAMES={
   ru:{P:'Питчер',C:'Кэтчер','1B':'1-я база','2B':'2-я база','3B':'3-я база',SS:'Шортстоп',LF:'Левый аутфилд',CF:'Центральный аутфилд',RF:'Правый аутфилд',SF:'Шорт-филдер'},
@@ -72,7 +72,7 @@ const S={players:{},games:[]};
 async function load(){
   const get=u=>fetch(u,{cache:'no-cache'}).then(r=>{if(!r.ok) throw new Error(u); return r.json();});
   const [idx,pl]=await Promise.all([get('data/index.json'),get('data/players.json')]);
-  Object.assign(S,{league:idx.league,season:idx.season,start:idx.season_start,demo:!!(idx.demo||pl.demo)});
+  Object.assign(S,{links:idx.links||{},league:idx.league,season:idx.season,start:idx.season_start,demo:!!(idx.demo||pl.demo)});
   pl.players.forEach(p=>S.players[p.id]={...p,log:[]});
   S.games=await Promise.all((idx.games||[]).map(id=>get(`data/games/${id}.json`)));
   S.games.sort((a,b)=>a.date.localeCompare(b.date));
@@ -236,16 +236,21 @@ function chrome(){
 function footer(){
   const lg=S.league||'Softball Baku', vid=[...(S.games||[])].reverse().find(g=>g.video)?.video;
   const startTxt=S.start?(LANG==='en'?fmtDate(S.start,{day:'numeric',month:'long'}):fromDate(S.start)):'';
+  const L=S.links||{};
+  const ICON={youtube:'<svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4" fill="#c4302b"/><path d="M10 9l5 3-5 3z" fill="#fff"/></svg>',
+    whatsapp:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#25D366"/><path d="M8.5 7.5c.3-.4.8-.4 1 0l.9 1.9c.1.3 0 .6-.2.8l-.6.6c.6 1.3 1.7 2.4 3 3l.6-.6c.2-.2.5-.3.8-.2l1.9.9c.4.2.4.7 0 1-1 1.1-2.4 1.3-3.7.6-2-1-3.6-2.6-4.6-4.6-.7-1.3-.5-2.7.9-3.4z" fill="#fff"/></svg>'};
+  const socials=Object.entries(ICON).filter(([k])=>L[k]).map(([k,svg])=>`<a class="soc" href="${L[k]}" target="_blank" rel="noopener" aria-label="${k}" title="${k==='youtube'?T('channel'):'WhatsApp'}">${svg}</a>`).join('');
   const langs=['ru','az','en'].map(l=>`<button data-lang="${l}" class="${l===LANG?'active':''}">${l.toUpperCase()}</button>`).join('');
   return `<div class="foot-stripe"><i style="background:var(--bina)"></i><i style="background:var(--amber)"></i><i style="background:var(--flames)"></i></div>
   <div class="foot-inner">
     <div class="foot-brand">
       <a class="brand" href="#rating"><span class="brand-mark">◆</span><span class="brand-text">SOFTBALL <b>BAKU</b></span></a>
       <p>${T('tagline')}</p>
+      ${socials?`<div class="socials">${socials}</div>`:''}
       ${S.season?`<span class="foot-pill">${T('seasonPill')({season:S.season,start:startTxt})}</span>`:''}
     </div>
     <div class="foot-col"><h4>${T('site')}</h4><a href="#rating">${T('rating')}</a><a href="#games">${T('games')}</a></div>
-    <div class="foot-col"><h4>${T('watch')}</h4>${vid?`<a href="${vid}" target="_blank" rel="noopener"><span class="yt-dot">▶</span>${T('lastVideo')}</a>`:`<span class="muted">${T('videoSoon')}</span>`}</div>
+    <div class="foot-col"><h4>${T('watch')}</h4>${L.youtube?`<a href="${L.youtube}" target="_blank" rel="noopener"><span class="yt-dot">▶</span>${T('channel')}</a>`:''}${vid?`<a href="${vid}" target="_blank" rel="noopener"><span class="yt-dot">▶</span>${T('lastVideo')}</a>`:(L.youtube?'':`<span class="muted">${T('videoSoon')}</span>`)}</div>
     <div class="foot-col"><h4>${T('where')}</h4><span>${T('place')}</span></div>
     <svg class="foot-diamond" viewBox="0 0 200 200" aria-hidden="true">
       <path d="M100 185 L15 100 A120 120 0 0 1 185 100 Z" fill="none" stroke="#1f3150" stroke-width="2"/>
