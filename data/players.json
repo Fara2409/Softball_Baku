@@ -41,6 +41,20 @@
     "2B"
    ],
    "photo": "players/parviz-ismayilov.jpg"
+  },
+  {
+   "id": "sergey-antipov",
+   "first": "Sergey",
+   "last": "Antipov",
+   "first_ru": "Сергей",
+   "last_ru": "Антипов",
+   "first_az": "Sergey",
+   "last_az": "Antipov",
+   "number": 45,
+   "positions": [
+    "P"
+   ],
+   "photo": "players/sergey-antipov.jpg"
   }
  ]
 }
