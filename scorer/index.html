@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0f1115">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="robots" content="noindex">
+<title>Счётчик игры · Softball Baku</title>
+<style>
+:root{--bg:#0f1115;--card:#1a1d24;--card2:#222630;--line:#2c313c;--text:#eef1f5;--mut:#8a93a3;--acc:#ffb020;--red:#e5484d;--grn:#30a46c;--blu:#3b82f6}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font:15px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{padding-bottom:calc(76px + env(safe-area-inset-bottom));user-select:none;-webkit-user-select:none}
+button{font:inherit;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;cursor:pointer;touch-action:manipulation}
+button:active{transform:scale(.97);background:var(--card2)}
+button:disabled{opacity:.3;pointer-events:none}
+input,select{font:inherit;color:var(--text);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 10px;width:100%}
+input[type=color]{padding:2px;width:46px;height:42px;flex:none}
+h2{font-size:17px;margin:18px 0 8px}h3{margin:0 0 12px;font-size:17px}
+.muted{color:var(--mut)}.small{font-size:12px}
+.wrap{padding:12px}
+/* scoreboard */
+.sb{position:sticky;top:0;z-index:5;background:#0b0d10;border-bottom:1px solid var(--line);padding:8px 12px calc(8px) ;display:flex;gap:10px;align-items:center;padding-top:calc(8px + env(safe-area-inset-top))}
+.sb .teams{flex:1;min-width:0}
+.sb .tr{display:flex;align-items:center;gap:8px;font-weight:600;padding:1px 0}
+.sb .tr i{width:10px;height:10px;border-radius:3px;flex:none}
+.sb .tr .n{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sb .tr .r{font-size:20px;font-variant-numeric:tabular-nums;min-width:28px;text-align:right}
+.sb .tr.bat .n:after{content:" ●";color:var(--acc);font-size:10px;vertical-align:middle}
+.sb .inn{text-align:center;min-width:54px}
+.sb .inn b{font-size:20px;display:block}
+.outs{display:flex;gap:4px;justify-content:center;margin-top:3px}
+.outs i{width:10px;height:10px;border-radius:50%;border:1.5px solid var(--mut)}
+.outs i.on{background:var(--red);border-color:var(--red)}
+/* rec */
+.rec{margin:10px 12px 0;display:flex;gap:8px}
+.rec .big{flex:1;background:#3a1416;border-color:var(--red);font-weight:700;font-size:16px;padding:14px}
+.rec .on{flex:1;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-variant-numeric:tabular-nums}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--red);animation:bl 1.2s infinite}
+@keyframes bl{50%{opacity:.25}}
+/* situation */
+.sit{display:flex;gap:10px;align-items:center;margin:10px 12px}
+.sit svg{width:150px;height:122px;flex:none}
+.bat{flex:1;min-width:0}
+.bat .lbl{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+.bat .who{font-size:21px;font-weight:700;margin:2px 0 6px;line-height:1.15}
+.bat .nx{font-size:13px;color:var(--mut)}
+.bat .stat{font-size:13px;margin-top:4px}
+/* buttons */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 12px 8px}
+.r{min-height:62px;font-size:19px;font-weight:800;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:6px 4px}
+.r small{font-size:10.5px;font-weight:500;color:var(--mut);line-height:1.1}
+.hit{background:#112a1c;border-color:#1f5a37}
+.walk{background:#10213b;border-color:#24477a}
+.out{background:#2e1416;border-color:#5c2427}
+.sec{font-size:13px;font-weight:600;min-height:50px}
+.star{background:#2d2410;border-color:#6b5317}
+.sectit{margin:12px 12px 6px;font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+.over{margin:10px 12px;padding:12px;border-radius:12px;background:#112a1c;border:1px solid #1f5a37;text-align:center;font-weight:700}
+/* bottom bar */
+.bb{position:fixed;left:0;right:0;bottom:0;z-index:6;background:#0b0d10;border-top:1px solid var(--line);display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:6px;padding:8px 10px calc(8px + env(safe-area-inset-bottom))}
+.bb button{font-size:13px;padding:10px 4px}
+/* modal */
+.ov{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.6);display:flex;align-items:flex-end}
+.sheet{background:var(--bg);border-top:1px solid var(--line);border-radius:18px 18px 0 0;width:100%;max-height:92vh;overflow:auto;padding:16px 14px calc(16px + env(safe-area-inset-bottom))}
+.row{display:flex;gap:8px}.row>*{flex:1}
+.acts{display:flex;gap:8px;margin-top:14px}.acts button{flex:1;padding:13px}
+.pri{background:var(--acc);color:#111;border-color:var(--acc);font-weight:700}
+.danger{color:var(--red)}
+/* field picker */
+.field{position:relative;width:100%;max-width:380px;aspect-ratio:1/1.02;margin:0 auto;background:radial-gradient(circle at 50% 95%,#3a2a1a 0 30%,transparent 30.5%),radial-gradient(ellipse at 50% 100%,#173d22 0 75%,#0f2a17 75.5%);border-radius:50% 50% 12px 12px/40% 40% 12px 12px;overflow:hidden}
+.fp{position:absolute;transform:translate(-50%,-50%);width:66px;padding:5px 2px;text-align:center;background:rgba(15,17,21,.92);border-radius:10px}
+.fp b{display:block;font-size:15px}.fp span{display:block;font-size:10px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fp.sel{border-color:var(--acc);background:#3a2c0c}
+.seq{text-align:center;font-size:22px;font-weight:800;min-height:30px;margin:8px 0;letter-spacing:.05em}
+/* runners */
+.rn{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:8px}
+.rn .h{display:flex;justify-content:space-between;margin-bottom:8px;font-weight:600}
+.rn .h span{color:var(--mut);font-weight:400;font-size:13px}
+.opts{display:flex;gap:6px}.opts button{flex:1;padding:10px 2px;font-size:14px;font-weight:600}
+.opts button.on{background:var(--acc);color:#111;border-color:var(--acc)}
+.opts button.on.x{background:var(--red);border-color:var(--red);color:#fff}
+.opts button.on.home{background:var(--grn);border-color:var(--grn);color:#fff}
+.err{color:var(--red);min-height:20px;margin-top:6px;font-size:14px}
+/* setup */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px}
+.th{display:flex;gap:8px;align-items:center}
+.lrow{display:flex;gap:6px;align-items:center;padding:6px 0;border-top:1px solid var(--line)}
+.lrow:first-of-type{border-top:0}
+.lrow .o{width:22px;color:var(--mut);text-align:center}
+.lrow .nm{flex:1;min-width:0}
+.lrow select{width:74px;padding:7px 4px}
+.lrow button{padding:7px 10px}
+.pool .p{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--line)}
+.pool .p:first-child{border-top:0}
+.pool .p .nm{flex:1}
+.pool .p button{min-width:52px;font-weight:700}
+.log .li{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--line)}
+.log .tm{color:var(--mut);font-variant-numeric:tabular-nums;font-size:12px;min-width:62px;padding-top:2px}
+.log .tx{flex:1}
+.log .li button{padding:4px 9px}
+.log .ih{color:var(--acc);font-size:12px;font-weight:700;padding:10px 0 2px}
+.toast{position:fixed;left:50%;top:calc(12px + env(safe-area-inset-top));transform:translateX(-50%);background:#f5f5f5;color:#111;padding:10px 14px;border-radius:12px;font-size:14px;z-index:30;max-width:92vw;box-shadow:0 6px 24px rgba(0,0,0,.4);transition:opacity .3s}
+.ebtn{display:block;width:100%;text-align:left;padding:14px;margin-bottom:8px}
+.ebtn b{display:block}.ebtn span{font-size:12px;color:var(--mut)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="modal"></div>
+<input type="file" id="imp" accept="application/json,.json" style="display:none">
+<script>
+'use strict';
+/* ===== константы ===== */
+const KEY='sbScorer.v1', PKEY='sbScorer.players';
+const POS=['P','C','1B','2B','3B','SS','LF','CF','RF','SF','EH'];
+const FPOS=['P','C','1B','2B','3B','SS','LF','CF','RF','SF'];
+const PN={P:1,C:2,'1B':3,'2B':4,'3B':5,SS:6,LF:7,CF:8,RF:9,SF:10};
+const FXY={CF:[50,8],LF:[16,22],RF:[84,22],SF:[50,25],SS:[33,42],'2B':[67,42],P:[50,62],'3B':[18,62],'1B':[82,62],C:[50,89]};
+const HITS={'1B':1,'2B':2,'3B':3,HR:4};
+const RES={'1B':'Сингл','2B':'Дабл','3B':'Трипл',HR:'Хоум-ран',BB:'Уок',K:'Страйк-аут',GO:'Аут по земле',FO:'Аут в воздухе',FC:'Выбор полевого',E:'Ошибка защиты'};
+const BASE={1:'1-я',2:'2-я',3:'3-я',4:'дом'};
+const FALLBACK=[
+ {id:'parviz-ismayilov',first_ru:'Пярвиз',last_ru:'Исмайлов',number:7,positions:['2B']},
+ {id:'fakhri-eyvazov',first_ru:'Фахри',last_ru:'Эйвазов',number:11,positions:['3B']},
+ {id:'sediyar-aliyev',first_ru:'Седияр',last_ru:'Алиев',number:16,positions:['C']},
+ {id:'farhad-eyvazov',first_ru:'Фархад',last_ru:'Эйвазов',number:24,positions:['3B']},
+ {id:'danylo-shapovalov',first_ru:'Данил',last_ru:'Шаповалов',number:30,positions:['LF']},
+ {id:'sergey-molchanov',first_ru:'Сергей',last_ru:'Молчанов',number:34,positions:['SS']},
+ {id:'mushfig-ibrahimov',first_ru:'Мушфиг',last_ru:'Ибрагимов',number:37,positions:['1B']},
+ {id:'sergey-antipov',first_ru:'Сергей',last_ru:'Антипов',number:45,positions:['P']}];
+
+let P={}, S=null, G=null;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function today(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function name(id){const p=P[id];if(!p)return id||'?';const f=p.first_ru||p.first||'',l=p.last_ru||p.last||'';return `${f} ${l?l[0]+'.':''}`.trim()}
+function nameN(id){const p=P[id];return p?`#${p.number} ${name(id)}`:name(id)}
+function full(id){const p=P[id];return p?`${p.first_ru||p.first} ${p.last_ru||p.last}`:id}
+function fmt(sec){sec=Math.max(0,Math.floor(sec));const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=sec%60;return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
+function toast(t){document.querySelectorAll('.toast').forEach(x=>x.remove());const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.style.opacity=0,1800);setTimeout(()=>d.remove(),2200)}
+function modal(h){$('#modal').innerHTML=h?`<div class="ov" onclick="if(event.target===this)closeM()"><div class="sheet">${h}</div></div>`:''}
+function closeM(){modal('')}
+
+/* ===== хранение ===== */
+function newState(){return {v:1,id:today(),venue:'Amirajan, Baku',
+ teams:{A:{name:'Bina Warriors',color:'#D85A30',lineup:[]},B:{name:'Baku Flames',color:'#1f6fc0',lineup:[]}},
+ pos:{},started:false,recs:[],events:[]}}
+function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast('Не удалось сохранить на телефоне!')}}
+async function loadPlayers(){
+ let list=null;
+ try{const r=await fetch('../data/players.json',{cache:'no-store'});if(r.ok){list=(await r.json()).players;localStorage.setItem(PKEY,JSON.stringify(list))}}catch(e){}
+ if(!list)try{list=JSON.parse(localStorage.getItem(PKEY))}catch(e){}
+ if(!list)list=FALLBACK;
+ P={};list.forEach(p=>P[p.id]=p);
+}
+
+/* ===== движок: всё состояние игры пересчитывается из списка событий ===== */
+const bat=g=>g.half%2?'B':'A', fld=g=>g.half%2?'A':'B';
+function lineupOf(k){return S.teams[k].lineup}
+function batterOf(g){const L=lineupOf(bat(g));return L.length?L[g.idx[bat(g)]%L.length]:null}
+function atPos(g,pos){return lineupOf(fld(g)).find(id=>S.pos[id]===pos)}
+function blank(id,team){return {player:id,team,pos:S.pos[id]||'EH',PA:0,AB:0,H:0,'1B':0,'2B':0,'3B':0,HR:0,BB:0,K:0,R:0,RBI:0,SB:0,PO:0,A:0,E:0}}
+function bx(g,id,team){if(!g.box[id])g.box[id]=blank(id,team);return g.box[id]}
+function replay(){
+ const g={half:0,outs:0,bases:[null,null,null],idx:{A:0,B:0},runs:{A:0,B:0},line:{A:[0],B:[]},box:{},over:false,steps:[]};
+ for(const k of ['A','B'])lineupOf(k).forEach(id=>bx(g,id,k));
+ for(const e of S.events){
+  const h=g.half,r0=g.runs.A+g.runs.B;
+  apply(g,e);
+  g.steps.push({inning:Math.floor(h/2)+1,top:h%2===0,bat:h%2?'B':'A',outs:g.outs,score:{...g.runs},bases:g.bases.slice(),runsOnPlay:g.runs.A+g.runs.B-r0});
+  if(e.type!=='endhalf'&&e.type!=='end'&&g.outs>=3)endHalf(g);
+ }
+ return g;
+}
+function endHalf(g){g.half++;g.outs=0;g.bases=[null,null,null];const k=bat(g),i=Math.floor(g.half/2);if(g.line[k][i]==null)g.line[k][i]=0}
+function move(g,adv){
+ const k=bat(g);let runs=0,outs=0;const nb=[null,null,null],moved=new Set(adv.map(a=>a.id));
+ g.bases.forEach((id,i)=>{if(id&&!moved.has(id))nb[i]=id});
+ for(const a of adv){if(a.to===4){runs++;bx(g,a.id,k).R++}else if(a.to===-1)outs++;else nb[a.to-1]=a.id}
+ g.bases=nb;g.outs+=outs;g.runs[k]+=runs;const i=Math.floor(g.half/2);g.line[k][i]=(g.line[k][i]||0)+runs;
+ return {runs,outs};
+}
+function credit(g,seq,outs){
+ const ids=(seq||[]).map(p=>atPos(g,p)).filter(Boolean);if(!ids.length||!outs)return;
+ const last=ids[ids.length-1],f=fld(g);bx(g,last,f).PO+=outs;
+ new Set(ids.slice(0,-1).filter(id=>id!==last)).forEach(id=>bx(g,id,f).A++);
+}
+function apply(g,e){
+ if(g.over&&e.type!=='mark')return;
+ const k=bat(g);
+ switch(e.type){
+  case 'pa':{
+   const b=bx(g,e.batter,k),r=e.result;b.PA++;if(r!=='BB')b.AB++;
+   if(HITS[r]){b.H++;b[r]++}if(r==='BB')b.BB++;if(r==='K')b.K++;
+   const fseq=e.fielders||[];
+   if(r==='E'&&fseq[0]){const f=atPos(g,fseq[0]);if(f)bx(g,f,fld(g)).E++}
+   const m=move(g,e.adv);
+   if(r!=='E')b.RBI+=m.runs;
+   if(r==='K'){const c=atPos(g,'C');if(c)bx(g,c,fld(g)).PO++;if(m.outs>1)credit(g,fseq,m.outs-1)}
+   else if(r!=='E')credit(g,fseq,m.outs);
+   g.idx[k]++;break}
+  case 'sb':bx(g,e.runner,k).SB++;move(g,e.adv);break;
+  case 'adv':move(g,e.adv);break;
+  case 'runout':{const m=move(g,e.adv);credit(g,e.fielders,m.outs);break}
+  case 'endhalf':endHalf(g);break;
+  case 'end':g.over=true;break;
+ }
+}
+function forced(B){const f=[false,false,false];if(B[0]){f[0]=true;if(B[1]){f[1]=true;if(B[2])f[2]=true}}return f}
+function defaults(g,r,batter){
+ const B=g.bases,adv=[],n=HITS[r];
+ if(n){for(let i=2;i>=0;i--)if(B[i])adv.push({id:B[i],from:i+1,to:Math.min(4,i+1+n)});adv.push({id:batter,from:0,to:n})}
+ else if(r==='BB'||r==='E'||r==='FC'){
+  const f=forced(B);for(let i=2;i>=0;i--)if(B[i])adv.push({id:B[i],from:i+1,to:f[i]?i+2:i+1});
+  if(r==='FC'){const a=adv.find(a=>a.from===1)||adv[adv.length-1];if(a){adv.forEach(x=>x.to=x.from);a.to=-1}}
+  adv.push({id:batter,from:0,to:1});
+ } else {for(let i=2;i>=0;i--)if(B[i])adv.push({id:B[i],from:i+1,to:i+1});adv.push({id:batter,from:0,to:-1})}
+ return adv;
+}
+
+/* ===== описание события ===== */
+function describe(e){
+ switch(e.type){
+  case 'pa':{let s=`${RES[e.result]}: ${name(e.batter)}`;
+   if(e.fielders&&e.fielders.length)s+=` (${e.fielders.map(p=>PN[p]).join('-')})`;
+   for(const a of e.adv){if(a.id===e.batter&&e.result==='HR')continue;
+    if(a.to===4)s+=` · ${a.id===e.batter?'отбивающий':name(a.id)} → дом`;
+    else if(a.to===-1&&a.id!==e.batter)s+=` · ${name(a.id)} аут`;}
+   return s}
+  case 'sb':return `Кража базы: ${name(e.runner)} → ${BASE[e.adv[0].to]}`;
+  case 'adv':return `Продвижение: ${name(e.runner)} → ${BASE[e.adv[0].to]}`;
+  case 'runout':return `Аут бегуна: ${name(e.runner)}${e.fielders&&e.fielders.length?` (${e.fielders.map(p=>PN[p]).join('-')})`:''}`;
+  case 'mark':return '★ Момент для видео';
+  case 'endhalf':return 'Половина иннинга завершена вручную';
+  case 'end':return 'Конец игры';
+ }
+}
+function offset(t){let i=-1;S.recs.forEach((r,j)=>{if(r<=t)i=j});return i<0?null:{rec:i+1,sec:(t-S.recs[i])/1000}}
+function offLabel(t){const o=offset(t);if(!o)return '—';return (S.recs.length>1?`ф${o.rec} `:'')+fmt(o.sec)}
+
+/* ===== запись событий ===== */
+function commit(e){e.d=describe(e);S.events.push(e);save();closeM();render();toast('✓ '+e.d)}
+function pa(r){
+ if(G.over)return toast('Игра окончена');
+ const batter=batterOf(G);if(!batter)return;
+ const e={type:'pa',t:Date.now(),batter,result:r,fielders:[],adv:defaults(G,r,batter)};
+ const hasR=G.bases.some(Boolean);
+ const next=()=>{if(hasR&&['1B','2B','3B','GO','FO','FC','E'].includes(r))runnersM(e);else commit(e)};
+ if(r==='E')fieldM('E',s=>{e.fielders=s;next()});
+ else if(r==='FO')fieldM('one',s=>{e.fielders=s;next()});
+ else if(r==='GO'||r==='FC')fieldM('seq',s=>{e.fielders=s;next()});
+ else next();
+}
+function fieldM(mode,cb){
+ const seq=[];
+ window._fp=p=>{seq.push(p);if(mode!=='seq'){cb(seq);return}draw()};
+ window._fd=skip=>{cb(skip?[]:seq)};
+ window._fr=()=>{seq.length=0;draw()};
+ const draw=()=>{
+  let h=`<h3>${mode==='E'?'Кто ошибся?':mode==='one'?'Кто поймал мяч?':'Кто разыграл? Нажимайте по порядку'}</h3><div class="field">`;
+  for(const p of FPOS){const id=atPos(G,p);if(p==='SF'&&!id)continue;const [x,y]=FXY[p];
+   h+=`<button class="fp ${seq.includes(p)?'sel':''}" style="left:${x}%;top:${y}%" ${id?'':'disabled'} onclick="_fp('${p}')"><b>${p}</b><span>${id?esc(name(id)):'—'}</span></button>`}
+  h+=`</div>`;
+  if(mode==='seq')h+=`<div class="seq">${seq.length?seq.map(p=>PN[p]).join('-'):'<span class="muted small">например 6-3: SS → 1B</span>'}</div>
+   <div class="acts"><button onclick="_fr()">Сброс</button><button onclick="_fd(true)">Пропустить</button><button class="pri" onclick="_fd(false)" ${seq.length?'':'disabled'}>Готово</button></div>`;
+  else h+=`<div class="acts"><button onclick="_fd(true)">Пропустить</button><button onclick="closeM()">Отмена</button></div>`;
+  modal(h);
+ };
+ draw();
+}
+function runnersM(e){
+ window._ra=(i,to)=>{e.adv[i].to=to;draw()};
+ window._rs=()=>{
+  const occ={};let outs=0;
+  for(const a of e.adv){if(a.to===-1)outs++;else if(a.to<4){if(occ[a.to])return draw(`На ${BASE[a.to]} базе два бегуна`);occ[a.to]=1}}
+  if(G.outs+outs>3)return draw('Получается больше 3 аутов');
+  commit(e);
+ };
+ const draw=(err='')=>{
+  let h=`<h3>${RES[e.result]} — куда побежали?</h3>`;
+  e.adv.forEach((a,i)=>{
+   const opts=a.from===0?[1,2,3,4,-1]:[a.from,...[1,2,3].filter(b=>b>a.from),4,-1];
+   h+=`<div class="rn"><div class="h">${esc(name(a.id))} <span>${a.from?'был на '+BASE[a.from]:'отбивающий'}</span></div><div class="opts">`+
+   opts.map(o=>`<button class="${a.to===o?'on':''} ${o===-1?'x':o===4?'home':''}" onclick="_ra(${i},${o})">${o===a.from?'Стоит':o===4?'Дом':o===-1?'Аут':o}</button>`).join('')+`</div></div>`});
+  h+=`<div class="err">${err}</div><div class="acts"><button onclick="closeM()">Отмена</button><button class="pri" onclick="_rs()">Записать</button></div>`;
+  modal(h);
+ };
+ draw();
+}
+function runnerAct(kind){
+ if(G.over)return toast('Игра окончена');
+ const t=Date.now(),list=G.bases.map((id,i)=>id?{id,from:i+1}:null).filter(Boolean).reverse();
+ if(!list.length)return toast('На базах никого нет');
+ window._rk=i=>{
+  const {id,from}=list[i];
+  if(kind==='runout'){const e={type:'runout',t,runner:id,adv:[{id,from,to:-1}],fielders:[]};fieldM('seq',s=>{e.fielders=s;commit(e)});return}
+  const to=from+1;if(to<=3&&G.bases[to-1])return toast('База впереди занята: сначала передвиньте того бегуна');
+  commit({type:kind,t,runner:id,adv:[{id,from,to}]});
+ };
+ const title={sb:'Кто украл базу?',adv:'Кто продвинулся на базу? (пасбол, дикая подача, переброс)',runout:'Кого выбили на базе?'}[kind];
+ modal(`<h3>${title}</h3>`+list.map((r,i)=>`<button class="ebtn" onclick="_rk(${i})"><b>${esc(nameN(r.id))}</b><span>на ${BASE[r.from]} базе${kind!=='runout'?' → '+BASE[r.from+1]:''}</span></button>`).join('')+`<div class="acts"><button onclick="closeM()">Отмена</button></div>`);
+}
+function mark(){commit({type:'mark',t:Date.now()})}
+function endHalfM(){if(confirm('Завершить эту половину иннинга досрочно (например, лимит очков)?'))commit({type:'endhalf',t:Date.now()})}
+function endGame(){if(confirm('Закончить игру?'))commit({type:'end',t:Date.now()})}
+function undo(){const l=S.events[S.events.length-1];if(!l)return toast('Нечего отменять');if(confirm('Отменить последнее?\n\n'+l.d)){S.events.pop();save();render();toast('Отменено')}}
+function recStart(){
+ if(S.recs.length&&!confirm('Отметить начало НОВОГО файла видео? (если камеру останавливали и включили снова)'))return;
+ S.recs.push(Date.now());save();render();toast(`Начало видео ${S.recs.length} отмечено`)}
+
+/* ===== журнал ===== */
+function logM(){
+ let h=`<h3>Журнал (${S.events.length})</h3><div class="log">`,lastInn='';
+ const steps=G.steps;
+ for(let i=S.events.length-1;i>=0;i--){const e=S.events[i],s=steps[i];const ih=`${s.inning}${s.top?'▲':'▼'} · ${esc(S.teams[s.bat].name)}`;
+  if(ih!==lastInn){h+=`<div class="ih">${ih}</div>`;lastInn=ih}
+  h+=`<div class="li"><span class="tm">${offLabel(e.t)}</span><span class="tx">${esc(e.d)}</span><button class="danger" onclick="delEv(${i})">✕</button></div>`}
+ if(!S.events.length)h+='<p class="muted">Пока пусто</p>';
+ modal(h+`</div><div class="acts"><button onclick="closeM()">Закрыть</button></div>`);
+}
+function delEv(i){if(!confirm('Удалить событие?\n\n'+S.events[i].d+'\n\nВсё после него пересчитается.'))return;S.events.splice(i,1);save();render();logM()}
+
+/* ===== экспорт ===== */
+function gameJSON(){
+ const g=replay(),n=Math.max(g.line.A.length,g.line.B.length,1),pad=a=>Array.from({length:n},(_,i)=>a[i]||0);
+ return {id:S.id,date:S.id,venue:S.venue,video:null,image:null,
+  teams:{A:{name:S.teams.A.name,color:S.teams.A.color},B:{name:S.teams.B.name,color:S.teams.B.color}},
+  linescore:{A:pad(g.line.A),B:pad(g.line.B)},score:{A:g.runs.A,B:g.runs.B},
+  box:Object.values(g.box).filter(b=>P[b.player])};
+}
+function eventsJSON(){
+ const g=replay();
+ return {game:S.id,venue:S.venue,created:new Date().toISOString(),
+  teams:{A:{name:S.teams.A.name,color:S.teams.A.color},B:{name:S.teams.B.name,color:S.teams.B.color}},
+  recordings:S.recs.map((t,i)=>({n:i+1,start:new Date(t).toISOString(),start_ms:t})),
+  events:S.events.map((e,i)=>{const s=g.steps[i],o=offset(e.t);return {n:i+1,type:e.type,result:e.result||null,desc:e.d,
+   time:new Date(e.t).toISOString(),time_ms:e.t,rec:o?o.rec:null,offset:o?Math.round(o.sec*10)/10:null,offset_hms:o?fmt(o.sec):null,
+   inning:s.inning,half:s.top?'top':'bottom',batting:s.bat,player:e.batter||e.runner||null,fielders:e.fielders||[],
+   runs:s.runsOnPlay,outs:s.outs,score:s.score,bases:s.bases}})};
+}
+function fileOf(obj,fn){return new File([JSON.stringify(obj,null,1)],fn,{type:'application/json'})}
+function dl(f){const a=document.createElement('a');a.href=URL.createObjectURL(f);a.download=f.name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000)}
+async function shareAll(){
+ const fs=[fileOf(gameJSON(),`${S.id}.json`),fileOf(eventsJSON(),`${S.id}-events.json`),fileOf(S,`${S.id}-backup.json`)];
+ if(navigator.canShare&&navigator.canShare({files:fs})){try{await navigator.share({files:fs,title:`Игра ${S.id}`})}catch(e){}}
+ else{fs.forEach((f,i)=>setTimeout(()=>dl(f),i*400));toast('Файлы скачиваются')}
+}
+function exportM(){
+ const g=G,warn=!S.recs.length?'<p class="danger">⚠ Начало видео не отмечено: время для монтажа не посчитается.</p>':'';
+ modal(`<h3>Файлы игры ${S.id}</h3>
+ <p class="muted">${esc(S.teams.A.name)} ${g.runs.A} : ${g.runs.B} ${esc(S.teams.B.name)} · событий: ${S.events.length}</p>${warn}
+ <button class="ebtn pri" onclick="shareAll()"><b>📤 Отправить все файлы</b><span style="color:#333">в WhatsApp / Telegram / почту себе</span></button>
+ <button class="ebtn" onclick="dl(fileOf(gameJSON(),S.id+'.json'))"><b>${S.id}.json</b><span>протокол для сайта → data/games/</span></button>
+ <button class="ebtn" onclick="dl(fileOf(eventsJSON(),S.id+'-events.json'))"><b>${S.id}-events.json</b><span>события со временем в видео → для монтажа</span></button>
+ <button class="ebtn" onclick="dl(fileOf(S,S.id+'-backup.json'))"><b>Резервная копия</b><span>чтобы продолжить игру на другом телефоне</span></button>
+ <button class="ebtn" onclick="$('#imp').click()"><b>Загрузить резервную копию</b><span>заменит текущую игру на этом телефоне</span></button>
+ <button class="ebtn" onclick="closeM();S.started=false;save();render()"><b>Изменить составы и позиции</b><span>события сохранятся</span></button>
+ ${g.over?'':'<button class="ebtn" onclick="endGame()"><b>🏁 Конец игры</b></button>'}
+ <button class="ebtn danger" onclick="resetGame()"><b>Новая игра</b><span>текущая будет удалена с телефона</span></button>
+ <div class="acts"><button onclick="closeM()">Закрыть</button></div>`);
+}
+function resetGame(){if(confirm('Удалить текущую игру с телефона и начать новую? Сначала сохраните файлы!')){S=newState();save();closeM();render()}}
+$('#imp').addEventListener('change',async ev=>{
+ const f=ev.target.files[0];ev.target.value='';if(!f)return;
+ try{const o=JSON.parse(await f.text());if(!o.teams||!Array.isArray(o.events))throw 0;
+  if(confirm(`Загрузить игру ${o.id} (${o.events.length} событий)? Текущая будет заменена.`)){S=o;save();closeM();render();toast('Игра загружена')}}
+ catch(e){alert('Это не резервная копия счётчика')}
+});
+
+/* ===== экран состава ===== */
+function setT(k,f,v){S.teams[k][f]=v;save()}
+function addP(k,id){const L=S.teams[k].lineup;L.push(id);
+ const taken=new Set(L.map(x=>S.pos[x]).filter(Boolean)),pref=(P[id]?.positions||[]).find(p=>!taken.has(p));
+ if(!S.pos[id]||taken.has(S.pos[id])&&L.filter(x=>S.pos[x]===S.pos[id]).length>1)S.pos[id]=pref||POS.find(p=>!taken.has(p))||'EH';
+ save();render()}
+function rmP(k,i){S.teams[k].lineup.splice(i,1);save();render()}
+function upP(k,i){if(!i)return;const L=S.teams[k].lineup;[L[i-1],L[i]]=[L[i],L[i-1]];save();render()}
+function setPos(id,v){S.pos[id]=v;save()}
+function start(){
+ for(const k of ['A','B']){const L=S.teams[k].lineup;if(!L.length)return alert(`В команде ${S.teams[k].name} нет игроков`);
+  const seen={};for(const id of L){const p=S.pos[id];if(p!=='EH'&&seen[p])return alert(`${S.teams[k].name}: позиция ${p} у двух игроков`);seen[p]=1}}
+ S.started=true;save();render();
+}
+function renderSetup(){
+ const used=new Set([...S.teams.A.lineup,...S.teams.B.lineup]);
+ const ids=Object.keys(P).sort((a,b)=>(P[a].number||0)-(P[b].number||0));
+ let h=`<div class="sb"><div class="teams"><b>${S.events.length?'Составы':'Новая игра'}</b></div></div><div class="wrap">
+ <div class="row"><label class="small muted">Дата<input type="date" value="${S.id}" onchange="S.id=this.value;save()"></label>
+ <label class="small muted">Место<input value="${esc(S.venue)}" onchange="S.venue=this.value;save()"></label></div>`;
+ for(const k of ['A','B']){const T=S.teams[k];
+  h+=`<h2>${k==='A'?'▲ Бьют первыми':'▼ Бьют вторыми'}</h2><div class="card"><div class="th"><input value="${esc(T.name)}" onchange="setT('${k}','name',this.value)"><input type="color" value="${T.color}" onchange="setT('${k}','color',this.value)"></div>`;
+  if(!T.lineup.length)h+=`<p class="muted small">Добавьте игроков ниже, в порядке отбивания</p>`;
+  T.lineup.forEach((id,i)=>{h+=`<div class="lrow"><span class="o">${i+1}</span><span class="nm">${esc(nameN(id))}</span>
+   <select onchange="setPos('${id}',this.value)">${POS.map(p=>`<option ${S.pos[id]===p?'selected':''}>${p}</option>`).join('')}</select>
+   <button onclick="upP('${k}',${i})" ${i?'':'disabled'}>↑</button><button class="danger" onclick="rmP('${k}',${i})">✕</button></div>`});
+  h+=`</div>`;
+ }
+ const free=ids.filter(id=>!used.has(id));
+ if(free.length){h+=`<h2>Игроки</h2><div class="card pool">`+free.map(id=>`<div class="p"><span class="nm">${esc(nameN(id))}</span>
+  <button style="border-color:${S.teams.A.color}" onclick="addP('A','${id}')">▲</button><button style="border-color:${S.teams.B.color}" onclick="addP('B','${id}')">▼</button></div>`).join('')+`</div>`}
+ h+=`<p class="muted small">Новых игроков сначала добавьте в data/players.json на сайте. EH — только отбивает.</p>
+ <button class="pri" style="width:100%;padding:16px;font-size:17px" onclick="start()">${S.events.length?'Продолжить игру':'Начать игру'}</button>
+ ${S.events.length?'':'<button style="width:100%;margin-top:10px" onclick="$(\'#imp\').click()">Загрузить резервную копию</button>'}</div>`;
+ $('#app').innerHTML=h;
+}
+
+/* ===== экран игры ===== */
+function diamond(g){
+ const pts=[[124,66],[80,22],[36,66]],lbl=[[124,92,'middle'],[80,12,'middle'],[36,92,'middle']];
+ let s=`<svg viewBox="0 0 160 125"><path d="M80 110 L124 66 L80 22 L36 66 Z" fill="none" stroke="#3a404c" stroke-width="2"/><rect x="73" y="103" width="14" height="14" transform="rotate(45 80 110)" fill="#ddd"/>`;
+ pts.forEach(([x,y],i)=>{const on=g.bases[i];s+=`<rect x="${x-9}" y="${y-9}" width="18" height="18" transform="rotate(45 ${x} ${y})" fill="${on?'var(--acc)':'#1a1d24'}" stroke="${on?'var(--acc)':'#5a6170'}" stroke-width="2"/>`;
+  if(on){const [lx,ly,a]=lbl[i];s+=`<text x="${lx}" y="${ly}" text-anchor="${a}" fill="#eef1f5" font-size="11" font-weight="600">${esc(name(on))}</text>`}});
+ return s+'</svg>';
+}
+function renderGame(){
+ G=replay();const g=G,k=bat(g),inn=Math.floor(g.half/2)+1,top=g.half%2===0,cur=batterOf(g);
+ const L=lineupOf(k),nx=L.length?L[(g.idx[k]+1)%L.length]:null,b=g.box[cur]||blank(cur,k);
+ const team=t=>`<div class="tr ${!g.over&&k===t?'bat':''}"><i style="background:${S.teams[t].color}"></i><span class="n">${esc(S.teams[t].name)}</span><span class="r">${g.runs[t]}</span></div>`;
+ const today=b.PA?`Сегодня: ${b.H}/${b.AB}${b.BB?`, ${b.BB} BB`:''}${b.RBI?`, ${b.RBI} RBI`:''}`:'Первый выход сегодня';
+ const noRun=!g.bases.some(Boolean);
+ let h=`<div class="sb"><div class="teams">${team('A')}${team('B')}</div><div class="inn"><b>${top?'▲':'▼'}${inn}</b><div class="outs">${[0,1,2].map(i=>`<i class="${i<g.outs?'on':''}"></i>`).join('')}</div></div></div>`;
+ h+=S.recs.length?`<div class="rec"><div class="on"><span class="dot"></span><span>Видео ${S.recs.length>1?S.recs.length+' ':''}· <b id="rt">${fmt((Date.now()-S.recs[S.recs.length-1])/1000)}</b></span></div><button onclick="recStart()" class="small">Новый файл</button></div>`
+  :`<div class="rec"><button class="big" onclick="recStart()">● Нажми, когда включил запись на камере</button></div>`;
+ if(g.over)h+=`<div class="over">🏁 Игра окончена · ${esc(S.teams.A.name)} ${g.runs.A} : ${g.runs.B} ${esc(S.teams.B.name)}<br><button class="pri" style="margin-top:10px" onclick="exportM()">Сохранить файлы</button></div>`;
+ h+=`<div class="sit">${diamond(g)}<div class="bat"><div class="lbl">Отбивает · ${esc(S.teams[k].name)}</div><div class="who">${esc(cur?nameN(cur):'—')}</div><div class="nx">Следующий: ${esc(nx?name(nx):'—')}</div><div class="stat muted">${today}</div></div></div>`;
+ const B=(r,cls,sub,dis)=>`<button class="r ${cls}" onclick="pa('${r}')" ${dis||g.over?'disabled':''}>${r}<small>${sub}</small></button>`;
+ h+=`<div class="sectit">Результат выхода</div><div class="grid">
+  ${B('1B','hit','сингл')}${B('2B','hit','дабл')}${B('3B','hit','трипл')}${B('HR','hit','хоум-ран')}
+  ${B('BB','walk','уок')}${B('K','out','страйк-аут')}${B('GO','out','аут по земле')}${B('FO','out','аут в воздухе')}
+  ${B('FC','out','выбор пол.',noRun)}${B('E','walk','ошибка защ.')}
+  <button class="r sec star" style="grid-column:span 2" onclick="mark()">★ Момент<small>красивый эпизод для видео</small></button></div>
+ <div class="sectit">Бегуны и иннинг</div><div class="grid">
+  <button class="r sec" onclick="runnerAct('sb')" ${noRun||g.over?'disabled':''}>Кража<small>SB</small></button>
+  <button class="r sec" onclick="runnerAct('adv')" ${noRun||g.over?'disabled':''}>Продвиж.<small>без удара</small></button>
+  <button class="r sec" onclick="runnerAct('runout')" ${noRun||g.over?'disabled':''}>Аут бегуна<small>на базе</small></button>
+  <button class="r sec" onclick="endHalfM()" ${g.over?'disabled':''}>Конец ½<small>досрочно</small></button></div>`;
+ h+=`<div class="bb"><button onclick="undo()">↶ Отмена</button><button onclick="logM()">Журнал</button><button onclick="exportM()">Файлы</button><button onclick="endGame()" ${g.over?'disabled':''}>🏁 Конец</button></div>`;
+ $('#app').innerHTML=h;
+}
+function render(){if(!S.started)renderSetup();else renderGame()}
+setInterval(()=>{const el=$('#rt');if(el&&S.recs.length)el.textContent=fmt((Date.now()-S.recs[S.recs.length-1])/1000)},1000);
+
+/* экран не гаснет во время игры */
+let wl=null;async function wake(){try{if('wakeLock'in navigator&&!wl){wl=await navigator.wakeLock.request('screen');wl.addEventListener('release',()=>wl=null)}}catch(e){}}
+document.addEventListener('click',wake);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')wake()});
+window.addEventListener('beforeunload',save);
+
+(async()=>{await loadPlayers();S=load()||newState();render()})();
+</script>
+</body>
+</html>
