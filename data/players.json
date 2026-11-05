@@ -83,6 +83,20 @@
     "3B"
    ],
    "photo": "players/fakhri-eyvazov.jpg"
+  },
+  {
+   "id": "farhad-eyvazov",
+   "first": "Farhad",
+   "last": "Eyvazov",
+   "first_ru": "Фархад",
+   "last_ru": "Эйвазов",
+   "first_az": "Fərhad",
+   "last_az": "Eyvazov",
+   "number": 24,
+   "positions": [
+    "3B"
+   ],
+   "photo": "players/farhad-eyvazov.jpg"
   }
  ]
 }
