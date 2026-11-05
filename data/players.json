@@ -69,6 +69,20 @@
     "C"
    ],
    "photo": "players/sediyar-aliyev.jpg"
+  },
+  {
+   "id": "fakhri-eyvazov",
+   "first": "Fakhri",
+   "last": "Eyvazov",
+   "first_ru": "Фахри",
+   "last_ru": "Эйвазов",
+   "first_az": "Fəxri",
+   "last_az": "Eyvazov",
+   "number": 11,
+   "positions": [
+    "3B"
+   ],
+   "photo": "players/fakhri-eyvazov.jpg"
   }
  ]
 }
