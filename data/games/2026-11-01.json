@@ -1,0 +1,14 @@
+{
+ "id": "2026-11-01",
+ "date": "2026-11-01",
+ "venue": "Amirajan, Baku",
+ "video": null,
+ "image": "games/2026-11-01.jpg",
+ "teams": {
+  "A": {"name": "Bina Warriors", "color": "#D85A30"},
+  "B": {"name": "Baku Flames", "color": "#1f6fc0"}
+ },
+ "linescore": {"A": [5,0,5,1,0,6,3,1], "B": [0,0,1,5,4,0,0,0]},
+ "score": {"A": 21, "B": 10},
+ "box": []
+}

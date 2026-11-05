@@ -10,7 +10,7 @@ const I18N={
     date:'Дата',team:'Команда',result:'Итог',win:'Победа',loss:'Поражение',tie:'Ничья',winL:'победа',lossL:'поражение',tieL:'ничья',runs:'ран',
     seasonStarts:d=>`Сезон ${d.season} стартует ${d.start}`,daysLeft:n=>`До старта ${n} ${pluralDays('ru',n)}`,seasonGames:'Игры сезона',
     noGames:'Игр пока нет. Первая игра сезона появится здесь.',noStats:'Статистика появится после первой игры сезона.',mainPos:'основная позиция',
-    roster:'Состав',notFound:'Не найдено',loadErr:'Не удалось загрузить данные',footer:'рейтинг считается автоматически после каждой игры',mvp:'MVP',city:'Баку'},
+    roster:'Состав',firstGame:'Первая игра',videoSoon:'Видео скоро',final:'Итог',notFound:'Не найдено',loadErr:'Не удалось загрузить данные',footer:'рейтинг считается автоматически после каждой игры',mvp:'MVP',city:'Баку'},
   az:{rating:'Reytinq',games:'Oyunlar',players:'Oyunçular',lastGame:'Son oyun',potg:'Oyunun ən yaxşısı',leaders:'Mövsümün liderləri',avgPerGame:'oyun başına orta reytinq',
     table:'Oyunçuların reytinqi',qualHint:n=>`reytinqdə — ən azı ${n} oyun · sıralamaq üçün sütuna toxunun`,player:'Oyunçu',position:'Mövqe',pos:'Mövqe',
     youtube:'YouTube-da izlə',boxscore:'Oyun protokolu',season:'Mövsüm',avgRating:'Orta reytinq',noRating:'Reytinq ilk oyundan sonra görünəcək',
@@ -18,7 +18,7 @@ const I18N={
     date:'Tarix',team:'Komanda',result:'Nəticə',win:'Qələbə',loss:'Məğlubiyyət',tie:'Heç-heçə',winL:'qələbə',lossL:'məğlubiyyət',tieL:'heç-heçə',runs:'ran',
     seasonStarts:d=>`${d.season} mövsümü ${d.start} başlayır`,daysLeft:n=>`Başlanğıca ${n} gün qalıb`,seasonGames:'Mövsümün oyunları',
     noGames:'Hələ oyun yoxdur. Mövsümün ilk oyunu burada görünəcək.',noStats:'Statistika mövsümün ilk oyunundan sonra görünəcək.',mainPos:'əsas mövqe',
-    roster:'Heyət',notFound:'Tapılmadı',loadErr:'Məlumatları yükləmək alınmadı',footer:'reytinq hər oyundan sonra avtomatik hesablanır',mvp:'MVP',city:'Bakı'},
+    roster:'Heyət',firstGame:'İlk oyun',videoSoon:'Video tezliklə',final:'Yekun',notFound:'Tapılmadı',loadErr:'Məlumatları yükləmək alınmadı',footer:'reytinq hər oyundan sonra avtomatik hesablanır',mvp:'MVP',city:'Bakı'},
   en:{rating:'Ratings',games:'Games',players:'Players',lastGame:'Last game',potg:'Player of the game',leaders:'Season leaders',avgPerGame:'average rating per game',
     table:'Player ratings',qualHint:n=>`qualified — ${n}+ ${plural('en',n)} · click a column to sort`,player:'Player',position:'Position',pos:'Pos',
     youtube:'Watch on YouTube',boxscore:'Box score',season:'Season',avgRating:'Average rating',noRating:'Rating appears after the first game',
@@ -26,7 +26,7 @@ const I18N={
     date:'Date',team:'Team',result:'Result',win:'Win',loss:'Loss',tie:'Tie',winL:'win',lossL:'loss',tieL:'tie',runs:'runs',
     seasonStarts:d=>`Season ${d.season} starts ${d.start}`,daysLeft:n=>`${n} ${n===1?'day':'days'} to go`,seasonGames:'Season games',
     noGames:'No games yet. The first game of the season will appear here.',noStats:'Stats will appear after the first game of the season.',mainPos:'primary position',
-    roster:'Roster',notFound:'Not found',loadErr:'Could not load data',footer:'ratings are calculated automatically after every game',mvp:'MVP',city:'Baku'}
+    roster:'Roster',firstGame:'First game',videoSoon:'Video coming soon',final:'Final',notFound:'Not found',loadErr:'Could not load data',footer:'ratings are calculated automatically after every game',mvp:'MVP',city:'Baku'}
 };
 const POS_NAMES={
   ru:{P:'Питчер',C:'Кэтчер','1B':'1-я база','2B':'2-я база','3B':'3-я база',SS:'Шортстоп',LF:'Левый аутфилд',CF:'Центральный аутфилд',RF:'Правый аутфилд',SF:'Шорт-филдер'},
@@ -54,7 +54,14 @@ function rclass(r){return r==null?'na':r>=9?'elite':r>=8?'great':r>=7?'good':r>=
 const RCOL={low:'var(--r-low)',mid:'var(--r-mid)',good:'var(--r-good)',great:'var(--r-great)',elite:'var(--r-elite)'};
 function rt(r,size=''){const c=rclass(r);return `<span class="rt ${size} ${c==='na'?'na':''}" style="${c!=='na'?`background:${RCOL[c]}`:''}">${r==null?'–':r.toFixed(1)}</span>`}
 const avg3=x=>isFinite(x)?x.toFixed(3).replace(/^0/,''):'–';
-const fmtDate=(d,opt={day:'numeric',month:'long',year:'numeric'})=>new Date(d+'T12:00:00').toLocaleDateString(LOCALE[LANG],opt);
+const AZ_M=['yanvar','fevral','mart','aprel','may','iyun','iyul','avqust','sentyabr','oktyabr','noyabr','dekabr'];
+const AZ_ABL=['yanvardan','fevraldan','martdan','apreldən','maydan','iyundan','iyuldan','avqustdan','sentyabrdan','oktyabrdan','noyabrdan','dekabrdan'];
+function fmtDate(d,opt={day:'numeric',month:'long',year:'numeric'}){
+  const dt=new Date(d+'T12:00:00');
+  if(LANG==='az'){ const m=AZ_M[dt.getMonth()]; return `${dt.getDate()} ${opt.month==='short'?m.slice(0,3):m}${opt.year?' '+dt.getFullYear():''}`; }
+  return dt.toLocaleDateString(LOCALE[LANG],opt);
+}
+const fromDate=d=>{const dt=new Date(d+'T12:00:00'); return LANG==='az'?`${dt.getDate()} ${AZ_ABL[dt.getMonth()]}`:fmtDate(d,{day:'numeric',month:'long'});};
 const first=p=>p['first_'+LANG]||p.first, last=p=>p['last_'+LANG]||p.last||'';
 const pname=p=>`${first(p)} ${last(p)}`.trim();
 const initials=p=>(first(p)[0]+(last(p)[0]||'')).toUpperCase();
@@ -72,9 +79,9 @@ async function load(){
   for(const g of S.games){
     g.winner=g.score.A>g.score.B?'A':g.score.B>g.score.A?'B':null;
     for(const b of g.box){ b.rating=rating(b,g.winner===b.team); S.players[b.player]?.log.push({game:g,b}); }
-    g.mvp=[...g.box].sort((x,y)=>y.rating-x.rating)[0];
+    g.stats=g.box.length>0; g.mvp=g.stats?[...g.box].sort((x,y)=>y.rating-x.rating)[0]:null;
   }
-  S.qual=Math.max(1,Math.ceil(S.games.length*0.4));
+  S.qual=Math.max(1,Math.ceil(S.games.filter(g=>g.stats).length*0.4));
   for(const p of Object.values(S.players)){
     const t={G:0,PA:0,AB:0,H:0,'1B':0,'2B':0,'3B':0,HR:0,BB:0,K:0,R:0,RBI:0,SB:0,PO:0,A:0,E:0,W:0,L:0}, pos={};
     for(const {game,b} of p.log){ t.G++; for(const k in t) if(k in b) t[k]+=b[k];
@@ -104,15 +111,21 @@ function statLine(b){
 function seasonBanner(){
   const days=Math.ceil((new Date(S.start+'T00:00:00')-new Date())/864e5);
   return `<div class="card season"><div><span class="eyebrow">${S.league}</span>
-    <h1>${T('seasonStarts')({season:S.season,start:fmtDate(S.start,{day:'numeric',month:'long'})})}</h1>
+    <h1>${T('seasonStarts')({season:S.season,start:fromDate(S.start)})}</h1>
     ${days>0?`<p class="muted">${T('daysLeft')(days)}</p>`:''}</div><div class="season-num">${S.season}</div></div>`;
 }
 function rosterGrid(){
   const ps=Object.values(S.players).sort((a,b)=>a.number-b.number);
   return `<div class="section-title"><h2>${T('roster')}</h2><span class="hint">${ps.length}</span></div><div class="roster">`+
-    ps.map(p=>`<a class="card pcard" href="#player-${p.id}"><div class="pc-photo">${p.photo?`<img src="${p.photo}" alt="${pname(p)}" loading="lazy">`:`<span>${initials(p)}</span>`}<b class="pc-num">${p.number}</b></div>
-      <div class="pc-body"><div class="pc-name">${first(p)}<span>${last(p).toUpperCase()}</span></div>
-      <div class="pc-foot">${p.pos.slice(0,2).map(posChip).join(' ')}${rt(p.t.RAT==null?null:Math.round(p.t.RAT*10)/10)}</div></div></a>`).join('')+'</div>';
+    ps.map(p=>`<a class="card pcard" href="#player-${p.id}"><span class="pc-num">${p.number}</span>${av(p,'m')}
+      <div class="pc-txt"><div class="nm">${first(p)}<br>${last(p)}</div><div class="sub">#${p.number} · ${p.pos[0]?.[0]||''}</div></div>
+      ${p.t.RAT==null?'':rt(Math.round(p.t.RAT*10)/10,'lg')}</a>`).join('')+'</div>';
+}
+function featureGame(g){
+  const img=g.image?`<img src="${g.image}" alt="${g.teams.A.name} vs ${g.teams.B.name}">`:'';
+  const media=g.video?`<a class="gmedia" href="${g.video}" target="_blank" rel="noopener">${img}<span class="play">▶</span></a>`:`<div class="gmedia">${img}</div>`;
+  return `<div class="card feature">${media}<div class="fbody"><div class="meta"><span class="eyebrow">${S.games.length===1?T('firstGame'):T('lastGame')}</span><span>${fmtDate(g.date)} · ${g.venue}</span></div>
+    ${linescore(g)}<div class="btns">${g.video?`<a class="btn yt" href="${g.video}" target="_blank" rel="noopener">▶ ${T('youtube')}</a>`:`<span class="btn muted">${T('videoSoon')}</span>`}</div></div></div>`;
 }
 
 /* ---------- Страницы ---------- */
@@ -121,7 +134,7 @@ function home(){
   const last=S.games[S.games.length-1];
   const ps=Object.values(S.players).filter(p=>p.t.G);
   let h='';
-  if(!last){ app().innerHTML=seasonBanner()+rosterGrid(); return; }
+  if(!last||!last.stats){ app().innerHTML=(last?featureGame(last):'')+seasonBanner()+rosterGrid(); return; }
   const mvp=S.players[last.mvp.player];
   h+=`<div class="hero">
     <div class="card lastgame" style="cursor:pointer" onclick="location.hash='#game-${last.id}'"><div class="meta"><span class="eyebrow">${T('lastGame')}</span><span>${fmtDate(last.date)} · ${last.venue}</span></div>
@@ -181,16 +194,16 @@ function player(id){
   app().innerHTML=h+'</tbody></table></div>';
 }
 function games(){
-  let h=`<div class="section-title" style="margin-top:0"><h2>${T('seasonGames')} ${S.season}</h2><span class="hint">${S.games.length} ${plural(LANG,S.games.length)}</span></div>`;
+  let h=`<div class="section-title" style="margin-top:0"><h2>${T('games')}</h2><span class="hint">${S.games.length} ${plural(LANG,S.games.length)}</span></div>`;
   if(!S.games.length){ app().innerHTML=h+`<div class="card empty">${T('noGames')}</div>`; return; }
-  h+='<div class="glist">';
-  for(const g of [...S.games].reverse()) h+=`<a class="card gcard" href="#game-${g.id}"><div class="d">${fmtDate(g.date)} · ${g.venue}</div>
+  h+=`<div class="${S.games.some(g=>g.stats)?'glist':'gstack'}">`;
+  for(const g of [...S.games].reverse()) h+=!g.stats?featureGame(g):`<a class="card gcard" href="#game-${g.id}"><div class="d">${fmtDate(g.date)} · ${g.venue}</div>
       ${['A','B'].map(k=>`<div class="t ${g.winner===k?'win':''}"><span><i class="tbar" style="background:${g.teams[k].color}"></i>${g.teams[k].name}</span><b>${g.score[k]}</b></div>`).join('')}
       <div class="d" style="margin:10px 0 0">${T('potg')}: <b style="color:var(--text)">${pname(S.players[g.mvp.player])}</b> ${rt(g.mvp.rating)}</div></a>`;
   app().innerHTML=h+'</div>';
 }
 function game(id){
-  const g=S.games.find(x=>x.id===id); if(!g){app().innerHTML=`<p class="muted">${T('notFound')}</p>`;return;}
+  const g=S.games.find(x=>x.id===id); if(g&&!g.stats){ app().innerHTML=featureGame(g); return; } if(!g){app().innerHTML=`<p class="muted">${T('notFound')}</p>`;return;}
   let h=`<span class="eyebrow">${fmtDate(g.date)} · ${g.venue}</span><div class="card lastgame" style="margin-top:12px">${linescore(g)}
     <div class="btns">${g.video?`<a class="btn yt" href="${g.video}" target="_blank" rel="noopener">▶ ${T('youtube')}</a>`:''}</div></div>`;
   for(const k of ['A','B']){
