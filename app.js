@@ -10,7 +10,7 @@ const I18N={
     date:'Дата',team:'Команда',result:'Итог',win:'Победа',loss:'Поражение',tie:'Ничья',winL:'победа',lossL:'поражение',tieL:'ничья',runs:'ран',
     seasonStarts:d=>`Сезон ${d.season} стартует ${d.start}`,daysLeft:n=>`До старта ${n} ${pluralDays('ru',n)}`,seasonGames:'Игры сезона',
     noGames:'Игр пока нет. Первая игра сезона появится здесь.',noStats:'Статистика появится после первой игры сезона.',mainPos:'основная позиция',
-    roster:'Состав',title:'Статистика',tagline:'Любительский софтбол в Баку. Рейтинг игроков, статистика и ролики каждой игры.',site:'Сайт',watch:'Смотреть',where:'Где играем',lastVideo:'Последняя игра на YouTube',channel:'Наш YouTube-канал',place:'Амирджан, Баку, Азербайджан',seasonPill:d=>`Сезон ${d.season} · старт ${d.start}`,language:'Язык',firstGame:'Первая игра',videoSoon:'Видео скоро',final:'Итог',notFound:'Не найдено',loadErr:'Не удалось загрузить данные',footer:'рейтинг считается автоматически после каждой игры',mvp:'MVP',city:'Баку'},
+    roster:'Состав',openProfile:'Открыть профиль',title:'Статистика',tagline:'Любительский софтбол в Баку. Рейтинг игроков, статистика и ролики каждой игры.',site:'Сайт',watch:'Смотреть',where:'Где играем',lastVideo:'Последняя игра на YouTube',channel:'Наш YouTube-канал',place:'Амирджан, Баку, Азербайджан',seasonPill:d=>`Сезон ${d.season} · старт ${d.start}`,language:'Язык',firstGame:'Первая игра',videoSoon:'Видео скоро',final:'Итог',notFound:'Не найдено',loadErr:'Не удалось загрузить данные',footer:'рейтинг считается автоматически после каждой игры',mvp:'MVP',city:'Баку'},
   az:{rating:'Reytinq',games:'Oyunlar',players:'Oyunçular',lastGame:'Son oyun',potg:'Oyunun ən yaxşısı',leaders:'Mövsümün liderləri',avgPerGame:'oyun başına orta reytinq',
     table:'Oyunçuların reytinqi',qualHint:n=>`reytinqdə — ən azı ${n} oyun · sıralamaq üçün sütuna toxunun`,player:'Oyunçu',position:'Mövqe',pos:'Mövqe',
     youtube:'YouTube-da izlə',boxscore:'Oyun protokolu',season:'Mövsüm',avgRating:'Orta reytinq',noRating:'Reytinq ilk oyundan sonra görünəcək',
@@ -18,7 +18,7 @@ const I18N={
     date:'Tarix',team:'Komanda',result:'Nəticə',win:'Qələbə',loss:'Məğlubiyyət',tie:'Heç-heçə',winL:'qələbə',lossL:'məğlubiyyət',tieL:'heç-heçə',runs:'ran',
     seasonStarts:d=>`${d.season} mövsümü ${d.start} başlayır`,daysLeft:n=>`Başlanğıca ${n} gün qalıb`,seasonGames:'Mövsümün oyunları',
     noGames:'Hələ oyun yoxdur. Mövsümün ilk oyunu burada görünəcək.',noStats:'Statistika mövsümün ilk oyunundan sonra görünəcək.',mainPos:'əsas mövqe',
-    roster:'Heyət',title:'Statistika',tagline:'Bakıda həvəskar softbol. Oyunçuların reytinqi, statistika və hər oyunun videosu.',site:'Sayt',watch:'İzlə',where:'Harada oynayırıq',lastVideo:'Son oyun YouTube-da',channel:'YouTube kanalımız',place:'Əmircan, Bakı, Azərbaycan',seasonPill:d=>`${d.season} mövsümü · ${d.start}`,language:'Dil',firstGame:'İlk oyun',videoSoon:'Video tezliklə',final:'Yekun',notFound:'Tapılmadı',loadErr:'Məlumatları yükləmək alınmadı',footer:'reytinq hər oyundan sonra avtomatik hesablanır',mvp:'MVP',city:'Bakı'},
+    roster:'Heyət',openProfile:'Profilə bax',title:'Statistika',tagline:'Bakıda həvəskar softbol. Oyunçuların reytinqi, statistika və hər oyunun videosu.',site:'Sayt',watch:'İzlə',where:'Harada oynayırıq',lastVideo:'Son oyun YouTube-da',channel:'YouTube kanalımız',place:'Əmircan, Bakı, Azərbaycan',seasonPill:d=>`${d.season} mövsümü · ${d.start}`,language:'Dil',firstGame:'İlk oyun',videoSoon:'Video tezliklə',final:'Yekun',notFound:'Tapılmadı',loadErr:'Məlumatları yükləmək alınmadı',footer:'reytinq hər oyundan sonra avtomatik hesablanır',mvp:'MVP',city:'Bakı'},
   en:{rating:'Ratings',games:'Games',players:'Players',lastGame:'Last game',potg:'Player of the game',leaders:'Season leaders',avgPerGame:'average rating per game',
     table:'Player ratings',qualHint:n=>`qualified — ${n}+ ${plural('en',n)} · click a column to sort`,player:'Player',position:'Position',pos:'Pos',
     youtube:'Watch on YouTube',boxscore:'Box score',season:'Season',avgRating:'Average rating',noRating:'Rating appears after the first game',
@@ -26,7 +26,7 @@ const I18N={
     date:'Date',team:'Team',result:'Result',win:'Win',loss:'Loss',tie:'Tie',winL:'win',lossL:'loss',tieL:'tie',runs:'runs',
     seasonStarts:d=>`Season ${d.season} starts ${d.start}`,daysLeft:n=>`${n} ${n===1?'day':'days'} to go`,seasonGames:'Season games',
     noGames:'No games yet. The first game of the season will appear here.',noStats:'Stats will appear after the first game of the season.',mainPos:'primary position',
-    roster:'Roster',title:'Stats',tagline:'Amateur softball in Baku. Player ratings, stats and a video of every game.',site:'Site',watch:'Watch',where:'Where we play',lastVideo:'Latest game on YouTube',channel:'Our YouTube channel',place:'Amirajan, Baku, Azerbaijan',seasonPill:d=>`Season ${d.season} · from ${d.start}`,language:'Language',firstGame:'First game',videoSoon:'Video coming soon',final:'Final',notFound:'Not found',loadErr:'Could not load data',footer:'ratings are calculated automatically after every game',mvp:'MVP',city:'Baku'}
+    roster:'Roster',openProfile:'View profile',title:'Stats',tagline:'Amateur softball in Baku. Player ratings, stats and a video of every game.',site:'Site',watch:'Watch',where:'Where we play',lastVideo:'Latest game on YouTube',channel:'Our YouTube channel',place:'Amirajan, Baku, Azerbaijan',seasonPill:d=>`Season ${d.season} · from ${d.start}`,language:'Language',firstGame:'First game',videoSoon:'Video coming soon',final:'Final',notFound:'Not found',loadErr:'Could not load data',footer:'ratings are calculated automatically after every game',mvp:'MVP',city:'Baku'}
 };
 const POS_NAMES={
   ru:{P:'Питчер',C:'Кэтчер','1B':'1-я база','2B':'2-я база','3B':'3-я база',SS:'Шортстоп',LF:'Левый аутфилд',CF:'Центральный аутфилд',RF:'Правый аутфилд',SF:'Шорт-филдер'},
@@ -117,7 +117,7 @@ function seasonBanner(){
 function rosterGrid(){
   const ps=Object.values(S.players).sort((a,b)=>a.number-b.number);
   return `<div class="section-title"><h2>${T('roster')}</h2><span class="hint">${ps.length}</span></div><div class="roster">`+
-    ps.map(p=>`<a class="card pcard" href="#player-${p.id}"><span class="pc-num">${p.number}</span>${av(p,'m')}
+    ps.map(p=>`<a class="card pcard" href="#player-${p.id}" data-peek="${p.id}"><span class="pc-num">${p.number}</span>${av(p,'m')}
       <div class="pc-txt"><div class="nm">${first(p)}${last(p)?`<br>${last(p)}`:''}</div><div class="sub">#${p.number} · ${p.pos[0]?.[0]||''}</div></div>
       ${p.t.RAT==null?'':rt(Math.round(p.t.RAT*10)/10,'lg')}</a>`).join('')+'</div>';
 }
@@ -164,7 +164,7 @@ function drawLB(ps){
   let h=`<thead><tr><th class="l">#</th><th class="l">${T('player')}</th><th class="l">${T('position')}</th>${COLS.map(([k,n])=>`<th data-k="${k}" class="${k===sortKey?'sorted':''}">${n}${k===sortKey?(sortDir<0?' ↓':' ↑'):''}</th>`).join('')}</tr></thead><tbody>`;
   let rank=0;
   for(const p of ps){ const t=p.t; if(t.qual) rank++;
-    h+=`<tr onclick="location.hash='#player-${p.id}'" style="${t.qual?'':'opacity:.55'}"><td class="l rank">${t.qual?rank:'–'}</td>
+    h+=`<tr data-peek="${p.id}" onclick="location.hash='#player-${p.id}'" style="${t.qual?'':'opacity:.55'}"><td class="l rank">${t.qual?rank:'–'}</td>
       <td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}</div><div class="no">#${p.number}</div></div></div></td>
       <td class="l">${p.pos.slice(0,2).map((x,i)=>`<span class="chip ${i?'':'main'}">${x[0]}</span>`).join(' ')}</td>
       <td>${rt(t.RAT)}</td><td>${t.G}</td><td>${t.W}-${t.L}</td><td>${avg3(t.AVG)}</td><td>${avg3(t.OBP)}</td><td>${avg3(t.OPS)}</td><td>${t.HR}</td><td>${t.RBI}</td><td>${t.R}</td><td>${t.SB}</td><td>${t.E}</td></tr>`; }
@@ -225,6 +225,45 @@ function game(id){
   app().innerHTML=h;
 }
 
+/* ---------- Мини-превью игрока при наведении ---------- */
+function peekHTML(p){
+  const t=p.t, has=t.G>0, main=p.pos[0]?.[0];
+  const big=p.photo?`<img src="${p.photo}" alt="">`:`<span>${p.number}</span>`;
+  return `<div class="pk-top"><div class="pk-photo ${p.photo?'':'nophoto'}">${big}</div>
+    <div class="pk-num">${p.number}</div></div>
+    <div class="pk-body"><div class="pk-name">${first(p)}${last(p)?` <b>${last(p)}</b>`:''}</div>
+    <div class="pk-pos">${main?`${POS_NAMES[LANG][main]||main}`:''}</div>
+    <div class="pk-chips">${p.pos.map(posChip).join('')}</div>
+    <div class="pk-rt">${rt(t.RAT==null?null:Math.round(t.RAT*10)/10,'lg')}<span>${has?T('avgRating'):T('noRating')}</span></div>
+    ${has?`<div class="pk-stats">${[[T('G'),t.G],['AVG',avg3(t.AVG)],['OPS',avg3(t.OPS)],['HR',t.HR],['RBI',t.RBI]].map(([k,v])=>`<div><b>${v}</b><i>${k}</i></div>`).join('')}</div>`:''}
+    <div class="pk-go">${T('openProfile')} →</div></div>`;
+}
+const PEEK={el:null,timer:null,cur:null};
+function initPeek(){
+  if(!window.matchMedia||!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  PEEK.el=document.createElement('div'); PEEK.el.className='peek'; document.body.appendChild(PEEK.el);
+  document.addEventListener('mouseover',e=>{
+    const a=e.target.closest('[data-peek]'); if(!a||a===PEEK.cur) return;
+    PEEK.cur=a; clearTimeout(PEEK.timer);
+    PEEK.timer=setTimeout(()=>showPeek(a),180);
+  });
+  document.addEventListener('mouseout',e=>{
+    const a=e.target.closest('[data-peek]'); if(!a||a.contains(e.relatedTarget)) return;
+    PEEK.cur=null; clearTimeout(PEEK.timer); PEEK.el.classList.remove('on');
+  });
+  window.addEventListener('scroll',()=>{PEEK.el.classList.remove('on');PEEK.cur=null;},{passive:true});
+  window.addEventListener('hashchange',()=>{PEEK.el.classList.remove('on');PEEK.cur=null;});
+}
+function showPeek(a){
+  const p=S.players[a.dataset.peek]; if(!p||PEEK.cur!==a) return;
+  const el=PEEK.el; el.innerHTML=peekHTML(p); el.classList.add('measure');
+  const r=a.getBoundingClientRect(), W=el.offsetWidth, H=el.offsetHeight, gap=14, vw=innerWidth, vh=innerHeight;
+  let x=r.right+gap; if(x+W>vw-8) x=r.left-gap-W; if(x<8) x=Math.min(vw-W-8,Math.max(8,r.left));
+  let y=r.top+r.height/2-H/2; y=Math.max(8,Math.min(vh-H-8,y));
+  el.style.left=(x+scrollX)+'px'; el.style.top=(y+scrollY)+'px';
+  el.classList.remove('measure'); requestAnimationFrame(()=>el.classList.add('on'));
+}
+
 /* ---------- Навигация и язык ---------- */
 function chrome(){
   document.documentElement.lang=LANG;
@@ -282,5 +321,5 @@ function route(){
   if(page==='player') player(id); else if(page==='game') game(id); else if(page==='games') games(); else home();
 }
 document.querySelectorAll('.top .lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
-load().then(()=>{document.getElementById('demo-banner').hidden=!S.demo; chrome(); route(); initAnalytics(); window.addEventListener('hashchange',()=>{route();window.scrollTo(0,0);countView();});})
+load().then(()=>{document.getElementById('demo-banner').hidden=!S.demo; chrome(); route(); initAnalytics(); initPeek(); window.addEventListener('hashchange',()=>{route();window.scrollTo(0,0);countView();});})
   .catch(e=>{chrome(); app().innerHTML=`<p class="muted">${T('loadErr')}: ${e.message}</p>`;});
