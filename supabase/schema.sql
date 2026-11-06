@@ -149,6 +149,52 @@ drop policy if exists "comments: удалить свой или админ" on p
 create policy "comments: удалить свой или админ" on public.comments for delete
   using (auth.uid() = user_id or public.is_admin());
 
+-- ---------- 6. Админ: список участников и сброс пароля ----------
+-- Пароли хранятся только как хеш — увидеть их нельзя никому.
+-- Если участник забыл пароль, админ задаёт ему временный, а тот меняет его в профиле.
+create extension if not exists pgcrypto with schema extensions;
+
+create or replace function public.admin_users()
+returns table (id uuid, email text, display_name text, role text, player_id text,
+               requested_player_id text, created_at timestamptz, last_sign_in_at timestamptz)
+language plpgsql stable security definer set search_path = '' as $$
+begin
+  if not public.is_admin() then raise exception 'Только для админа'; end if;
+  return query
+    select u.id, u.email::text, p.display_name, p.role, p.player_id,
+           p.requested_player_id, u.created_at, u.last_sign_in_at
+    from auth.users u join public.profiles p on p.id = u.id
+    order by u.created_at desc;
+end $$;
+
+create or replace function public.admin_reset_password(target uuid, new_password text)
+returns void
+language plpgsql security definer set search_path = '' as $$
+begin
+  if not public.is_admin() then raise exception 'Только для админа'; end if;
+  if char_length(coalesce(new_password,'')) < 6 then raise exception 'Пароль короче 6 символов'; end if;
+  update auth.users
+     set encrypted_password = extensions.crypt(new_password, extensions.gen_salt('bf')),
+         updated_at = now()
+   where auth.users.id = target;
+  if not found then raise exception 'Пользователь не найден'; end if;
+end $$;
+
+-- ---------- 7. Доступ сайта к таблицам ----------
+-- С 30.05.2026 Supabase в новых проектах не открывает таблицы автоматически —
+-- выдаём права явно. Что именно разрешено каждому — решают политики RLS выше.
+grant usage on schema public to anon, authenticated;
+grant select on public.profiles, public.events, public.rsvps, public.live_games, public.comments
+  to anon, authenticated;
+grant update on public.profiles to authenticated;
+grant insert, update, delete on public.events, public.rsvps, public.live_games to authenticated;
+grant insert, delete on public.comments to authenticated;
+grant usage, select on all sequences in schema public to authenticated;
+
+revoke execute on function public.admin_users(), public.admin_reset_password(uuid, text) from public, anon;
+grant execute on function public.my_role(), public.is_admin() to anon, authenticated;
+grant execute on function public.admin_users(), public.admin_reset_password(uuid, text) to authenticated;
+
 -- =====================================================================
 -- ПОСЛЕ ТОГО, КАК ВЫ ЗАРЕГИСТРИРУЕТЕСЬ НА САЙТЕ — сделать себя админом
 -- (вписать свою почту и запустить только эту строку):
