@@ -174,7 +174,7 @@ const bat=g=>g.half%2?'B':'A', fld=g=>g.half%2?'A':'B';
 function lineupOf(k){return S.teams[k].lineup}
 function batterOf(g){const L=lineupOf(bat(g));return L.length?L[g.idx[bat(g)]%L.length]:null}
 function atPos(g,pos){return lineupOf(fld(g)).find(id=>S.pos[id]===pos)}
-function blank(id,team){return {player:id,team,pos:S.pos[id]||'EH',PA:0,AB:0,H:0,'1B':0,'2B':0,'3B':0,HR:0,BB:0,K:0,R:0,RBI:0,SB:0,PO:0,A:0,E:0}}
+function blank(id,team){return {player:id,team,pos:S.pos[id]||'EH',PA:0,AB:0,H:0,'1B':0,'2B':0,'3B':0,HR:0,BB:0,K:0,R:0,RBI:0,SB:0,PO:0,FPO:0,KPO:0,A:0,E:0}}
 function bx(g,id,team){if(!g.box[id])g.box[id]=blank(id,team);return g.box[id]}
 function replay(){
  const g={half:0,outs:0,bases:[null,null,null],idx:{A:0,B:0},runs:{A:0,B:0},line:{A:[0],B:[]},box:{},over:false,steps:[]};
@@ -197,7 +197,8 @@ function move(g,adv){
 }
 function credit(g,seq,outs){
  const ids=(seq||[]).map(p=>atPos(g,p)).filter(Boolean);if(!ids.length||!outs)return;
- const last=ids[ids.length-1],f=fld(g);bx(g,last,f).PO+=outs;
+ const last=ids[ids.length-1],f=fld(g),L=bx(g,last,f);L.PO+=outs;
+ if(new Set(ids).size===1)L.FPO++; // флай или аут без передачи: сам сделал аут
  new Set(ids.slice(0,-1).filter(id=>id!==last)).forEach(id=>bx(g,id,f).A++);
 }
 function apply(g,e){
@@ -211,7 +212,7 @@ function apply(g,e){
    if(r==='E'&&fseq[0]){const f=atPos(g,fseq[0]);if(f)bx(g,f,fld(g)).E++}
    const m=move(g,e.adv);
    if(r!=='E')b.RBI+=m.runs;
-   if(r==='K'){const c=atPos(g,'C');if(c)bx(g,c,fld(g)).PO++;if(m.outs>1)credit(g,fseq,m.outs-1)}
+   if(r==='K'){const c=atPos(g,'C');if(c){const cb=bx(g,c,fld(g));cb.PO++;cb.KPO++}if(m.outs>1)credit(g,fseq,m.outs-1)}
    else if(r!=='E')credit(g,fseq,m.outs);
    g.idx[k]++;break}
   case 'sb':bx(g,e.runner,k).SB++;move(g,e.adv);break;
