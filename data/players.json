@@ -265,6 +265,20 @@
     "P"
    ],
    "photo": null
+  },
+  {
+   "id": "bahram-jamilov",
+   "first": "Bahram",
+   "last": "Jamilov",
+   "first_ru": "Бахрам",
+   "last_ru": "Джамилов",
+   "first_az": "Bəhram",
+   "last_az": "Cəmilov",
+   "number": 15,
+   "positions": [
+    "RF"
+   ],
+   "photo": "players/bahram-jamilov.jpg"
   }
  ]
 }
