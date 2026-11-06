@@ -84,7 +84,8 @@ async function load(){
   const [idx,pl]=await Promise.all([get('data/index.json'),get('data/players.json')]);
   Object.assign(S,{analytics:idx.analytics||{},links:idx.links||{},league:idx.league,season:idx.season,start:idx.season_start,demo:!!(idx.demo||pl.demo)});
   pl.players.forEach(p=>S.players[p.id]={...p,log:[]});
-  S.games=await Promise.all((idx.games||[]).map(id=>get(`data/games/${id}.json`)));
+  if(window.DEMO_MODE&&window.makeDemoGames){ S.demo=true; S.games=makeDemoGames(Object.values(S.players)); }
+  else S.games=await Promise.all((idx.games||[]).map(id=>get(`data/games/${id}.json`)));
   S.games.sort((a,b)=>a.date.localeCompare(b.date));
   for(const g of S.games){
     g.winner=g.score.A>g.score.B?'A':g.score.B>g.score.A?'B':null;
@@ -203,14 +204,16 @@ function player(id){
     <div class="rbox">${rt(t.RAT==null?null:Math.round(t.RAT*10)/10,'xl')}<div class="lbl">${has?T('avgRating'):T('noRating')}</div></div></div>
     <div class="kpis">${[[T('G'),t.G],[T('W'),d(`${t.W}-${t.L}`)],['AVG',d(avg3(t.AVG))],['OBP',d(avg3(t.OBP))],['SLG',d(avg3(t.SLG))],['OPS',d(avg3(t.OPS))],['HR',d(t.HR)],['RBI',d(t.RBI)],[T('R'),d(t.R)],[T('PO'),d(t.PO)]]
       .map(([n,v])=>`<div class="card kpi"><div class="v">${v}</div><div class="k">${n}</div></div>`).join('')}</div>`;
-  if(!has){ app().innerHTML=h+`<div class="card empty">${T('noStats')}</div>`; return; }
+  const X=window.playerExtras||(()=>({top:'',bottom:''})), ex=X(p);
+  h+=ex.top;
+  if(!has){ app().innerHTML=h+`<div class="card empty">${T('noStats')}</div>`+ex.bottom; return; }
   h+=`<div class="section-title"><h2>${T('byGame')}</h2><span class="hint">${T('dashed')}</span></div><div class="card chart">${chart(p)}</div>
     <div class="section-title"><h2>${T('allGames')}</h2></div><div class="card tablewrap"><table class="lb"><thead><tr><th class="l">${T('date')}</th><th class="l">${T('team')}</th><th class="l">${T('pos')}</th><th>${T('rating')}</th><th>AB</th><th>H</th><th>2B</th><th>3B</th><th>HR</th><th>R</th><th>RBI</th><th>BB</th><th>K</th><th>PO</th><th>A</th><th>E</th><th class="l">${T('result')}</th></tr></thead><tbody>`;
   for(const {game:g,b} of [...p.log].reverse()){
     const tm=g.teams[b.team], res=g.winner===b.team?`<b style="color:var(--r-good)">${T('win')}</b>`:g.winner?`<b style="color:var(--r-low)">${T('loss')}</b>`:T('tie');
     h+=`<tr onclick="location.hash='#game-${g.id}'"><td class="l">${fmtDate(g.date)}</td><td class="l"><span class="chip" style="background:${tm.color}22;color:${tm.color}">${tm.name}</span></td><td class="l">${b.pos}</td><td>${rt(b.rating)}</td><td>${b.AB}</td><td>${b.H}</td><td>${b['2B']}</td><td>${b['3B']}</td><td>${b.HR}</td><td>${b.R}</td><td>${b.RBI}</td><td>${b.BB}</td><td>${b.K}</td><td>${b.PO}</td><td>${b.A}</td><td>${b.E}</td><td class="l">${res} ${g.score[b.team]}:${g.score[b.team==='A'?'B':'A']}</td></tr>`;
   }
-  app().innerHTML=h+'</tbody></table></div>';
+  app().innerHTML=h+'</tbody></table></div>'+ex.bottom;
 }
 function games(){
   let h=`<div class="section-title" style="margin-top:0"><h2>${T('games')}</h2><span class="hint">${S.games.length} ${plural(LANG,S.games.length)}</span></div>`;
@@ -232,6 +235,7 @@ function game(id){
       h+=`<tr onclick="location.hash='#player-${p.id}'"><td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}${g.mvp===b?` <span class="chip main">${T('mvp')}</span>`:''}</div><div class="no">#${p.number}</div></div></div></td><td class="l">${b.pos}</td><td>${rt(b.rating)}</td><td>${b.AB}</td><td>${b.H}</td><td>${b['2B']}</td><td>${b['3B']}</td><td>${b.HR}</td><td>${b.R}</td><td>${b.RBI}</td><td>${b.BB}</td><td>${b.K}</td><td>${b.SB}</td><td>${b.PO}</td><td>${b.A}</td><td>${b.E}</td></tr>`;}
     h+='</tbody></table></div>';
   }
+  if(window.gameHighlights) h+=gameHighlights(g);
   app().innerHTML=h;
 }
 
@@ -299,7 +303,7 @@ function footer(){
       ${socials?`<div class="socials">${socials}</div>`:''}
       ${S.season?`<span class="foot-pill">${T('seasonPill')({season:S.season,start:startTxt})}</span>`:''}
     </div>
-    <div class="foot-col"><h4>${T('site')}</h4><a href="#rating">${T('rating')}</a><a href="#games">${T('games')}</a></div>
+    <div class="foot-col"><h4>${T('site')}</h4><a href="#rating">${T('rating')}</a><a href="#games">${T('games')}</a>${I18N[LANG].navTeams?`<a href="#teams">${T('navTeams')}</a><a href="#records">${T('navRecords')}</a><a href="#compare">${T('navCompare')}</a><a href="#rules">${T('navRules')}</a>`:''}</div>
     <div class="foot-col"><h4>${T('watch')}</h4>${L.youtube?`<a href="${L.youtube}" target="_blank" rel="noopener"><span class="yt-dot">▶</span>${T('channel')}</a>`:''}${vid?`<a href="${vid}" target="_blank" rel="noopener"><span class="yt-dot">▶</span>${T('lastVideo')}</a>`:(L.youtube?'':`<span class="muted">${T('videoSoon')}</span>`)}</div>
     <div class="foot-col"><h4>${T('where')}</h4><span>${T('place')}</span></div>
     <svg class="foot-diamond" viewBox="0 0 200 200" aria-hidden="true">
@@ -323,13 +327,16 @@ function initAnalytics(){
   const sc=document.createElement('script'); sc.async=true; sc.src='https://gc.zgo.at/count.js';
   sc.dataset.goatcounter=`https://${code}.goatcounter.com/count`; sc.onload=countView; document.head.appendChild(sc);
 }
-function setLang(l){ LANG=l; try{localStorage.setItem('lang',LANG);}catch(e){} chrome(); route(); }
+function setLang(l){ LANG=l; try{localStorage.setItem('lang',LANG);}catch(e){} if(S.demo&&I18N[LANG].demoBanner) document.getElementById('demo-banner').innerHTML=T('demoBanner'); chrome(); route(); }
 function route(){
   const h=(location.hash||'').slice(1), i=h.indexOf('-');
   const page=i<0?h:h.slice(0,i), id=i<0?'':h.slice(i+1);
-  document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.dataset.nav===((page==='games'||page==='game')?'games':'home')));
-  if(page==='player') player(id); else if(page==='game') game(id); else if(page==='games') games(); else home();
+  const navKey={games:'games',game:'games',teams:'teams',records:'records',compare:'compare',rules:'rules'}[page]||'home';
+  document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.dataset.nav===navKey));
+  const FR=window.FEATURE_ROUTES||{};
+  if(page==='player') player(id); else if(page==='game') game(id); else if(page==='games') games(); else if(FR[page]) FR[page](id); else home();
 }
 document.querySelectorAll('.top .lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
-load().then(()=>{document.getElementById('demo-banner').hidden=!S.demo; chrome(); route(); initAnalytics(); initPeek(); window.addEventListener('hashchange',()=>{route();window.scrollTo(0,0);countView();});})
-  .catch(e=>{chrome(); app().innerHTML=`<p class="muted">${T('loadErr')}: ${e.message}</p>`;});
+function start(){ load().then(()=>{const db=document.getElementById('demo-banner'); db.hidden=!S.demo; if(S.demo&&I18N[LANG].demoBanner) db.innerHTML=T('demoBanner'); chrome(); route(); initAnalytics(); initPeek(); window.addEventListener('hashchange',()=>{route();window.scrollTo(0,0);countView();});})
+  .catch(e=>{chrome(); app().innerHTML=`<p class="muted">${T('loadErr')}: ${e.message}</p>`;}); }
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start); else start();
