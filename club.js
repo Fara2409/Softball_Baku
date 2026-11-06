@@ -29,7 +29,7 @@ Object.assign(I18N.ru,{
   cRequest:'Я игрок команды',cSendReq:'Отправить заявку',cCancelReq:'Отменить заявку',cChangePass:'Сменить пароль',cNewPass:'Новый пароль',cPassChanged:'Пароль изменён',
   cNotLogged:'Вы не вошли',cNotLoggedTxt:'Войдите или зарегистрируйтесь, чтобы писать комментарии и отмечаться на игры.',
   cNext:'Ближайшие игры',cNextOne:'Следующая игра',cYes:'Буду',cNo:'Не буду',cMaybe:'Может быть',cComing:'будут',
-  cCountNo:n=>`не будут: ${n}`,cOnlyPlayers:'Отмечаться могут только игроки',cWaitApproval:'Ваша заявка игрока ждёт подтверждения админа',
+  cCountNo:n=>`не будут: ${n}`,cOnlyPlayers:'Отмечаться могут только игроки',cPlayerLogin:'Вы игрок? Войдите',cWaitApproval:'Ваша заявка игрока ждёт подтверждения админа',
   cCancelled:'Отменена',cNoEvents:'Следующая игра пока не назначена',cToTeams:'Разделить пришедших на команды',
   cAdminTitle:'Панель админа',cRequests:'Заявки игроков',cNoRequests:'Новых заявок нет',cApprove:'Подтвердить',cReject:'Отклонить',cWants:'хочет быть',
   cUsers:'Пользователи',cPlayerL:'Игрок',cReset:'Сбросить пароль',cResetQ:n=>`Задать ${n} новый временный пароль?`,cTempPass:'Временный пароль',
@@ -60,7 +60,7 @@ Object.assign(I18N.az,{
   cRequest:'Mən komandanın oyunçusuyam',cSendReq:'Sorğu göndər',cCancelReq:'Sorğunu ləğv et',cChangePass:'Şifrəni dəyiş',cNewPass:'Yeni şifrə',cPassChanged:'Şifrə dəyişdirildi',
   cNotLogged:'Daxil olmamısınız',cNotLoggedTxt:'Şərh yazmaq və oyunlara qeyd olunmaq üçün daxil olun və ya qeydiyyatdan keçin.',
   cNext:'Növbəti oyunlar',cNextOne:'Növbəti oyun',cYes:'Gələcəyəm',cNo:'Gəlməyəcəyəm',cMaybe:'Bəlkə',cComing:'gəlir',
-  cCountNo:n=>`gəlmir: ${n}`,cOnlyPlayers:'Qeyd olunmaq yalnız oyunçular üçündür',cWaitApproval:'Oyunçu sorğunuz admin təsdiqini gözləyir',
+  cCountNo:n=>`gəlmir: ${n}`,cOnlyPlayers:'Qeyd olunmaq yalnız oyunçular üçündür',cPlayerLogin:'Oyunçusunuz? Daxil olun',cWaitApproval:'Oyunçu sorğunuz admin təsdiqini gözləyir',
   cCancelled:'Ləğv edildi',cNoEvents:'Növbəti oyun hələ təyin olunmayıb',cToTeams:'Gələnləri komandalara böl',
   cAdminTitle:'Admin paneli',cRequests:'Oyunçu sorğuları',cNoRequests:'Yeni sorğu yoxdur',cApprove:'Təsdiq et',cReject:'Rədd et',cWants:'olmaq istəyir',
   cUsers:'İstifadəçilər',cPlayerL:'Oyunçu',cReset:'Şifrəni sıfırla',cResetQ:n=>`${n} üçün yeni müvəqqəti şifrə yaradılsın?`,cTempPass:'Müvəqqəti şifrə',
@@ -91,7 +91,7 @@ Object.assign(I18N.en,{
   cRequest:"I'm on the team",cSendReq:'Send request',cCancelReq:'Cancel request',cChangePass:'Change password',cNewPass:'New password',cPassChanged:'Password changed',
   cNotLogged:'You are not logged in',cNotLoggedTxt:'Log in or sign up to comment and respond to games.',
   cNext:'Upcoming games',cNextOne:'Next game',cYes:"I'm in",cNo:"Can't make it",cMaybe:'Maybe',cComing:'coming',
-  cCountNo:n=>`out: ${n}`,cOnlyPlayers:'Only players can respond',cWaitApproval:'Your player request is waiting for admin approval',
+  cCountNo:n=>`out: ${n}`,cOnlyPlayers:'Only players can respond',cPlayerLogin:'Are you a player? Log in',cWaitApproval:'Your player request is waiting for admin approval',
   cCancelled:'Cancelled',cNoEvents:'No upcoming games scheduled yet',cToTeams:'Split those coming into teams',
   cAdminTitle:'Admin panel',cRequests:'Player requests',cNoRequests:'No new requests',cApprove:'Approve',cReject:'Reject',cWants:'wants to be',
   cUsers:'Users',cPlayerL:'Player',cReset:'Reset password',cResetQ:n=>`Set a new temporary password for ${n}?`,cTempPass:'Temporary password',
@@ -357,14 +357,15 @@ function evCard(e,compact){
   const yes=by('yes'), maybe=by('maybe'), no=by('no'), mine=C.user?(R.find(r=>r.user_id===C.user.id)||{}).status:null;
   const cx=e.status==='cancelled', can=!cx&&canRsvp(), pr=C.profile||{};
   const b=(s,l,c)=>`<button class="rsvp-b ${c} ${mine===s?'on':''}" ${can?'':'disabled'} onclick="CL.rsvp(${+e.id},'${s}')">${l}</button>`;
+  // гости не решают, играть или нет: без кнопок, только кто придёт
   let hint='';
-  if(!cx&&!can) hint=!C.user?`${T('cOnlyPlayers')} · <button class="cl-link" onclick="CL.auth('login')">${T('cLogin')}</button>`
-    :pr.requested_player_id&&!pr.player_id?T('cWaitApproval'):`${T('cOnlyPlayers')} · <a class="cl-link" href="#me">${T('cRequest')}</a>`;
+  if(!cx&&!can) hint=!C.user?`<button class="cl-link" onclick="CL.auth('login')">${T('cPlayerLogin')}</button>`
+    :pr.requested_player_id&&!pr.player_id?T('cWaitApproval'):'';
   return `<div class="card ev ${cx?'cancelled':''} ${compact?'compact':''}" data-ev="${+e.id}">
     <div class="ev-head"><div class="ev-when">${compact?`<span class="eyebrow">${T('cNextOne')}</span>`:''}<b>${evWhen(e.starts_at)}</b>
       <span class="muted">${esc(e.place||'')}${e.note?` · ${esc(e.note)}`:''}</span>${!cx&&window.WX?WX.chip(e.starts_at):''}</div>
       ${cx?`<span class="ev-x">${T('cCancelled')}</span>`:`<div class="ev-count"><b>${yes.length}</b><span>${T('cComing')}</span></div>`}</div>
-    ${cx?'':`<div class="rsvp">${b('yes','✓ '+T('cYes'),'y')}${b('maybe','? '+T('cMaybe'),'m')}${b('no','✕ '+T('cNo'),'n')}</div>
+    ${cx?'':`${can?`<div class="rsvp">${b('yes','✓ '+T('cYes'),'y')}${b('maybe','? '+T('cMaybe'),'m')}${b('no','✕ '+T('cNo'),'n')}</div>`:''}
     ${hint?`<div class="ev-hint">${hint}</div>`:''}
     ${yes.length||maybe.length||no.length?`<div class="who">${yes.map(r=>whoChip(r,'y')).join('')}${maybe.map(r=>whoChip(r,'m')).join('')}${no.length?`<span class="who-no">${T('cCountNo')(no.length)}</span>`:''}</div>`:''}
     ${yes.length>=4&&canRsvp()?`<button class="btn sm ev-teams" onclick="CL.toTeams(${+e.id})">⚖ ${T('cToTeams')}</button>`:''}`}
@@ -585,7 +586,7 @@ async function adminPage(){
     <div class="section-title"><h2>${T('cSchedule')}</h2></div>
     <form class="card adm-add" onsubmit="return CL.addEvent(event)">
       <label>${T('cDate')}<input type="date" name="date" value="${ymd}" required></label>
-      <label>${T('cTime')}<input type="time" name="time" value="10:00" required></label>
+      <label>${T('cTime')}<input type="time" name="time" value="08:00" required></label>
       <label>${T('cPlace')}<input name="place" value="Əmircan" maxlength="80" required></label>
       <label class="wide">${T('cNote')}<input name="note" maxlength="200" placeholder="${T('cNotePh')}"></label>
       <button class="btn pri" type="submit">+ ${T('cAddEvent')}</button></form>
@@ -688,7 +689,7 @@ async function endLive(){
 }
 
 /* ---------- Подключение к сайту ---------- */
-window.CL={redraw:()=>drawWidgets(),events:()=>C.events||[],isAdmin,auth,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,rsvp,toTeams,sendComment,delComment,saveName,request,changePass,
+window.CL={redraw:()=>drawWidgets(),events:()=>C.events||[],isAdmin,canDecide:()=>C.ready&&canRsvp(),auth,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,rsvp,toTeams,sendComment,delComment,saveName,request,changePass,
   approve,reject,setRole,setPlayer,resetPass,copy,addEvent,evStatus,delEvent,endLive};
 const TEAMS_PAGE=(window.FEATURE_ROUTES||{}).teams||(()=>home());
 Object.assign(window.FEATURE_ROUTES=window.FEATURE_ROUTES||{},{live:livePage,me:mePage,admin:adminPage,teams:teamsGate});

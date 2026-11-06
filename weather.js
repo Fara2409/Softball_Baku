@@ -1,5 +1,6 @@
 // Softball Baku — погода в игровые дни (Əmircan).
 // Игровые дни: все воскресенья + праздничные нерабочие дни из data/calendar.json.
+// Блок с вердиктами видят только игроки и админ; гостям — только прогноз у назначенной игры.
 // Прогноз: Open-Meteo (бесплатно, без ключа), берётся заново при открытии сайта (кэш в браузере 1 час).
 // Оценка по часам игры: дождь, вероятность дождя, гроза, ветер, холод и дождь за 12 часов до игры (мокрое поле).
 'use strict';
@@ -50,7 +51,7 @@ const r1=x=>Math.round(x*10)/10;
 function load(){
   if(W.busy) return W.busy;
   W.busy=(async()=>{
-    if(!W.cal) W.cal=await fetch('data/calendar.json?v=202611070330',{cache:'no-cache'}).then(r=>r.json());
+    if(!W.cal) W.cal=await fetch('data/calendar.json?v=202611070315',{cache:'no-cache'}).then(r=>r.json());
     let c=null; try{ c=JSON.parse(localStorage.getItem(CACHE)); }catch(e){}
     if(c&&Date.now()-c.at<TTL&&c.data&&c.data.hourly){ W.data=c.data; return; }
     const p=W.cal.place||{lat:40.4264,lon:49.9836};
@@ -161,7 +162,10 @@ function setGame(ymd){ lsSet('sb.prefillDate',ymd); location.hash='#admin'; }
 function chip(iso){
   if(!W.data) return '';
   const ymd=evYmd(iso), e=evalDay(ymd,evHM(iso)); if(!e) return '';
-  return `<span class="wx-chip ${e.v}" title="${esc(e.why.join(' · ')||T('wxNoRain'))}">${icon(e.code)} ${e.tmax??e.dmax}° · ${T(VL[e.v])}</span>`;
+  const t=e.tmax??e.dmax;
+  if(!(window.CL&&CL.canDecide&&CL.canDecide())) // гостям — просто прогноз, без «можно / нельзя играть»
+    return `<span class="wx-chip">${icon(e.code)} ${t}° · ${e.rain>=0.2?T('wxRain')(e.rain):T('wxNoRain')}${e.prob!=null&&e.prob>=30?` · ☔ ${e.prob}%`:''}</span>`;
+  return `<span class="wx-chip ${e.v}" title="${esc(e.why.join(' · ')||T('wxNoRain'))}">${icon(e.code)} ${t}° · ${T(VL[e.v])}</span>`;
 }
 window.WX={copy,setGame,chip,candidates,drawSec,ready:()=>!!W.data};
 
@@ -170,6 +174,8 @@ const _route=route; route=function(){
   const h=(location.hash||'').slice(1), page=h.split('-')[0];
   const FR=window.FEATURE_ROUTES||{}, isHome=!['player','game','games'].includes(page)&&!FR[page];
   if(!(isHome||page==='games')||!S.league) return;
+  // блок «можно ли играть» — только игрокам и админу: гости в этом решении не участвуют
+  if(!(window.CL&&CL.canDecide&&CL.canDecide())){ if(!W.data) load().then(()=>{ if(window.CL&&CL.redraw) CL.redraw(); }); return; }
   const A=app(), sec=`<div id="wx-sec" class="wx-sec" data-compact="${isHome?1:0}">${section(isHome)}</div>`;
   const anchor=isHome?document.getElementById('cl-next'):document.getElementById('cl-sched');
   if(anchor) anchor.insertAdjacentHTML('afterend',sec); else A.insertAdjacentHTML('afterbegin',sec);
