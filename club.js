@@ -43,7 +43,7 @@ Object.assign(I18N.ru,{
   cFinal:'Игра окончена',cFinalShort:'Итог',cPaused:'Нет обновлений',cAtBat:'Отбивает',cOnDeck:'Следующий',cFirstPA:'первый выход сегодня',cTodayL:'сегодня',
   cPlays:'Последние розыгрыши',cLiveBox:'Статистика по ходу игры',cLiveRt:'рейтинг по ходу игры',cUpdated:'обновлено',cWatchLive:'Смотреть онлайн',cRuns:'ран',
   cPl:PL_RU,cComments:'Комментарии',cWrite:'Напишите комментарий…',cSend:'Отправить',cLoginToComment:'Войдите, чтобы комментировать',cNoComments:'Комментариев пока нет',
-  cOffline:'Онлайн-функции сейчас недоступны',cPendingN:n=>`Новых заявок: ${n}`,cNow:'сейчас'
+  cOffline:'Онлайн-функции сейчас недоступны',cTeamsOnly:'Деление на команды — только для игроков',cTeamsOnlyTxt:'Войдите под аккаунтом игрока. Если вы в команде, но ещё не подтверждены, отправьте заявку в профиле.',cPendingN:n=>`Новых заявок: ${n}`,cNow:'сейчас'
 });
 Object.assign(I18N.az,{
   cLogin:'Daxil ol',cSignup:'Qeydiyyat',cGuest:'Qonaq kimi davam et',cWelcome:'Xoş gəlmisiniz!',
@@ -74,7 +74,7 @@ Object.assign(I18N.az,{
   cFinal:'Oyun bitdi',cFinalShort:'Yekun',cPaused:'Yenilənmə yoxdur',cAtBat:'Vuruşda',cOnDeck:'Növbəti',cFirstPA:'bu gün ilk çıxışı',cTodayL:'bu gün',
   cPlays:'Son anlar',cLiveBox:'Oyun boyu statistika',cLiveRt:'oyun boyu reytinq',cUpdated:'yeniləndi',cWatchLive:'Canlı izlə',cRuns:'ran',
   cPl:PL_AZ,cComments:'Şərhlər',cWrite:'Şərh yazın…',cSend:'Göndər',cLoginToComment:'Şərh yazmaq üçün daxil olun',cNoComments:'Hələ şərh yoxdur',
-  cOffline:'Onlayn funksiyalar hazırda əlçatan deyil',cPendingN:n=>`Yeni sorğular: ${n}`,cNow:'indi'
+  cOffline:'Onlayn funksiyalar hazırda əlçatan deyil',cTeamsOnly:'Komandalara bölmə yalnız oyunçular üçündür',cTeamsOnlyTxt:'Oyunçu hesabı ilə daxil olun. Komandadasınızsa, amma hələ təsdiqlənməmisinizsə, profildə sorğu göndərin.',cPendingN:n=>`Yeni sorğular: ${n}`,cNow:'indi'
 });
 Object.assign(I18N.en,{
   cLogin:'Log in',cSignup:'Sign up',cGuest:'Continue as guest',cWelcome:'Welcome!',
@@ -105,7 +105,7 @@ Object.assign(I18N.en,{
   cFinal:'Final',cFinalShort:'Final',cPaused:'No updates',cAtBat:'At bat',cOnDeck:'On deck',cFirstPA:'first time up today',cTodayL:'today',
   cPlays:'Latest plays',cLiveBox:'Live box score',cLiveRt:'live rating',cUpdated:'updated',cWatchLive:'Watch live',cRuns:'runs',
   cPl:PL_EN,cComments:'Comments',cWrite:'Write a comment…',cSend:'Send',cLoginToComment:'Log in to comment',cNoComments:'No comments yet',
-  cOffline:'Online features are unavailable right now',cPendingN:n=>`New requests: ${n}`,cNow:'now'
+  cOffline:'Online features are unavailable right now',cTeamsOnly:'Team split is for players only',cTeamsOnlyTxt:"Log in with a player account. If you're on the team but not confirmed yet, send a request in your profile.",cPendingN:n=>`New requests: ${n}`,cNow:'now'
 });
 
 /* ---------- Состояние ---------- */
@@ -214,7 +214,17 @@ function subscribe(){
 
 /* ---------- Шапка: кнопка входа / меню, значок «онлайн» ---------- */
 function pendingCount(){ return Object.values(C.profiles).filter(p=>p.requested_player_id&&!p.player_id).length; }
+// «Составы» (деление на команды) видят только игроки и админ
+function applyGates(){ const ok=C.ready&&canRsvp(); document.querySelectorAll('a[href="#teams"]').forEach(a=>{ a.hidden=!ok; }); }
+function teamsGate(id){
+  C.page='teams';
+  if(canRsvp()) return TEAMS_PAGE(id);
+  if(!C.ready&&!C.failed){ app().innerHTML=`<div class="loading">…</div>`; return; }
+  app().innerHTML=`<div class="card empty cl-out"><div class="lv-none-ic">⚖</div><h2>${T('cTeamsOnly')}</h2><p>${T('cTeamsOnlyTxt')}</p>
+    <div class="cl-btns">${C.user?`<a class="btn pri" href="#me">${T('cRequest')}</a>`:`<button class="btn pri" onclick="CL.auth('login')">${T('cLogin')}</button><button class="btn" onclick="CL.auth('signup')">${T('cSignup')}</button>`}</div></div>`;
+}
 function renderAcct(){
+  applyGates();
   const box=$id('acct'); if(!box) return;
   if(!C.ok||!C.ready){ box.innerHTML=''; return; }
   if(!C.user){ box.innerHTML=`<button class="btn sm acct-in" onclick="CL.auth('login')">${T('cLogin')}</button>`; return; }
@@ -329,7 +339,7 @@ async function onSession(session,force){
   C.user=session?session.user:null;
   if(changed||force){ if(C.user){ await loadProfile(); loadProfiles(true).then(renderAcct); } else C.profile=null; }
   const wasFirst=!C.ready; C.ready=true; renderAcct();
-  if(force||(changed&&(C.user||!wasFirst))||(wasFirst&&['me','admin'].includes(C.page))) rerender();
+  if(force||(changed&&(C.user||!wasFirst))||(wasFirst&&['me','admin','teams'].includes(C.page))) rerender();
   maybeWelcome();
 }
 function maybeWelcome(){
@@ -357,7 +367,7 @@ function evCard(e,compact){
     ${cx?'':`<div class="rsvp">${b('yes','✓ '+T('cYes'),'y')}${b('maybe','? '+T('cMaybe'),'m')}${b('no','✕ '+T('cNo'),'n')}</div>
     ${hint?`<div class="ev-hint">${hint}</div>`:''}
     ${yes.length||maybe.length||no.length?`<div class="who">${yes.map(r=>whoChip(r,'y')).join('')}${maybe.map(r=>whoChip(r,'m')).join('')}${no.length?`<span class="who-no">${T('cCountNo')(no.length)}</span>`:''}</div>`:''}
-    ${yes.length>=4?`<button class="btn sm ev-teams" onclick="CL.toTeams(${+e.id})">⚖ ${T('cToTeams')}</button>`:''}`}
+    ${yes.length>=4&&canRsvp()?`<button class="btn sm ev-teams" onclick="CL.toTeams(${+e.id})">⚖ ${T('cToTeams')}</button>`:''}`}
   </div>`;
 }
 async function rsvp(eid,status){
@@ -677,7 +687,9 @@ async function endLive(){
 /* ---------- Подключение к сайту ---------- */
 window.CL={auth,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,rsvp,toTeams,sendComment,delComment,saveName,request,changePass,
   approve,reject,setRole,setPlayer,resetPass,copy,addEvent,evStatus,delEvent,endLive};
-Object.assign(window.FEATURE_ROUTES=window.FEATURE_ROUTES||{},{live:livePage,me:mePage,admin:adminPage});
+const TEAMS_PAGE=(window.FEATURE_ROUTES||{}).teams||(()=>home());
+Object.assign(window.FEATURE_ROUTES=window.FEATURE_ROUTES||{},{live:livePage,me:mePage,admin:adminPage,teams:teamsGate});
+applyGates();
 const _route=route; route=function(){ C.page=''; _route(); afterRoute(); };
 const _chrome=chrome; chrome=function(){ _chrome(); renderAcct(); renderPill(); };
 
@@ -686,7 +698,7 @@ function loadSdk(){
   if(window.supabase&&window.supabase.createClient){ init(); return; }
   const src=['https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2','https://unpkg.com/@supabase/supabase-js@2'];
   const next=i=>{
-    if(i>=src.length){ C.failed=true; console.warn('[club] supabase-js не загрузился'); if(['live','me','admin'].includes(C.page)) rerender(); return; }
+    if(i>=src.length){ C.failed=true; console.warn('[club] supabase-js не загрузился'); if(['live','me','admin','teams'].includes(C.page)) rerender(); return; }
     const sc=document.createElement('script'); sc.src=src[i]; sc.async=true;
     sc.onload=()=>{ if(window.supabase&&window.supabase.createClient) init(); else next(i+1); }; sc.onerror=()=>next(i+1);
     document.head.appendChild(sc);
