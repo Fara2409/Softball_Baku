@@ -1,0 +1,41 @@
+/* Softball Baku — погода в игровые дни */
+.wx-sec{margin-bottom:8px}
+.wx-title{margin-top:8px}
+.wx-sec .section-title{align-items:center}
+.wx-sub{margin:-6px 0 14px;font-size:13px}
+.wx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:12px}
+.wx-card{padding:14px 16px;display:flex;flex-direction:column;gap:8px;position:relative;border-top:3px solid var(--line)}
+.wx-card.good{border-top-color:var(--r-good)}
+.wx-card.risk{border-top-color:var(--r-mid)}
+.wx-card.bad{border-top-color:var(--r-low);opacity:.85}
+.wx-card.best{box-shadow:0 0 0 1px var(--amber) inset;background:linear-gradient(180deg,rgba(239,159,39,.08),var(--panel) 60%)}
+.wx-h{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.wx-h b{font-size:15px;font-weight:800;width:100%}
+.wx-hol{font-size:11px;font-weight:800;letter-spacing:.5px;color:#ffd38a;background:rgba(239,159,39,.12);border:1px solid rgba(239,159,39,.35);border-radius:999px;padding:2px 8px}
+.wx-best{font-size:11px;font-weight:800;color:#0b1626;background:var(--amber);border-radius:999px;padding:2px 8px}
+.wx-m{display:flex;align-items:center;gap:10px}
+.wx-ic{font-size:30px;line-height:1}
+.wx-t{font-size:26px;font-weight:900;font-style:italic}
+.wx-t i{font-size:16px;color:var(--muted);font-style:italic;font-weight:700}
+.wx-v{display:flex;align-items:center;gap:8px;font-weight:800;font-size:15px}
+.wx-v i{width:10px;height:10px;border-radius:50%;flex:none}
+.good .wx-v i{background:var(--r-good)}.good .wx-v{color:#6fd69b}
+.risk .wx-v i{background:var(--r-mid)}.risk .wx-v{color:#f3b25e}
+.bad .wx-v i{background:var(--r-low)}.bad .wx-v{color:#ff9a9a}
+.wx-d{font-size:12px;color:var(--muted);line-height:1.5}
+.wx-why{font-size:12px;color:#d5dde8;line-height:1.45}
+.wx-far{font-size:11px;color:var(--dim);font-style:italic}
+.wx-ev{font-size:12px;font-weight:700;color:var(--amber)}
+.wx-set{align-self:flex-start;margin-top:2px}
+.wx-src{margin:8px 0 0;font-size:11px;text-align:right}
+.wx-src a{color:var(--dim)}
+.wx-chip{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;margin-top:4px;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:700;background:var(--panel2);border:1px solid var(--line)}
+.wx-chip.good{color:#6fd69b;border-color:rgba(47,174,102,.4)}
+.wx-chip.risk{color:#f3b25e;border-color:rgba(232,145,45,.45)}
+.wx-chip.bad{color:#ff9a9a;border-color:rgba(217,83,79,.5)}
+@media (max-width:820px){
+  .wx-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;margin:0 -14px;padding:0 14px 6px;scrollbar-width:none}
+  .wx-grid::-webkit-scrollbar{display:none}
+  .wx-card{flex:0 0 72%;scroll-snap-align:start}
+  .wx-sec .section-title .btn{padding:6px 10px;font-size:12px}
+}

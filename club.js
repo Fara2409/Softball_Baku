@@ -362,7 +362,7 @@ function evCard(e,compact){
     :pr.requested_player_id&&!pr.player_id?T('cWaitApproval'):`${T('cOnlyPlayers')} · <a class="cl-link" href="#me">${T('cRequest')}</a>`;
   return `<div class="card ev ${cx?'cancelled':''} ${compact?'compact':''}" data-ev="${+e.id}">
     <div class="ev-head"><div class="ev-when">${compact?`<span class="eyebrow">${T('cNextOne')}</span>`:''}<b>${evWhen(e.starts_at)}</b>
-      <span class="muted">${esc(e.place||'')}${e.note?` · ${esc(e.note)}`:''}</span></div>
+      <span class="muted">${esc(e.place||'')}${e.note?` · ${esc(e.note)}`:''}</span>${!cx&&window.WX?WX.chip(e.starts_at):''}</div>
       ${cx?`<span class="ev-x">${T('cCancelled')}</span>`:`<div class="ev-count"><b>${yes.length}</b><span>${T('cComing')}</span></div>`}</div>
     ${cx?'':`<div class="rsvp">${b('yes','✓ '+T('cYes'),'y')}${b('maybe','? '+T('cMaybe'),'m')}${b('no','✕ '+T('cNo'),'n')}</div>
     ${hint?`<div class="ev-hint">${hint}</div>`:''}
@@ -402,6 +402,7 @@ function drawWidgets(){
       (C.events.length?`<div class="ev-list">${C.events.map(e=>evCard(e,false)).join('')}</div>`:`<div class="card empty" style="margin-top:0">${T('cNoEvents')}</div>`);
   }
   if(C.page==='admin'&&$id('adm-ev')) drawAdminEvents();
+  if(window.WX&&WX.drawSec) WX.drawSec();
 }
 function afterRoute(){
   const h=(location.hash||'').slice(1), i=h.indexOf('-'), page=i<0?h:h.slice(0,i), id=i<0?'':decodeURIComponent(h.slice(i+1));
@@ -577,7 +578,8 @@ async function adminPage(){
   if(!C.ok){ app().innerHTML=notReady(); return; }
   if(!C.ready){ app().innerHTML=`<div class="loading">…</div>`; return; }
   if(!isAdmin()){ app().innerHTML=`<div class="card empty">${T('cErrPerm')}</div>`; return; }
-  const d=new Date(Date.now()+864e5), ymd=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const d=new Date(Date.now()+864e5), pre=lsGet('sb.prefillDate',null), ymd=pre||`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  if(pre) lsSet('sb.prefillDate',null);
   app().innerHTML=`<div class="pagehead"><span class="eyebrow">${S.league||''}</span><h1>${T('cAdminTitle')}</h1></div>
     <div class="section-title" style="margin-top:0"><h2>${T('cRequests')}</h2></div><div id="adm-req"><div class="loading">…</div></div>
     <div class="section-title"><h2>${T('cSchedule')}</h2></div>
@@ -590,6 +592,7 @@ async function adminPage(){
     <div id="adm-ev"></div>
     <div class="section-title"><h2>${T('cLiveAdmin')}</h2></div><div id="adm-live"></div>
     <div class="section-title"><h2>${T('cUsers')}</h2></div><div id="adm-users"><div class="loading">…</div></div>`;
+  if(pre){ const f=document.querySelector('.adm-add'); if(f){ f.scrollIntoView({block:'center'}); f.classList.add('flash'); } }
   drawAdminLive(); await Promise.all([admLoadUsers(),admLoadEvents()]);
 }
 async function admLoadUsers(){
@@ -685,7 +688,7 @@ async function endLive(){
 }
 
 /* ---------- Подключение к сайту ---------- */
-window.CL={auth,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,rsvp,toTeams,sendComment,delComment,saveName,request,changePass,
+window.CL={redraw:()=>drawWidgets(),events:()=>C.events||[],isAdmin,auth,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,rsvp,toTeams,sendComment,delComment,saveName,request,changePass,
   approve,reject,setRole,setPlayer,resetPass,copy,addEvent,evStatus,delEvent,endLive};
 const TEAMS_PAGE=(window.FEATURE_ROUTES||{}).teams||(()=>home());
 Object.assign(window.FEATURE_ROUTES=window.FEATURE_ROUTES||{},{live:livePage,me:mePage,admin:adminPage,teams:teamsGate});

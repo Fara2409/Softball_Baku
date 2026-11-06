@@ -189,6 +189,8 @@ table.lb.lv-bx{min-width:0}
 /* админка */
 .adm-add{display:grid;grid-template-columns:160px 120px 1fr 1.4fr auto;gap:12px;align-items:end;padding:16px 18px}
 .adm-add .btn{height:44px;white-space:nowrap}
+.adm-add.flash{animation:admf 1.6s ease-out}
+@keyframes admf{0%{box-shadow:0 0 0 3px var(--amber)}100%{box-shadow:0 0 0 0 transparent}}
 .adm-list{padding:4px 0;margin-top:12px}
 #adm-req .adm-list{margin-top:0}
 .adm-ev,.adm-user,.adm-req{display:flex;align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
