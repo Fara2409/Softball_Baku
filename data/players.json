@@ -251,6 +251,20 @@
     "CF"
    ],
    "photo": null
+  },
+  {
+   "id": "isgandar-talibov",
+   "first": "Isgandar",
+   "last": "Talibov",
+   "first_ru": "Искендер",
+   "last_ru": "Талыбов",
+   "first_az": "İsgəndər",
+   "last_az": "Talıbov",
+   "number": 12,
+   "positions": [
+    "P"
+   ],
+   "photo": null
   }
  ]
 }
