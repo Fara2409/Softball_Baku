@@ -17,7 +17,7 @@ const PL_EN={'1B':'Single','2B':'Double','3B':'Triple',HR:'Home run',BB:'Walk',K
 Object.assign(I18N.ru,{
   cLogin:'Войти',cSignup:'Регистрация',cGuest:'Продолжить как гость',cWelcome:'Добро пожаловать!',
   cWelcomeTxt:'Смотреть сайт можно без регистрации. С аккаунтом можно писать комментарии, а игроки отмечают, придут ли на игру.',
-  cName:'Ваше имя',cEmail:'Эл. почта',cPass:'Пароль',cPassHint:'минимум 6 символов',cIAm:'Вы играете в команде?',cFan:'— Нет, я болельщик —',
+  cName:'Ваше имя',cEmail:'Эл. почта',cPass:'Пароль',cPass2:'Повторите пароль',cErrMismatch:'Пароли не совпадают',cPassHint:'минимум 6 символов',cIAm:'Вы играете в команде?',cFan:'— Нет, я болельщик —',
   cIAmHint:'Когда админ подтвердит, сможете отмечать «буду / не буду».',cForgot:'Забыли пароль?',
   cForgotTxt:'Напишите админу — он задаст вам временный пароль. После входа поменяйте его в профиле.',cBack:'Назад',cTakenSfx:'уже зарегистрирован',
   cErrCreds:'Неверная почта или пароль',cErrExists:'Эта почта уже зарегистрирована — войдите',cErrShort:'Пароль должен быть не короче 6 символов',
@@ -48,7 +48,7 @@ Object.assign(I18N.ru,{
 Object.assign(I18N.az,{
   cLogin:'Daxil ol',cSignup:'Qeydiyyat',cGuest:'Qonaq kimi davam et',cWelcome:'Xoş gəlmisiniz!',
   cWelcomeTxt:'Saytı izləmək üçün qeydiyyat lazım deyil. Hesabla şərh yaza bilərsiniz, oyunçular isə oyuna gəlib-gəlməyəcəklərini qeyd edir.',
-  cName:'Adınız',cEmail:'E-poçt',cPass:'Şifrə',cPassHint:'ən azı 6 simvol',cIAm:'Komandada oynayırsınız?',cFan:'— Xeyr, mən azarkeşəm —',
+  cName:'Adınız',cEmail:'E-poçt',cPass:'Şifrə',cPass2:'Şifrəni təkrarlayın',cErrMismatch:'Şifrələr eyni deyil',cPassHint:'ən azı 6 simvol',cIAm:'Komandada oynayırsınız?',cFan:'— Xeyr, mən azarkeşəm —',
   cIAmHint:'Admin təsdiq edəndən sonra «gələcəyəm / gəlməyəcəyəm» qeyd edə biləcəksiniz.',cForgot:'Şifrəni unutmusunuz?',
   cForgotTxt:'Adminə yazın — o sizə müvəqqəti şifrə verəcək. Daxil olandan sonra onu profilinizdə dəyişin.',cBack:'Geri',cTakenSfx:'artıq qeydiyyatdadır',
   cErrCreds:'E-poçt və ya şifrə səhvdir',cErrExists:'Bu e-poçt artıq qeydiyyatdadır — daxil olun',cErrShort:'Şifrə ən azı 6 simvol olmalıdır',
@@ -79,7 +79,7 @@ Object.assign(I18N.az,{
 Object.assign(I18N.en,{
   cLogin:'Log in',cSignup:'Sign up',cGuest:'Continue as guest',cWelcome:'Welcome!',
   cWelcomeTxt:'You can browse without an account. With one you can comment, and players mark whether they are coming to games.',
-  cName:'Your name',cEmail:'Email',cPass:'Password',cPassHint:'at least 6 characters',cIAm:'Do you play on the team?',cFan:"— No, I'm a fan —",
+  cName:'Your name',cEmail:'Email',cPass:'Password',cPass2:'Repeat password',cErrMismatch:"Passwords don't match",cPassHint:'at least 6 characters',cIAm:'Do you play on the team?',cFan:"— No, I'm a fan —",
   cIAmHint:"Once the admin confirms, you can mark whether you're coming.",cForgot:'Forgot password?',
   cForgotTxt:'Message the admin — they will set a temporary password for you. Change it in your profile after logging in.',cBack:'Back',cTakenSfx:'already registered',
   cErrCreds:'Wrong email or password',cErrExists:'This email is already registered — log in',cErrShort:'Password must be at least 6 characters',
@@ -275,6 +275,7 @@ function auth(mode){
       <label>${T('cName')}<input name="name" autocomplete="name" maxlength="40" required></label>
       <label>${T('cEmail')}<input name="email" type="email" autocomplete="email" inputmode="email" required></label>
       <label><span>${T('cPass')} <span class="muted">· ${T('cPassHint')}</span></span><input name="pass" type="password" autocomplete="new-password" minlength="6" required></label>
+      <label>${T('cPass2')}<input name="pass2" type="password" autocomplete="new-password" minlength="6" required></label>
       <label>${T('cIAm')}<select name="player">${playerOptions('')}</select><span class="cl-hint">${T('cIAmHint')}</span></label>
       <div class="cl-err" id="cl-err"></div><button class="btn pri big" type="submit">${T('cSignup')}</button></form>${guest}`;
   } else {
@@ -306,6 +307,7 @@ async function doSignup(ev){
   if(!name){ formErr(T('cErrName')); return false; }
   if(!/^\S+@\S+\.\S+$/.test(email)){ formErr(T('cErrEmail')); return false; }
   if(pass.length<6){ formErr(T('cErrShort')); return false; }
+  if(pass!==f.pass2.value){ formErr(T('cErrMismatch')); f.pass2.focus(); return false; }
   formBusy(f,true); formErr('');
   try{
     const {data,error}=await C.sb.auth.signUp({email,password:pass,options:{data:{display_name:name,requested_player_id:pid||null}}});
@@ -534,7 +536,7 @@ function mePage(){
   if(p) h+=`<a class="me-pl" href="#player-${esc(p.id)}">${av(p,'m')}<div><b>${esc(pname(p))}</b><span>#${p.number} · ${T('cLinked')}</span></div></a>`;
   else if(req) h+=`<p class="cl-p">${T('cPending')(`#${req.number} ${esc(pname(req))}`)}</p><button class="btn sm" onclick="CL.request(null)">${T('cCancelReq')}</button>`;
   else h+=`<form class="cl-row" onsubmit="return CL.request(this.player.value)"><select name="player">${playerOptions('')}</select><button class="btn sm" type="submit">${T('cSendReq')}</button></form><span class="cl-hint">${T('cIAmHint')}</span>`;
-  h+=`</div><div class="card me-card"><h3>${T('cChangePass')}</h3><form class="cl-row" onsubmit="return CL.changePass(event)"><input name="pass" type="password" autocomplete="new-password" minlength="6" placeholder="${T('cNewPass')} · ${T('cPassHint')}" required><button class="btn sm" type="submit">${T('cSave')}</button></form></div>
+  h+=`</div><div class="card me-card"><h3>${T('cChangePass')}</h3><form class="cl-row cl-col" onsubmit="return CL.changePass(event)"><input name="pass" type="password" autocomplete="new-password" minlength="6" placeholder="${T('cNewPass')} · ${T('cPassHint')}" required><input name="pass2" type="password" autocomplete="new-password" minlength="6" placeholder="${T('cPass2')}" required><button class="btn sm" type="submit">${T('cSave')}</button></form></div>
     </div><button class="btn me-out" onclick="CL.logout()">${T('cLogout')}</button>`;
   app().innerHTML=h;
   if(!C.profAt) loadProfiles().then(()=>{ if(C.page==='me'&&!p&&!req) { const s=app().querySelector('select[name=player]'); if(s) s.innerHTML=playerOptions(''); } });
@@ -552,9 +554,10 @@ async function request(pid){
 }
 async function changePass(ev){
   ev.preventDefault(); const f=ev.target, v=f.pass.value; if(v.length<6){ toast(T('cErrShort')); return false; }
+  if(v!==f.pass2.value){ toast(T('cErrMismatch')); f.pass2.focus(); return false; }
   const {error}=await C.sb.auth.updateUser({password:v});
   if(error){ fail(error); return false; }
-  f.pass.value=''; toast(T('cPassChanged')); return false;
+  f.pass.value=''; f.pass2.value=''; toast(T('cPassChanged')); return false;
 }
 
 /* ---------- Админка ---------- */

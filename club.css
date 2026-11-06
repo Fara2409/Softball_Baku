@@ -54,6 +54,8 @@
 .cl-temp{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:24px;font-weight:800;letter-spacing:1px;text-align:center;padding:16px;border-radius:12px;background:var(--bg);border:1px dashed var(--amber);color:var(--amber);margin:0 0 12px;user-select:all}
 .cl-row{display:flex;gap:8px}
 .cl-row .btn{flex:none}
+.cl-col{flex-direction:column}
+.cl-col .btn{align-self:flex-start}
 
 /* расписание */
 .cl-sched{margin-bottom:34px}
