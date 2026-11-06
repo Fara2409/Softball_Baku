@@ -206,7 +206,7 @@
    "last_az": "",
    "number": 21,
    "positions": [
-    "LF"
+    "CF"
    ],
    "photo": null
   },
@@ -221,6 +221,20 @@
    "number": 22,
    "positions": [
     "LF"
+   ],
+   "photo": null
+  },
+  {
+   "id": "ilham",
+   "first": "Ilham",
+   "last": "",
+   "first_ru": "Ильхам",
+   "last_ru": "",
+   "first_az": "İlham",
+   "last_az": "",
+   "number": 9,
+   "positions": [
+    "RF"
    ],
    "photo": null
   }
