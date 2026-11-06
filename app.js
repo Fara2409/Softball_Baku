@@ -49,14 +49,15 @@ const T=k=>I18N[LANG][k];
 //   FPO: сам сделал аут (поймал флай или аут без передачи)
 //   KPO: PO кэтчера за страйк-аут, 0 очков
 //   остальные PO: принял бросок в цепочке (6-3 → PO первому бейсмену)
+// PK: страйк-аут, пока этот игрок подавал (питчер), +0.25
 const BASE=6.0;
 const W={'1B':.45,'2B':.75,'3B':1.0,HR:1.4,BB:.3,R:.15,RBI:.15,SB:.15,OUT:-.25,K:-.35,
-  FPO:.15,A:.12,RPO:.04,KPO:0,E:-.4,WIN:.25};
+  FPO:.15,A:.12,RPO:.04,KPO:0,PK:.25,E:-.4,WIN:.25};
 function rating(b,won){
   const outs=Math.max(0,b.AB-b.H-b.K);
   const off=W['1B']*b['1B']+W['2B']*b['2B']+W['3B']*b['3B']+W.HR*b.HR+W.BB*b.BB+W.R*b.R+W.RBI*b.RBI+W.SB*(b.SB||0)+W.OUT*outs+W.K*b.K;
   const fpo=b.FPO||0,kpo=b.KPO||0,rpo=Math.max(0,(b.PO||0)-fpo-kpo); // в старых протоколах без FPO/KPO все PO считаются принятыми бросками
-  const def=W.FPO*fpo+W.KPO*kpo+W.RPO*rpo+W.A*(b.A||0)+W.E*(b.E||0);
+  const def=W.FPO*fpo+W.KPO*kpo+W.RPO*rpo+W.A*(b.A||0)+W.PK*(b.PK||0)+W.E*(b.E||0);
   return Math.round(Math.min(10,Math.max(3,BASE+off+def+(won?W.WIN:0)))*10)/10;
 }
 function rclass(r){return r==null?'na':r>=9?'elite':r>=8?'great':r>=7?'good':r>=6?'mid':'low'}
