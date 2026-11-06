@@ -38,7 +38,7 @@ Object.assign(I18N.ru,{
   cSchedule:'Расписание игр',cAddEvent:'Добавить игру',cDate:'Дата',cTime:'Время',cPlace:'Место',cNote:'Примечание',cNotePh:'например: берём свои перчатки',
   cCancelEv:'Отменить',cRestoreEv:'Вернуть',cDelete:'Удалить',cDelQ:'Удалить?',cPast:'прошла',cLiveAdmin:'Онлайн-счёт',
   cLiveHow:'Откройте на телефоне приложение для записи игры, войдя под аккаунтом админа, — счёт будет транслироваться на сайт автоматически.',
-  cOpenScorer:'Открыть запись игры',cEndLive:'Завершить трансляцию',cNoLiveRow:'Трансляций пока не было',cYou:'вы',cLastSeen:'вход',cNever:'не входил',
+  cOpenScorer:'Открыть запись игры',cEndLive:'Завершить трансляцию',cDelLive:'Удалить',cDelLiveQ:'Удалить этот онлайн-счёт вместе с комментариями? Отменить будет нельзя.',cNoLiveRow:'Трансляций пока не было',cYou:'вы',cLastSeen:'вход',cNever:'не входил',
   cLive:'Онлайн',cLivePill:'ОНЛАЙН',cNoLive:'Сейчас игра не идёт',cNoLiveTxt:'Когда начнётся игра, счёт появится здесь в реальном времени.',
   cFinal:'Игра окончена',cFinalShort:'Итог',cPaused:'Нет обновлений',cAtBat:'Отбивает',cOnDeck:'Следующий',cFirstPA:'первый выход сегодня',cTodayL:'сегодня',
   cPlays:'Последние розыгрыши',cLiveBox:'Статистика по ходу игры',cLiveRt:'рейтинг по ходу игры',cUpdated:'обновлено',cWatchLive:'Смотреть онлайн',cRuns:'ран',
@@ -69,7 +69,7 @@ Object.assign(I18N.az,{
   cSchedule:'Oyun cədvəli',cAddEvent:'Oyun əlavə et',cDate:'Tarix',cTime:'Saat',cPlace:'Yer',cNote:'Qeyd',cNotePh:'məsələn: əlcəklərinizi götürün',
   cCancelEv:'Ləğv et',cRestoreEv:'Bərpa et',cDelete:'Sil',cDelQ:'Silinsin?',cPast:'keçib',cLiveAdmin:'Canlı hesab',
   cLiveHow:'Telefonda oyun qeydi tətbiqini admin hesabı ilə açın — hesab sayta avtomatik canlı ötürüləcək.',
-  cOpenScorer:'Oyun qeydini aç',cEndLive:'Yayımı bitir',cNoLiveRow:'Hələ canlı yayım olmayıb',cYou:'siz',cLastSeen:'giriş',cNever:'daxil olmayıb',
+  cOpenScorer:'Oyun qeydini aç',cEndLive:'Yayımı bitir',cDelLive:'Sil',cDelLiveQ:'Bu canlı hesab şərhləri ilə birlikdə silinsin? Geri qaytarmaq olmayacaq.',cNoLiveRow:'Hələ canlı yayım olmayıb',cYou:'siz',cLastSeen:'giriş',cNever:'daxil olmayıb',
   cLive:'Canlı',cLivePill:'CANLI',cNoLive:'Hazırda oyun getmir',cNoLiveTxt:'Oyun başlayanda hesab burada canlı göstəriləcək.',
   cFinal:'Oyun bitdi',cFinalShort:'Yekun',cPaused:'Yenilənmə yoxdur',cAtBat:'Vuruşda',cOnDeck:'Növbəti',cFirstPA:'bu gün ilk çıxışı',cTodayL:'bu gün',
   cPlays:'Son anlar',cLiveBox:'Oyun boyu statistika',cLiveRt:'oyun boyu reytinq',cUpdated:'yeniləndi',cWatchLive:'Canlı izlə',cRuns:'ran',
@@ -100,7 +100,7 @@ Object.assign(I18N.en,{
   cSchedule:'Game schedule',cAddEvent:'Add game',cDate:'Date',cTime:'Time',cPlace:'Place',cNote:'Note',cNotePh:'e.g. bring your own gloves',
   cCancelEv:'Cancel',cRestoreEv:'Restore',cDelete:'Delete',cDelQ:'Delete?',cPast:'past',cLiveAdmin:'Live score',
   cLiveHow:'Open the game scorer on your phone while logged in as admin — the score will stream to the site automatically.',
-  cOpenScorer:'Open the scorer',cEndLive:'End broadcast',cNoLiveRow:'No broadcasts yet',cYou:'you',cLastSeen:'login',cNever:'never',
+  cOpenScorer:'Open the scorer',cEndLive:'End broadcast',cDelLive:'Delete',cDelLiveQ:'Delete this live score together with its comments? This cannot be undone.',cNoLiveRow:'No broadcasts yet',cYou:'you',cLastSeen:'login',cNever:'never',
   cLive:'Live',cLivePill:'LIVE',cNoLive:'No game in progress',cNoLiveTxt:'When a game starts, the score will appear here in real time.',
   cFinal:'Final',cFinalShort:'Final',cPaused:'No updates',cAtBat:'At bat',cOnDeck:'On deck',cFirstPA:'first time up today',cTodayL:'today',
   cPlays:'Latest plays',cLiveBox:'Live box score',cLiveRt:'live rating',cUpdated:'updated',cWatchLive:'Watch live',cRuns:'runs',
@@ -628,7 +628,7 @@ function drawAdminLive(){
     ${r?`<div class="adm-live-row"><span class="lv-tag ${isLiveNow(r)?'on':''}">${isLiveNow(r)?`<i></i>${T('cLivePill')}`:r.status==='final'?T('cFinal'):T('cPaused')}</span>
       <b>${esc(r.id)}</b><span>${esc(((d.teams||{}).A||{}).name||'A')} ${s.A??0} : ${s.B??0} ${esc(((d.teams||{}).B||{}).name||'B')}</span>
       <span class="muted">${T('cUpdated')} ${whenShort(r.updated_at)}</span>
-      ${r.status==='live'?`<button class="btn sm" onclick="CL.endLive()">${T('cEndLive')}</button>`:''}</div>`:`<p class="muted">${T('cNoLiveRow')}</p>`}</div>`;
+      ${r.status==='live'?`<button class="btn sm" onclick="CL.endLive()">${T('cEndLive')}</button>`:''}<button class="btn sm danger" onclick="CL.delLive()">🗑 ${T('cDelLive')}</button></div>`:`<p class="muted">${T('cNoLiveRow')}</p>`}</div>`;
 }
 function drawAdminUsers(){
   const el=$id('adm-users'), rq=$id('adm-req'); if(!el||!ADM.users) return;
@@ -688,9 +688,19 @@ async function endLive(){
   if(error){ fail(error); return; } await loadLive(); drawAdminLive();
 }
 
+// удалить онлайн-счёт (например, тестовый) вместе с комментариями к нему
+async function delLive(){
+  if(!C.live||!confirm(T('cDelLiveQ'))) return;
+  const id=C.live.id;
+  const {error}=await C.sb.from('live_games').delete().eq('id',id);
+  if(error){ fail(error); return; }
+  await C.sb.from('comments').delete().eq('target','live:'+id);
+  toast('✓'); await loadLive(); drawAdminLive();
+}
+
 /* ---------- Подключение к сайту ---------- */
 window.CL={redraw:()=>drawWidgets(),events:()=>C.events||[],isAdmin,canDecide:()=>C.ready&&canRsvp(),auth,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,rsvp,toTeams,sendComment,delComment,saveName,request,changePass,
-  approve,reject,setRole,setPlayer,resetPass,copy,addEvent,evStatus,delEvent,endLive};
+  approve,reject,setRole,setPlayer,resetPass,copy,addEvent,evStatus,delEvent,endLive,delLive};
 const TEAMS_PAGE=(window.FEATURE_ROUTES||{}).teams||(()=>home());
 Object.assign(window.FEATURE_ROUTES=window.FEATURE_ROUTES||{},{live:livePage,me:mePage,admin:adminPage,teams:teamsGate});
 applyGates();
