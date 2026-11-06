@@ -65,7 +65,7 @@ const fromDate=d=>{const dt=new Date(d+'T12:00:00'); return LANG==='az'?`${dt.ge
 const first=p=>p['first_'+LANG]||p.first, last=p=>p['last_'+LANG]||p.last||'';
 const pname=p=>`${first(p)} ${last(p)}`.trim();
 const initials=p=>(first(p)[0]+(last(p)[0]||'')).toUpperCase();
-const av=(p,size='s')=>`<span class="av ${size}">${p.photo?`<img src="${p.photo}" alt="${pname(p)}" loading="lazy">`:initials(p)}</span>`;
+const av=(p,size='s')=>`<span class="av ${size} ${p.photo?'':'nophoto'}">${p.photo?`<img src="${p.photo}" alt="${pname(p)}" loading="lazy">`:p.number}</span>`;
 const S={players:{},games:[]};
 
 /* ---------- Загрузка и расчёт ---------- */
@@ -118,7 +118,7 @@ function rosterGrid(){
   const ps=Object.values(S.players).sort((a,b)=>a.number-b.number);
   return `<div class="section-title"><h2>${T('roster')}</h2><span class="hint">${ps.length}</span></div><div class="roster">`+
     ps.map(p=>`<a class="card pcard" href="#player-${p.id}"><span class="pc-num">${p.number}</span>${av(p,'m')}
-      <div class="pc-txt"><div class="nm">${first(p)}<br>${last(p)}</div><div class="sub">#${p.number} · ${p.pos[0]?.[0]||''}</div></div>
+      <div class="pc-txt"><div class="nm">${first(p)}${last(p)?`<br>${last(p)}`:''}</div><div class="sub">#${p.number} · ${p.pos[0]?.[0]||''}</div></div>
       ${p.t.RAT==null?'':rt(Math.round(p.t.RAT*10)/10,'lg')}</a>`).join('')+'</div>';
 }
 function ytId(u){ const m=(u||'').match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([\w-]{11})/); return m?m[1]:null; }

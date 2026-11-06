@@ -111,6 +111,104 @@
     "LF"
    ],
    "photo": "players/danylo-shapovalov.jpg"
+  },
+  {
+   "id": "hikmat",
+   "first": "Hikmat",
+   "last": "",
+   "first_ru": "Хикмят",
+   "last_ru": "",
+   "first_az": "Hikmət",
+   "last_az": "",
+   "number": 3,
+   "positions": [
+    "1B"
+   ],
+   "photo": null
+  },
+  {
+   "id": "rasul-4",
+   "first": "Rasul",
+   "last": "",
+   "first_ru": "Расул",
+   "last_ru": "",
+   "first_az": "Rəsul",
+   "last_az": "",
+   "number": 4,
+   "positions": [
+    "2B"
+   ],
+   "photo": null
+  },
+  {
+   "id": "vidadi",
+   "first": "Vidadi",
+   "last": "",
+   "first_ru": "Видади",
+   "last_ru": "",
+   "first_az": "Vidadi",
+   "last_az": "",
+   "number": 6,
+   "positions": [
+    "SS"
+   ],
+   "photo": null
+  },
+  {
+   "id": "emilien",
+   "first": "Emilien",
+   "last": "",
+   "first_ru": "Эмильен",
+   "last_ru": "",
+   "first_az": "Emilyen",
+   "last_az": "",
+   "number": 8,
+   "positions": [
+    "CF"
+   ],
+   "photo": null
+  },
+  {
+   "id": "ilgar",
+   "first": "Ilgar",
+   "last": "",
+   "first_ru": "Ильгар",
+   "last_ru": "",
+   "first_az": "İlqar",
+   "last_az": "",
+   "number": 17,
+   "positions": [
+    "LF"
+   ],
+   "photo": null
+  },
+  {
+   "id": "rasim",
+   "first": "Rasim",
+   "last": "",
+   "first_ru": "Расим",
+   "last_ru": "",
+   "first_az": "Rasim",
+   "last_az": "",
+   "number": 19,
+   "positions": [
+    "P"
+   ],
+   "photo": null
+  },
+  {
+   "id": "rasul-21",
+   "first": "Rasul",
+   "last": "",
+   "first_ru": "Расул",
+   "last_ru": "",
+   "first_az": "Rəsul",
+   "last_az": "",
+   "number": 21,
+   "positions": [
+    "LF"
+   ],
+   "photo": null
   }
  ]
 }
