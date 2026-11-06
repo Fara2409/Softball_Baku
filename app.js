@@ -303,7 +303,7 @@ function footer(){
       ${socials?`<div class="socials">${socials}</div>`:''}
       ${S.season?`<span class="foot-pill">${T('seasonPill')({season:S.season,start:startTxt})}</span>`:''}
     </div>
-    <div class="foot-col"><h4>${T('site')}</h4><a href="#rating">${T('rating')}</a><a href="#games">${T('games')}</a>${I18N[LANG].navTeams?`<a href="#teams">${T('navTeams')}</a><a href="#records">${T('navRecords')}</a><a href="#compare">${T('navCompare')}</a><a href="#rules">${T('navRules')}</a>`:''}</div>
+    <div class="foot-col"><h4>${T('site')}</h4><a href="#rating">${T('rating')}</a><a href="#games">${T('games')}</a>${I18N[LANG].navTeams?`<a href="#teams">${T('navTeams')}</a><a href="#records">${T('navRecords')}</a><a href="#rules">${T('navRules')}</a>`:''}</div>
     <div class="foot-col"><h4>${T('watch')}</h4>${L.youtube?`<a href="${L.youtube}" target="_blank" rel="noopener"><span class="yt-dot">▶</span>${T('channel')}</a>`:''}${vid?`<a href="${vid}" target="_blank" rel="noopener"><span class="yt-dot">▶</span>${T('lastVideo')}</a>`:(L.youtube?'':`<span class="muted">${T('videoSoon')}</span>`)}</div>
     <div class="foot-col"><h4>${T('where')}</h4><span>${T('place')}</span></div>
     <svg class="foot-diamond" viewBox="0 0 200 200" aria-hidden="true">
@@ -331,7 +331,7 @@ function setLang(l){ LANG=l; try{localStorage.setItem('lang',LANG);}catch(e){} i
 function route(){
   const h=(location.hash||'').slice(1), i=h.indexOf('-');
   const page=i<0?h:h.slice(0,i), id=i<0?'':h.slice(i+1);
-  const navKey={games:'games',game:'games',teams:'teams',records:'records',compare:'compare',rules:'rules'}[page]||'home';
+  const navKey={games:'games',game:'games',teams:'teams',records:'records',rules:'rules'}[page]||'home';
   document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.dataset.nav===navKey));
   const FR=window.FEATURE_ROUTES||{};
   if(page==='player') player(id); else if(page==='game') game(id); else if(page==='games') games(); else if(FR[page]) FR[page](id); else home();

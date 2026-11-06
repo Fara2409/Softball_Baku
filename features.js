@@ -1,11 +1,11 @@
 // Softball Baku — дополнительные разделы сайта (работают без сервера, всё считается в браузере).
-// Составы (балансировщик), рекорды/достижения/награды, сравнение игроков, партнёры и соперники,
+// Составы (балансировщик), рекорды/достижения/награды, партнёры и соперники,
 // моменты из видео, картинка карточки для WhatsApp, демо-режим (?demo=1).
 'use strict';
 
 /* ---------- Переводы ---------- */
 Object.assign(I18N.ru,{
-  rtg:'Рейтинг',navTeams:'Составы',navRecords:'Рекорды',navCompare:'Сравнение',navRules:'Правила',
+  rtg:'Рейтинг',navTeams:'Составы',navRecords:'Рекорды',navRules:'Правила',
   demoBanner:'ДЕМО: статистика вымышленная, игроки настоящие · <a href="./">выйти из демо</a>',
   tmTitle:'Разделить на команды',tmSub:'Отметьте, кто пришёл, — сайт разделит всех на две равные команды по рейтингу и позициям.',
   tmAll:'Выбрать всех',tmNone:'Очистить',tmPresent:n=>`Пришли: ${n}`,tmGo:'Разделить',tmAgain:'Другой вариант',tmCopy:'Скопировать для WhatsApp',tmCopied:'Скопировано',
@@ -16,7 +16,6 @@ Object.assign(I18N.ru,{
   bgTitle:'Достижения',bgOf:(a,b)=>`${a} из ${b}`,
   chTitle:'С кем ты побеждаешь',chBest:'Лучшие партнёры',chHard:'Неудобные соперники',chHint:'от 2 игр вместе / против',chNone:'Нужно больше игр, чтобы посчитать.',chWith:'вместе',chVs:'против',
   hlTitle:'Моменты на видео',hlGame:'Моменты игры',
-  cmTitle:'Сравнение игроков',cmPick:'Выберите игрока',cmVs:'против',cmTogether:'Вместе в команде',cmAgainst:'Друг против друга',cmNone:'Пока не играли',cmBtn:'Сравнить',
   shBtn:'Поделиться карточкой',shTitle:'Карточка для WhatsApp',shShare:'Отправить',shDownload:'Скачать картинку',shClose:'Закрыть',shSeason:d=>`Сезон ${d.season} стартует ${d.start}`,
   hlTypes:{HR:'Хоум-ран','3B':'Трипл','2B':'Дабл','1B':'Сингл',K:'Страйк-аут',catch:'Поймал флай',DP:'Дабл-плей',SB:'Кража базы',play:'Момент'},
   awMVP:'MVP сезона',awMVPd:'лучший средний рейтинг',awBat:'Лучший отбивающий',awBatd:'самый высокий OPS',awHR:'Король хоум-ранов',awHRd:'больше всего HR',awRBI:'Король RBI',awRBId:'больше всего RBI',
@@ -25,7 +24,7 @@ Object.assign(I18N.ru,{
   games_:n=>`${n} ${plural('ru',n)}`
 });
 Object.assign(I18N.az,{
-  rtg:'Reytinq',navTeams:'Komandalar',navRecords:'Rekordlar',navCompare:'Müqayisə',navRules:'Qaydalar',
+  rtg:'Reytinq',navTeams:'Komandalar',navRecords:'Rekordlar',navRules:'Qaydalar',
   demoBanner:'DEMO: statistika uydurmadır, oyunçular realdır · <a href="./">demodan çıx</a>',
   tmTitle:'Komandalara böl',tmSub:'Gələnləri qeyd edin — sayt hamını reytinq və mövqelərə görə iki bərabər komandaya bölər.',
   tmAll:'Hamısını seç',tmNone:'Təmizlə',tmPresent:n=>`Gələnlər: ${n}`,tmGo:'Böl',tmAgain:'Başqa variant',tmCopy:'WhatsApp üçün kopyala',tmCopied:'Kopyalandı',
@@ -36,7 +35,6 @@ Object.assign(I18N.az,{
   bgTitle:'Nailiyyətlər',bgOf:(a,b)=>`${b}-dən ${a}`,
   chTitle:'Kiminlə qalib gəlirsən',chBest:'Ən yaxşı tərəfdaşlar',chHard:'Çətin rəqiblər',chHint:'birlikdə / qarşı ən azı 2 oyun',chNone:'Hesablamaq üçün daha çox oyun lazımdır.',chWith:'birlikdə',chVs:'qarşı',
   hlTitle:'Videoda anlar',hlGame:'Oyunun anları',
-  cmTitle:'Oyunçuları müqayisə et',cmPick:'Oyunçu seçin',cmVs:'qarşı',cmTogether:'Eyni komandada',cmAgainst:'Bir-birinə qarşı',cmNone:'Hələ oynamayıblar',cmBtn:'Müqayisə et',
   shBtn:'Kartı paylaş',shTitle:'WhatsApp üçün kart',shShare:'Göndər',shDownload:'Şəkli yüklə',shClose:'Bağla',shSeason:d=>`${d.season} mövsümü ${d.start} başlayır`,
   hlTypes:{HR:'Homeran','3B':'Tripl','2B':'Dabl','1B':'Sinql',K:'Strayk-aut',catch:'Flayı tutdu',DP:'Dabl-pley',SB:'Baza oğurluğu',play:'An'},
   awMVP:'Mövsümün MVP-si',awMVPd:'ən yüksək orta reytinq',awBat:'Ən yaxşı vuran',awBatd:'ən yüksək OPS',awHR:'Homeran kralı',awHRd:'ən çox HR',awRBI:'RBI kralı',awRBId:'ən çox RBI',
@@ -45,7 +43,7 @@ Object.assign(I18N.az,{
   games_:n=>`${n} oyun`
 });
 Object.assign(I18N.en,{
-  rtg:'Rating',navTeams:'Teams',navRecords:'Records',navCompare:'Compare',navRules:'Rules',
+  rtg:'Rating',navTeams:'Teams',navRecords:'Records',navRules:'Rules',
   demoBanner:'DEMO: made-up stats, real players · <a href="./">exit demo</a>',
   tmTitle:'Split into teams',tmSub:'Tick who showed up — the site splits everyone into two even teams by rating and positions.',
   tmAll:'Select all',tmNone:'Clear',tmPresent:n=>`Present: ${n}`,tmGo:'Split',tmAgain:'Another option',tmCopy:'Copy for WhatsApp',tmCopied:'Copied',
@@ -56,7 +54,6 @@ Object.assign(I18N.en,{
   bgTitle:'Achievements',bgOf:(a,b)=>`${a} of ${b}`,
   chTitle:'Who you win with',chBest:'Best teammates',chHard:'Toughest opponents',chHint:'2+ games together / against',chNone:'Not enough games yet.',chWith:'together',chVs:'against',
   hlTitle:'Video moments',hlGame:'Game moments',
-  cmTitle:'Compare players',cmPick:'Pick a player',cmVs:'vs',cmTogether:'Same team',cmAgainst:'Head to head',cmNone:'Haven\'t played yet',cmBtn:'Compare',
   shBtn:'Share card',shTitle:'Card for WhatsApp',shShare:'Share',shDownload:'Download image',shClose:'Close',shSeason:d=>`Season ${d.season} starts ${d.start}`,
   hlTypes:{HR:'Home run','3B':'Triple','2B':'Double','1B':'Single',K:'Strikeout',catch:'Fly catch',DP:'Double play',SB:'Stolen base',play:'Moment'},
   awMVP:'Season MVP',awMVPd:'best average rating',awBat:'Best hitter',awBatd:'highest OPS',awHR:'Home run king',awHRd:'most HR',awRBI:'RBI king',awRBId:'most RBI',
@@ -275,7 +272,7 @@ function badgeGallery(){
 }
 
 /* =====================================================================
-   3. С КЕМ ПОБЕЖДАЕШЬ, МОМЕНТЫ, СРАВНЕНИЕ
+   3. С КЕМ ПОБЕЖДАЕШЬ, МОМЕНТЫ
    ===================================================================== */
 function chemistry(p){
   const with_={}, vs={};
@@ -311,47 +308,9 @@ window.gameHighlights=function(g){
   return `<div class="section-title"><h2>${T('hlGame')}</h2><span class="hint">${hs.length}</span></div><div class="card hls">${hs.map(x=>hlRow(x,g,true)).join('')}</div>`;
 };
 window.playerExtras=function(p){
-  const top=`<div class="btns pextra"><button class="btn" onclick="shareCard('${p.id}')">⇪ ${T('shBtn')}</button><a class="btn" href="#compare-${p.id}~">⇄ ${T('cmBtn')}</a></div>`;
+  const top=`<div class="btns pextra"><button class="btn" onclick="shareCard('${p.id}')">⇪ ${T('shBtn')}</button></div>`;
   return {top, bottom:badgesBlock(p)+hlBlock(p)+chemBlock(p)};
 };
-function comparePage(id){
-  const [a,b]=(id||'').split('~'), ps=playersArr();
-  const sel=(v,k)=>`<select onchange="cmSet(${k},this.value)"><option value="">${T('cmPick')}</option>${ps.map(p=>`<option value="${p.id}" ${p.id===v?'selected':''}>#${p.number} ${esc(pname(p))}</option>`).join('')}</select>`;
-  const A=S.players[a], B=S.players[b];
-  const head=(p,k)=>`<div class="card cm-head ${k?'r':''}">${p?`${av(p,'xl')}<div class="cm-n"><b>${esc(first(p))}</b><span>${esc(last(p).toUpperCase())}</span><i>#${p.number} · ${POS_NAMES[LANG][mainPos(p)]||''}</i></div>${rt(p.t.RAT==null?null:Math.round(p.t.RAT*10)/10,'lg')}`:`<div class="cm-empty">?</div>`}${sel(p?p.id:'',k)}</div>`;
-  let h=`<div class="pagehead"><span class="eyebrow">${S.league}</span><h1>${T('cmTitle')}</h1></div><div class="cm-top">${head(A,0)}<div class="cm-vs">${T('cmVs')}</div>${head(B,1)}</div>`;
-  if(A&&B){
-    const rows=[['RAT',T('rtg'),v=>v==null?'–':v.toFixed(2),1],['G',T('G'),v=>v,1],['WP',T('W')+' %',v=>isFinite(v)?Math.round(v*100)+'%':'–',1],['AVG','AVG',avg3,1],['OBP','OBP',avg3,1],['SLG','SLG',avg3,1],['OPS','OPS',avg3,1],
-      ['HR','HR',v=>v,1],['RBI','RBI',v=>v,1],['R','R',v=>v,1],['SB','SB',v=>v,1],['PO','PO',v=>v,1],['A','A',v=>v,1],['E','E',v=>v,-1]];
-    const val=(p,k)=>k==='WP'?p.t.W/(p.t.W+p.t.L):p.t[k];
-    h+=`<div class="cm-grid"><div class="card cm-radar">${radar(A,B)}</div><div class="card cm-table">`;
-    for(const [k,n,f,dir] of rows){ const x=val(A,k), y=val(B,k), ok=isFinite(x)&&isFinite(y)&&x!==y&&x!=null&&y!=null, aw=ok&&(x-y)*dir>0, bw=ok&&(y-x)*dir>0;
-      const mx=Math.max(Math.abs(x)||0,Math.abs(y)||0)||1;
-      h+=`<div class="cm-row"><span class="v ${aw?'win':''}">${f(x)}</span><div class="bar l"><i style="width:${(x||0)/mx*100}%"></i></div><span class="k">${n}</span><div class="bar r"><i style="width:${(y||0)/mx*100}%"></i></div><span class="v ${bw?'win':''}">${f(y)}</span></div>`; }
-    h+=`</div></div>`;
-    // вместе и друг против друга
-    let tg=0,tw=0,ag=0,aw2=0;
-    for(const {game:g,b:ba} of A.log){ const bb=g.box.find(x=>x.player===B.id); if(!bb||!g.winner) continue;
-      if(bb.team===ba.team){tg++; if(g.winner===ba.team) tw++;} else {ag++; if(g.winner===ba.team) aw2++;} }
-    h+=`<div class="cm-h2h"><div class="card"><span>${T('cmTogether')}</span><b>${tg?`${tw}-${tg-tw}`:'–'}</b><i>${tg?pct(tw,tg)+'%':T('cmNone')}</i></div>
-      <div class="card"><span>${T('cmAgainst')}</span><b>${ag?`${esc(first(A))} ${aw2} : ${ag-aw2} ${esc(first(B))}`:'–'}</b><i>${ag?'':T('cmNone')}</i></div></div>`;
-  }
-  app().innerHTML=h;
-}
-function cmSet(k,v){ const [a,b]=((location.hash.split('-').slice(1).join('-'))||'~').split('~'); location.hash=`#compare-${k?a||'':v}~${k?v:b||''}`; }
-function radar(A,B){
-  // 6 осей, нормировка по лучшему игроку состава
-  const ps=playersArr().filter(p=>p.t.G);
-  const ax=[[T('rtg'),p=>p.t.RAT],['AVG',p=>p.t.AVG],['SLG',p=>p.t.SLG],['SB/G',p=>p.t.SB/p.t.G],[T('PO'),p=>((p.t.PO||0)+(p.t.A||0))/p.t.G],['BB%',p=>p.t.BB/p.t.PA]];
-  const mx=ax.map(([,f])=>Math.max(...ps.map(p=>f(p)||0),1e-9));
-  const R=120,cx=170,cy=150,n=ax.length,pt=(i,r)=>[cx+r*Math.sin(2*Math.PI*i/n),cy-r*Math.cos(2*Math.PI*i/n)];
-  let s=`<svg viewBox="0 0 340 300">`;
-  for(const f of [.25,.5,.75,1]) s+=`<polygon points="${ax.map((_,i)=>pt(i,R*f).join(',')).join(' ')}" fill="none" stroke="#1f3150"/>`;
-  ax.forEach(([n2],i)=>{const [x,y]=pt(i,R+16); s+=`<line x1="${cx}" y1="${cy}" x2="${pt(i,R)[0]}" y2="${pt(i,R)[1]}" stroke="#1f3150"/><text x="${x}" y="${y+4}" fill="#8fa0b8" font-size="11" font-weight="700" text-anchor="middle">${esc(n2)}</text>`;});
-  for(const [p,c] of [[A,'#EF9F27'],[B,'#1f8fd6']]) s+=`<polygon points="${ax.map(([,f],i)=>pt(i,R*Math.min(1,(f(p)||0)/mx[i])).join(',')).join(' ')}" fill="${c}33" stroke="${c}" stroke-width="2.5"/>`;
-  return s+`</svg><div class="cm-leg"><span><i style="background:#EF9F27"></i>${esc(pname(A))}</span><span><i style="background:#1f8fd6"></i>${esc(pname(B))}</span></div>`;
-}
-
 /* =====================================================================
    4. КАРТИНКА КАРТОЧКИ ДЛЯ WHATSAPP / INSTAGRAM (1080×1350)
    ===================================================================== */
@@ -443,4 +402,4 @@ window.makeDemoGames=function(players){
 };
 
 /* ---------- страницы правил подключаются из rules.js ---------- */
-window.FEATURE_ROUTES={teams:teamsPage,records:recordsPage,compare:comparePage,rules:id=>window.rulesPage?rulesPage(id):home()};
+window.FEATURE_ROUTES={teams:teamsPage,records:recordsPage,rules:id=>window.rulesPage?rulesPage(id):home()};
