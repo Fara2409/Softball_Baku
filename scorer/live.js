@@ -118,11 +118,13 @@ function init(){
   X.sb.auth.onAuthStateChange(()=>setTimeout(()=>refresh().then(()=>{ if(S&&S.started&&S.id===today()) schedule(300); }),0));
 }
 badge();
-const src=['https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2','https://unpkg.com/@supabase/supabase-js@2'];
-(function next(i){
-  if(window.supabase&&window.supabase.createClient) return init();
+// свежая версия; для старого Safari (iOS 15 и ниже) — проверенная 2.45.4
+const src=['https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2','https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4','https://unpkg.com/@supabase/supabase-js@2','https://unpkg.com/@supabase/supabase-js@2.45.4'];
+const ok=()=>{ try{ if(!(window.supabase&&window.supabase.createClient)) return false; init(); return true; }catch(e){ console.warn('[live]',e); return false; } };
+if(!ok()) (function next(i){
   if(i>=src.length){ X.state='nosdk'; badge(); return; }
+  try{ window.supabase=undefined; }catch(e){}
   const sc=document.createElement('script'); sc.src=src[i]; sc.async=true;
-  sc.onload=()=>next(window.supabase&&window.supabase.createClient?0:i+1); sc.onerror=()=>next(i+1); document.head.appendChild(sc);
+  sc.onload=()=>{ if(!ok()) next(i+1); }; sc.onerror=()=>next(i+1); document.head.appendChild(sc);
 })(0);
 })();

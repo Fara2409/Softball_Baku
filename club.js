@@ -43,7 +43,7 @@ Object.assign(I18N.ru,{
   cFinal:'Игра окончена',cFinalShort:'Итог',cPaused:'Нет обновлений',cAtBat:'Отбивает',cOnDeck:'Следующий',cFirstPA:'первый выход сегодня',cTodayL:'сегодня',
   cPlays:'Последние розыгрыши',cLiveBox:'Статистика по ходу игры',cLiveRt:'рейтинг по ходу игры',cUpdated:'обновлено',cWatchLive:'Смотреть онлайн',cRuns:'ран',
   cPl:PL_RU,cComments:'Комментарии',cWrite:'Напишите комментарий…',cSend:'Отправить',cLoginToComment:'Войдите, чтобы комментировать',cNoComments:'Комментариев пока нет',
-  cOffline:'Онлайн-функции сейчас недоступны',cTeamsOnly:'Деление на команды — только для игроков',cTeamsOnlyTxt:'Войдите под аккаунтом игрока. Если вы в команде, но ещё не подтверждены, отправьте заявку в профиле.',cPendingN:n=>`Новых заявок: ${n}`,cNow:'сейчас'
+  cOffline:'Онлайн-функции сейчас недоступны',cOldBrowser:'На этом устройстве вход не работает: браузер слишком старый для онлайн-функций (вход, «буду / не буду», онлайн-счёт). Статистику, игры и рейтинг можно смотреть как обычно. Войти можно с телефона или компьютера с более новой системой.',cTeamsOnly:'Деление на команды — только для игроков',cTeamsOnlyTxt:'Войдите под аккаунтом игрока. Если вы в команде, но ещё не подтверждены, отправьте заявку в профиле.',cPendingN:n=>`Новых заявок: ${n}`,cNow:'сейчас'
 });
 Object.assign(I18N.az,{
   cLogin:'Daxil ol',cSignup:'Qeydiyyat',cGuest:'Qonaq kimi davam et',cWelcome:'Xoş gəlmisiniz!',
@@ -74,7 +74,7 @@ Object.assign(I18N.az,{
   cFinal:'Oyun bitdi',cFinalShort:'Yekun',cPaused:'Yenilənmə yoxdur',cAtBat:'Vuruşda',cOnDeck:'Növbəti',cFirstPA:'bu gün ilk çıxışı',cTodayL:'bu gün',
   cPlays:'Son anlar',cLiveBox:'Oyun boyu statistika',cLiveRt:'oyun boyu reytinq',cUpdated:'yeniləndi',cWatchLive:'Canlı izlə',cRuns:'ran',
   cPl:PL_AZ,cComments:'Şərhlər',cWrite:'Şərh yazın…',cSend:'Göndər',cLoginToComment:'Şərh yazmaq üçün daxil olun',cNoComments:'Hələ şərh yoxdur',
-  cOffline:'Onlayn funksiyalar hazırda əlçatan deyil',cTeamsOnly:'Komandalara bölmə yalnız oyunçular üçündür',cTeamsOnlyTxt:'Oyunçu hesabı ilə daxil olun. Komandadasınızsa, amma hələ təsdiqlənməmisinizsə, profildə sorğu göndərin.',cPendingN:n=>`Yeni sorğular: ${n}`,cNow:'indi'
+  cOffline:'Onlayn funksiyalar hazırda əlçatan deyil',cOldBrowser:'Bu cihazda giriş işləmir: brauzer onlayn funksiyalar (giriş, «gələcəyəm / gəlməyəcəyəm», canlı hesab) üçün çox köhnədir. Statistikaya, oyunlara və reytinqə adi qaydada baxmaq olar. Daha yeni sistemli telefondan və ya kompüterdən daxil ola bilərsiniz.',cTeamsOnly:'Komandalara bölmə yalnız oyunçular üçündür',cTeamsOnlyTxt:'Oyunçu hesabı ilə daxil olun. Komandadasınızsa, amma hələ təsdiqlənməmisinizsə, profildə sorğu göndərin.',cPendingN:n=>`Yeni sorğular: ${n}`,cNow:'indi'
 });
 Object.assign(I18N.en,{
   cLogin:'Log in',cSignup:'Sign up',cGuest:'Continue as guest',cWelcome:'Welcome!',
@@ -105,7 +105,7 @@ Object.assign(I18N.en,{
   cFinal:'Final',cFinalShort:'Final',cPaused:'No updates',cAtBat:'At bat',cOnDeck:'On deck',cFirstPA:'first time up today',cTodayL:'today',
   cPlays:'Latest plays',cLiveBox:'Live box score',cLiveRt:'live rating',cUpdated:'updated',cWatchLive:'Watch live',cRuns:'runs',
   cPl:PL_EN,cComments:'Comments',cWrite:'Write a comment…',cSend:'Send',cLoginToComment:'Log in to comment',cNoComments:'No comments yet',
-  cOffline:'Online features are unavailable right now',cTeamsOnly:'Team split is for players only',cTeamsOnlyTxt:"Log in with a player account. If you're on the team but not confirmed yet, send a request in your profile.",cPendingN:n=>`New requests: ${n}`,cNow:'now'
+  cOffline:'Online features are unavailable right now',cOldBrowser:'Logging in does not work on this device: the browser is too old for the online features (login, responses, live score). Stats, games and ratings work as usual. You can log in from a phone or computer with a newer system.',cTeamsOnly:'Team split is for players only',cTeamsOnlyTxt:"Log in with a player account. If you're on the team but not confirmed yet, send a request in your profile.",cPendingN:n=>`New requests: ${n}`,cNow:'now'
 });
 
 /* ---------- Состояние ---------- */
@@ -226,6 +226,7 @@ function teamsGate(id){
 function renderAcct(){
   applyGates();
   const box=$id('acct'); if(!box) return;
+  if(C.failed){ box.innerHTML=`<button class="btn sm acct-in acct-off" onclick="CL.oldBrowser()">${T('cLogin')}</button>`; return; }
   if(!C.ok||!C.ready){ box.innerHTML=''; return; }
   if(!C.user){ box.innerHTML=`<button class="btn sm acct-in" onclick="CL.auth('login')">${T('cLogin')}</button>`; return; }
   const pr=C.profile||{}, n=isAdmin()?pendingCount():0;
@@ -701,7 +702,7 @@ async function delLive(){
 }
 
 /* ---------- Подключение к сайту ---------- */
-window.CL={redraw:()=>drawWidgets(),events:()=>C.events||[],isAdmin,canDecide:()=>C.ready&&canRsvp(),auth,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,rsvp,toTeams,sendComment,delComment,saveName,request,changePass,
+window.CL={oldBrowser:()=>openModal(sheetHead(T('cLogin'))+`<p class="cl-p">${T('cOldBrowser')}</p>`),redraw:()=>drawWidgets(),events:()=>C.events||[],isAdmin,canDecide:()=>C.ready&&canRsvp(),auth,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,rsvp,toTeams,sendComment,delComment,saveName,request,changePass,
   approve,reject,setRole,setPlayer,resetPass,copy,addEvent,evStatus,delEvent,endLive,delLive};
 const TEAMS_PAGE=(window.FEATURE_ROUTES||{}).teams||(()=>home());
 Object.assign(window.FEATURE_ROUTES=window.FEATURE_ROUTES||{},{live:livePage,me:mePage,admin:adminPage,teams:teamsGate});
@@ -709,21 +710,32 @@ applyGates();
 const _route=route; route=function(){ C.page=''; _route(); afterRoute(); };
 const _chrome=chrome; chrome=function(){ _chrome(); renderAcct(); renderPill(); };
 
-// supabase-js грузится асинхронно и не задерживает показ сайта
+// supabase-js грузится асинхронно и не задерживает показ сайта.
+// Свежие версии не запускаются в старом Safari (например, iPad mini 4 — максимум iPadOS 15),
+// поэтому, если свежая не завелась, берём проверенную старую версию 2.45.4.
+const SDK_NEW='@supabase/supabase-js@2', SDK_OLD='@supabase/supabase-js@2.45.4';
+const SDK_SRC=[`https://cdn.jsdelivr.net/npm/${SDK_NEW}`,`https://cdn.jsdelivr.net/npm/${SDK_OLD}`,`https://unpkg.com/${SDK_NEW}`,`https://unpkg.com/${SDK_OLD}`];
+function makeClient(){
+  try{
+    if(!(window.supabase&&typeof window.supabase.createClient==='function')) return false;
+    const sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+    if(!sb||typeof sb.from!=='function'||!sb.auth) return false;
+    C.sb=sb; return true;
+  }catch(e){ console.warn('[club]',e); return false; }
+}
 function loadSdk(){
-  if(window.supabase&&window.supabase.createClient){ init(); return; }
-  const src=['https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2','https://unpkg.com/@supabase/supabase-js@2'];
+  if(makeClient()){ init(); return; }
   const next=i=>{
-    if(i>=src.length){ C.failed=true; console.warn('[club] supabase-js не загрузился'); if(['live','me','admin','teams'].includes(C.page)) rerender(); return; }
-    const sc=document.createElement('script'); sc.src=src[i]; sc.async=true;
-    sc.onload=()=>{ if(window.supabase&&window.supabase.createClient) init(); else next(i+1); }; sc.onerror=()=>next(i+1);
+    if(i>=SDK_SRC.length){ C.failed=true; console.warn('[club] supabase-js не загрузился'); renderAcct(); if(['live','me','admin','teams'].includes(C.page)) rerender(); return; }
+    try{ window.supabase=undefined; }catch(e){}
+    const sc=document.createElement('script'); sc.src=SDK_SRC[i]; sc.async=true;
+    sc.onload=()=>{ if(makeClient()) init(); else next(i+1); }; sc.onerror=()=>next(i+1);
     document.head.appendChild(sc);
   };
   next(0);
 }
 function init(){
-  try{ C.sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}); C.ok=true; }
-  catch(e){ console.warn('[club]',e); C.failed=true; return; }
+  C.ok=true;
   rerender();
   C.sb.auth.onAuthStateChange((ev,session)=>{ setTimeout(()=>onSession(session,false),0); });
   loadLive(); subscribe();
