@@ -93,9 +93,16 @@ h2{font-size:17px;margin:18px 0 8px}h3{margin:0 0 12px;font-size:17px}
 .lrow select{width:74px;padding:7px 4px}
 .lrow button{padding:7px 10px}
 .pool .p{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--line)}
-.pool .p:first-child{border-top:0}
+.pool .p.first{border-top:0}
 .pool .p .nm{flex:1}
 .pool .p button{min-width:52px;font-weight:700}
+.pf{display:flex;flex-wrap:wrap;gap:6px;padding:2px 0 8px}
+.pf button{flex:none;padding:7px 12px;border-radius:999px;font-size:13px;font-weight:600}
+.pf button i{font-style:normal;color:var(--mut);font-weight:400;margin-left:4px}
+.pf button.on{background:var(--acc);color:#111;border-color:var(--acc)}.pf button.on i{color:#5a4300}
+.ps{margin-bottom:10px}
+.pt{font-size:11px;color:var(--mut);border:1px solid var(--line);border-radius:6px;padding:1px 6px;margin-left:6px;white-space:nowrap}
+.pempty{display:none;padding:10px 0;text-align:center}
 .log .li{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--line)}
 .log .tm{color:var(--mut);font-variant-numeric:tabular-nums;font-size:12px;min-width:62px;padding-top:2px}
 .log .tx{flex:1}
@@ -416,12 +423,24 @@ function renderSetup(){
   h+=`</div>`;
  }
  const free=ids.filter(id=>!used.has(id));
- if(free.length){h+=`<h2>Игроки</h2><div class="card pool">`+free.map(id=>`<div class="p"><span class="nm">${esc(nameN(id))}</span>
-  <button style="border-color:${S.teams.A.color}" onclick="addP('A','${id}')">▲</button><button style="border-color:${S.teams.B.color}" onclick="addP('B','${id}')">▼</button></div>`).join('')+`</div>`}
+ const cnt={};free.forEach(id=>(P[id].positions||[]).forEach(x=>cnt[x]=(cnt[x]||0)+1));
+ if(PF&&!cnt[PF])PF='';
+ if(free.length){h+=`<h2>Игроки</h2><div class="pf"><button data-p="" onclick="PF='';poolFilter()">Все<i>${free.length}</i></button>`+
+  POS.filter(x=>cnt[x]).map(x=>`<button data-p="${x}" onclick="PF=PF==='${x}'?'':'${x}';poolFilter()">${x}<i>${cnt[x]}</i></button>`).join('')+`</div>
+  <input class="ps" type="search" placeholder="Поиск: имя или номер" value="${esc(PQ)}" oninput="PQ=this.value.trim().toLowerCase();poolFilter()">
+  <div class="card pool">`+free.map(id=>{const p=P[id],q=[p.number,p.first,p.last,p.first_ru,p.last_ru,p.first_az,p.last_az].filter(Boolean).join(' ').toLowerCase();
+  return `<div class="p" data-pos="${esc((p.positions||[]).join(' '))}" data-q="${esc(q)}"><span class="nm">${esc(nameN(id))}${(p.positions||[]).length?`<span class="pt">${esc(p.positions.join('/'))}</span>`:''}</span>
+  <button style="border-color:${S.teams.A.color}" onclick="addP('A','${id}')">▲</button><button style="border-color:${S.teams.B.color}" onclick="addP('B','${id}')">▼</button></div>`}).join('')+`<div class="pempty muted small">Никого не найдено</div></div>`}
  h+=`<p class="muted small">Новых игроков сначала добавьте в data/players.json на сайте. EH — только отбивает.</p>
  <button class="pri" style="width:100%;padding:16px;font-size:17px" onclick="start()">${S.events.length?'Продолжить игру':'Начать игру'}</button>
  ${S.events.length?'':'<button style="width:100%;margin-top:10px" onclick="$(\'#imp\').click()">Загрузить резервную копию</button>'}</div>`;
- $('#app').innerHTML=h;
+ $('#app').innerHTML=h;poolFilter();
+}
+let PF='',PQ='';
+function poolFilter(){
+ let n=0;document.querySelectorAll('.pool .p').forEach(el=>{const ok=(!PF||el.dataset.pos.split(' ').includes(PF))&&(!PQ||el.dataset.q.includes(PQ));el.style.display=ok?'':'none';el.classList.toggle('first',ok&&!n);if(ok)n++});
+ document.querySelectorAll('.pf button').forEach(b=>b.classList.toggle('on',b.dataset.p===PF));
+ const e=document.querySelector('.pempty');if(e)e.style.display=n?'none':'block';
 }
 
 /* ===== экран игры ===== */
@@ -466,6 +485,6 @@ window.addEventListener('beforeunload',save);
 
 (async()=>{await loadPlayers();S=load()||newState();render()})();
 </script>
-<script src="live.js?v=202611070300"></script>
+<script src="live.js?v=202611072140"></script>
 </body>
 </html>
