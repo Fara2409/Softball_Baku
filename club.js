@@ -30,7 +30,7 @@ Object.assign(I18N.ru,{
   cNotLogged:'Вы не вошли',cNotLoggedTxt:'Войдите или зарегистрируйтесь, чтобы писать комментарии и отмечаться на игры.',
   cNext:'Ближайшие игры',cNextOne:'Следующая игра',cYes:'Буду',cNo:'Не буду',cMaybe:'Может быть',cComing:'будут',
   cCountNo:n=>`не будут: ${n}`,cOnlyPlayers:'Отмечаться могут только игроки',cPlayerLogin:'Вы игрок? Войдите',cWaitApproval:'Ваша заявка игрока ждёт подтверждения админа',
-  cCancelled:'Отменена',cNoEvents:'Следующая игра пока не назначена',cToTeams:'Разделить пришедших на команды',
+  cCancelled:'Отменена',cNoEvents:'⏳ Ждём подтверждения следующей игры',cAwait:'Ждём подтверждения игры',cAwaitAdm:'Назначить игру',cToTeams:'Разделить пришедших на команды',
   cAdminTitle:'Панель админа',cRequests:'Заявки игроков',cNoRequests:'Новых заявок нет',cApprove:'Подтвердить',cReject:'Отклонить',cWants:'хочет быть',
   cUsers:'Пользователи',cPlayerL:'Игрок',cReset:'Сбросить пароль',cResetQ:n=>`Задать ${n} новый временный пароль?`,cTempPass:'Временный пароль',
   cTempHint:'Отправьте этот пароль человеку. После входа пусть поменяет его в профиле.',cCopy:'Скопировать',cSendWA:'Отправить в WhatsApp',
@@ -61,7 +61,7 @@ Object.assign(I18N.az,{
   cNotLogged:'Daxil olmamısınız',cNotLoggedTxt:'Şərh yazmaq və oyunlara qeyd olunmaq üçün daxil olun və ya qeydiyyatdan keçin.',
   cNext:'Növbəti oyunlar',cNextOne:'Növbəti oyun',cYes:'Gələcəyəm',cNo:'Gəlməyəcəyəm',cMaybe:'Bəlkə',cComing:'gəlir',
   cCountNo:n=>`gəlmir: ${n}`,cOnlyPlayers:'Qeyd olunmaq yalnız oyunçular üçündür',cPlayerLogin:'Oyunçusunuz? Daxil olun',cWaitApproval:'Oyunçu sorğunuz admin təsdiqini gözləyir',
-  cCancelled:'Ləğv edildi',cNoEvents:'Növbəti oyun hələ təyin olunmayıb',cToTeams:'Gələnləri komandalara böl',
+  cCancelled:'Ləğv edildi',cNoEvents:'⏳ Növbəti oyunun təsdiqi gözlənilir',cAwait:'Oyunun təsdiqi gözlənilir',cAwaitAdm:'Oyun təyin et',cToTeams:'Gələnləri komandalara böl',
   cAdminTitle:'Admin paneli',cRequests:'Oyunçu sorğuları',cNoRequests:'Yeni sorğu yoxdur',cApprove:'Təsdiq et',cReject:'Rədd et',cWants:'olmaq istəyir',
   cUsers:'İstifadəçilər',cPlayerL:'Oyunçu',cReset:'Şifrəni sıfırla',cResetQ:n=>`${n} üçün yeni müvəqqəti şifrə yaradılsın?`,cTempPass:'Müvəqqəti şifrə',
   cTempHint:'Bu şifrəni həmin şəxsə göndərin. Daxil olandan sonra onu profilində dəyişsin.',cCopy:'Kopyala',cSendWA:'WhatsApp-da göndər',
@@ -92,7 +92,7 @@ Object.assign(I18N.en,{
   cNotLogged:'You are not logged in',cNotLoggedTxt:'Log in or sign up to comment and respond to games.',
   cNext:'Upcoming games',cNextOne:'Next game',cYes:"I'm in",cNo:"Can't make it",cMaybe:'Maybe',cComing:'coming',
   cCountNo:n=>`out: ${n}`,cOnlyPlayers:'Only players can respond',cPlayerLogin:'Are you a player? Log in',cWaitApproval:'Your player request is waiting for admin approval',
-  cCancelled:'Cancelled',cNoEvents:'No upcoming games scheduled yet',cToTeams:'Split those coming into teams',
+  cCancelled:'Cancelled',cNoEvents:'⏳ Awaiting confirmation of the next game',cAwait:'Awaiting game confirmation',cAwaitAdm:'Schedule a game',cToTeams:'Split those coming into teams',
   cAdminTitle:'Admin panel',cRequests:'Player requests',cNoRequests:'No new requests',cApprove:'Approve',cReject:'Reject',cWants:'wants to be',
   cUsers:'Users',cPlayerL:'Player',cReset:'Reset password',cResetQ:n=>`Set a new temporary password for ${n}?`,cTempPass:'Temporary password',
   cTempHint:'Send this password to the person. After logging in they should change it in their profile.',cCopy:'Copy',cSendWA:'Send via WhatsApp',
@@ -397,7 +397,9 @@ function liveCard(){
     ${live?`<span class="lv-inn">${d.top?'▲':'▼'} ${d.inning||1} ${outsDots(d.outs)}</span>`:''}<span class="lv-go">${T('cWatchLive')} →</span></a>`;
 }
 function drawWidgets(){
-  const top=$id('cl-next'); if(top){ const e=(C.events||[]).find(x=>x.status!=='cancelled')||(C.events||[])[0]; top.innerHTML=e?evCard(e,true):''; }
+  const top=$id('cl-next'); if(top){ const e=(C.events||[]).find(x=>x.status!=='cancelled')||(C.events||[])[0];
+    // игры пока нет — так и пишем: ждём подтверждения
+    top.innerHTML=e?evCard(e,true):C.events==null?'':`<div class="card ev compact ev-wait"><div class="ev-when"><span class="eyebrow">${T('cNextOne')}</span><b>⏳ ${T('cAwait')}</b></div>${isAdmin()?`<a class="btn sm" href="#admin">+ ${T('cAwaitAdm')}</a>`:''}</div>`; }
   const sc=$id('cl-sched'); if(sc){
     sc.innerHTML=C.events==null?'':`<div class="section-title" style="margin-top:0"><h2>${T('cNext')}</h2></div>`+
       (C.events.length?`<div class="ev-list">${C.events.map(e=>evCard(e,false)).join('')}</div>`:`<div class="card empty" style="margin-top:0">${T('cNoEvents')}</div>`);

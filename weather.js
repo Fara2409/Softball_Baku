@@ -10,23 +10,23 @@ const SITE='https://fara2409.github.io/Softball_Baku/';
 const CACHE='sb.wx.v1', TTL=60*60e3;
 Object.assign(I18N.ru,{
   wxTitle:'Погода в игровые дни',wxSub:'Амирджан · воскресенья и праздничные дни · прогноз обновляется при каждом открытии',
-  wxGood:'Можно играть',wxRisk:'Под вопросом',wxBad:'Играть не получится',wxBest:'Лучший день',wxFar:'прогноз на 8+ дней, может измениться',
+  wxGood:'Игровая погода',wxRisk:'Под вопросом',wxBad:'Неигровая погода',wxWait:'Ждём подтверждения игры',wxBest:'Лучший день',wxFar:'прогноз на 8+ дней, может измениться',
   wxRain:mm=>`дождь ${mm} мм`,wxNoRain:'без дождя',wxProb:p=>`вероятность дождя ${p}%`,wxStorm:'гроза',wxWet:mm=>`до игры дождь ${mm} мм — поле может быть мокрым`,
-  wxWind:v=>`порывы ветра до ${v} км/ч`,wxCold:t=>`холодно: ${t}°`,wxKmh:'км/ч',wxCopy:'Скопировать для WhatsApp',wxSet:'Назначить игру',wxGame:t=>`игра в ${t}`,
+  wxWind:v=>`порывы ветра до ${v} км/ч`,wxCold:t=>`холодно: ${t}°`,wxKmh:'км/ч',wxCopy:'Скопировать для WhatsApp',wxSet:'Назначить игру',wxGame:t=>`Игра назначена · ${t}`,
   wxErr:'Не удалось загрузить прогноз погоды',wxSrc:'Прогноз: Open-Meteo.com',wxHead:t=>`погода (Амирджан), ${t}`,wxNone:'В ближайшие 16 дней игровых дней нет'
 });
 Object.assign(I18N.az,{
   wxTitle:'Oyun günlərində hava',wxSub:'Əmircan · bazar günləri və bayram günləri · proqnoz hər açılışda yenilənir',
-  wxGood:'Oynamaq olar',wxRisk:'Risklidir',wxBad:'Oynamaq olmaz',wxBest:'Ən yaxşı gün',wxFar:'8+ günlük proqnoz, dəyişə bilər',
+  wxGood:'Hava uyğundur',wxRisk:'Sual altındadır',wxBad:'Hava uyğun deyil',wxWait:'Oyunun təsdiqi gözlənilir',wxBest:'Ən yaxşı gün',wxFar:'8+ günlük proqnoz, dəyişə bilər',
   wxRain:mm=>`yağış ${mm} mm`,wxNoRain:'yağışsız',wxProb:p=>`yağış ehtimalı ${p}%`,wxStorm:'ildırım',wxWet:mm=>`oyundan əvvəl yağış ${mm} mm — meydança yaş ola bilər`,
-  wxWind:v=>`külək ${v} km/saata qədər`,wxCold:t=>`soyuq: ${t}°`,wxKmh:'km/saat',wxCopy:'WhatsApp üçün kopyala',wxSet:'Oyun təyin et',wxGame:t=>`oyun ${t}`,
+  wxWind:v=>`külək ${v} km/saata qədər`,wxCold:t=>`soyuq: ${t}°`,wxKmh:'km/saat',wxCopy:'WhatsApp üçün kopyala',wxSet:'Oyun təyin et',wxGame:t=>`Oyun təyin olunub · ${t}`,
   wxErr:'Hava proqnozunu yükləmək alınmadı',wxSrc:'Proqnoz: Open-Meteo.com',wxHead:t=>`hava (Əmircan), ${t}`,wxNone:'Yaxın 16 gündə oyun günü yoxdur'
 });
 Object.assign(I18N.en,{
   wxTitle:'Weather on game days',wxSub:'Amirajan · Sundays and holidays · forecast refreshes every time you open the site',
-  wxGood:'Good to play',wxRisk:'Risky',wxBad:'No game',wxBest:'Best day',wxFar:'8+ days out, may change',
+  wxGood:'Playable weather',wxRisk:'Doubtful',wxBad:'Unplayable weather',wxWait:'Awaiting game confirmation',wxBest:'Best day',wxFar:'8+ days out, may change',
   wxRain:mm=>`rain ${mm} mm`,wxNoRain:'dry',wxProb:p=>`${p}% chance of rain`,wxStorm:'thunderstorm',wxWet:mm=>`${mm} mm of rain before the game — field may be wet`,
-  wxWind:v=>`gusts up to ${v} km/h`,wxCold:t=>`cold: ${t}°`,wxKmh:'km/h',wxCopy:'Copy for WhatsApp',wxSet:'Schedule a game',wxGame:t=>`game at ${t}`,
+  wxWind:v=>`gusts up to ${v} km/h`,wxCold:t=>`cold: ${t}°`,wxKmh:'km/h',wxCopy:'Copy for WhatsApp',wxSet:'Schedule a game',wxGame:t=>`Game set · ${t}`,
   wxErr:'Could not load the weather forecast',wxSrc:'Forecast: Open-Meteo.com',wxHead:t=>`weather (Amirajan), ${t}`,wxNone:'No game days in the next 16 days'
 });
 
@@ -134,7 +134,7 @@ function card(e){
     <div class="wx-d">${det.join(' · ')}</div>
     ${e.note.length?`<div class="wx-why">${e.note.join(' · ')}</div>`:''}
     ${e.far?`<div class="wx-far">${T('wxFar')}</div>`:''}
-    ${e.ev?`<div class="wx-ev">📅 ${T('wxGame')(e.start)}</div>`:admin&&e.v!=='bad'?`<button class="btn sm wx-set" onclick="WX.setGame('${e.ymd}')">+ ${T('wxSet')}</button>`:''}
+    ${e.ev?`<div class="wx-ev">📅 ${T('wxGame')(e.start)}</div>`:`<div class="wx-wait">⏳ ${T('wxWait')}</div>${admin&&e.v!=='bad'?`<button class="btn sm wx-set" onclick="WX.setGame('${e.ymd}')">+ ${T('wxSet')}</button>`:''}`}
   </div>`;
 }
 function section(compact){

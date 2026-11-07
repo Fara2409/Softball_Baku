@@ -26,6 +26,7 @@
 .wx-why{font-size:12px;color:#d5dde8;line-height:1.45}
 .wx-far{font-size:11px;color:var(--dim);font-style:italic}
 .wx-ev{font-size:12px;font-weight:700;color:var(--amber)}
+.wx-wait{font-size:12px;font-weight:700;color:var(--muted)}
 .wx-set{align-self:flex-start;margin-top:2px}
 .wx-src{margin:8px 0 0;font-size:11px;text-align:right}
 .wx-src a{color:var(--dim)}
