@@ -274,7 +274,7 @@ function auth(mode){
   const guest=`<button class="cl-guest" onclick="CL.close()">${T('cGuest')} →</button>`;
   let h;
   if(mode==='welcome'){
-    h=`<div class="cl-hello"><div class="cl-logo"><span class="brand-mark">◆</span><span class="brand-text">SOFTBALL <b>BAKU</b></span></div>
+    h=`<div class="cl-hello"><div class="cl-logo"><span class="brand-mark">${ballSVG()}</span><span class="brand-text">SOFTBALL <b>BAKU</b></span></div>
       <h2>${T('cWelcome')}</h2><p>${T('cWelcomeTxt')}</p></div>
       <div class="cl-btns"><button class="btn pri" onclick="CL.auth('login')">${T('cLogin')}</button><button class="btn" onclick="CL.auth('signup')">${T('cSignup')}</button></div>${guest}`;
   } else if(mode==='forgot'){

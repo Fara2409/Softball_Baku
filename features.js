@@ -335,7 +335,7 @@ async function drawCard(p){
   // номер-водяной знак
   x.font=F(900,560,1); x.fillStyle='rgba(239,159,39,.08)'; x.textAlign='right'; x.fillText(String(p.number),W+20,560);
   // бренд
-  x.textAlign='left'; x.fillStyle='#EF9F27'; x.font=F(900,44); x.fillText('◆',70,110); x.fillStyle='#eef2f8'; x.font=F(800,40); x.fillText('SOFTBALL',130,108); x.fillStyle='#EF9F27'; x.fillText('BAKU',x.measureText('SOFTBALL ').width+130,108);
+  x.textAlign='left'; drawBall(x,92,95,24); x.fillStyle='#eef2f8'; x.font=F(800,40); x.fillText('SOFTBALL',130,108); x.fillStyle='#EF9F27'; x.fillText('BAKU',x.measureText('SOFTBALL ').width+130,108);
   // фото
   const cx=W/2, cy=470, r=230, img=await loadImg(p.photo);
   x.save(); x.beginPath(); x.arc(cx,cy,r,0,Math.PI*2); x.closePath(); x.fillStyle='#14233a'; x.fill(); x.clip();
@@ -401,3 +401,12 @@ window.makeDemoGames=function(players){
 
 /* ---------- страницы правил подключаются из rules.js ---------- */
 window.FEATURE_ROUTES={teams:teamsPage,records:recordsPage,rules:id=>window.rulesPage?rulesPage(id):home()};
+
+/* мяч-логотип для картинок (canvas) */
+function drawBall(x,cx,cy,r){
+  x.save(); x.translate(cx,cy); x.rotate(-25*Math.PI/180); const k=r/46; x.scale(k,k); x.translate(-50,-50);
+  const g=x.createRadialGradient(38,32,0,38,32,75); g.addColorStop(0,'#fff'); g.addColorStop(.62,'#f1ede4'); g.addColorStop(1,'#c9c2b3');
+  x.beginPath(); x.arc(50,50,46,0,Math.PI*2); x.fillStyle=g; x.fill(); x.clip();
+  x.lineCap='round'; x.globalAlpha=.55; x.strokeStyle='#c9302c'; x.lineWidth=2.4; x.stroke(new Path2D(BALL_SEAM));
+  x.globalAlpha=1; x.strokeStyle='#d2312b'; x.lineWidth=3.6; x.stroke(new Path2D(BALL_ST)); x.restore();
+}

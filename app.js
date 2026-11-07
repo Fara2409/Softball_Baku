@@ -41,6 +41,11 @@ let LANG='az';
 try{ const s=localStorage.getItem('lang'); if(I18N[s]) LANG=s; }catch(e){}
 const T=k=>I18N[LANG][k];
 
+/* ---------- Логотип: бейсбольный мяч (крутится при наведении) ---------- */
+const BALL_SEAM='M19 16C39 34 39 66 19 84 M81 16C61 34 61 66 81 84', BALL_ST='M19.3 22.2L23.3 22.3M25.8 16.9L25.1 20.8M22.9 26.9L26.8 27.5M30.1 22.5L28.9 26.3M25.8 31.9L29.5 33.1M33.5 28.6L31.7 32.1M27.9 37.2L31.4 38.9M36.0 35.0L33.8 38.3M29.2 42.7L32.5 44.9M37.5 41.6L34.9 44.6M29.8 48.4L32.8 51.0M38.2 48.4L35.2 51.0M29.6 54.1L32.3 57.1M38.0 55.2L34.6 57.4M28.7 59.7L30.9 63.0M36.8 61.9L33.2 63.7M27.0 65.2L28.8 68.8M34.7 68.5L31.0 69.7M24.6 70.4L25.8 74.2M31.8 74.8L27.8 75.4M21.4 75.3L22.0 79.2M27.8 80.7L23.9 80.8M74.2 16.9L74.9 20.8M80.7 22.2L76.7 22.3M69.9 22.5L71.1 26.3M77.1 26.9L73.2 27.5M66.5 28.6L68.3 32.1M74.2 31.9L70.5 33.1M64.0 35.0L66.2 38.3M72.1 37.2L68.6 38.9M62.5 41.6L65.1 44.6M70.8 42.7L67.5 44.9M61.8 48.4L64.8 51.0M70.2 48.4L67.2 51.0M62.0 55.2L65.4 57.4M70.4 54.1L67.7 57.1M63.2 61.9L66.8 63.7M71.3 59.7L69.1 63.0M65.3 68.5L69.0 69.7M73.0 65.2L71.2 68.8M68.2 74.8L72.2 75.4M75.4 70.4L74.2 74.2M72.2 80.7L76.1 80.8M78.6 75.3L78.0 79.2';
+let _ballN=0;
+function ballSVG(){ const i='b'+(++_ballN);
+  return `<svg class="ball" viewBox="0 0 100 100" aria-hidden="true"><defs><radialGradient id="${i}" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#fff"/><stop offset=".62" stop-color="#f1ede4"/><stop offset="1" stop-color="#c9c2b3"/></radialGradient></defs><circle cx="50" cy="50" r="46" fill="url(#${i})"/><g fill="none" stroke-linecap="round"><path d="${BALL_SEAM}" stroke="#c9302c" stroke-width="2.4" opacity=".55"/><path d="${BALL_ST}" stroke="#d2312b" stroke-width="3.6"/></g></svg>`; }
 /* ---------- Performance score (0–10) ---------- */
 // Формула v3 (07.11.2026). Абсолютная шкала: BASE + бита + защита + бонус за победу, предел 3–10.
 // Ноябрь–декабрь 2026: тестовые игры, калибруем BASE и веса (цель: средний игрок ≈ 6.5).
@@ -300,7 +305,7 @@ function footer(){
   return `<div class="foot-stripe"><i style="background:var(--bina)"></i><i style="background:var(--amber)"></i><i style="background:var(--flames)"></i></div>
   <div class="foot-inner">
     <div class="foot-brand">
-      <a class="brand" href="#rating"><span class="brand-mark">◆</span><span class="brand-text">SOFTBALL <b>BAKU</b></span></a>
+      <a class="brand" href="#rating"><span class="brand-mark">${ballSVG()}</span><span class="brand-text">SOFTBALL <b>BAKU</b></span></a>
       <p>${T('tagline')}</p>
       ${socials?`<div class="socials">${socials}</div>`:''}
       ${window.installBtnHTML?installBtnHTML():''}

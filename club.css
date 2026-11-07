@@ -248,6 +248,7 @@ table.lb.lv-bx{min-width:0}
   .top{gap:8px}
   .top .brand{font-size:13px;letter-spacing:1.5px;gap:7px}
   .top .brand-mark{font-size:17px}
+  .top .brand-mark .ball{width:21px;height:21px}
   .top .lang button{padding:6px 7px}
   .acct-in{padding:7px 10px;font-size:13px}
 }
