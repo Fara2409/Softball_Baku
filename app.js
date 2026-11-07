@@ -47,7 +47,7 @@ let _ballN=0;
 function ballSVG(){ const i='b'+(++_ballN);
   return `<svg class="ball" viewBox="0 0 100 100" aria-hidden="true"><defs><radialGradient id="${i}" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#fff"/><stop offset=".62" stop-color="#f1ede4"/><stop offset="1" stop-color="#c9c2b3"/></radialGradient></defs><circle cx="50" cy="50" r="46" fill="url(#${i})"/><g fill="none" stroke-linecap="round"><path d="${BALL_SEAM}" stroke="#c9302c" stroke-width="2.4" opacity=".55"/><path d="${BALL_ST}" stroke="#d2312b" stroke-width="3.6"/></g></svg>`; }
 /* ---------- Performance score (0–10) ---------- */
-// Формула v3 (07.11.2026). Абсолютная шкала: BASE + бита + защита + бонус за победу, предел 3–10.
+// Формула v3 (07.11.2026). Абсолютная шкала: BASE + бита + защита (без бонуса за победу), предел 3–10.
 // Ноябрь–декабрь 2026: тестовые игры, калибруем BASE и веса (цель: средний игрок ≈ 6.5).
 // С 1 января 2027 формула заморожена на весь сезон.
 // Защита: PO делится по типу розыгрыша:
@@ -59,13 +59,13 @@ function ballSVG(){ const i='b'+(++_ballN);
 // Кражи баз в нашей игре нет, в рейтинг не идут.
 const BASE=6.0;
 const W={'1B':.25,'2B':.5,'3B':.75,HR:1.0,BB:.15,ROE:.15,R:.25,RBI:.25,OUT:-.25,K:-.35,
-  FPO:.15,A:.10,RPO:.05,PK:.2,E:-.4,WIN:.25};
+  FPO:.15,A:.10,RPO:.05,PK:.2,E:-.4}; // бонуса за победу нет (убран 07.11.2026)
 function rating(b,won){
   const roe=b.ROE||0, outs=Math.max(0,b.AB-b.H-b.K-roe);
   const off=W['1B']*b['1B']+W['2B']*b['2B']+W['3B']*b['3B']+W.HR*b.HR+W.BB*b.BB+W.ROE*roe+W.R*b.R+W.RBI*b.RBI+W.OUT*outs+W.K*b.K;
   const fpo=b.FPO||0,kpo=b.KPO||0,rpo=Math.max(0,(b.PO||0)-fpo-kpo); // в старых протоколах без FPO/KPO все PO считаются принятыми бросками
   const def=W.FPO*fpo+W.RPO*rpo+W.A*(b.A||0)+W.PK*(b.PK||0)+W.E*(b.E||0);
-  return Math.round(Math.min(10,Math.max(3,BASE+off+def+(won?W.WIN:0)))*10)/10;
+  return Math.round(Math.min(10,Math.max(3,BASE+off+def+(won&&W.WIN?W.WIN:0)))*10)/10;
 }
 function rclass(r){return r==null?'na':r>=9?'elite':r>=8?'great':r>=7?'good':r>=6?'mid':'low'}
 const RCOL={low:'var(--r-low)',mid:'var(--r-mid)',good:'var(--r-good)',great:'var(--r-great)',elite:'var(--r-elite)'};
