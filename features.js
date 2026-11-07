@@ -10,7 +10,7 @@ Object.assign(I18N.ru,{
   tmTitle:'Разделить на команды',tmSub:'Отметьте, кто пришёл, — сайт разделит всех на две равные команды по рейтингу и позициям.',
   tmAll:'Выбрать всех',tmNone:'Очистить',tmPresent:n=>`Пришли: ${n}`,tmGo:'Разделить',tmAgain:'Другой вариант',tmCopy:'Скопировать для WhatsApp',tmCopied:'Скопировано',
   tmNeed:'Отметьте хотя бы 4 игроков',tmPC:'Питчер и кэтчер в каждой команде',tmLevels:'Уровень игроков',tmLevelsHint:'Для игроков без статистики сила — ваша оценка (по умолчанию 6.5). После игр берётся настоящий рейтинг.',
-  tmBalance:'Баланс',tmAvg:'средняя сила',tmEH:'EH',tmEst:'оценка',
+  tmBalance:'Баланс',tmSubC:'сменный кэтчер — ловит любой свободный игрок',tmSubCs:'сменный',tmAvg:'средняя сила',tmEH:'EH',tmEst:'оценка',
   rcTitle:'Рекорды и награды',rcAwards:'Награды сезона',rcLeader:'текущий лидер',rcGame:'Рекорды одной игры',rcSeason:'Рекорды сезона',rcBadges:'Достижения',rcEmpty:'Рекорды и награды появятся после первых игр сезона.',
   rcEarned:n=>`получили: ${n}`,rcNobody:'пока никто',
   bgTitle:'Достижения',bgOf:(a,b)=>`${a} из ${b}`,
@@ -29,7 +29,7 @@ Object.assign(I18N.az,{
   tmTitle:'Komandalara böl',tmSub:'Gələnləri qeyd edin — sayt hamını reytinq və mövqelərə görə iki bərabər komandaya bölər.',
   tmAll:'Hamısını seç',tmNone:'Təmizlə',tmPresent:n=>`Gələnlər: ${n}`,tmGo:'Böl',tmAgain:'Başqa variant',tmCopy:'WhatsApp üçün kopyala',tmCopied:'Kopyalandı',
   tmNeed:'Ən azı 4 oyunçu seçin',tmPC:'Hər komandada pitçer və ketçer',tmLevels:'Oyunçuların səviyyəsi',tmLevelsHint:'Statistikası olmayan oyunçular üçün güc — sizin qiymətiniz (standart 6.5). Oyunlardan sonra real reytinq götürülür.',
-  tmBalance:'Balans',tmAvg:'orta güc',tmEH:'EH',tmEst:'qiymət',
+  tmBalance:'Balans',tmSubC:'növbəli ketçer — boş olan istənilən oyunçu tutur',tmSubCs:'növbəli',tmAvg:'orta güc',tmEH:'EH',tmEst:'qiymət',
   rcTitle:'Rekordlar və mükafatlar',rcAwards:'Mövsümün mükafatları',rcLeader:'hazırkı lider',rcGame:'Bir oyunun rekordları',rcSeason:'Mövsüm rekordları',rcBadges:'Nailiyyətlər',rcEmpty:'Rekordlar və mükafatlar mövsümün ilk oyunlarından sonra görünəcək.',
   rcEarned:n=>`qazananlar: ${n}`,rcNobody:'hələ heç kim',
   bgTitle:'Nailiyyətlər',bgOf:(a,b)=>`${b}-dən ${a}`,
@@ -48,7 +48,7 @@ Object.assign(I18N.en,{
   tmTitle:'Split into teams',tmSub:'Tick who showed up — the site splits everyone into two even teams by rating and positions.',
   tmAll:'Select all',tmNone:'Clear',tmPresent:n=>`Present: ${n}`,tmGo:'Split',tmAgain:'Another option',tmCopy:'Copy for WhatsApp',tmCopied:'Copied',
   tmNeed:'Select at least 4 players',tmPC:'Pitcher and catcher on each team',tmLevels:'Player levels',tmLevelsHint:'For players without stats, strength is your estimate (default 6.5). After games the real rating is used.',
-  tmBalance:'Balance',tmAvg:'avg strength',tmEH:'EH',tmEst:'estimate',
+  tmBalance:'Balance',tmSubC:'rotating catcher — any free player catches',tmSubCs:'rotating',tmAvg:'avg strength',tmEH:'EH',tmEst:'estimate',
   rcTitle:'Records and awards',rcAwards:'Season awards',rcLeader:'current leader',rcGame:'Single-game records',rcSeason:'Season records',rcBadges:'Achievements',rcEmpty:'Records and awards will appear after the first games of the season.',
   rcEarned:n=>`earned by ${n}`,rcNobody:'nobody yet',
   bgTitle:'Achievements',bgOf:(a,b)=>`${a} of ${b}`,
@@ -120,7 +120,10 @@ function fitScore(p,pos){ // насколько игроку подходит п
 function assignPositions(team){
   // оптимальная расстановка (перебор по маске позиций): все позиции заняты, сумма «подходит ли позиция» максимальна;
   // основная позиция игрока важнее всего, затем позиции, где он уже играл / указан, затем та же зона (инфилд / аутфилд)
-  const POS=['P','C','SS','1B','2B','3B','CF','LF','RF','SF'].slice(0,Math.min(10,team.length));
+  // Настоящий кэтчер обычно один (Седияр). В команде без кэтчера C не занимаем полевым игроком:
+  // ловит любой свободный игрок (subC = true), а все стоят на своих позициях.
+  const hasC=team.some(x=>canPlay(x.p,'C'));
+  const POS=['P','C','SS','1B','2B','3B','CF','LF','RF','SF'].filter(p=>hasC||p!=='C').slice(0,Math.min(hasC?10:9,team.length));
   const n=team.length, M=1<<POS.length, NEG=-1e9;
   let dp=new Array(M).fill(NEG); dp[0]=0; const choice=[];
   for(let i=0;i<n;i++){
@@ -135,7 +138,7 @@ function assignPositions(team){
   const pos=new Array(n);
   for(let i=n-1;i>=0;i--){ const k=choice[i][m]; if(k>=0){pos[i]=POS[k]; m&=~(1<<k);} else pos[i]='EH'; }
   const out=team.map((x,i)=>({...x,pos:pos[i]})), ord=[...POS,'EH'];
-  return out.sort((a,b)=>ord.indexOf(a.pos)-ord.indexOf(b.pos));
+  const res=out.sort((a,b)=>ord.indexOf(a.pos)-ord.indexOf(b.pos)); res.subC=!hasC; return res;
 }
 let TM={sols:[],idx:0,rng:mulberry32(Date.now()%1e9)};
 function teamsPage(){
@@ -178,14 +181,15 @@ function tmRender(){
     <span class="muted small">${TM.sols.length>1?`${TM.idx+1}/${TM.sols.length}`:''}</span></div><div class="tm-teams">`;
   teams.forEach((t,k)=>{ const d=TEAM_DEF[k];
     h+=`<div class="card tm-team"><div class="tm-head" style="border-color:${d.color}"><i style="background:${d.color}"></i><b>${d.name}</b><span>${T('tmAvg')} ${avg(t).toFixed(2)} · ${t.length}</span></div>`;
-    for(const x of t) h+=`<div class="tm-row" data-peek="${x.p.id}"><span class="chip ${x.pos==='EH'?'':'main'}">${x.pos}</span>${av(x.p)}<span class="nm">${esc(pname(x.p))}</span><span class="no">#${x.p.number}</span>${rt(Math.round(x.s*10)/10)}</div>`;
+    const ci=t[0]&&t[0].pos==='P'?1:0; t.forEach((x,i)=>{ if(t.subC&&i===ci) h+=`<div class="tm-row tm-subc"><span class="chip">C</span><span class="nm muted">${T('tmSubC')}</span></div>`;
+      h+=`<div class="tm-row" data-peek="${x.p.id}"><span class="chip ${x.pos==='EH'?'':'main'}">${x.pos}</span>${av(x.p)}<span class="nm">${esc(pname(x.p))}</span><span class="no">#${x.p.number}</span>${rt(Math.round(x.s*10)/10)}</div>`; });
     h+=`</div>`; });
   h+=`</div><div class="btns center"><button class="btn" onclick="tmSplit(false)">↻ ${T('tmAgain')}</button><button class="btn wa" onclick="tmCopy(this)">${T('tmCopy')}</button></div></div>`;
   document.getElementById('tmOut').innerHTML=h;
 }
 function tmText(){
   const teams=tmTeams();
-  return teams.map((t,k)=>`⚾ *${TEAM_DEF[k].name}*\n`+t.map(x=>`${x.pos.padEnd(3)} #${x.p.number} ${pname(x.p)}`).join('\n')).join('\n\n')+`\n\n${location.origin}${location.pathname}`;
+  return teams.map((t,k)=>`⚾ *${TEAM_DEF[k].name}*\n`+(t.subC?[`C   — ${T('tmSubCs')}`]:[]).concat(t.map(x=>`${x.pos.padEnd(3)} #${x.p.number} ${pname(x.p)}`)).join('\n')).join('\n\n')+`\n\n${location.origin}${location.pathname}`;
 }
 async function tmCopy(btn){
   const txt=tmText();
