@@ -357,7 +357,10 @@ function delEv(i){if(!confirm('Удалить событие?\n\n'+S.events[i].d
 
 /* ===== экспорт ===== */
 function gameJSON(){
- const g=replay(),n=Math.max(g.line.A.length,g.line.B.length,1),pad=a=>Array.from({length:n},(_,i)=>a[i]||0);
+ const g=replay();
+ // последний иннинг, в котором был хоть один розыгрыш: пустой иннинг после последнего аута в протокол не попадает
+ let last=1;S.events.forEach((e,i)=>{if(['pa','sb','adv','runout'].includes(e.type))last=Math.max(last,g.steps[i].inning)});
+ const n=g.over?last:Math.max(g.line.A.length,g.line.B.length,1),pad=a=>Array.from({length:n},(_,i)=>a[i]||0);
  return {id:S.id,date:S.id,venue:S.venue,video:null,image:null,
   teams:{A:{name:S.teams.A.name,color:S.teams.A.color},B:{name:S.teams.B.name,color:S.teams.B.color}},
   linescore:{A:pad(g.line.A),B:pad(g.line.B)},score:{A:g.runs.A,B:g.runs.B},
