@@ -216,7 +216,7 @@ function apply(g,e){
    if(r==='E'&&fseq[0]){const f=defAt(g,fseq[0]);if(f)bx(g,f,fld(g)).E++}
    const m=move(g,e.adv);
    if(r!=='E')b.RBI+=m.runs;
-   if(r==='K'){const c=defAt(g,'C');if(c){const cb=bx(g,c,fld(g));cb.PO++;cb.KPO++}const pp=atPos(g,'P');if(pp)bx(g,pp,fld(g)).PK++;if(m.outs>1)credit(g,fseq,m.outs-1)}
+   if(r==='K'){/* кэтчер за страйк-аут ничего не получает (решение 07.11.2026) */const pp=atPos(g,'P');if(pp)bx(g,pp,fld(g)).PK++;if(m.outs>1)credit(g,fseq,m.outs-1)}
    else if(r!=='E')credit(g,fseq,m.outs);
    g.idx[k]++;break}
   case 'sb':bx(g,e.runner,k).SB++;move(g,e.adv);break;
