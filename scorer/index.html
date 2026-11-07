@@ -157,7 +157,7 @@ function closeM(){modal('')}
 
 /* ===== хранение ===== */
 function newState(){return {v:1,id:today(),venue:'Amirajan, Baku',
- teams:{A:{name:'Bina Warriors',color:'#D85A30',lineup:[]},B:{name:'Baku Flames',color:'#1f6fc0',lineup:[]}},
+ teams:{A:{name:'Bina Warriors',color:'#D85A30',lineup:[]},B:{name:'Gilavar Baku',color:'#1f6fc0',lineup:[]}},
  pos:{},started:false,recs:[],events:[]}}
 function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast('Не удалось сохранить на телефоне!')}}
@@ -277,7 +277,7 @@ function fieldM(mode,cb){
   for(const p of FPOS){const id=atPos(G,p);if(p==='SF'&&!id)continue;const [x,y]=FXY[p];
    h+=`<button class="fp ${seq.includes(p)?'sel':''}" style="left:${x}%;top:${y}%" ${id?'':'disabled'} onclick="_fp('${p}')"><b>${p}</b><span>${id?esc(name(id)):'—'}</span></button>`}
   h+=`</div>`;
-  if(mode==='seq')h+=`<div class="seq">${seq.length?seq.map(p=>PN[p]).join('-'):'<span class="muted small">например 6-3: SS → 1B</span>'}</div>
+  if(mode==='seq')h+=`<div class="seq">${seq.length?seq.map(p=>PN[p]).join('-'):'<span class="muted small">6-3: SS → 1B · один защитник (3), если сам сделал аут</span>'}</div>
    <div class="acts"><button onclick="_fr()">Сброс</button><button onclick="_fd(true)">Пропустить</button><button class="pri" onclick="_fd(false)" ${seq.length?'':'disabled'}>Готово</button></div>`;
   else h+=`<div class="acts"><button onclick="_fd(true)">Пропустить</button><button onclick="closeM()">Отмена</button></div>`;
   modal(h);

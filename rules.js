@@ -49,13 +49,13 @@ const GLOSS={
 const RT_TXT={
  ru:{t:'Как считается рейтинг',intro:b=>`Каждый игрок начинает игру с <b>${b.toFixed(1)}</b>. Дальше за каждое действие добавляются или снимаются баллы. Итог за игру — от 3 до 10, рейтинг сезона — среднее по играм.`,
    bat:'Бита',def:'Защита',win:'Победа команды',
-   n:{'1B':'Сингл','2B':'Дабл','3B':'Трипл',HR:'Хоум-ран',BB:'Уок',ROE:'Попал на базу по ошибке защиты',R:'Ран',RBI:'RBI',OUT:'Аут при выходе на биту',K:'Страйк-аут',FPO:'Сам сделал аут (поймал флай)',A:'Передача на аут',RPO:'Принял бросок на аут',KPO:'Кэтчер принял третий страйк',PK:'Страйк-аут на подаче (питчер)',E:'Ошибка',WIN:'Бонус за победу'}},
+   n:{'1B':'Сингл','2B':'Дабл','3B':'Трипл',HR:'Хоум-ран',BB:'Уок',ROE:'Попал на базу по ошибке защиты',R:'Ран',RBI:'RBI',OUT:'Аут при выходе на биту',K:'Страйк-аут',FPO:'Сам сделал аут (флай или сам на базе)',A:'Передача на аут',RPO:'Принял бросок на аут',KPO:'Кэтчер принял третий страйк',PK:'Страйк-аут на подаче (питчер)',E:'Ошибка',WIN:'Бонус за победу'}},
  az:{t:'Reytinq necə hesablanır',intro:b=>`Hər oyunçu oyuna <b>${b.toFixed(1)}</b> ilə başlayır. Sonra hər hərəkət üçün bal əlavə olunur və ya çıxılır. Oyunun nəticəsi 3-dən 10-a qədər, mövsüm reytinqi — oyunlar üzrə ortalama.`,
    bat:'Vuruş',def:'Müdafiə',win:'Komandanın qələbəsi',
-   n:{'1B':'Sinql','2B':'Dabl','3B':'Tripl',HR:'Homeran',BB:'Uok',ROE:'Müdafiə səhvi ilə bazaya çıxdı',R:'Ran',RBI:'RBI',OUT:'Vuruşda aut',K:'Strayk-aut',FPO:'Özü aut etdi (flayı tutdu)',A:'Auta ötürmə',RPO:'Auta atışı qəbul etdi',KPO:'Ketçer üçüncü straykı tutdu',PK:'Atışda strayk-aut (pitçer)',E:'Səhv',WIN:'Qələbə bonusu'}},
+   n:{'1B':'Sinql','2B':'Dabl','3B':'Tripl',HR:'Homeran',BB:'Uok',ROE:'Müdafiə səhvi ilə bazaya çıxdı',R:'Ran',RBI:'RBI',OUT:'Vuruşda aut',K:'Strayk-aut',FPO:'Özü aut etdi (flay və ya özü bazada)',A:'Auta ötürmə',RPO:'Auta atışı qəbul etdi',KPO:'Ketçer üçüncü straykı tutdu',PK:'Atışda strayk-aut (pitçer)',E:'Səhv',WIN:'Qələbə bonusu'}},
  en:{t:'How the rating works',intro:b=>`Every player starts a game at <b>${b.toFixed(1)}</b>. Points are then added or taken away for each action. A game score is 3 to 10; the season rating is the average across games.`,
    bat:'Batting',def:'Defense',win:'Team win',
-   n:{'1B':'Single','2B':'Double','3B':'Triple',HR:'Home run',BB:'Walk',ROE:'Reached on error',R:'Run',RBI:'RBI',OUT:'Out at the plate',K:'Strikeout',FPO:'Made the out himself (fly catch)',A:'Assist',RPO:'Took a throw for an out',KPO:'Catcher caught strike three',PK:'Strikeout while pitching',E:'Error',WIN:'Win bonus'}}
+   n:{'1B':'Single','2B':'Double','3B':'Triple',HR:'Home run',BB:'Walk',ROE:'Reached on error',R:'Run',RBI:'RBI',OUT:'Out at the plate',K:'Strikeout',FPO:'Made the out himself (fly or unassisted)',A:'Assist',RPO:'Took a throw for an out',KPO:'Catcher caught strike three',PK:'Strikeout while pitching',E:'Error',WIN:'Win bonus'}}
 };
 function fieldSVG(){
   const FXY={CF:[50,10],LF:[17,24],RF:[83,24],SF:[50,28],SS:[34,44],'2B':[66,44],P:[50,62],'3B':[20,63],'1B':[80,63],C:[50,90]};

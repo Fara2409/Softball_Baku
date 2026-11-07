@@ -150,7 +150,7 @@ function tmSplit(fresh){
   else TM.idx=(TM.idx+1)%TM.sols.length;
   tmRender(); document.getElementById('tmOut').scrollIntoView({behavior:'smooth',block:'start'});
 }
-const TEAM_DEF=[{name:'Bina Warriors',color:'#D85A30'},{name:'Baku Flames',color:'#1f6fc0'}];
+const TEAM_DEF=[{name:'Bina Warriors',color:'#D85A30'},{name:'Gilavar Baku',color:'#1f6fc0'}];
 function tmTeams(){ const s=TM.sols[TM.idx]; return [assignPositions(s.A),assignPositions(s.B)]; }
 function tmRender(){
   const teams=tmTeams(), avg=t=>t.reduce((a,x)=>a+x.s,0)/t.length;
@@ -395,7 +395,7 @@ window.makeDemoGames=function(players){
     if(sc.A===sc.B){ const b=pick(box.filter(b=>b.team==='A')); b.R++; sc.A++; }
     const ls={A:Array(7).fill(0),B:Array(7).fill(0)}; for(const k of ['A','B']) for(let i=0;i<sc[k];i++) ls[k][Math.floor(rnd()*7)]++;
     hl.sort((a,b)=>a.t-b.t);
-    return {id:d,date:d,venue:'Amirajan, Baku',video:vid,image:'games/2026-11-01.jpg',teams:{A:{name:'Bina Warriors',color:'#D85A30'},B:{name:'Baku Flames',color:'#1f6fc0'}},linescore:ls,score:sc,box,highlights:hl.slice(0,8)};
+    return {id:d,date:d,venue:'Amirajan, Baku',video:vid,image:'games/2026-11-01.jpg',teams:{A:{name:'Bina Warriors',color:'#D85A30'},B:{name:'Gilavar Baku',color:'#1f6fc0'}},linescore:ls,score:sc,box,highlights:hl.slice(0,8)};
   });
 };
 

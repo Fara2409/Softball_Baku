@@ -46,15 +46,15 @@ const T=k=>I18N[LANG][k];
 // Ноябрь–декабрь 2026: тестовые игры, калибруем BASE и веса (цель: средний игрок ≈ 6.5).
 // С 1 января 2027 формула заморожена на весь сезон.
 // Защита: PO делится по типу розыгрыша:
-//   FPO: сам сделал аут (поймал флай или аут без передачи)
+//   FPO: сам сделал аут (поймал флай или аут по земле без передачи, напр. 1B сам наступил на базу)
 //   PO кэтчера за страйк-аут (KPO) в рейтинг не идёт
 //   остальные PO: принял бросок в цепочке (6-3 → PO первому бейсмену)
-// PK: страйк-аут, пока этот игрок подавал (питчер), +0.25
+// PK: страйк-аут, пока этот игрок подавал (питчер), +0.2
 // ROE: бьющий попал на базу по ошибке защиты, +0.15 (как уок), аутом не считается
 // Кражи баз в нашей игре нет, в рейтинг не идут.
 const BASE=6.0;
 const W={'1B':.25,'2B':.5,'3B':.75,HR:1.0,BB:.15,ROE:.15,R:.25,RBI:.25,OUT:-.25,K:-.35,
-  FPO:.15,A:.12,RPO:.04,PK:.25,E:-.4,WIN:.25};
+  FPO:.15,A:.10,RPO:.05,PK:.2,E:-.4,WIN:.25};
 function rating(b,won){
   const roe=b.ROE||0, outs=Math.max(0,b.AB-b.H-b.K-roe);
   const off=W['1B']*b['1B']+W['2B']*b['2B']+W['3B']*b['3B']+W.HR*b.HR+W.BB*b.BB+W.ROE*roe+W.R*b.R+W.RBI*b.RBI+W.OUT*outs+W.K*b.K;
@@ -303,6 +303,7 @@ function footer(){
       <a class="brand" href="#rating"><span class="brand-mark">◆</span><span class="brand-text">SOFTBALL <b>BAKU</b></span></a>
       <p>${T('tagline')}</p>
       ${socials?`<div class="socials">${socials}</div>`:''}
+      ${window.installBtnHTML?installBtnHTML():''}
       ${S.season?`<span class="foot-pill">${T('seasonPill')({season:S.season,start:startTxt})}</span>`:''}
     </div>
     <div class="foot-col"><h4>${T('site')}</h4><a href="#rating">${T('rating')}</a><a href="#games">${T('games')}</a>${I18N[LANG].navTeams?`<a href="#teams">${T('navTeams')}</a><a href="#records">${T('navRecords')}</a><a href="#rules">${T('navRules')}</a>`:''}</div>
