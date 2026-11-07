@@ -17,8 +17,9 @@ const hms=t=>new Date(t).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-di
 
 /* ---------- значок ---------- */
 const st=document.createElement('style');
-st.textContent=`body{padding-bottom:calc(122px + env(safe-area-inset-bottom))!important}
-.lvb{position:fixed;right:10px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:20;display:flex;align-items:center;gap:7px;padding:8px 12px;border-radius:999px;font:700 12px/1 system-ui,-apple-system,sans-serif;background:#1a1d24;border:1px solid #2c313c;color:#8a93a3;box-shadow:0 4px 14px rgba(0,0,0,.45)}
+st.textContent=`.lvb{flex:none;display:flex;align-items:center;gap:6px;padding:5px 9px;border-radius:10px;font:700 11px/1.15 system-ui,-apple-system,sans-serif;background:#1a1d24;border:1px solid #2c313c;color:#8a93a3;text-align:left;white-space:nowrap}
+.lvb small{display:block;font-size:9px;font-weight:600;letter-spacing:.06em;opacity:.7}
+.lvb.fx{position:fixed;top:calc(8px + env(safe-area-inset-top));right:10px;z-index:20}
 .lvb i{width:8px;height:8px;border-radius:50%;background:#5a6170;flex:none}
 .lvb.ok{color:#eef1f5;border-color:#e5484d;background:#2a1416}.lvb.ok i{background:#ff4d4f;animation:bl 1.2s infinite}
 .lvb.wait i{background:#ffb020}
@@ -28,19 +29,22 @@ st.textContent=`body{padding-bottom:calc(122px + env(safe-area-inset-bottom))!im
 .lvp .on{background:#2a1416;border-color:#e5484d;color:#fff;font-weight:700}
 .lvp .err{color:#ffb020}.lvp a{color:var(--acc)}`;
 document.head.appendChild(st);
-const pill=document.createElement('button'); pill.className='lvb'; pill.onclick=panel; document.body.appendChild(pill);
+const pill=document.createElement('button'); pill.className='lvb'; pill.onclick=panel;
+// значок живёт в шапке (.sb); шапка перерисовывается при каждом нажатии, поэтому возвращаем его на место
+function mount(){const sb=document.querySelector('.sb');if(sb){if(pill.parentNode!==sb)sb.appendChild(pill);pill.classList.remove('fx')}else if(!pill.parentNode){document.body.appendChild(pill);pill.classList.add('fx')}}
+new MutationObserver(mount).observe(document.getElementById('app'),{childList:true}); mount();
 function badge(){
   let cls='',txt='';
-  if(X.state==='load'){ txt='Онлайн…'; }
-  else if(X.state==='nosdk'){ txt='Онлайн: нет связи'; cls='err'; }
-  else if(!X.user){ txt='Онлайн: войти'; }
-  else if(X.role!=='admin'){ txt='Онлайн: нет прав'; }
-  else if(!enabled){ txt='Онлайн: выкл'; }
-  else if(X.state==='err'){ txt='Онлайн: нет сети'; cls='err'; }
-  else if(X.state==='send'){ txt='Онлайн…'; cls='ok wait'; }
+  if(X.state==='load'){ txt='…'; }
+  else if(X.state==='nosdk'){ txt='нет связи'; cls='err'; }
+  else if(!X.user){ txt='войти'; }
+  else if(X.role!=='admin'){ txt='нет прав'; }
+  else if(!enabled){ txt='выкл'; }
+  else if(X.state==='err'){ txt='нет сети'; cls='err'; }
+  else if(X.state==='send'){ txt='отправка…'; cls='ok wait'; }
   else if(X.lastAt){ txt='В ЭФИРЕ'; cls='ok'; }
-  else { txt='Онлайн: готов'; cls='ok'; }
-  pill.className='lvb '+cls; pill.innerHTML=`<i></i>${txt}`;
+  else { txt='готов'; cls='ok'; }
+  pill.className='lvb '+cls+(pill.parentNode===document.body?' fx':''); pill.title='Онлайн: '+txt; pill.innerHTML=`<i></i><span><small>ОНЛАЙН</small>${txt}</span>`;
 }
 
 /* ---------- панель ---------- */
