@@ -70,9 +70,10 @@ h2{font-size:17px;margin:18px 0 8px}h3{margin:0 0 12px;font-size:17px}
 .danger{color:var(--red)}
 /* field picker */
 .field{position:relative;width:100%;max-width:380px;aspect-ratio:1/1.02;margin:0 auto;background:radial-gradient(circle at 50% 95%,#3a2a1a 0 30%,transparent 30.5%),radial-gradient(ellipse at 50% 100%,#173d22 0 75%,#0f2a17 75.5%);border-radius:50% 50% 12px 12px/40% 40% 12px 12px;overflow:hidden}
-.fp{position:absolute;transform:translate(-50%,-50%);width:66px;padding:5px 2px;text-align:center;background:rgba(15,17,21,.92);border-radius:10px}
+.fp{position:absolute;transform:translate(-50%,-50%);width:72px;min-height:48px;padding:7px 2px;text-align:center;background:rgba(15,17,21,.92);border-radius:10px}
 .fp b{display:block;font-size:15px}.fp span{display:block;font-size:10px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fp.sel{border-color:var(--acc);background:#3a2c0c}
+.fp:active{transform:translate(-50%,-50%) scale(.95)} /* не сбивать позицию кнопки при нажатии */
 .seq{text-align:center;font-size:22px;font-weight:800;min-height:30px;margin:8px 0;letter-spacing:.05em}
 /* runners */
 .rn{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:8px}
@@ -280,19 +281,25 @@ function pa(r){
 }
 function fieldM(mode,cb){
  const seq=[];
- window._fp=p=>{seq.push(p);if(mode!=='seq'){cb(seq);return}draw()};
+ window._fp=p=>{seq.push(p);if(mode!=='seq'){cb(seq);return}upd()};
  window._fd=skip=>{cb(skip?[]:seq)};
- window._fr=()=>{seq.length=0;draw()};
+ window._fr=()=>{seq.length=0;upd()};
  const draw=()=>{
   let h=`<h3>${mode==='E'?'Кто ошибся?':mode==='one'?'Кто поймал мяч?':'Кто разыграл? Нажимайте по порядку'}</h3><div class="field">`;
   const hasCF=!!atPos(G,'CF');
   for(const p of FPOS){const id=atPos(G,p);if(!id&&(p==='CF'?!hasCF:(p==='LCF'||p==='RCF')&&hasCF))continue;const [x,y]=FXY[p];
-   h+=`<button class="fp ${seq.includes(p)?'sel':''}" style="left:${x}%;top:${y}%" ${id?'':'disabled'} onclick="_fp('${p}')"><b>${p}</b><span>${id?esc(name(id)):'—'}</span></button>`}
+   h+=`<button class="fp ${seq.includes(p)?'sel':''}" data-p="${p}" style="left:${x}%;top:${y}%" ${id?'':'disabled'} onclick="_fp('${p}')"><b>${p}</b><span>${id?esc(name(id)):'—'}</span></button>`}
   h+=`</div>`;
-  if(mode==='seq')h+=`<div class="seq">${seq.length?seq.map(p=>PN[p]).join('-'):'<span class="muted small">например SS-1B · или один защитник (1B), если сам сделал аут</span>'}</div>
-   <div class="acts"><button onclick="_fr()">Сброс</button><button onclick="_fd(true)">Пропустить</button><button class="pri" onclick="_fd(false)" ${seq.length?'':'disabled'}>Готово</button></div>`;
+  if(mode==='seq')h+=`<div class="seq" id="fseq"></div>
+   <div class="acts"><button onclick="_fr()">Сброс</button><button onclick="_fd(true)">Пропустить</button><button class="pri" id="fdone" onclick="_fd(false)">Готово</button></div>`;
   else h+=`<div class="acts"><button onclick="_fd(true)">Пропустить</button><button onclick="closeM()">Отмена</button></div>`;
-  modal(h);
+  modal(h);if(mode==='seq')upd();
+ };
+ // в цепочке не перерисовываем окно целиком — только подсветку и текст, чтобы нажатия не терялись
+ const upd=()=>{
+  document.querySelectorAll('.fp').forEach(b=>b.classList.toggle('sel',seq.includes(b.dataset.p)));
+  const q=document.getElementById('fseq');if(q)q.innerHTML=seq.length?seq.map(p=>PN[p]).join('-'):'<span class="muted small">например SS-1B · или один защитник (1B), если сам сделал аут</span>';
+  const d=document.getElementById('fdone');if(d)d.disabled=!seq.length;
  };
  draw();
 }
