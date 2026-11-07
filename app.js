@@ -42,22 +42,24 @@ try{ const s=localStorage.getItem('lang'); if(I18N[s]) LANG=s; }catch(e){}
 const T=k=>I18N[LANG][k];
 
 /* ---------- Performance score (0–10) ---------- */
-// Формула v2 (06.11.2026). Абсолютная шкала: BASE + бита + защита + бонус за победу, предел 3–10.
+// Формула v3 (07.11.2026). Абсолютная шкала: BASE + бита + защита + бонус за победу, предел 3–10.
 // Ноябрь–декабрь 2026: тестовые игры, калибруем BASE и веса (цель: средний игрок ≈ 6.5).
 // С 1 января 2027 формула заморожена на весь сезон.
 // Защита: PO делится по типу розыгрыша:
 //   FPO: сам сделал аут (поймал флай или аут без передачи)
-//   KPO: PO кэтчера за страйк-аут, 0 очков
+//   PO кэтчера за страйк-аут (KPO) в рейтинг не идёт
 //   остальные PO: принял бросок в цепочке (6-3 → PO первому бейсмену)
 // PK: страйк-аут, пока этот игрок подавал (питчер), +0.25
+// ROE: бьющий попал на базу по ошибке защиты, +0.15 (как уок), аутом не считается
+// Кражи баз в нашей игре нет, в рейтинг не идут.
 const BASE=6.0;
-const W={'1B':.45,'2B':.75,'3B':1.0,HR:1.4,BB:.3,R:.15,RBI:.15,SB:.15,OUT:-.25,K:-.35,
-  FPO:.15,A:.12,RPO:.04,KPO:0,PK:.25,E:-.4,WIN:.25};
+const W={'1B':.25,'2B':.5,'3B':.75,HR:1.0,BB:.15,ROE:.15,R:.25,RBI:.25,OUT:-.25,K:-.35,
+  FPO:.15,A:.12,RPO:.04,PK:.25,E:-.4,WIN:.25};
 function rating(b,won){
-  const outs=Math.max(0,b.AB-b.H-b.K);
-  const off=W['1B']*b['1B']+W['2B']*b['2B']+W['3B']*b['3B']+W.HR*b.HR+W.BB*b.BB+W.R*b.R+W.RBI*b.RBI+W.SB*(b.SB||0)+W.OUT*outs+W.K*b.K;
+  const roe=b.ROE||0, outs=Math.max(0,b.AB-b.H-b.K-roe);
+  const off=W['1B']*b['1B']+W['2B']*b['2B']+W['3B']*b['3B']+W.HR*b.HR+W.BB*b.BB+W.ROE*roe+W.R*b.R+W.RBI*b.RBI+W.OUT*outs+W.K*b.K;
   const fpo=b.FPO||0,kpo=b.KPO||0,rpo=Math.max(0,(b.PO||0)-fpo-kpo); // в старых протоколах без FPO/KPO все PO считаются принятыми бросками
-  const def=W.FPO*fpo+W.KPO*kpo+W.RPO*rpo+W.A*(b.A||0)+W.PK*(b.PK||0)+W.E*(b.E||0);
+  const def=W.FPO*fpo+W.RPO*rpo+W.A*(b.A||0)+W.PK*(b.PK||0)+W.E*(b.E||0);
   return Math.round(Math.min(10,Math.max(3,BASE+off+def+(won?W.WIN:0)))*10)/10;
 }
 function rclass(r){return r==null?'na':r>=9?'elite':r>=8?'great':r>=7?'good':r>=6?'mid':'low'}
@@ -94,11 +96,11 @@ async function load(){
   }
   S.qual=Math.max(1,Math.ceil(S.games.filter(g=>g.stats).length*0.4));
   for(const p of Object.values(S.players)){
-    const t={G:0,PA:0,AB:0,H:0,'1B':0,'2B':0,'3B':0,HR:0,BB:0,K:0,R:0,RBI:0,SB:0,PO:0,A:0,E:0,W:0,L:0}, pos={};
+    const t={G:0,PA:0,AB:0,H:0,'1B':0,'2B':0,'3B':0,HR:0,BB:0,K:0,R:0,RBI:0,ROE:0,PO:0,A:0,E:0,W:0,L:0}, pos={};
     for(const {game,b} of p.log){ t.G++; for(const k in t) if(k in b) t[k]+=b[k];
       if(game.winner===b.team) t.W++; else if(game.winner) t.L++; pos[b.pos]=(pos[b.pos]||0)+1; }
     const TB=t['1B']+2*t['2B']+3*t['3B']+4*t.HR;
-    t.AVG=t.H/t.AB; t.OBP=(t.H+t.BB)/t.PA; t.SLG=TB/t.AB; t.OPS=t.OBP+t.SLG;
+    t.AVG=t.H/t.AB; t.OBP=(t.H+t.BB+t.ROE)/t.PA; t.SLG=TB/t.AB; t.OPS=t.OBP+t.SLG;
     t.RAT=t.G?Math.round(p.log.reduce((s,x)=>s+x.b.rating,0)/t.G*100)/100:null;
     t.qual=t.G>=S.qual; p.t=t;
     p.pos=Object.entries(pos).sort((a,b)=>b[1]-a[1]);
@@ -169,7 +171,7 @@ function home(){
   app().innerHTML=h; drawLB(ps);
 }
 function drawLB(ps){
-  const COLS=[['RAT',T('rating')],['G',T('G')],['W',T('WL')],['AVG','AVG'],['OBP','OBP'],['OPS','OPS'],['HR','HR'],['RBI','RBI'],['R','R'],['SB','SB'],['E','E']];
+  const COLS=[['RAT',T('rating')],['G',T('G')],['W',T('WL')],['AVG','AVG'],['OBP','OBP'],['OPS','OPS'],['HR','HR'],['RBI','RBI'],['R','R'],['E','E']];
   const val=(p,k)=>{const v=p.t[k];return v==null||!isFinite(v)?-1:v};
   ps.sort((a,b)=>(b.t.qual-a.t.qual)||sortDir*(val(a,sortKey)-val(b,sortKey))||(b.t.G-a.t.G));
   let h=`<thead><tr><th class="l">#</th><th class="l">${T('player')}</th><th class="l">${T('position')}</th>${COLS.map(([k,n])=>`<th data-k="${k}" class="${k===sortKey?'sorted':''}">${n}${k===sortKey?(sortDir<0?' ↓':' ↑'):''}</th>`).join('')}</tr></thead><tbody>`;
@@ -178,7 +180,7 @@ function drawLB(ps){
     h+=`<tr data-peek="${p.id}" onclick="location.hash='#player-${p.id}'" style="${t.qual?'':'opacity:.55'}"><td class="l rank">${t.qual?rank:'–'}</td>
       <td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}</div><div class="no">#${p.number}</div></div></div></td>
       <td class="l">${p.pos.slice(0,2).map((x,i)=>`<span class="chip ${i?'':'main'}">${x[0]}</span>`).join(' ')}</td>
-      <td>${rt(t.RAT)}</td><td>${t.G}</td><td>${t.W}-${t.L}</td><td>${avg3(t.AVG)}</td><td>${avg3(t.OBP)}</td><td>${avg3(t.OPS)}</td><td>${t.HR}</td><td>${t.RBI}</td><td>${t.R}</td><td>${t.SB}</td><td>${t.E}</td></tr>`; }
+      <td>${rt(t.RAT)}</td><td>${t.G}</td><td>${t.W}-${t.L}</td><td>${avg3(t.AVG)}</td><td>${avg3(t.OBP)}</td><td>${avg3(t.OPS)}</td><td>${t.HR}</td><td>${t.RBI}</td><td>${t.R}</td><td>${t.E}</td></tr>`; }
   const el=document.getElementById('lb'); el.innerHTML=h+'</tbody>';
   el.querySelectorAll('th[data-k]').forEach(th=>th.onclick=()=>{const k=th.dataset.k; if(k===sortKey) sortDir*=-1; else {sortKey=k; sortDir=-1;} drawLB(ps);});
 }
@@ -230,9 +232,9 @@ function game(id){
     <div class="btns">${g.video?`<a class="btn yt" href="${g.video}" target="_blank" rel="noopener">▶ ${T('youtube')}</a>`:''}</div></div>`;
   for(const k of ['A','B']){
     h+=`<div class="section-title"><h2 style="color:${g.teams[k].color}">${g.teams[k].name}</h2><span class="hint">${g.winner===k?T('winL'):g.winner?T('lossL'):T('tieL')} · ${g.score[k]} ${T('runs')}</span></div>
-    <div class="card tablewrap"><table class="lb"><thead><tr><th class="l">${T('player')}</th><th class="l">${T('pos')}</th><th>${T('rating')}</th><th>AB</th><th>H</th><th>2B</th><th>3B</th><th>HR</th><th>R</th><th>RBI</th><th>BB</th><th>K</th><th>SB</th><th>PO</th><th>A</th><th>E</th></tr></thead><tbody>`;
+    <div class="card tablewrap"><table class="lb"><thead><tr><th class="l">${T('player')}</th><th class="l">${T('pos')}</th><th>${T('rating')}</th><th>AB</th><th>H</th><th>2B</th><th>3B</th><th>HR</th><th>R</th><th>RBI</th><th>BB</th><th>ROE</th><th>K</th><th>PO</th><th>A</th><th>E</th></tr></thead><tbody>`;
     for(const b of g.box.filter(b=>b.team===k)){const p=S.players[b.player];
-      h+=`<tr onclick="location.hash='#player-${p.id}'"><td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}${g.mvp===b?` <span class="chip main">${T('mvp')}</span>`:''}</div><div class="no">#${p.number}</div></div></div></td><td class="l">${b.pos}</td><td>${rt(b.rating)}</td><td>${b.AB}</td><td>${b.H}</td><td>${b['2B']}</td><td>${b['3B']}</td><td>${b.HR}</td><td>${b.R}</td><td>${b.RBI}</td><td>${b.BB}</td><td>${b.K}</td><td>${b.SB}</td><td>${b.PO}</td><td>${b.A}</td><td>${b.E}</td></tr>`;}
+      h+=`<tr onclick="location.hash='#player-${p.id}'"><td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}${g.mvp===b?` <span class="chip main">${T('mvp')}</span>`:''}</div><div class="no">#${p.number}</div></div></div></td><td class="l">${b.pos}</td><td>${rt(b.rating)}</td><td>${b.AB}</td><td>${b.H}</td><td>${b['2B']}</td><td>${b['3B']}</td><td>${b.HR}</td><td>${b.R}</td><td>${b.RBI}</td><td>${b.BB}</td><td>${b.ROE||0}</td><td>${b.K}</td><td>${b.PO}</td><td>${b.A}</td><td>${b.E}</td></tr>`;}
     h+='</tbody></table></div>';
   }
   if(window.gameHighlights) h+=gameHighlights(g);

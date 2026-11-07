@@ -174,7 +174,7 @@ const bat=g=>g.half%2?'B':'A', fld=g=>g.half%2?'A':'B';
 function lineupOf(k){return S.teams[k].lineup}
 function batterOf(g){const L=lineupOf(bat(g));return L.length?L[g.idx[bat(g)]%L.length]:null}
 function atPos(g,pos){return lineupOf(fld(g)).find(id=>S.pos[id]===pos)}
-function blank(id,team){return {player:id,team,pos:S.pos[id]||'EH',PA:0,AB:0,H:0,'1B':0,'2B':0,'3B':0,HR:0,BB:0,K:0,R:0,RBI:0,SB:0,PO:0,FPO:0,KPO:0,PK:0,A:0,E:0}}
+function blank(id,team){return {player:id,team,pos:S.pos[id]||'EH',PA:0,AB:0,H:0,'1B':0,'2B':0,'3B':0,HR:0,BB:0,K:0,R:0,RBI:0,ROE:0,PO:0,FPO:0,KPO:0,PK:0,A:0,E:0}}
 function bx(g,id,team){if(!g.box[id])g.box[id]=blank(id,team);return g.box[id]}
 function replay(){
  const g={half:0,outs:0,bases:[null,null,null],idx:{A:0,B:0},runs:{A:0,B:0},line:{A:[0],B:[]},box:{},over:false,steps:[]};
@@ -207,7 +207,7 @@ function apply(g,e){
  switch(e.type){
   case 'pa':{
    const b=bx(g,e.batter,k),r=e.result;b.PA++;if(r!=='BB')b.AB++;
-   if(HITS[r]){b.H++;b[r]++}if(r==='BB')b.BB++;if(r==='K')b.K++;
+   if(HITS[r]){b.H++;b[r]++}if(r==='BB')b.BB++;if(r==='E')b.ROE++;if(r==='K')b.K++;
    const fseq=e.fielders||[];
    if(r==='E'&&fseq[0]){const f=atPos(g,fseq[0]);if(f)bx(g,f,fld(g)).E++}
    const m=move(g,e.adv);
@@ -446,10 +446,9 @@ function renderGame(){
   ${B('FC','out','выбор пол.',noRun)}${B('E','walk','ошибка защ.')}
   <button class="r sec star" style="grid-column:span 2" onclick="mark()">★ Момент<small>красивый эпизод для видео</small></button></div>
  <div class="sectit">Бегуны и иннинг</div><div class="grid">
-  <button class="r sec" onclick="runnerAct('sb')" ${noRun||g.over?'disabled':''}>Кража<small>SB</small></button>
   <button class="r sec" onclick="runnerAct('adv')" ${noRun||g.over?'disabled':''}>Продвиж.<small>без удара</small></button>
   <button class="r sec" onclick="runnerAct('runout')" ${noRun||g.over?'disabled':''}>Аут бегуна<small>на базе</small></button>
-  <button class="r sec" onclick="endHalfM()" ${g.over?'disabled':''}>Конец ½<small>досрочно</small></button></div>`;
+  <button class="r sec" style="grid-column:span 2" onclick="endHalfM()" ${g.over?'disabled':''}>Конец ½<small>досрочно</small></button></div>`;
  h+=`<div class="bb"><button onclick="undo()">↶ Отмена</button><button onclick="logM()">Журнал</button><button onclick="exportM()">Файлы</button><button onclick="endGame()" ${g.over?'disabled':''}>🏁 Конец</button></div>`;
  $('#app').innerHTML=h;
 }

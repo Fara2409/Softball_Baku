@@ -197,7 +197,6 @@ const BADGES=[
   {id:'g5',ic:'5G',tier:1,t:{ru:'5 игр',az:'5 oyun',en:'5 games'},d:{ru:'Сыграл 5 игр',az:'5 oyun oynadı',en:'Played 5 games'},career:p=>p.t.G>=5},
   {id:'g10',ic:'10G',tier:2,t:{ru:'10 игр',az:'10 oyun',en:'10 games'},d:{ru:'Сыграл 10 игр',az:'10 oyun oynadı',en:'Played 10 games'},career:p=>p.t.G>=10},
   {id:'g20',ic:'20G',tier:3,t:{ru:'20 игр',az:'20 oyun',en:'20 games'},d:{ru:'Сыграл 20 игр',az:'20 oyun oynadı',en:'Played 20 games'},career:p=>p.t.G>=20},
-  {id:'sb3',ic:'SB',tier:2,t:{ru:'Быстрые ноги',az:'Sürətli ayaqlar',en:'Quick feet'},d:{ru:'3+ кражи баз за сезон',az:'Mövsümdə 3+ baza oğurluğu',en:'3+ stolen bases in a season'},career:p=>p.t.SB>=3},
 ];
 const BL=x=>x[LANG]||x.en;
 function maxStreak(p){ let m=0,c=0; for(const {b} of p.log){ if(b.H>=1){c++;m=Math.max(m,c)} else c=0 } return m; }
@@ -231,7 +230,6 @@ function awardsList(){
     ['awGlove','awGloved',top(q,def,0),v=>v.toFixed(1),'✋'],
     ['awIron','awIrond',top(ps,p=>p.t.G),v=>T('games_')(v),'G'],
     ['awWin','awWind',top(q,p=>p.t.W/(p.t.W+p.t.L||1)),v=>Math.round(v*100)+'%','W'],
-    ['awSpeed','awSpeedd',top(ps,p=>p.t.SB,0),v=>v,'SB'],
     ['awProg','awProgd',top(ps,prog,0),v=>'+'+v.toFixed(2),'↑'],
   ];
 }
@@ -240,7 +238,7 @@ function recordsData(){
   const single=(key,label,fmt=v=>v)=>{ let best=null;
     for(const g of statGames()) for(const b of g.box){ const v=b[key]; if(v>0&&(!best||v>best.v)) best={v,b,g}; }
     if(best) recs.push({label:T(label),v:fmt(best.v),p:S.players[best.b.player],g:best.g}); };
-  single('H','recH'); single('HR','recHR'); single('RBI','recRBI'); single('R','recR'); single('rating','recRat',v=>v.toFixed(1)); single('SB','recSB'); single('PO','recPO');
+  single('H','recH'); single('HR','recHR'); single('RBI','recRBI'); single('R','recR'); single('rating','recRat',v=>v.toFixed(1)); single('PO','recPO');
   const season=[];
   const st=ps.map(p=>({p,v:maxStreak(p)})).sort((a,b)=>b.v-a.v)[0]; if(st&&st.v>=2) season.push({label:T('recStreak'),v:T('games_')(st.v),p:st.p});
   const mh=ps.map(p=>({p,v:p.log.filter(x=>x.b.H>=2).length})).sort((a,b)=>b.v-a.v)[0]; if(mh&&mh.v) season.push({label:T('recMulti'),v:mh.v,p:mh.p});
