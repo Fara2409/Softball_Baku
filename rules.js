@@ -58,8 +58,8 @@ const RT_TXT={
    n:{'1B':'Single','2B':'Double','3B':'Triple',HR:'Home run',BB:'Walk',ROE:'Reached on error',R:'Run',RBI:'RBI',OUT:'Out at the plate',K:'Strikeout',FPO:'Made the out himself (fly or unassisted)',A:'Assist',RPO:'Took a throw for an out',KPO:'Catcher caught strike three',PK:'Strikeout while pitching',E:'Error',WIN:'Win bonus'}}
 };
 function fieldSVG(){
-  const FXY={CF:[50,10],LF:[17,24],RF:[83,24],SF:[50,28],SS:[34,44],'2B':[66,44],P:[50,62],'3B':[20,63],'1B':[80,63],C:[50,90]};
-  const N={P:1,C:2,'1B':3,'2B':4,'3B':5,SS:6,LF:7,CF:8,RF:9,SF:10};
+  // схема для 10 игроков в защите: четыре аутфилдера
+  const FXY={LF:[14,27],LCF:[35,13],RCF:[65,13],RF:[86,27],SS:[34,44],'2B':[66,44],P:[50,62],'3B':[20,63],'1B':[80,63],C:[50,90]};
   let s=`<svg viewBox="0 0 100 100" class="field"><path d="M50 96 L4 50 A64 64 0 0 1 96 50 Z" fill="#12301f" stroke="#1d4a30" stroke-width=".6"/>
     <path d="M50 92 L24 66 L50 40 L76 66 Z" fill="#5a3b22" opacity=".55"/><path d="M50 86 L30 66 L50 46 L70 66 Z" fill="#1a3d28"/>`;
   for(const [x,y] of [[76,66],[50,40],[24,66]]) s+=`<rect x="${x-1.6}" y="${y-1.6}" width="3.2" height="3.2" transform="rotate(45 ${x} ${y})" fill="#eef2f8"/>`;
@@ -69,7 +69,7 @@ function fieldSVG(){
 }
 window.rulesPage=function(){
   const R=RULES[LANG]||RULES.en, G=GLOSS[LANG]||GLOSS.en, X=RT_TXT[LANG]||RT_TXT.en;
-  const NUM={P:1,C:2,'1B':3,'2B':4,'3B':5,SS:6,LF:7,CF:8,RF:9,SF:10};
+  const NUM={P:1,C:2,'1B':3,'2B':4,'3B':5,SS:6,LF:7,LCF:8,RCF:9,RF:10};
   let h=`<div class="pagehead"><span class="eyebrow">${S.league}</span><h1>${R.title}</h1><p class="muted">${R.sub}</p></div>`;
   h+=`<div class="rules-top"><div class="card rule">${'<h3>'+R.sec[0][0]+'</h3>'+R.sec[0][1]}</div>
      <div class="card rule field-card">${fieldSVG()}<div class="poslist">${Object.entries(NUM).map(([p,n])=>`<div><b>${p}</b><span>${POS_NAMES[LANG][p]}</span><i>${n}</i></div>`).join('')}</div></div></div>`;

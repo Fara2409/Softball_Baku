@@ -61,7 +61,7 @@ Object.assign(I18N.en,{
   recH:'Most hits',recHR:'Most HR',recRBI:'Most RBI',recR:'Most runs',recRat:'Best rating',recSB:'Most steals',recPO:'Most putouts',recStreak:'Longest hitting streak',recMulti:'Most multi-hit games',
   games_:n=>`${n} ${plural('en',n)}`
 });
-const FIELD_POS=['P','C','1B','2B','3B','SS','LF','CF','RF','SF'];
+const FIELD_POS=['P','C','1B','2B','3B','SS','LF','LCF','CF','RCF','RF'];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const pct=(w,n)=>n?Math.round(w/n*100):0;
 function lsGet(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}}
@@ -110,7 +110,7 @@ function splitTeams(list,rng,needPC){
   return good;
 }
 const POS_W=0.6; // штраф за неравный раздел игроков одной основной позиции
-const POS_GROUP={P:'B',C:'B','1B':'I','2B':'I','3B':'I',SS:'I',LF:'O',CF:'O',RF:'O',SF:'O'};
+const POS_GROUP={P:'B',C:'B','1B':'I','2B':'I','3B':'I',SS:'I',LF:'O',LCF:'O',CF:'O',RCF:'O',RF:'O'};
 function fitScore(p,pos){ // насколько игроку подходит позиция
   if(mainPos(p)===pos) return 10;
   if(canPlay(p,pos)) return 6;
@@ -123,7 +123,9 @@ function assignPositions(team){
   // Настоящий кэтчер обычно один (Седияр). В команде без кэтчера C не занимаем полевым игроком:
   // ловит любой свободный игрок (subC = true), а все стоят на своих позициях.
   const hasC=team.some(x=>canPlay(x.p,'C'));
-  const POS=['P','C','SS','1B','2B','3B','CF','LF','RF','SF'].filter(p=>hasC||p!=='C').slice(0,Math.min(hasC?10:9,team.length));
+  // хватает игроков на 4 аутфилдера (LF, LCF, RCF, RF) — ставим четверых, иначе троих (LF, CF, RF)
+  const OF=team.length>=(hasC?10:9)?['LF','LCF','RCF','RF']:['CF','LF','RF'];
+  const POS=['P','C','SS','1B','2B','3B',...OF].filter(p=>hasC||p!=='C').slice(0,Math.min(hasC?10:9,team.length));
   const n=team.length, M=1<<POS.length, NEG=-1e9;
   let dp=new Array(M).fill(NEG); dp[0]=0; const choice=[];
   for(let i=0;i<n;i++){
@@ -406,7 +408,7 @@ window.makeDemoGames=function(players){
         else if(r<skill[x.p.id]+.08) b.BB++;
         else { b.AB++; if(rnd()<.22){ b.K++; kBy[k]++; } } }
       b.R=Math.min(b.H+b.BB,Math.floor(rnd()*(b.H+b.BB+1))); b.RBI=b.HR+Math.floor(rnd()*(b.H+1)); if(rnd()<.12) b.SB=1;
-      const inf=['1B','2B','3B','SS','P'].includes(x.pos), of=['LF','CF','RF','SF'].includes(x.pos);
+      const inf=['1B','2B','3B','SS','P'].includes(x.pos), of=['LF','LCF','CF','RCF','RF'].includes(x.pos);
       if(x.pos==='1B'){ b.PO=3+Math.floor(rnd()*4); b.FPO=Math.floor(rnd()*2); }
       else if(of){ b.FPO=Math.floor(rnd()*3.2); b.PO=b.FPO; if(b.FPO>=1&&rnd()<.4) hl.push({player:x.p.id,t:Math.floor(60+rnd()*3500),type:'catch'}); }
       else if(inf){ b.A=Math.floor(rnd()*4); b.FPO=Math.floor(rnd()*2); b.PO=b.FPO; }

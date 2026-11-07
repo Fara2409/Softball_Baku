@@ -29,9 +29,9 @@ const I18N={
     roster:'Roster',openProfile:'View profile',title:'Stats',tagline:'Amateur softball in Baku. Player ratings, stats and a video of every game.',site:'Site',watch:'Watch',where:'Where we play',lastVideo:'Latest game on YouTube',channel:'Our YouTube channel',place:'Amirajan, Baku, Azerbaijan',seasonPill:d=>`Season ${d.season} · from ${d.start}`,language:'Language',firstGame:'First game',videoSoon:'Video coming soon',final:'Final',notFound:'Not found',loadErr:'Could not load data',footer:'ratings are calculated automatically after every game',mvp:'MVP',city:'Baku'}
 };
 const POS_NAMES={
-  ru:{P:'Питчер',C:'Кэтчер','1B':'1-я база','2B':'2-я база','3B':'3-я база',SS:'Шортстоп',LF:'Левый аутфилд',CF:'Центральный аутфилд',RF:'Правый аутфилд',SF:'Шорт-филдер'},
-  az:{P:'Pitçer',C:'Ketçer','1B':'1-ci baza','2B':'2-ci baza','3B':'3-cü baza',SS:'Şortstop',LF:'Sol autfild',CF:'Mərkəzi autfild',RF:'Sağ autfild',SF:'Şort-filder'},
-  en:{P:'Pitcher',C:'Catcher','1B':'First base','2B':'Second base','3B':'Third base',SS:'Shortstop',LF:'Left field',CF:'Center field',RF:'Right field',SF:'Short fielder'}
+  ru:{P:'Питчер',C:'Кэтчер','1B':'1-я база','2B':'2-я база','3B':'3-я база',SS:'Шортстоп',LF:'Левый аутфилд',LCF:'Левый центр',CF:'Центральный аутфилд',RCF:'Правый центр',RF:'Правый аутфилд'},
+  az:{P:'Pitçer',C:'Ketçer','1B':'1-ci baza','2B':'2-ci baza','3B':'3-cü baza',SS:'Şortstop',LF:'Sol autfild',LCF:'Sol-mərkəz autfild',CF:'Mərkəzi autfild',RCF:'Sağ-mərkəz autfild',RF:'Sağ autfild'},
+  en:{P:'Pitcher',C:'Catcher','1B':'First base','2B':'Second base','3B':'Third base',SS:'Shortstop',LF:'Left field',LCF:'Left-center field',CF:'Center field',RCF:'Right-center field',RF:'Right field'}
 };
 const LOCALE={ru:'ru-RU',az:'az-Latn-AZ',en:'en-GB'};
 function plural(l,n){ if(l==='en') return n===1?'game':'games'; if(l==='az') return 'oyun';
