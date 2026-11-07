@@ -8,7 +8,7 @@ Object.assign(I18N.ru,{
   rtg:'Рейтинг',navTeams:'Составы',navRecords:'Рекорды',navRules:'Правила',
   demoBanner:'ДЕМО: статистика вымышленная, игроки настоящие · <a href="./">выйти из демо</a>',
   tmTitle:'Разделить на команды',tmSub:'Отметьте, кто пришёл, — сайт разделит всех на две равные команды по рейтингу и позициям.',
-  tmAll:'Выбрать всех',tmNone:'Очистить',tmPresent:n=>`Пришли: ${n}`,tmGo:'Разделить',tmAgain:'Другой вариант',tmCopy:'Скопировать для WhatsApp',tmCopied:'Скопировано',
+  tmAll:'Выбрать всех',tmNone:'Очистить',tmPresent:n=>`Пришли: ${n}`,tmGo:'Разделить',tmAgain:'Другой вариант',tmCopy:'Скопировать для WhatsApp',tmCopied:'Скопировано',tmScorer:'Начать игру в счётчике',tmScorerLink:'Ссылка на счётчик с этими составами',tmLinkCopied:'Ссылка скопирована: откройте её на телефоне',
   tmNeed:'Отметьте хотя бы 4 игроков',tmPC:'Питчер и кэтчер в каждой команде',tmLevels:'Уровень игроков',tmLevelsHint:'Для игроков без статистики сила — ваша оценка (по умолчанию 6.5). После игр берётся настоящий рейтинг.',
   tmBalance:'Баланс',tmSubC:'сменный кэтчер — ловит любой свободный игрок',tmSubCs:'сменный',tmAvg:'средняя сила',tmEH:'EH',tmEst:'оценка',
   rcTitle:'Рекорды и награды',rcAwards:'Награды сезона',rcLeader:'текущий лидер',rcGame:'Рекорды одной игры',rcSeason:'Рекорды сезона',rcBadges:'Достижения',rcEmpty:'Рекорды и награды появятся после первых игр сезона.',
@@ -27,7 +27,7 @@ Object.assign(I18N.az,{
   rtg:'Reytinq',navTeams:'Komandalar',navRecords:'Rekordlar',navRules:'Qaydalar',
   demoBanner:'DEMO: statistika uydurmadır, oyunçular realdır · <a href="./">demodan çıx</a>',
   tmTitle:'Komandalara böl',tmSub:'Gələnləri qeyd edin — sayt hamını reytinq və mövqelərə görə iki bərabər komandaya bölər.',
-  tmAll:'Hamısını seç',tmNone:'Təmizlə',tmPresent:n=>`Gələnlər: ${n}`,tmGo:'Böl',tmAgain:'Başqa variant',tmCopy:'WhatsApp üçün kopyala',tmCopied:'Kopyalandı',
+  tmAll:'Hamısını seç',tmNone:'Təmizlə',tmPresent:n=>`Gələnlər: ${n}`,tmGo:'Böl',tmAgain:'Başqa variant',tmCopy:'WhatsApp üçün kopyala',tmCopied:'Kopyalandı',tmScorer:'Oyunu hesablayıcıda başla',tmScorerLink:'Bu heyətlərlə hesablayıcı linki',tmLinkCopied:'Link kopyalandı: telefonda açın',
   tmNeed:'Ən azı 4 oyunçu seçin',tmPC:'Hər komandada pitçer və ketçer',tmLevels:'Oyunçuların səviyyəsi',tmLevelsHint:'Statistikası olmayan oyunçular üçün güc — sizin qiymətiniz (standart 6.5). Oyunlardan sonra real reytinq götürülür.',
   tmBalance:'Balans',tmSubC:'növbəli ketçer — boş olan istənilən oyunçu tutur',tmSubCs:'növbəli',tmAvg:'orta güc',tmEH:'EH',tmEst:'qiymət',
   rcTitle:'Rekordlar və mükafatlar',rcAwards:'Mövsümün mükafatları',rcLeader:'hazırkı lider',rcGame:'Bir oyunun rekordları',rcSeason:'Mövsüm rekordları',rcBadges:'Nailiyyətlər',rcEmpty:'Rekordlar və mükafatlar mövsümün ilk oyunlarından sonra görünəcək.',
@@ -46,7 +46,7 @@ Object.assign(I18N.en,{
   rtg:'Rating',navTeams:'Teams',navRecords:'Records',navRules:'Rules',
   demoBanner:'DEMO: made-up stats, real players · <a href="./">exit demo</a>',
   tmTitle:'Split into teams',tmSub:'Tick who showed up — the site splits everyone into two even teams by rating and positions.',
-  tmAll:'Select all',tmNone:'Clear',tmPresent:n=>`Present: ${n}`,tmGo:'Split',tmAgain:'Another option',tmCopy:'Copy for WhatsApp',tmCopied:'Copied',
+  tmAll:'Select all',tmNone:'Clear',tmPresent:n=>`Present: ${n}`,tmGo:'Split',tmAgain:'Another option',tmCopy:'Copy for WhatsApp',tmCopied:'Copied',tmScorer:'Start game in scorer',tmScorerLink:'Scorer link with these lineups',tmLinkCopied:'Link copied: open it on the phone',
   tmNeed:'Select at least 4 players',tmPC:'Pitcher and catcher on each team',tmLevels:'Player levels',tmLevelsHint:'For players without stats, strength is your estimate (default 6.5). After games the real rating is used.',
   tmBalance:'Balance',tmSubC:'rotating catcher — any free player catches',tmSubCs:'rotating',tmAvg:'avg strength',tmEH:'EH',tmEst:'estimate',
   rcTitle:'Records and awards',rcAwards:'Season awards',rcLeader:'current leader',rcGame:'Single-game records',rcSeason:'Season records',rcBadges:'Achievements',rcEmpty:'Records and awards will appear after the first games of the season.',
@@ -186,8 +186,22 @@ function tmRender(){
     const ci=t[0]&&t[0].pos==='P'?1:0; t.forEach((x,i)=>{ if(t.subC&&i===ci) h+=`<div class="tm-row tm-subc"><span class="chip">C</span><span class="nm muted">${T('tmSubC')}</span></div>`;
       h+=`<div class="tm-row" data-peek="${x.p.id}"><span class="chip ${x.pos==='EH'?'':'main'}">${x.pos}</span>${av(x.p)}<span class="nm">${esc(pname(x.p))}</span><span class="no">#${x.p.number}</span>${rt(Math.round(x.s*10)/10)}</div>`; });
     h+=`</div>`; });
-  h+=`</div><div class="btns center"><button class="btn" onclick="tmSplit(false)">↻ ${T('tmAgain')}</button><button class="btn wa" onclick="tmCopy(this)">${T('tmCopy')}</button></div></div>`;
+  h+=`</div><div class="btns center"><button class="btn" onclick="tmSplit(false)">↻ ${T('tmAgain')}</button><button class="btn wa" onclick="tmCopy(this)">${T('tmCopy')}</button></div>
+    <div class="btns center"><button class="btn pri" onclick="tmScorer()">▶ ${T('tmScorer')}</button><button class="btn" title="${T('tmScorerLink')}" aria-label="${T('tmScorerLink')}" onclick="tmScorerLink()">🔗</button></div></div>`;
   document.getElementById('tmOut').innerHTML=h;
+}
+// составы → счётчик: передаём в ссылке scorer/#lineup=… (работает и на другом телефоне, если переслать ссылку)
+function tmScorerUrl(){
+  const o={v:1}; tmTeams().forEach((t,k)=>{ o['AB'[k]]={n:TEAM_DEF[k].name,c:TEAM_DEF[k].color,l:t.map(x=>[x.p.id,x.pos])}; });
+  const b64=btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  return new URL('scorer/#lineup='+b64,location.href.split('#')[0]).href;
+}
+function tmScorer(){ location.href=tmScorerUrl(); }
+async function tmScorerLink(){
+  const u=tmScorerUrl();
+  try{ await navigator.clipboard.writeText(u); }
+  catch(e){ const ta=document.createElement('textarea'); ta.value=u; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy')}catch(_){} ta.remove(); }
+  toast(T('tmLinkCopied'));
 }
 function tmText(){
   const teams=tmTeams();
