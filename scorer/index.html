@@ -121,10 +121,10 @@ h2{font-size:17px;margin:18px 0 8px}h3{margin:0 0 12px;font-size:17px}
 'use strict';
 /* ===== константы ===== */
 const KEY='sbScorer.v1', PKEY='sbScorer.players';
-const POS=['P','C','1B','2B','3B','SS','LF','CF','RF','SF','EH'];
-const FPOS=['P','C','1B','2B','3B','SS','LF','CF','RF','SF'];
-const PN={P:1,C:2,'1B':3,'2B':4,'3B':5,SS:6,LF:7,CF:8,RF:9,SF:10};
-const FXY={CF:[50,8],LF:[16,22],RF:[84,22],SF:[50,25],SS:[33,42],'2B':[67,42],P:[50,62],'3B':[18,62],'1B':[82,62],C:[50,89]};
+const POS=['P','C','1B','2B','3B','SS','LF','LCF','CF','RCF','RF','EH'];
+const FPOS=['P','C','1B','2B','3B','SS','LF','LCF','CF','RCF','RF'];
+const PN={P:'P',C:'C','1B':'1B','2B':'2B','3B':'3B',SS:'SS',LF:'LF',LCF:'LCF',CF:'CF',RCF:'RCF',RF:'RF'}; // в описаниях пишем позиции буквами: SS-1B
+const FXY={CF:[50,8],LCF:[31,13],RCF:[69,13],LF:[12,29],RF:[88,29],SS:[33,42],'2B':[67,42],P:[50,62],'3B':[18,62],'1B':[82,62],C:[50,89]};
 const HITS={'1B':1,'2B':2,'3B':3,HR:4};
 const RES={'1B':'Сингл','2B':'Дабл','3B':'Трипл',HR:'Хоум-ран',BB:'Уок',K:'Страйк-аут',GO:'Аут по земле',FO:'Аут в воздухе',FC:'Выбор полевого',E:'Ошибка защиты'};
 const BASE={1:'1-я',2:'2-я',3:'3-я',4:'дом'};
@@ -133,20 +133,20 @@ const FALLBACK=[
  {id:'fakhri-eyvazov',first_ru:'Фахри',last_ru:'Эйвазов',number:11,positions:['3B']},
  {id:'sediyar-aliyev',first_ru:'Седияр',last_ru:'Алиев',number:16,positions:['C']},
  {id:'farhad-eyvazov',first_ru:'Фархад',last_ru:'Эйвазов',number:24,positions:['3B']},
- {id:'danylo-shapovalov',first_ru:'Данил',last_ru:'Шаповалов',number:30,positions:['LF']},
+ {id:'danylo-shapovalov',first_ru:'Данил',last_ru:'Шаповалов',number:30,positions:['LCF']},
  {id:'sergey-molchanov',first_ru:'Сергей',last_ru:'Молчанов',number:34,positions:['SS']},
  {id:'mushfig-ibrahimov',first_ru:'Мушфиг',last_ru:'Ибрагимов',number:37,positions:['1B']},
  {id:'sergey-antipov',first_ru:'Сергей',last_ru:'Антипов',number:45,positions:['P']},
  {id:'hikmat',first_ru:'Хикмят',last_ru:'',number:3,positions:['1B']},
  {id:'rasul-4',first_ru:'Расул',last_ru:'Шукюров',number:42,positions:['2B']},
  {id:'vidadi',first_ru:'Видади',last_ru:'',number:6,positions:['SS']},
- {id:'emilien',first_ru:'Эмильен',last_ru:'',number:8,positions:['CF']},
+ {id:'emilien',first_ru:'Эмильен',last_ru:'',number:8,positions:['RCF']},
  {id:'ilgar',first_ru:'Ильгар',last_ru:'',number:17,positions:['LF']},
  {id:'rasim',first_ru:'Расим',last_ru:'',number:19,positions:['P']},
- {id:'rasul-21',first_ru:'Расул',last_ru:'',number:21,positions:['CF']},
+ {id:'rasul-21',first_ru:'Расул',last_ru:'',number:21,positions:['LCF']},
  {id:'rashid',first_ru:'Рашид',last_ru:'Шукюров',number:99,positions:['LF']},
  {id:'ilham',first_ru:'Ильхам',last_ru:'',number:9,positions:['RF']},
- {id:'ramiz-ismayilov',first_ru:'Рамиз',last_ru:'Исмайлов',number:28,positions:['CF']},
+ {id:'ramiz-ismayilov',first_ru:'Рамиз',last_ru:'Исмайлов',number:28,positions:['RCF']},
  {id:'isgandar-talibov',first_ru:'Искендер',last_ru:'Талыбов',number:12,positions:['P']},
  {id:'bahram-jamilov',first_ru:'Бахрам',last_ru:'Джамилов',number:15,positions:['RF']}];
 
@@ -285,10 +285,11 @@ function fieldM(mode,cb){
  window._fr=()=>{seq.length=0;draw()};
  const draw=()=>{
   let h=`<h3>${mode==='E'?'Кто ошибся?':mode==='one'?'Кто поймал мяч?':'Кто разыграл? Нажимайте по порядку'}</h3><div class="field">`;
-  for(const p of FPOS){const id=atPos(G,p);if(p==='SF'&&!id)continue;const [x,y]=FXY[p];
+  const hasCF=!!atPos(G,'CF');
+  for(const p of FPOS){const id=atPos(G,p);if(!id&&(p==='CF'?!hasCF:(p==='LCF'||p==='RCF')&&hasCF))continue;const [x,y]=FXY[p];
    h+=`<button class="fp ${seq.includes(p)?'sel':''}" style="left:${x}%;top:${y}%" ${id?'':'disabled'} onclick="_fp('${p}')"><b>${p}</b><span>${id?esc(name(id)):'—'}</span></button>`}
   h+=`</div>`;
-  if(mode==='seq')h+=`<div class="seq">${seq.length?seq.map(p=>PN[p]).join('-'):'<span class="muted small">6-3: SS → 1B · один защитник (3), если сам сделал аут</span>'}</div>
+  if(mode==='seq')h+=`<div class="seq">${seq.length?seq.map(p=>PN[p]).join('-'):'<span class="muted small">например SS-1B · или один защитник (1B), если сам сделал аут</span>'}</div>
    <div class="acts"><button onclick="_fr()">Сброс</button><button onclick="_fd(true)">Пропустить</button><button class="pri" onclick="_fd(false)" ${seq.length?'':'disabled'}>Готово</button></div>`;
   else h+=`<div class="acts"><button onclick="_fd(true)">Пропустить</button><button onclick="closeM()">Отмена</button></div>`;
   modal(h);
