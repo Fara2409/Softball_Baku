@@ -484,7 +484,21 @@ let wl=null;async function wake(){try{if('wakeLock'in navigator&&!wl){wl=await n
 document.addEventListener('click',wake);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')wake()});
 window.addEventListener('beforeunload',save);
 
-(async()=>{await loadPlayers();S=load()||newState();render()})();
+// составы со страницы «Составы» на сайте: scorer/#lineup=…
+function takeLineup(){
+ const m=location.hash.match(/^#lineup=([\w-]+)/);if(!m)return;
+ history.replaceState(null,'',location.pathname+location.search);
+ let o;try{o=JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g,'+').replace(/_/g,'/')))))}catch(e){alert('Ссылка с составами повреждена');return}
+ if(S.events.length&&!confirm(`На телефоне есть начатая игра (${S.events.length} событий).\nЗаменить её составами с сайта?\n\nЕсли игра нужна — нажмите «Отмена» и сначала сохраните файлы.`))return;
+ const N=newState();N.id=S.events.length?N.id:(S.id||N.id);N.venue=S.venue||N.venue;let miss=0;
+ for(const k of ['A','B']){const t=o[k];if(!t)continue;if(t.n)N.teams[k].name=t.n;if(t.c)N.teams[k].color=t.c;
+  for(const [id,pos] of t.l||[]){if(!P[id]){miss++;continue}if(N.teams.A.lineup.includes(id)||N.teams.B.lineup.includes(id))continue;
+   N.teams[k].lineup.push(id);N.pos[id]=POS.includes(pos)?pos:'EH'}}
+ N.id=today();S=N;save();
+ setTimeout(()=>toast(`Составы с сайта загружены${miss?` (не найдено игроков: ${miss})`:''}. Проверьте порядок отбивания`),300);
+}
+(async()=>{await loadPlayers();S=load()||newState();takeLineup();render()})();
+window.addEventListener('hashchange',()=>{if(location.hash.startsWith('#lineup=')){takeLineup();render()}});
 </script>
 <script src="live.js?v=202611072230"></script>
 </body>
