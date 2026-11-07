@@ -89,6 +89,9 @@ function splitTeams(list,rng,needPC){
     let c=Math.abs(sa-sb)*10;
     if(needPC){ const pa=A.filter(isP).length,pb=B.filter(isP).length,ca=A.filter(isC).length,cb=B.filter(isC).length;
       if(pa+pb>=2&&(!pa||!pb)) c+=5; if(ca+cb>=2&&(!ca||!cb)) c+=5; c+=Math.abs(pa-pb)*.3+Math.abs(ca-cb)*.3; }
+    // основные позиции: игроки с одной основной позицией делятся поровну между командами
+    const cnt={}; for(const x of A){const m=mainPos(x.p); if(m) (cnt[m]=cnt[m]||[0,0])[0]++;} for(const x of B){const m=mainPos(x.p); if(m) (cnt[m]=cnt[m]||[0,0])[1]++;}
+    for(const k in cnt){ const [a,b]=cnt[k]; c+=Math.max(0,Math.abs(a-b)-((a+b)%2))*POS_W; }
     return c;
   };
   const sols=[];
@@ -103,20 +106,36 @@ function splitTeams(list,rng,needPC){
     if(!sols.some(s=>s.key===key||s.keyB===key)) sols.push({A,B,c,key,keyB:B.map(x=>x.p.id).sort().join(',')});
   }
   sols.sort((a,b)=>a.c-b.c);
-  const best=sols[0].c, good=sols.filter(s=>s.c<=best+0.6).slice(0,12);
+  const best=sols[0].c, good=sols.filter(s=>s.c<=best+0.3).slice(0,12);
   return good;
 }
+const POS_W=0.6; // штраф за неравный раздел игроков одной основной позиции
+const POS_GROUP={P:'B',C:'B','1B':'I','2B':'I','3B':'I',SS:'I',LF:'O',CF:'O',RF:'O',SF:'O'};
+function fitScore(p,pos){ // насколько игроку подходит позиция
+  if(mainPos(p)===pos) return 10;
+  if(canPlay(p,pos)) return 6;
+  const m=mainPos(p); if(m&&POS_GROUP[m]&&POS_GROUP[m]===POS_GROUP[pos]&&POS_GROUP[pos]!=='B') return 2;
+  return 0;
+}
 function assignPositions(team){
-  // жадно: сначала дефицитные позиции, игроку с основной позицией — приоритет
-  const order=['P','C','SS','1B','2B','3B','CF','LF','RF','SF'].slice(0,Math.min(10,team.length));
-  const left=[...team], out=[];
-  const pref=(x,pos)=>mainPos(x.p)===pos?3:canPlay(x.p,pos)?2:0;
-  for(const pos of order){
-    left.sort((a,b)=>pref(b,pos)-pref(a,pos)||b.s-a.s);
-    const x=left.shift(); if(!x) break; out.push({...x,pos});
+  // оптимальная расстановка (перебор по маске позиций): все позиции заняты, сумма «подходит ли позиция» максимальна;
+  // основная позиция игрока важнее всего, затем позиции, где он уже играл / указан, затем та же зона (инфилд / аутфилд)
+  const POS=['P','C','SS','1B','2B','3B','CF','LF','RF','SF'].slice(0,Math.min(10,team.length));
+  const n=team.length, M=1<<POS.length, NEG=-1e9;
+  let dp=new Array(M).fill(NEG); dp[0]=0; const choice=[];
+  for(let i=0;i<n;i++){
+    const nd=new Array(M).fill(NEG), ch=new Array(M).fill(-2);
+    for(let m=0;m<M;m++){ if(dp[m]===NEG) continue;
+      if(dp[m]>nd[m]){nd[m]=dp[m];ch[m]=-1;}                       // запасной (EH)
+      for(let k=0;k<POS.length;k++){ if(m&(1<<k)) continue; const m2=m|(1<<k), v=dp[m]+100+fitScore(team[i].p,POS[k]);
+        if(v>nd[m2]){nd[m2]=v;ch[m2]=k;} } }
+    choice.push(ch); dp=nd;
   }
-  left.forEach(x=>out.push({...x,pos:'EH'}));
-  return out;
+  let m=0; for(let x=1;x<M;x++) if(dp[x]>dp[m]) m=x;
+  const pos=new Array(n);
+  for(let i=n-1;i>=0;i--){ const k=choice[i][m]; if(k>=0){pos[i]=POS[k]; m&=~(1<<k);} else pos[i]='EH'; }
+  const out=team.map((x,i)=>({...x,pos:pos[i]})), ord=[...POS,'EH'];
+  return out.sort((a,b)=>ord.indexOf(a.pos)-ord.indexOf(b.pos));
 }
 let TM={sols:[],idx:0,rng:mulberry32(Date.now()%1e9)};
 function teamsPage(){
