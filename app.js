@@ -5,7 +5,7 @@
 const I18N={
   ru:{rating:'Рейтинг',games:'Игры',players:'Игроки',lastGame:'Последняя игра',potg:'Игрок матча',leaders:'Лидеры сезона',avgPerGame:'средний рейтинг за игру',
     table:'Рейтинг игроков',qualHint:n=>`в рейтинге — от ${n} ${plural('ru',n)} · нажмите на столбец для сортировки`,player:'Игрок',position:'Позиция',pos:'Поз.',
-    youtube:'Смотреть на YouTube',boxscore:'Протокол игры',season:'Сезон',avgRating:'Средний рейтинг',noRating:'Рейтинг появится после первой игры',
+    youtube:'Смотреть на YouTube',boxscore:'Протокол игры',season:'Сезон',avgRating:'Средний рейтинг',rOff:'Нападение',rDef:'Защита',rOffS:'Нап.',rDefS:'Защ.',rSplit:b=>`старт ${b} + очки за нападение и защиту в среднем за игру`,noRating:'Рейтинг появится после первой игры',
     G:'Игры',W:'Победы',WL:'В-П',R:'Раны',PO:'Ауты в защите',byGame:'Рейтинг по играм',dashed:'пунктир — среднее за сезон',avgLbl:'среднее',allGames:'Все игры',
     date:'Дата',team:'Команда',result:'Итог',win:'Победа',loss:'Поражение',tie:'Ничья',winL:'победа',lossL:'поражение',tieL:'ничья',runs:'ран',
     seasonStarts:d=>`Сезон ${d.season} стартует ${d.start}`,daysLeft:n=>`До старта ${n} ${pluralDays('ru',n)}`,seasonGames:'Игры сезона',
@@ -13,7 +13,7 @@ const I18N={
     roster:'Состав',openProfile:'Открыть профиль',title:'Статистика',tagline:'Любительский софтбол в Баку. Рейтинг игроков, статистика и ролики каждой игры.',site:'Сайт',watch:'Смотреть',where:'Где играем',lastVideo:'Последняя игра на YouTube',channel:'Наш YouTube-канал',place:'Амирджан, Баку, Азербайджан',seasonPill:d=>`Сезон ${d.season} · старт ${d.start}`,language:'Язык',firstGame:'Первая игра',videoSoon:'Видео скоро',final:'Итог',notFound:'Не найдено',loadErr:'Не удалось загрузить данные',footer:'рейтинг считается автоматически после каждой игры',mvp:'MVP',city:'Баку'},
   az:{rating:'Reytinq',games:'Oyunlar',players:'Oyunçular',lastGame:'Son oyun',potg:'Oyunun ən yaxşısı',leaders:'Mövsümün liderləri',avgPerGame:'oyun başına orta reytinq',
     table:'Oyunçuların reytinqi',qualHint:n=>`reytinqdə — ən azı ${n} oyun · sıralamaq üçün sütuna toxunun`,player:'Oyunçu',position:'Mövqe',pos:'Mövqe',
-    youtube:'YouTube-da izlə',boxscore:'Oyun protokolu',season:'Mövsüm',avgRating:'Orta reytinq',noRating:'Reytinq ilk oyundan sonra görünəcək',
+    youtube:'YouTube-da izlə',boxscore:'Oyun protokolu',season:'Mövsüm',avgRating:'Orta reytinq',rOff:'Hücum',rDef:'Müdafiə',rOffS:'Hüc.',rDefS:'Müd.',rSplit:b=>`başlanğıc ${b} + oyun başına orta hücum və müdafiə balları`,noRating:'Reytinq ilk oyundan sonra görünəcək',
     G:'Oyunlar',W:'Qələbələr',WL:'Q-M',R:'Ranlar',PO:'Müdafiədə autlar',byGame:'Oyunlar üzrə reytinq',dashed:'qırıq xətt — mövsüm ortalaması',avgLbl:'orta',allGames:'Bütün oyunlar',
     date:'Tarix',team:'Komanda',result:'Nəticə',win:'Qələbə',loss:'Məğlubiyyət',tie:'Heç-heçə',winL:'qələbə',lossL:'məğlubiyyət',tieL:'heç-heçə',runs:'ran',
     seasonStarts:d=>`${d.season} mövsümü ${d.start} başlayır`,daysLeft:n=>`Başlanğıca ${n} gün qalıb`,seasonGames:'Mövsümün oyunları',
@@ -21,7 +21,7 @@ const I18N={
     roster:'Heyət',openProfile:'Profilə bax',title:'Statistika',tagline:'Bakıda həvəskar softbol. Oyunçuların reytinqi, statistika və hər oyunun videosu.',site:'Sayt',watch:'İzlə',where:'Harada oynayırıq',lastVideo:'Son oyun YouTube-da',channel:'YouTube kanalımız',place:'Əmircan, Bakı, Azərbaycan',seasonPill:d=>`${d.season} mövsümü · ${d.start}`,language:'Dil',firstGame:'İlk oyun',videoSoon:'Video tezliklə',final:'Yekun',notFound:'Tapılmadı',loadErr:'Məlumatları yükləmək alınmadı',footer:'reytinq hər oyundan sonra avtomatik hesablanır',mvp:'MVP',city:'Bakı'},
   en:{rating:'Ratings',games:'Games',players:'Players',lastGame:'Last game',potg:'Player of the game',leaders:'Season leaders',avgPerGame:'average rating per game',
     table:'Player ratings',qualHint:n=>`qualified — ${n}+ ${plural('en',n)} · click a column to sort`,player:'Player',position:'Position',pos:'Pos',
-    youtube:'Watch on YouTube',boxscore:'Box score',season:'Season',avgRating:'Average rating',noRating:'Rating appears after the first game',
+    youtube:'Watch on YouTube',boxscore:'Box score',season:'Season',avgRating:'Average rating',rOff:'Offense',rDef:'Defense',rOffS:'Off.',rDefS:'Def.',rSplit:b=>`start ${b} + average offense and defense points per game`,noRating:'Rating appears after the first game',
     G:'Games',W:'Wins',WL:'W-L',R:'Runs',PO:'Putouts',byGame:'Rating by game',dashed:'dashed line — season average',avgLbl:'avg',allGames:'Game log',
     date:'Date',team:'Team',result:'Result',win:'Win',loss:'Loss',tie:'Tie',winL:'win',lossL:'loss',tieL:'tie',runs:'runs',
     seasonStarts:d=>`Season ${d.season} starts ${d.start}`,daysLeft:n=>`${n} ${n===1?'day':'days'} to go`,seasonGames:'Season games',
@@ -60,11 +60,16 @@ function ballSVG(){ const i='b'+(++_ballN);
 const BASE=6.0;
 const W={'1B':.25,'2B':.5,'3B':.75,HR:1.0,BB:.15,ROE:.15,R:.25,RBI:.25,OUT:-.25,K:-.35,
   FPO:.15,A:.10,RPO:.05,PK:.2,E:-.4}; // бонуса за победу нет (убран 07.11.2026)
-function rating(b,won){
+// Вклад в нападение и защиту (очки сверх BASE), без округления
+function ratingParts(b){
   const roe=b.ROE||0, outs=Math.max(0,b.AB-b.H-b.K-roe);
   const off=W['1B']*b['1B']+W['2B']*b['2B']+W['3B']*b['3B']+W.HR*b.HR+W.BB*b.BB+W.ROE*roe+W.R*b.R+W.RBI*b.RBI+W.OUT*outs+W.K*b.K;
   const fpo=b.FPO||0,kpo=b.KPO||0,rpo=Math.max(0,(b.PO||0)-fpo-kpo); // в старых протоколах без FPO/KPO все PO считаются принятыми бросками
   const def=W.FPO*fpo+W.RPO*rpo+W.A*(b.A||0)+W.PK*(b.PK||0)+W.E*(b.E||0);
+  return {off,def};
+}
+function rating(b,won){
+  const {off,def}=ratingParts(b);
   return Math.round(Math.min(10,Math.max(3,BASE+off+def+(won&&W.WIN?W.WIN:0)))*10)/10;
 }
 function rclass(r){return r==null?'na':r>=9?'elite':r>=8?'great':r>=7?'good':r>=6?'mid':'low'}
@@ -96,7 +101,7 @@ async function load(){
   S.games.sort((a,b)=>a.date.localeCompare(b.date));
   for(const g of S.games){
     g.winner=g.score.A>g.score.B?'A':g.score.B>g.score.A?'B':null;
-    for(const b of g.box){ b.rating=rating(b,g.winner===b.team); S.players[b.player]?.log.push({game:g,b}); }
+    for(const b of g.box){ b.rating=rating(b,g.winner===b.team); const rp=ratingParts(b); b.rOff=rp.off; b.rDef=rp.def; S.players[b.player]?.log.push({game:g,b}); }
     g.stats=g.box.length>0; g.mvp=g.stats?[...g.box].sort((x,y)=>y.rating-x.rating)[0]:null;
   }
   S.qual=Math.max(1,Math.ceil(S.games.filter(g=>g.stats).length*0.4));
@@ -106,6 +111,7 @@ async function load(){
       if(game.winner===b.team) t.W++; else if(game.winner) t.L++; pos[b.pos]=(pos[b.pos]||0)+1; }
     const TB=t['1B']+2*t['2B']+3*t['3B']+4*t.HR;
     t.AVG=t.H/t.AB; t.OBP=(t.H+t.BB+t.ROE)/t.PA; t.SLG=TB/t.AB; t.OPS=t.OBP+t.SLG;
+    t.OFF=t.G?p.log.reduce((s,x)=>s+x.b.rOff,0)/t.G:null; t.DEF=t.G?p.log.reduce((s,x)=>s+x.b.rDef,0)/t.G:null;
     t.RAT=t.G?Math.round(p.log.reduce((s,x)=>s+x.b.rating,0)/t.G*100)/100:null;
     t.qual=t.G>=S.qual; p.t=t;
     p.pos=Object.entries(pos).sort((a,b)=>b[1]-a[1]);
@@ -201,6 +207,13 @@ function chart(p){
   if(p.t.RAT!=null) s+=`<line x1="${pad}" x2="${W0-pad}" y1="${y(p.t.RAT)}" y2="${y(p.t.RAT)}" stroke="#EF9F27" stroke-dasharray="6 6" stroke-width="2"/><text x="${W0-pad}" y="${y(p.t.RAT)-6}" fill="#EF9F27" font-size="12" font-weight="700" text-anchor="end">${T('avgLbl')} ${p.t.RAT.toFixed(2)}</text>`;
   return s+'</svg>';
 }
+// ±очки (вклад) и разбивка рейтинга на нападение и защиту
+function pts(v){ if(v==null) return '–'; const r=Math.round(v*100)/100; return `<span class="pts ${r>0?'pos':r<0?'neg':''}">${r>0?'+':r<0?'−':'±'}${Math.abs(r).toFixed(2)}</span>`; }
+function rsplit(t){
+  const cell=(lbl,ic,v)=>`<div class="rs-i"><span class="rs-l">${ic}${lbl}</span>${rt(Math.round(Math.min(10,Math.max(3,BASE+v))*10)/10)}${pts(v)}</div>`;
+  return `<div class="rsplit">${cell(T('rOff'),'<svg viewBox="0 0 24 24"><path d="M4 20 18 6" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="19.5" cy="4.5" r="2.5" fill="currentColor"/></svg>',t.OFF)}${cell(T('rDef'),'<svg viewBox="0 0 24 24"><path d="M7 21c-2-1-3-3-3-6V9a1.5 1.5 0 013 0V5a1.5 1.5 0 013 0V4a1.5 1.5 0 013 0v1a1.5 1.5 0 013 0v5l1-1a1.6 1.6 0 012.3 2.2L15 17c-1 2-3 4-6 4z" fill="currentColor"/></svg>',t.DEF)}</div>
+    <div class="rs-hint">${T('rSplit')(BASE.toFixed(1))}</div>`;
+}
 function player(id){
   const p=S.players[id]; if(!p){app().innerHTML=`<p class="muted">${T('notFound')}</p>`;return;}
   const t=p.t, has=t.G>0, d=v=>has?v:'–';
@@ -208,17 +221,17 @@ function player(id){
     <div><span class="eyebrow">#${p.number} · ${T('season')} ${S.season}</span><h1>${first(p)}<span>${last(p).toUpperCase()}</span></h1>
     <div class="posname">${POS_NAMES[LANG][p.pos[0]?.[0]]||''}${!has&&p.pos.length?` · <span class="muted">${T('mainPos')}</span>`:''}</div>
     <div class="chips">${p.pos.map(posChip).join('')}</div></div>
-    <div class="rbox">${rt(t.RAT==null?null:Math.round(t.RAT*10)/10,'xl')}<div class="lbl">${has?T('avgRating'):T('noRating')}</div></div></div>
+    <div class="rbox">${rt(t.RAT==null?null:Math.round(t.RAT*10)/10,'xl')}<div class="lbl">${has?T('avgRating'):T('noRating')}</div>${has?rsplit(t):''}</div></div>
     <div class="kpis">${[[T('G'),t.G],[T('W'),d(`${t.W}-${t.L}`)],['AVG',d(avg3(t.AVG))],['OBP',d(avg3(t.OBP))],['SLG',d(avg3(t.SLG))],['OPS',d(avg3(t.OPS))],['HR',d(t.HR)],['RBI',d(t.RBI)],[T('R'),d(t.R)],[T('PO'),d(t.PO)]]
       .map(([n,v])=>`<div class="card kpi"><div class="v">${v}</div><div class="k">${n}</div></div>`).join('')}</div>`;
   const X=window.playerExtras||(()=>({top:'',bottom:''})), ex=X(p);
   h+=ex.top;
   if(!has){ app().innerHTML=h+`<div class="card empty">${T('noStats')}</div>`+ex.bottom; return; }
   h+=`<div class="section-title"><h2>${T('byGame')}</h2><span class="hint">${T('dashed')}</span></div><div class="card chart">${chart(p)}</div>
-    <div class="section-title"><h2>${T('allGames')}</h2></div><div class="card tablewrap"><table class="lb"><thead><tr><th class="l">${T('date')}</th><th class="l">${T('team')}</th><th class="l">${T('pos')}</th><th>${T('rating')}</th><th>AB</th><th>H</th><th>2B</th><th>3B</th><th>HR</th><th>R</th><th>RBI</th><th>BB</th><th>K</th><th>PO</th><th>A</th><th>E</th><th class="l">${T('result')}</th></tr></thead><tbody>`;
+    <div class="section-title"><h2>${T('allGames')}</h2></div><div class="card tablewrap"><table class="lb"><thead><tr><th class="l">${T('date')}</th><th class="l">${T('team')}</th><th class="l">${T('pos')}</th><th>${T('rating')}</th><th title="${T('rOff')}">${T('rOffS')}</th><th title="${T('rDef')}">${T('rDefS')}</th><th>AB</th><th>H</th><th>2B</th><th>3B</th><th>HR</th><th>R</th><th>RBI</th><th>BB</th><th>K</th><th>PO</th><th>A</th><th>E</th><th class="l">${T('result')}</th></tr></thead><tbody>`;
   for(const {game:g,b} of [...p.log].reverse()){
     const tm=g.teams[b.team], res=g.winner===b.team?`<b style="color:var(--r-good)">${T('win')}</b>`:g.winner?`<b style="color:var(--r-low)">${T('loss')}</b>`:T('tie');
-    h+=`<tr onclick="location.hash='#game-${g.id}'"><td class="l">${fmtDate(g.date)}</td><td class="l"><span class="chip" style="background:${tm.color}22;color:${tm.color}">${tm.name}</span></td><td class="l">${b.pos}</td><td>${rt(b.rating)}</td><td>${b.AB}</td><td>${b.H}</td><td>${b['2B']}</td><td>${b['3B']}</td><td>${b.HR}</td><td>${b.R}</td><td>${b.RBI}</td><td>${b.BB}</td><td>${b.K}</td><td>${b.PO}</td><td>${b.A}</td><td>${b.E}</td><td class="l">${res} ${g.score[b.team]}:${g.score[b.team==='A'?'B':'A']}</td></tr>`;
+    h+=`<tr onclick="location.hash='#game-${g.id}'"><td class="l">${fmtDate(g.date)}</td><td class="l"><span class="chip" style="background:${tm.color}22;color:${tm.color}">${tm.name}</span></td><td class="l">${b.pos}</td><td>${rt(b.rating)}</td><td>${pts(b.rOff)}</td><td>${pts(b.rDef)}</td><td>${b.AB}</td><td>${b.H}</td><td>${b['2B']}</td><td>${b['3B']}</td><td>${b.HR}</td><td>${b.R}</td><td>${b.RBI}</td><td>${b.BB}</td><td>${b.K}</td><td>${b.PO}</td><td>${b.A}</td><td>${b.E}</td><td class="l">${res} ${g.score[b.team]}:${g.score[b.team==='A'?'B':'A']}</td></tr>`;
   }
   app().innerHTML=h+'</tbody></table></div>'+ex.bottom;
 }
@@ -256,6 +269,7 @@ function peekHTML(p){
     <div class="pk-pos">${main?`${POS_NAMES[LANG][main]||main}`:''}</div>
     <div class="pk-chips">${p.pos.map(posChip).join('')}</div>
     <div class="pk-rt">${rt(t.RAT==null?null:Math.round(t.RAT*10)/10,'lg')}<span>${has?T('avgRating'):T('noRating')}</span></div>
+    ${has?`<div class="pk-split"><span>${T('rOff')} ${pts(t.OFF)}</span><span>${T('rDef')} ${pts(t.DEF)}</span></div>`:''}
     ${has?`<div class="pk-stats">${[[T('G'),t.G],['AVG',avg3(t.AVG)],['OPS',avg3(t.OPS)],['HR',t.HR],['RBI',t.RBI]].map(([k,v])=>`<div><b>${v}</b><i>${k}</i></div>`).join('')}</div>`:''}
     <div class="pk-go">${T('openProfile')} →</div></div>`;
 }

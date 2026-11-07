@@ -201,3 +201,13 @@ a.gmedia:hover .play{transform:translate(-50%,-50%) scale(1.08)}
 .pk-stats b{display:block;font-size:16px;font-weight:900;font-variant-numeric:tabular-nums}
 .pk-stats i{font-style:normal;color:var(--muted);font-size:10px;font-weight:700;letter-spacing:1px}
 .pk-go{margin-top:14px;color:var(--muted);font-size:12px;font-weight:700;letter-spacing:.5px}
+
+/* разбивка рейтинга: нападение / защита */
+.rsplit{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.rs-i{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;min-width:96px}
+.rs-l{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase}
+.rs-l svg{width:14px;height:14px;color:var(--amber)}
+.rs-hint{color:var(--dim);font-size:11px;margin-top:8px;max-width:230px;margin-left:auto;margin-right:auto;line-height:1.35}
+.pts{font-weight:800;font-size:13px;font-variant-numeric:tabular-nums;color:var(--muted)}
+.pts.pos{color:var(--r-good)} .pts.neg{color:var(--r-low)}
+.pk-split{display:flex;gap:12px;justify-content:center;font-size:12px;color:var(--muted);margin:-2px 0 10px}
