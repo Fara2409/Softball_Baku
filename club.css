@@ -86,7 +86,15 @@
 .who-chip .av.s{width:24px;height:24px;font-size:10px;border-width:1px}
 .who-chip.y{border-color:rgba(47,174,102,.45)}
 .who-chip.m{opacity:.7;border-style:dashed}
-.who-no{font-size:12px;color:var(--dim);font-weight:700;margin-left:4px}
+.who-no{font-size:12px;color:var(--dim);font-weight:700}
+.who-groups{display:flex;flex-direction:column;gap:10px}
+.who-row{display:flex;flex-direction:column;gap:6px}
+.who-lbl{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
+.who-row.y .who-lbl{color:#6fd69b}.who-row.m .who-lbl{color:#f3b25e}.who-row.n .who-lbl{color:#ff9a9a}
+.who-chip.n{opacity:.75;border-color:rgba(217,83,79,.45)}
+.adm-ev-who{display:flex;flex-direction:column;gap:2px;font-size:12px;margin-top:4px}
+.adm-ev-who i{font-style:normal;color:var(--muted)}
+.adm-ev-who i.y{color:#6fd69b}.adm-ev-who i.m{color:#f3b25e}.adm-ev-who i.n{color:#ff9a9a}
 .ev-teams{align-self:flex-start}
 
 /* онлайн-счёт */

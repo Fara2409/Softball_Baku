@@ -29,7 +29,7 @@ Object.assign(I18N.ru,{
   cRequest:'Я игрок команды',cSendReq:'Отправить заявку',cCancelReq:'Отменить заявку',cChangePass:'Сменить пароль',cNewPass:'Новый пароль',cPassChanged:'Пароль изменён',
   cNotLogged:'Вы не вошли',cNotLoggedTxt:'Войдите или зарегистрируйтесь, чтобы писать комментарии и отмечаться на игры.',
   cNext:'Ближайшие игры',cNextOne:'Следующая игра',cYes:'Буду',cNo:'Не буду',cMaybe:'Может быть',cComing:'будут',
-  cCountNo:n=>`не будут: ${n}`,cOnlyPlayers:'Отмечаться могут только игроки',cPlayerLogin:'Вы игрок? Войдите',cWaitApproval:'Ваша заявка игрока ждёт подтверждения админа',
+  cCountNo:n=>`не будут: ${n}`,cYesL:'Будут',cMaybeL:'Может быть',cNoL:'Не будут',cOnlyPlayers:'Отмечаться могут только игроки',cPlayerLogin:'Вы игрок? Войдите',cWaitApproval:'Ваша заявка игрока ждёт подтверждения админа',
   cCancelled:'Отменена',cNoEvents:'⏳ Ждём подтверждения следующей игры',cAwait:'Ждём подтверждения игры',cAwaitAdm:'Назначить игру',cToTeams:'Разделить пришедших на команды',
   cAdminTitle:'Панель админа',cRequests:'Заявки игроков',cNoRequests:'Новых заявок нет',cApprove:'Подтвердить',cReject:'Отклонить',cWants:'хочет быть',
   cUsers:'Пользователи',cPlayerL:'Игрок',cReset:'Сбросить пароль',cResetQ:n=>`Задать ${n} новый временный пароль?`,cTempPass:'Временный пароль',
@@ -60,7 +60,7 @@ Object.assign(I18N.az,{
   cRequest:'Mən komandanın oyunçusuyam',cSendReq:'Sorğu göndər',cCancelReq:'Sorğunu ləğv et',cChangePass:'Şifrəni dəyiş',cNewPass:'Yeni şifrə',cPassChanged:'Şifrə dəyişdirildi',
   cNotLogged:'Daxil olmamısınız',cNotLoggedTxt:'Şərh yazmaq və oyunlara qeyd olunmaq üçün daxil olun və ya qeydiyyatdan keçin.',
   cNext:'Növbəti oyunlar',cNextOne:'Növbəti oyun',cYes:'Gələcəyəm',cNo:'Gəlməyəcəyəm',cMaybe:'Bəlkə',cComing:'gəlir',
-  cCountNo:n=>`gəlmir: ${n}`,cOnlyPlayers:'Qeyd olunmaq yalnız oyunçular üçündür',cPlayerLogin:'Oyunçusunuz? Daxil olun',cWaitApproval:'Oyunçu sorğunuz admin təsdiqini gözləyir',
+  cCountNo:n=>`gəlmir: ${n}`,cYesL:'Gələcəklər',cMaybeL:'Bəlkə',cNoL:'Gəlməyəcəklər',cOnlyPlayers:'Qeyd olunmaq yalnız oyunçular üçündür',cPlayerLogin:'Oyunçusunuz? Daxil olun',cWaitApproval:'Oyunçu sorğunuz admin təsdiqini gözləyir',
   cCancelled:'Ləğv edildi',cNoEvents:'⏳ Növbəti oyunun təsdiqi gözlənilir',cAwait:'Oyunun təsdiqi gözlənilir',cAwaitAdm:'Oyun təyin et',cToTeams:'Gələnləri komandalara böl',
   cAdminTitle:'Admin paneli',cRequests:'Oyunçu sorğuları',cNoRequests:'Yeni sorğu yoxdur',cApprove:'Təsdiq et',cReject:'Rədd et',cWants:'olmaq istəyir',
   cUsers:'İstifadəçilər',cPlayerL:'Oyunçu',cReset:'Şifrəni sıfırla',cResetQ:n=>`${n} üçün yeni müvəqqəti şifrə yaradılsın?`,cTempPass:'Müvəqqəti şifrə',
@@ -91,7 +91,7 @@ Object.assign(I18N.en,{
   cRequest:"I'm on the team",cSendReq:'Send request',cCancelReq:'Cancel request',cChangePass:'Change password',cNewPass:'New password',cPassChanged:'Password changed',
   cNotLogged:'You are not logged in',cNotLoggedTxt:'Log in or sign up to comment and respond to games.',
   cNext:'Upcoming games',cNextOne:'Next game',cYes:"I'm in",cNo:"Can't make it",cMaybe:'Maybe',cComing:'coming',
-  cCountNo:n=>`out: ${n}`,cOnlyPlayers:'Only players can respond',cPlayerLogin:'Are you a player? Log in',cWaitApproval:'Your player request is waiting for admin approval',
+  cCountNo:n=>`out: ${n}`,cYesL:'Coming',cMaybeL:'Maybe',cNoL:'Not coming',cOnlyPlayers:'Only players can respond',cPlayerLogin:'Are you a player? Log in',cWaitApproval:'Your player request is waiting for admin approval',
   cCancelled:'Cancelled',cNoEvents:'⏳ Awaiting confirmation of the next game',cAwait:'Awaiting game confirmation',cAwaitAdm:'Schedule a game',cToTeams:'Split those coming into teams',
   cAdminTitle:'Admin panel',cRequests:'Player requests',cNoRequests:'No new requests',cApprove:'Approve',cReject:'Reject',cWants:'wants to be',
   cUsers:'Users',cPlayerL:'Player',cReset:'Reset password',cResetQ:n=>`Set a new temporary password for ${n}?`,cTempPass:'Temporary password',
@@ -353,6 +353,13 @@ function rerender(){ if(typeof route==='function'&&siteLoaded()){ const y=scroll
 
 /* ---------- Расписание и «буду / не буду» ---------- */
 function whoChip(r,cls){ const pr=C.profiles[r.user_id]||{}; return `<span class="who-chip ${cls}" title="${esc(personName(pr))}">${personAv(pr,'s')}<span>${esc(shortName(pr))}</span></span>`; }
+// списки «будут / может быть / не будут»; имена отказавшихся видят игроки и админ, гости — только число
+function whoGroups(yes,maybe,no){
+  const g=(L,c,ic,lbl)=>L.length?`<div class="who-row ${c}"><span class="who-lbl">${ic} ${lbl} · ${L.length}</span><div class="who">${L.map(r=>whoChip(r,c)).join('')}</div></div>`:'';
+  const noPart=canRsvp()?g(no,'n','✕',T('cNoL')):(no.length?`<span class="who-no">${T('cCountNo')(no.length)}</span>`:'');
+  const h=g(yes,'y','✓',T('cYesL'))+g(maybe,'m','?',T('cMaybeL'))+noPart;
+  return h?`<div class="who-groups">${h}</div>`:'';
+}
 function evCard(e,compact){
   const R=C.rsvps.filter(r=>r.event_id===e.id), by=s=>R.filter(r=>r.status===s);
   const yes=by('yes'), maybe=by('maybe'), no=by('no'), mine=C.user?(R.find(r=>r.user_id===C.user.id)||{}).status:null;
@@ -368,7 +375,7 @@ function evCard(e,compact){
       ${cx?`<span class="ev-x">${T('cCancelled')}</span>`:`<div class="ev-count"><b>${yes.length}</b><span>${T('cComing')}</span></div>`}</div>
     ${cx?'':`${can?`<div class="rsvp">${b('yes','✓ '+T('cYes'),'y')}${b('maybe','? '+T('cMaybe'),'m')}${b('no','✕ '+T('cNo'),'n')}</div>`:''}
     ${hint?`<div class="ev-hint">${hint}</div>`:''}
-    ${yes.length||maybe.length||no.length?`<div class="who">${yes.map(r=>whoChip(r,'y')).join('')}${maybe.map(r=>whoChip(r,'m')).join('')}${no.length?`<span class="who-no">${T('cCountNo')(no.length)}</span>`:''}</div>`:''}
+    ${whoGroups(yes,maybe,no)}
     ${yes.length>=4&&canRsvp()?`<button class="btn sm ev-teams" onclick="CL.toTeams(${+e.id})">⚖ ${T('cToTeams')}</button>`:''}`}
   </div>`;
 }
@@ -619,7 +626,8 @@ function drawAdminEvents(){
   if(!ADM.events.length){ el.innerHTML=`<div class="card empty" style="margin-top:12px">${T('cNoEvents')}</div>`; return; }
   el.innerHTML=`<div class="card adm-list">`+ADM.events.map(e=>{
     const R=ADM.rsvps.filter(r=>r.event_id===e.id), c=s=>R.filter(r=>r.status===s).length, past=new Date(e.starts_at)<Date.now()-3*3600e3;
-    return `<div class="adm-ev ${e.status==='cancelled'?'cancelled':''} ${past?'past':''}"><div class="adm-ev-t"><b>${evWhen(e.starts_at)}</b><span class="muted">${esc(e.place||'')}${e.note?` · ${esc(e.note)}`:''}</span></div>
+    const nm=st=>R.filter(r=>r.status===st).map(r=>esc(shortName(C.profiles[r.user_id]||{}))).join(', ');
+    return `<div class="adm-ev ${e.status==='cancelled'?'cancelled':''} ${past?'past':''}"><div class="adm-ev-t"><b>${evWhen(e.starts_at)}</b><span class="muted">${esc(e.place||'')}${e.note?` · ${esc(e.note)}`:''}</span>${R.length?`<span class="adm-ev-who">${c('yes')?`<i class="y">✓ ${nm('yes')}</i>`:''}${c('maybe')?`<i class="m">? ${nm('maybe')}</i>`:''}${c('no')?`<i class="n">✕ ${nm('no')}</i>`:''}</span>`:''}</div>
       <div class="adm-ev-c"><span class="y">✓ ${c('yes')}</span><span class="m">? ${c('maybe')}</span><span class="n">✕ ${c('no')}</span>${e.status==='cancelled'?`<span class="ev-x">${T('cCancelled')}</span>`:past?`<span class="muted">${T('cPast')}</span>`:''}</div>
       <div class="adm-ev-a">${e.status==='cancelled'?`<button class="btn sm" onclick="CL.evStatus(${+e.id},'planned')">${T('cRestoreEv')}</button>`:past?'':`<button class="btn sm" onclick="CL.evStatus(${+e.id},'cancelled')">${T('cCancelEv')}</button>`}
         <button class="btn sm danger" onclick="CL.delEvent(${+e.id})">${T('cDelete')}</button></div></div>`; }).join('')+'</div>';
