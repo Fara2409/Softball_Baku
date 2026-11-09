@@ -279,6 +279,20 @@
     "RF"
    ],
    "photo": "players/bahram-jamilov.jpg?v=2"
+  },
+  {
+   "id": "alim",
+   "first": "Alim",
+   "last": "",
+   "first_ru": "Алим",
+   "last_ru": "",
+   "first_az": "Alim",
+   "last_az": "",
+   "number": 5,
+   "positions": [
+    "2B"
+   ],
+   "photo": null
   }
  ]
 }
