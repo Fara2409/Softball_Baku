@@ -70,7 +70,7 @@ function toast(msg){const d=document.createElement('div');d.className='toast';d.
 function shuffle(a,rng){ a=[...a]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(rng()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 const playersArr=()=>Object.values(S.players).sort((a,b)=>a.number-b.number);
-const statGames=()=>S.games.filter(g=>g.stats);
+const statGames=()=>S.games.filter(g=>g.stats&&inPer(g));
 const mainPos=p=>(p.pos&&p.pos[0]&&p.pos[0][0])||(p.positions||[])[0]||'';
 const canPlay=(p,pos)=>(p.pos||[]).some(x=>x[0]===pos)||(p.positions||[]).includes(pos);
 
@@ -284,7 +284,7 @@ function recordsData(){
   return {recs,season};
 }
 function recordsPage(){
-  let h=`<div class="pagehead"><span class="eyebrow">${T('season')} ${S.season}</span><h1>${T('rcTitle')}</h1></div>`;
+  let h=periodTabs()+`<div class="pagehead"><span class="eyebrow">${periodName()}</span><h1>${T('rcTitle')}</h1></div>`;
   if(!statGames().length){ app().innerHTML=h+`<div class="card empty">${T('rcEmpty')}</div>`+badgeGallery(); return; }
   h+=`<div class="section-title"><h2>${T('rcAwards')}</h2><span class="hint">${T('rcLeader')}</span></div><div class="awards">`;
   for(const [t,d,w,fmt,ic] of awardsList()){

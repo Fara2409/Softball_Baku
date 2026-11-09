@@ -3,7 +3,7 @@
 
 /* ---------- Языки ---------- */
 const I18N={
-  ru:{rating:'Рейтинг',games:'Игры',players:'Игроки',lastGame:'Последняя игра',potg:'Игрок матча',leaders:'Лидеры сезона',avgPerGame:'средний рейтинг за игру',
+  ru:{rating:'Рейтинг',games:'Игры',players:'Игроки',lastGame:'Последняя игра',potg:'Игрок матча',leaders:'Лидеры сезона',perSeason:y=>`Сезон ${y}`,perOff:y=>`Межсезонье ${y}`,leadersOff:y=>`Лидеры межсезонья ${y}`,offChip:'межсезонье',seasonNoGames:'Сезон ещё не начался — статистика тестовых игр во вкладке «Межсезонье».',avgPerGame:'средний рейтинг за игру',
     table:'Рейтинг игроков',qualHint:n=>`в рейтинге — от ${n} ${plural('ru',n)} · нажмите на столбец для сортировки`,player:'Игрок',position:'Позиция',pos:'Поз.',
     youtube:'Смотреть на YouTube',boxscore:'Протокол игры',season:'Сезон',avgRating:'Средний рейтинг',rOff:'Нападение',rDef:'Защита',rOffS:'Нап.',rDefS:'Защ.',rSplit:b=>`старт ${b} + очки за нападение и защиту в среднем за игру`,noRating:'Рейтинг появится после первой игры',
     G:'Игры',W:'Победы',WL:'В-П',R:'Раны',PO:'Ауты в защите',byGame:'Рейтинг по играм',dashed:'пунктир — среднее за сезон',avgLbl:'среднее',allGames:'Все игры',
@@ -11,7 +11,7 @@ const I18N={
     seasonStarts:d=>`Сезон ${d.season} стартует ${d.start}`,daysLeft:n=>`До старта ${n} ${pluralDays('ru',n)}`,seasonGames:'Игры сезона',
     noGames:'Игр пока нет. Первая игра сезона появится здесь.',noStats:'Статистика появится после первой игры сезона.',mainPos:'основная позиция',
     roster:'Состав',openProfile:'Открыть профиль',title:'Статистика',tagline:'Любительский софтбол в Баку. Рейтинг игроков, статистика и ролики каждой игры.',site:'Сайт',watch:'Смотреть',where:'Где играем',lastVideo:'Последняя игра на YouTube',channel:'Наш YouTube-канал',place:'Амирджан, Баку, Азербайджан',seasonPill:d=>`Сезон ${d.season} · старт ${d.start}`,language:'Язык',firstGame:'Первая игра',videoSoon:'Видео скоро',final:'Итог',notFound:'Не найдено',loadErr:'Не удалось загрузить данные',footer:'рейтинг считается автоматически после каждой игры',mvp:'MVP',city:'Баку'},
-  az:{rating:'Reytinq',games:'Oyunlar',players:'Oyunçular',lastGame:'Son oyun',potg:'Oyunun ən yaxşısı',leaders:'Mövsümün liderləri',avgPerGame:'oyun başına orta reytinq',
+  az:{rating:'Reytinq',games:'Oyunlar',players:'Oyunçular',lastGame:'Son oyun',potg:'Oyunun ən yaxşısı',leaders:'Mövsümün liderləri',perSeason:y=>`${y} mövsümü`,perOff:y=>`Mövsümlərarası ${y}`,leadersOff:y=>`Mövsümlərarası liderlər ${y}`,offChip:'mövsümlərarası',seasonNoGames:'Mövsüm hələ başlamayıb — sınaq oyunlarının statistikası «Mövsümlərarası» bölməsindədir.',avgPerGame:'oyun başına orta reytinq',
     table:'Oyunçuların reytinqi',qualHint:n=>`reytinqdə — ən azı ${n} oyun · sıralamaq üçün sütuna toxunun`,player:'Oyunçu',position:'Mövqe',pos:'Mövqe',
     youtube:'YouTube-da izlə',boxscore:'Oyun protokolu',season:'Mövsüm',avgRating:'Orta reytinq',rOff:'Hücum',rDef:'Müdafiə',rOffS:'Hüc.',rDefS:'Müd.',rSplit:b=>`başlanğıc ${b} + oyun başına orta hücum və müdafiə balları`,noRating:'Reytinq ilk oyundan sonra görünəcək',
     G:'Oyunlar',W:'Qələbələr',WL:'Q-M',R:'Ranlar',PO:'Müdafiədə autlar',byGame:'Oyunlar üzrə reytinq',dashed:'qırıq xətt — mövsüm ortalaması',avgLbl:'orta',allGames:'Bütün oyunlar',
@@ -19,7 +19,7 @@ const I18N={
     seasonStarts:d=>`${d.season} mövsümü ${d.start} başlayır`,daysLeft:n=>`Başlanğıca ${n} gün qalıb`,seasonGames:'Mövsümün oyunları',
     noGames:'Hələ oyun yoxdur. Mövsümün ilk oyunu burada görünəcək.',noStats:'Statistika mövsümün ilk oyunundan sonra görünəcək.',mainPos:'əsas mövqe',
     roster:'Heyət',openProfile:'Profilə bax',title:'Statistika',tagline:'Bakıda həvəskar softbol. Oyunçuların reytinqi, statistika və hər oyunun videosu.',site:'Sayt',watch:'İzlə',where:'Harada oynayırıq',lastVideo:'Son oyun YouTube-da',channel:'YouTube kanalımız',place:'Əmircan, Bakı, Azərbaycan',seasonPill:d=>`${d.season} mövsümü · ${d.start}`,language:'Dil',firstGame:'İlk oyun',videoSoon:'Video tezliklə',final:'Yekun',notFound:'Tapılmadı',loadErr:'Məlumatları yükləmək alınmadı',footer:'reytinq hər oyundan sonra avtomatik hesablanır',mvp:'MVP',city:'Bakı'},
-  en:{rating:'Ratings',games:'Games',players:'Players',lastGame:'Last game',potg:'Player of the game',leaders:'Season leaders',avgPerGame:'average rating per game',
+  en:{rating:'Ratings',games:'Games',players:'Players',lastGame:'Last game',potg:'Player of the game',leaders:'Season leaders',perSeason:y=>`Season ${y}`,perOff:y=>`Off-season ${y}`,leadersOff:y=>`Off-season leaders ${y}`,offChip:'off-season',seasonNoGames:'The season hasn’t started yet — test games are under “Off-season”.',avgPerGame:'average rating per game',
     table:'Player ratings',qualHint:n=>`qualified — ${n}+ ${plural('en',n)} · click a column to sort`,player:'Player',position:'Position',pos:'Pos',
     youtube:'Watch on YouTube',boxscore:'Box score',season:'Season',avgRating:'Average rating',rOff:'Offense',rDef:'Defense',rOffS:'Off.',rDefS:'Def.',rSplit:b=>`start ${b} + average offense and defense points per game`,noRating:'Rating appears after the first game',
     G:'Games',W:'Wins',WL:'W-L',R:'Runs',PO:'Putouts',byGame:'Rating by game',dashed:'dashed line — season average',avgLbl:'avg',allGames:'Game log',
@@ -104,8 +104,26 @@ async function load(){
     for(const b of g.box){ b.rating=rating(b,g.winner===b.team); const rp=ratingParts(b); b.rOff=rp.off; b.rDef=rp.def; S.players[b.player]?.log.push({game:g,b}); }
     g.stats=g.box.length>0; g.mvp=g.stats?[...g.box].sort((x,y)=>y.rating-x.rating)[0]:null;
   }
-  S.qual=Math.max(1,Math.ceil(S.games.filter(g=>g.stats).length*0.4));
+  // Межсезонье: игры до старта сезона (S.start) считаются отдельно от сезона
+  for(const g of S.games) g.off=!!S.start&&g.date<S.start;
+  for(const p of Object.values(S.players)) p.logAll=p.log;
+  const hasSeason=S.games.some(g=>g.stats&&!g.off), hasOff=S.games.some(g=>g.stats&&g.off);
+  applyPeriod(hasSeason||!hasOff?'season':'off');
+}
+const inPer=g=>S.period==='off'?g.off:!g.off;
+const offYear=()=>S.start?String(+S.start.slice(0,4)-1):'';
+const periodName=()=>S.period==='off'?T('perOff')(offYear()):T('perSeason')(S.season);
+function periodTabs(){
+  if(!S.games.some(g=>g.off&&g.stats)) return '';
+  const b=(k,l)=>`<button class="per-b ${S.period===k?'on':''}" onclick="setPeriod('${k}')">${l}</button>`;
+  return `<div class="per-tabs">${b('season',T('perSeason')(S.season))}${b('off',T('perOff')(offYear()))}</div>`;
+}
+function setPeriod(k){ if(S.period===k) return; applyPeriod(k); route(); }
+function applyPeriod(per){
+  S.period=per;
+  S.qual=Math.max(1,Math.ceil(S.games.filter(g=>g.stats&&inPer(g)).length*0.4));
   for(const p of Object.values(S.players)){
+    p.log=p.logAll.filter(x=>inPer(x.game));
     const t={G:0,PA:0,AB:0,H:0,'1B':0,'2B':0,'3B':0,HR:0,BB:0,K:0,R:0,RBI:0,ROE:0,PO:0,A:0,E:0,W:0,L:0}, pos={};
     for(const {game,b} of p.log){ t.G++; for(const k in t) if(k in b) t[k]+=b[k];
       if(game.winner===b.team) t.W++; else if(game.winner) t.L++; pos[b.pos]=(pos[b.pos]||0)+1; }
@@ -176,7 +194,9 @@ function home(){
       <div class="who">${av(mvp,'m')}<div><div class="name">${pname(mvp)}</div><div class="line">#${mvp.number} · ${last.mvp.pos} · ${statLine(last.mvp)}</div></div></div>
       <div>${rt(last.mvp.rating,'lg')}</div></a></div>`;
   const top=ps.filter(p=>p.t.qual).sort((a,b)=>b.t.RAT-a.t.RAT).slice(0,3);
-  h+=`<div class="section-title"><h2>${T('leaders')} ${S.season}</h2><span class="hint">${T('avgPerGame')}</span></div><div class="podium">`;
+  h+=periodTabs();
+  if(!ps.length){ app().innerHTML=h+`<div class="card empty">${T('seasonNoGames')}</div>`+seasonBanner(); return; }
+  h+=`<div class="section-title"><h2>${S.period==='off'?T('leadersOff')(offYear()):`${T('leaders')} ${S.season}`}</h2><span class="hint">${T('avgPerGame')}</span></div><div class="podium">`;
   top.forEach((p,i)=>h+=`<a class="card pod" href="#player-${p.id}"><span class="place">${i+1}</span>${av(p,'m')}<div><div class="nm">${pname(p)}</div><div class="sub">#${p.number} · ${p.pos[0]?.[0]||''} · ${p.t.G} ${plural(LANG,p.t.G)}</div></div>${rt(p.t.RAT,'lg')}</a>`);
   h+=`</div><div class="section-title"><h2>${T('table')}</h2><span class="hint">${T('qualHint')(S.qual)}</span></div><div class="card tablewrap"><table class="lb" id="lb"></table></div>`;
   app().innerHTML=h; drawLB(ps);
@@ -217,8 +237,8 @@ function rsplit(t){
 function player(id){
   const p=S.players[id]; if(!p){app().innerHTML=`<p class="muted">${T('notFound')}</p>`;return;}
   const t=p.t, has=t.G>0, d=v=>has?v:'–';
-  let h=`<div class="card phead"><span class="bignum">${p.number}</span>${av(p,'xl')}
-    <div><span class="eyebrow">#${p.number} · ${T('season')} ${S.season}</span><h1>${first(p)}<span>${last(p).toUpperCase()}</span></h1>
+  let h=periodTabs()+`<div class="card phead"><span class="bignum">${p.number}</span>${av(p,'xl')}
+    <div><span class="eyebrow">#${p.number} · ${periodName()}</span><h1>${first(p)}<span>${last(p).toUpperCase()}</span></h1>
     <div class="posname">${POS_NAMES[LANG][p.pos[0]?.[0]]||''}${!has&&p.pos.length?` · <span class="muted">${T('mainPos')}</span>`:''}</div>
     <div class="chips">${p.pos.map(posChip).join('')}</div></div>
     <div class="rbox">${rt(t.RAT==null?null:Math.round(t.RAT*10)/10,'xl')}<div class="lbl">${has?T('avgRating'):T('noRating')}</div>${has?rsplit(t):''}</div></div>
@@ -239,14 +259,14 @@ function games(){
   let h=`<div class="section-title" style="margin-top:0"><h2>${T('games')}</h2><span class="hint">${S.games.length} ${plural(LANG,S.games.length)}</span></div>`;
   if(!S.games.length){ app().innerHTML=h+`<div class="card empty">${T('noGames')}</div>`; return; }
   h+=`<div class="${S.games.some(g=>g.stats)?'glist':'gstack'}">`;
-  for(const g of [...S.games].reverse()) h+=!g.stats?featureGame(g):`<a class="card gcard" href="#game-${g.id}"><div class="d">${fmtDate(g.date)} · ${g.venue}</div>
+  for(const g of [...S.games].reverse()) h+=!g.stats?featureGame(g):`<a class="card gcard" href="#game-${g.id}"><div class="d">${fmtDate(g.date)} · ${g.venue}${g.off?` <span class="off-chip">${T('offChip')}</span>`:''}</div>
       ${['A','B'].map(k=>`<div class="t ${g.winner===k?'win':''}"><span><i class="tbar" style="background:${g.teams[k].color}"></i>${g.teams[k].name}</span><b>${g.score[k]}</b></div>`).join('')}
       <div class="d" style="margin:10px 0 0">${T('potg')}: <b style="color:var(--text)">${pname(S.players[g.mvp.player])}</b> ${rt(g.mvp.rating)}</div></a>`;
   app().innerHTML=h+'</div>';
 }
 function game(id){
   const g=S.games.find(x=>x.id===id); if(g&&!g.stats){ app().innerHTML=featureGame(g); return; } if(!g){app().innerHTML=`<p class="muted">${T('notFound')}</p>`;return;}
-  let h=`<span class="eyebrow">${fmtDate(g.date)} · ${g.venue}</span><div class="card lastgame" style="margin-top:12px">${linescore(g)}
+  let h=`<span class="eyebrow">${fmtDate(g.date)} · ${g.venue}${g.off?` · ${T('offChip')}`:''}</span><div class="card lastgame" style="margin-top:12px">${linescore(g)}
     <div class="btns">${g.video?`<a class="btn yt" href="${g.video}" target="_blank" rel="noopener">▶ ${T('youtube')}</a>`:''}</div></div>`;
   for(const k of ['A','B']){
     h+=`<div class="section-title"><h2 style="color:${g.teams[k].color}">${g.teams[k].name}</h2><span class="hint">${g.winner===k?T('winL'):g.winner?T('lossL'):T('tieL')} · ${g.score[k]} ${T('runs')}</span></div>
