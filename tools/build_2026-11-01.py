@@ -18,7 +18,7 @@ plays={
  # 2 TOP
  15:e('ROE',err=[MO]),16:e('OUT',po=[MO],fpo=MO),17:e('OUT',po=[MO],fpo=MO),18:e('OUT',po=[FK],fpo=FK),
  # 2 BOTTOM
- 19:e('ROE',err=[V]),20:e('ROE',err=[I]),21:e('OUT',po=[V],fpo=V),22:e('K',pk=AN),23:e('OUT',a=[V],po=[PA_]),
+ 19:e('ROE',err=[V]),20:e('1B',err=[I]),21:e('OUT',po=[V],fpo=V),22:e('K',pk=AN),23:e('OUT',a=[V],po=[PA_]),
  # 3 TOP (3B Рашид, Фахри RF)
  24:e('1B'),25:e('OUT',po=[HK]),26:e('OUT',po=[AL],fpo=AL),27:e('1B'),28:e('1B',runs=[F],rbi=1),29:e('2B',runs=[I],rbi=1),
  30:e('1B',err=[HK],runs=[AN,V],rbi=1),31:e('2B',err=[EM],runs=[RA],rbi=1),32:e('OUT',a=[RM],po=[HK]),
@@ -48,7 +48,7 @@ plays={
  96:e('OUT',a=[V],po=[M]),97:e('OUT',a=[PA_],po=[M]),98:e('OUT',a=[AN],po=[M]),
 }
 halves=[('A',1,10),('B',11,14),('A',15,18),('B',19,23),('A',24,32),('B',33,36),('A',37,42),('B',43,51),('A',52,55),('B',56,63),('A',64,74),('B',75,79),('A',80,85),('B',86,88),('A',89,95),('B',96,98)]
-F_=['PA','AB','H','1B','2B','3B','HR','BB','K','R','RBI','ROE','PO','FPO','KPO','PK','A','E']
+F_=['PA','AB','H','1B','2B','3B','HR','BB','K','R','RBI','ROE','PO','FPO','KPO','PK','PBB','A','E']
 box={p:{'player':p,'team':TEAM[p],'pos':POS[p],**{k:0 for k in F_}} for p in TEAM}
 last={'A':None,'B':None}; line={'A':[],'B':[]}; batters={}
 for t,a,b in halves:
@@ -70,6 +70,7 @@ for t,a,b in halves:
         for p in pl.get('err',[]): box[p]['E']+=1
         if pl.get('fpo'): box[pl['fpo']]['FPO']+=1
         if pl.get('pk'): box[pl['pk']]['PK']+=1
+        if r=='BB': box['rasim' if t=='A' else 'sergey-antipov']['PBB']+=1   # уок — минус питчеру защищающейся команды
     line[t].append(runs)
 print(line, sum(line['A']),sum(line['B']))
 # ---- подробный протокол (plays) для страницы игры ----

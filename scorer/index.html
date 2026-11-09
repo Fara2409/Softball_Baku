@@ -183,7 +183,7 @@ const bat=g=>g.half%2?'B':'A', fld=g=>g.half%2?'A':'B';
 function lineupOf(k){return S.teams[k].lineup}
 function batterOf(g){const L=lineupOf(bat(g));return L.length?L[g.idx[bat(g)]%L.length]:null}
 function atPos(g,pos){return lineupOf(fld(g)).find(id=>S.pos[id]===pos)}
-function blank(id,team){return {player:id,team,pos:S.pos[id]||'EH',PA:0,AB:0,H:0,'1B':0,'2B':0,'3B':0,HR:0,BB:0,K:0,R:0,RBI:0,ROE:0,PO:0,FPO:0,KPO:0,PK:0,A:0,E:0}}
+function blank(id,team){return {player:id,team,pos:S.pos[id]||'EH',PA:0,AB:0,H:0,'1B':0,'2B':0,'3B':0,HR:0,BB:0,K:0,R:0,RBI:0,ROE:0,PO:0,FPO:0,KPO:0,PK:0,PBB:0,A:0,E:0}}
 function bx(g,id,team){if(!g.box[id])g.box[id]=blank(id,team);return g.box[id]}
 function replay(){
  const g={half:0,outs:0,bases:[null,null,null],idx:{A:0,B:0},runs:{A:0,B:0},line:{A:[0],B:[]},box:{},over:false,steps:[]};
@@ -220,7 +220,7 @@ function apply(g,e){
  switch(e.type){
   case 'pa':{
    const b=bx(g,e.batter,k),r=e.result;b.PA++;if(r!=='BB')b.AB++;
-   if(HITS[r]){b.H++;b[r]++}if(r==='BB')b.BB++;if(r==='E')b.ROE++;if(r==='K')b.K++;
+   if(HITS[r]){b.H++;b[r]++}if(r==='BB'){b.BB++;const pp=atPos(g,'P');if(pp)bx(g,pp,fld(g)).PBB++}if(r==='E')b.ROE++;if(r==='K')b.K++;
    const fseq=e.fielders||[];
    if(r==='E'&&fseq[0]){const f=defAt(g,fseq[0]);if(f)bx(g,f,fld(g)).E++}
    for(const p of e.errs||[]){const f=defAt(g,p);if(f)bx(g,f,fld(g)).E++} // хит + ошибка защиты

@@ -49,13 +49,13 @@ const GLOSS={
 const RT_TXT={
  ru:{t:'Как считается рейтинг',intro:b=>`Каждый игрок начинает игру с <b>${b.toFixed(1)}</b>. Дальше за каждое действие добавляются или снимаются баллы. Итог за игру — от 3 до 10, рейтинг сезона — среднее по играм.`,
    bat:'Бита',def:'Защита',win:'Победа команды',
-   n:{'1B':'Сингл','2B':'Дабл','3B':'Трипл',HR:'Хоум-ран',BB:'Уок',ROE:'Попал на базу по ошибке защиты',R:'Ран',RBI:'RBI',OUT:'Аут при выходе на биту',K:'Страйк-аут',FPO:'Сам сделал аут (флай или сам на базе)',A:'Передача на аут',RPO:'Принял бросок на аут',KPO:'Кэтчер принял третий страйк',PK:'Страйк-аут на подаче (питчер)',E:'Ошибка',WIN:'Бонус за победу'}},
+   n:{'1B':'Сингл','2B':'Дабл','3B':'Трипл',HR:'Хоум-ран',BB:'Уок',ROE:'Попал на базу по ошибке защиты',R:'Ран',RBI:'RBI',OUT:'Аут при выходе на биту',K:'Страйк-аут',FPO:'Сам сделал аут (флай или сам на базе)',A:'Передача на аут',RPO:'Принял бросок на аут',KPO:'Кэтчер принял третий страйк',PBB:'Уок отбивающему, пока подавал (питчер)',PK:'Страйк-аут на подаче (питчер)',E:'Ошибка',WIN:'Бонус за победу'}},
  az:{t:'Reytinq necə hesablanır',intro:b=>`Hər oyunçu oyuna <b>${b.toFixed(1)}</b> ilə başlayır. Sonra hər hərəkət üçün bal əlavə olunur və ya çıxılır. Oyunun nəticəsi 3-dən 10-a qədər, mövsüm reytinqi — oyunlar üzrə ortalama.`,
    bat:'Vuruş',def:'Müdafiə',win:'Komandanın qələbəsi',
-   n:{'1B':'Sinql','2B':'Dabl','3B':'Tripl',HR:'Homeran',BB:'Uok',ROE:'Müdafiə səhvi ilə bazaya çıxdı',R:'Ran',RBI:'RBI',OUT:'Vuruşda aut',K:'Strayk-aut',FPO:'Özü aut etdi (flay və ya özü bazada)',A:'Auta ötürmə',RPO:'Auta atışı qəbul etdi',KPO:'Ketçer üçüncü straykı tutdu',PK:'Atışda strayk-aut (pitçer)',E:'Səhv',WIN:'Qələbə bonusu'}},
+   n:{'1B':'Sinql','2B':'Dabl','3B':'Tripl',HR:'Homeran',BB:'Uok',ROE:'Müdafiə səhvi ilə bazaya çıxdı',R:'Ran',RBI:'RBI',OUT:'Vuruşda aut',K:'Strayk-aut',FPO:'Özü aut etdi (flay və ya özü bazada)',A:'Auta ötürmə',RPO:'Auta atışı qəbul etdi',KPO:'Ketçer üçüncü straykı tutdu',PBB:'Atıcı olarkən vuruşçuya uok',PK:'Atışda strayk-aut (pitçer)',E:'Səhv',WIN:'Qələbə bonusu'}},
  en:{t:'How the rating works',intro:b=>`Every player starts a game at <b>${b.toFixed(1)}</b>. Points are then added or taken away for each action. A game score is 3 to 10; the season rating is the average across games.`,
    bat:'Batting',def:'Defense',win:'Team win',
-   n:{'1B':'Single','2B':'Double','3B':'Triple',HR:'Home run',BB:'Walk',ROE:'Reached on error',R:'Run',RBI:'RBI',OUT:'Out at the plate',K:'Strikeout',FPO:'Made the out himself (fly or unassisted)',A:'Assist',RPO:'Took a throw for an out',KPO:'Catcher caught strike three',PK:'Strikeout while pitching',E:'Error',WIN:'Win bonus'}}
+   n:{'1B':'Single','2B':'Double','3B':'Triple',HR:'Home run',BB:'Walk',ROE:'Reached on error',R:'Run',RBI:'RBI',OUT:'Out at the plate',K:'Strikeout',FPO:'Made the out himself (fly or unassisted)',A:'Assist',RPO:'Took a throw for an out',KPO:'Catcher caught strike three',PBB:'Walk allowed while pitching',PK:'Strikeout while pitching',E:'Error',WIN:'Win bonus'}}
 };
 function fieldSVG(){
   // схема для 10 игроков в защите: четыре аутфилдера
@@ -76,7 +76,7 @@ window.rulesPage=function(){
   h+=`<div class="rules-grid">${R.sec.slice(1,3).map(([t,b])=>`<div class="card rule"><h3>${t}</h3>${b}</div>`).join('')}</div>`;
   // рейтинг — веса берутся прямо из формулы в app.js
   const fmt=v=>(v>0?'+':v<0?'−':'±')+Math.abs(v).toFixed(2).replace(/0$/,'');
-  const bat=['1B','2B','3B','HR','BB','ROE','R','RBI','OUT','K'], def=['FPO','A','RPO','PK','E'];
+  const bat=['1B','2B','3B','HR','BB','ROE','R','RBI','OUT','K'], def=['FPO','A','RPO','PK','PBB','E'];
   const row=k=>(k in W)?`<div class="w-row"><span>${X.n[k]}</span><b class="${W[k]>0?'pos':W[k]<0?'neg':''}">${fmt(W[k])}</b></div>`:'';
   h+=`<div class="section-title"><h2>${X.t}</h2></div><div class="card rule"><p>${X.intro(typeof BASE!=='undefined'?BASE:6)}</p>
      <div class="w-cols"><div><h4>${X.bat}</h4>${bat.map(row).join('')}</div><div><h4>${X.def}</h4>${def.map(row).join('')}</div><div>${'WIN' in W?`<h4>${X.win}</h4>${row('WIN')}`:''}
