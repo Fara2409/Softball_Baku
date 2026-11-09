@@ -456,5 +456,93 @@
    "E": 2
   }
  ],
- "note": "Протокол восстановлен по видео (тайминги + разметка Фархада, 09.11.2026)."
+ "note": "Протокол восстановлен по видео (тайминги + разметка Фархада, 09.11.2026).",
+ "highlights": [
+  {
+   "player": "farhad-eyvazov",
+   "t": 275,
+   "type": "2B",
+   "note": "2 RBI"
+  },
+  {
+   "player": "mushfig-ibrahimov",
+   "t": 295,
+   "type": "2B"
+  },
+  {
+   "player": "vidadi",
+   "t": 1077,
+   "type": "2B"
+  },
+  {
+   "player": "emilien",
+   "t": 1286,
+   "type": "3B"
+  },
+  {
+   "player": "parviz-ismayilov",
+   "t": 1299,
+   "type": "DP"
+  },
+  {
+   "player": "mushfig-ibrahimov",
+   "t": 1656,
+   "type": "DP"
+  },
+  {
+   "player": "fakhri-eyvazov",
+   "t": 1798,
+   "type": "3B",
+   "note": "2 RBI"
+  },
+  {
+   "player": "emilien",
+   "t": 1836,
+   "type": "3B"
+  },
+  {
+   "player": "danylo-shapovalov",
+   "t": 2284,
+   "type": "2B",
+   "note": "2 RBI"
+  },
+  {
+   "player": "fakhri-eyvazov",
+   "t": 2325,
+   "type": "1B",
+   "note": "2 RBI · 11:10"
+  },
+  {
+   "player": "ilgar",
+   "t": 2478,
+   "type": "HR",
+   "note": "2 RBI"
+  },
+  {
+   "player": "sergey-molchanov",
+   "t": 2805,
+   "type": "DP"
+  },
+  {
+   "player": "sergey-antipov",
+   "t": 3013,
+   "type": "3B"
+  },
+  {
+   "player": "vidadi",
+   "t": 3044,
+   "type": "HR",
+   "note": "2 RBI"
+  },
+  {
+   "player": "sediyar-aliyev",
+   "t": 3232,
+   "type": "catch"
+  },
+  {
+   "player": "danylo-shapovalov",
+   "t": 3602,
+   "type": "catch"
+  }
+ ]
 }
