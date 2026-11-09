@@ -26,9 +26,9 @@ plays={
  33:e('1B'),34:e('OUT',po=[F],fpo=F),35:e('3B',runs=[D],rbi=1),36:e('OUT',po=[PA_,I],fpo=PA_,a=[PA_]),
  # 4 TOP
  37:e('OUT',po=[D],fpo=D),38:e('1B'),39:e('1B'),40:e('FC',po=[MO],fpo=MO),41:e('1B',err=[HK],runs=[RS],rbi=1),42:e('OUT',po=[EM],fpo=EM),
- # 4 BOTTOM (сменный кэтчер Расул Шукюров — не засчитывается)
- 43:e('1B',err=[M]),44:e('1B',err=[I]),45:e('OUT',po=[M],fpo=M,a=[M]),46:e('ROE',err=[V],runs=[MO],rbi=0),47:e('ROE',err=[I]),
- 48:e('ROE',err=[I],runs=[SD],rbi=0),49:e('3B',runs=[RD,D],rbi=2),50:e('3B',runs=[FK],rbi=1),51:e('OUT'),
+ # 4 BOTTOM (Расул Шукюров на месте кэтчера — по решению пользователя засчитано)
+ 43:e('1B',err=[M]),44:e('1B',err=[I]),45:e('OUT',po=[M,RS],fpo=M,a=[M]),46:e('ROE',err=[V],runs=[MO],rbi=0),47:e('ROE',err=[I]),
+ 48:e('ROE',err=[I],runs=[SD],rbi=0),49:e('3B',runs=[RD,D],rbi=2),50:e('3B',runs=[FK],rbi=1),51:e('OUT',po=[RS],fpo=RS),
  # 5 TOP
  52:e('OUT',a=[MO],po=[HK]),53:e('BB'),54:e('FC',a=[AL],po=[MO]),55:e('OUT',a=[RD],po=[AL]),
  # 5 BOTTOM
@@ -39,7 +39,7 @@ plays={
  # 6 BOTTOM
  75:e('OUT',a=[AN],po=[M]),76:e('1B'),77:e('1B'),78:e('OUT',po=[M],fpo=M),79:e('OUT',a=[V],po=[I]),
  # 7 TOP
- 80:e('ROE',err=[HK]),81:e('3B',runs=[I],rbi=1),82:e('HR',runs=[AN,V],rbi=2),83:e('OUT',po=[RD],fpo=RD),84:e('OUT',a=[MO],po=[HK]),85:e('OUT',po=[SD],fpo=SD),
+ 80:e('ROE',err=[HK]),81:e('3B',runs=[I],rbi=1),82:e('HR',runs=[AN,V],rbi=2),83:e('1B',po=[RD],fpo=RD),84:e('OUT',a=[MO],po=[HK]),85:e('OUT',po=[SD],fpo=SD),
  # 7 BOTTOM
  86:e('OUT',po=[I],fpo=I),87:e('OUT',po=[RA],fpo=RA),88:e('OUT',po=[F],fpo=F),
  # 8 TOP
@@ -72,4 +72,4 @@ for t,a,b in halves:
         if pl.get('pk'): box[pl['pk']]['PK']+=1
     line[t].append(runs)
 print(line, sum(line['A']),sum(line['B']))
-json.dump({'box':list(box.values()),'line':line,'batters':batters},open('box.json','w'),ensure_ascii=False,indent=1)
+json.dump({'box':list(box.values()),'line':line,'batters':batters},open('/home/claude/g/box.json','w'),ensure_ascii=False,indent=1)
