@@ -223,8 +223,9 @@ function apply(g,e){
    if(HITS[r]){b.H++;b[r]++}if(r==='BB')b.BB++;if(r==='E')b.ROE++;if(r==='K')b.K++;
    const fseq=e.fielders||[];
    if(r==='E'&&fseq[0]){const f=defAt(g,fseq[0]);if(f)bx(g,f,fld(g)).E++}
+   for(const p of e.errs||[]){const f=defAt(g,p);if(f)bx(g,f,fld(g)).E++} // хит + ошибка защиты
    const m=move(g,e.adv);
-   if(r!=='E')b.RBI+=m.runs;
+   if(r!=='E')b.RBI+=m.runs-e.adv.filter(a=>a.to===4&&a.ue).length; // забежавшие из-за ошибки — без RBI
    if(r==='K'){/* кэтчер за страйк-аут ничего не получает (решение 07.11.2026) */const pp=atPos(g,'P');if(pp)bx(g,pp,fld(g)).PK++;if(m.outs>1)credit(g,fseq,m.outs-1)}
    else if(r!=='E')credit(g,fseq,m.outs);
    g.idx[k]++;break}
@@ -252,6 +253,7 @@ function describe(e){
  switch(e.type){
   case 'pa':{let s=`${RES[e.result]}: ${name(e.batter)}`;
    if(e.fielders&&e.fielders.length)s+=` (${e.fielders.map(p=>PN[p]).join('-')})`;
+   if(e.errs&&e.errs.length)s+=` + ошибка ${e.errs.map(p=>PN[p]).join(', ')}`;
    for(const a of e.adv){if(a.id===e.batter&&e.result==='HR')continue;
     if(a.to===4)s+=` · ${a.id===e.batter?'отбивающий':name(a.id)} → дом`;
     else if(a.to===-1&&a.id!==e.batter)s+=` · ${name(a.id)} аут`;}
@@ -280,6 +282,17 @@ function pa(r){
  else if(r==='GO'||r==='FC')fieldM('seq',s=>{e.fielders=s;next()});
  else next();
 }
+// Хит + ошибка защиты: бьющему засчитывается хит, ошибка — защитнику; дальше бегуны (и сам бьющий) двигаются вручную
+function hitErr(){
+ if(G.over)return toast('Игра окончена');
+ const batter=batterOf(G);if(!batter)return;
+ window._he=r=>{const e={type:'pa',t,batter,result:r,fielders:[],errs:[],adv:defaults(G,r,batter)};
+  fieldM('E',s=>{if(s[0])e.errs.push(s[0]);runnersM(e)})};
+ const t=Date.now();
+ modal(`<h3>Хит + ошибка защиты</h3><p class="muted small">Сначала какой был удар, потом кто ошибся. Затем отметьте, куда добежали бегуны и сам отбивающий.</p>
+  <div class="grid">${['1B','2B','3B'].map(r=>`<button class="r hit" onclick="_he('${r}')">${r}<small>${RES[r].toLowerCase()}</small></button>`).join('')}</div>
+  <div class="acts"><button onclick="closeM()">Отмена</button></div>`);
+}
 function fieldM(mode,cb){
  const seq=[];
  window._fp=p=>{seq.push(p);if(mode!=='seq'){cb(seq);return}upd()};
@@ -305,7 +318,9 @@ function fieldM(mode,cb){
  draw();
 }
 function runnersM(e){
- window._ra=(i,to)=>{e.adv[i].to=to;draw()};
+ window._ra=(i,to)=>{e.adv[i].to=to;if(to!==4)delete e.adv[i].ue;draw()};
+ window._ru=i=>{e.adv[i].ue=!e.adv[i].ue;draw()};
+ window._re=()=>fieldM('E',s=>{if(s[0])e.errs.push(s[0]);runnersM(e)});
  window._rs=()=>{
   const occ={};let outs=0;
   for(const a of e.adv){if(a.to===-1)outs++;else if(a.to<4){if(occ[a.to])return draw(`На ${BASE[a.to]} базе два бегуна`);occ[a.to]=1}}
@@ -313,11 +328,13 @@ function runnersM(e){
   commit(e);
  };
  const draw=(err='')=>{
-  let h=`<h3>${RES[e.result]} — куда побежали?</h3>`;
+  let h=`<h3>${RES[e.result]}${e.errs?' + ошибка':''} — куда побежали?</h3>`;
+  if(e.errs)h+=`<div class="rn"><div class="h">Ошибки: ${e.errs.length?e.errs.map(p=>`${PN[p]} ${esc(name(atPos(G,p)))}`).join(', '):'—'}</div><div class="opts"><button onclick="_re()">+ ещё ошибка</button></div></div>`;
   e.adv.forEach((a,i)=>{
    const opts=a.from===0?[1,2,3,4,-1]:[a.from,...[1,2,3].filter(b=>b>a.from),4,-1];
    h+=`<div class="rn"><div class="h">${esc(name(a.id))} <span>${a.from?'был на '+BASE[a.from]:'отбивающий'}</span></div><div class="opts">`+
-   opts.map(o=>`<button class="${a.to===o?'on':''} ${o===-1?'x':o===4?'home':''}" onclick="_ra(${i},${o})">${o===a.from?'Стоит':o===4?'Дом':o===-1?'Аут':o}</button>`).join('')+`</div></div>`});
+   opts.map(o=>`<button class="${a.to===o?'on':''} ${o===-1?'x':o===4?'home':''}" onclick="_ra(${i},${o})">${o===a.from?'Стоит':o===4?'Дом':o===-1?'Аут':o}</button>`).join('')+`</div>`+
+   (e.errs&&a.to===4&&a.id!==e.batter?`<div class="opts"><button class="${a.ue?'on':''}" onclick="_ru(${i})">${a.ue?'✓ ':''}Забежал из-за ошибки (без RBI)</button></div>`:'')+`</div>`});
   h+=`<div class="err">${err}</div><div class="acts"><button onclick="closeM()">Отмена</button><button class="pri" onclick="_rs()">Записать</button></div>`;
   modal(h);
  };
@@ -479,7 +496,8 @@ function renderGame(){
   ${B('1B','hit','сингл')}${B('2B','hit','дабл')}${B('3B','hit','трипл')}${B('HR','hit','хоум-ран')}
   ${B('BB','walk','уок')}${B('K','out','страйк-аут')}${B('GO','out','аут по земле')}${B('FO','out','аут в воздухе')}
   ${B('FC','out','выбор пол.',noRun)}${B('E','walk','ошибка защ.')}
-  <button class="r sec star" style="grid-column:span 2" onclick="mark()">★ Момент<small>красивый эпизод для видео</small></button></div>
+  <button class="r hit" onclick="hitErr()" ${g.over?'disabled':''}>Хит+E<small>хит и ошибка</small></button>
+  <button class="r sec star" onclick="mark()">★ Момент<small>для видео</small></button></div>
  <div class="sectit">Бегуны и иннинг</div><div class="grid">
   <button class="r sec" onclick="runnerAct('adv')" ${noRun||g.over?'disabled':''}>Продвиж.<small>без удара</small></button>
   <button class="r sec" onclick="runnerAct('runout')" ${noRun||g.over?'disabled':''}>Аут бегуна<small>на базе</small></button>
