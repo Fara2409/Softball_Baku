@@ -177,3 +177,26 @@ nav a{white-space:nowrap}
 .hlp-nav{display:flex;gap:8px;justify-content:space-between;padding:12px 14px;flex-wrap:wrap}
 .hlp-nav .btn[disabled]{opacity:.4;pointer-events:none}
 @media(max-width:560px){.hlp-nav .btn{flex:1;justify-content:center;text-align:center}.hlp-nav a.btn{order:3;flex-basis:100%}}
+
+/* протокол игры */
+.pbp{padding:0}
+.pb-half{border-bottom:1px solid var(--line)}
+.pb-half:last-child{border-bottom:0}
+.pb-half summary{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;list-style:none}
+.pb-half summary::-webkit-details-marker{display:none}
+.pb-half summary::after{content:'▾';margin-left:6px;color:var(--muted);transition:transform .15s}
+.pb-half[open] summary::after{transform:rotate(180deg)}
+.pb-half summary i{width:4px;height:18px;border-radius:2px}
+.pb-half summary b{font-size:14px}
+.pb-tm{color:var(--muted);font-size:13px;flex:1}
+.pb-sum{color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}
+.pb-row{display:flex;align-items:flex-start;gap:12px;padding:9px 16px;border-top:1px solid var(--line);font-size:14px}
+.pb-row .hl.pb-play{display:inline-block;padding:0;border:0;background:#c4302b;color:#fff;border-radius:6px;font-weight:800;font-size:12px;padding:3px 8px;min-width:58px;text-align:center;font-variant-numeric:tabular-nums;flex:none;margin-top:1px}
+.pb-row .hl.pb-play:hover{filter:brightness(1.1)}
+.pb-d{flex:1;line-height:1.45}
+.pb-r.hit{color:var(--r-good);font-weight:700}.pb-r.out{color:var(--muted)}.pb-r.on{color:var(--amber);font-weight:600}
+.pb-e{color:var(--r-low)}
+.pb-sc{color:var(--amber);font-size:13px;margin-top:2px}
+.pb-st{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex:none}
+.pb-o{color:var(--amber);font-size:10px;letter-spacing:1px}
+.pb-s{font-weight:800;font-variant-numeric:tabular-nums;color:var(--muted)}.pb-s.on{color:var(--text)}

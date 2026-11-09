@@ -382,7 +382,26 @@ function gameJSON(){
  return {id:S.id,date:S.id,venue:S.venue,video:null,image:null,
   teams:{A:{name:S.teams.A.name,color:S.teams.A.color},B:{name:S.teams.B.name,color:S.teams.B.color}},
   linescore:{A:pad(g.line.A),B:pad(g.line.B)},score:{A:g.runs.A,B:g.runs.B},
-  box:Object.values(g.box).filter(b=>P[b.player])};
+  box:Object.values(g.box).filter(b=>P[b.player]),plays:playsOf(g)};
+}
+// Подробный протокол для страницы игры на сайте (формат как в data/games/*.json → plays)
+function playsOf(g){
+ const out=[],idOf=(e,pos,i)=>{const L=lineupOf(g.steps[i].bat==='A'?'B':'A');return L.find(id=>S.pos[id]===pos)||null};
+ S.events.forEach((e,i)=>{
+  const st=g.steps[i];if(!['pa','runout','adv'].includes(e.type))return;
+  const x={n:out.length+1,i:st.inning,h:st.top?'T':'B',b:e.batter||e.runner,o:st.outs>=3?3:st.outs,s:[st.score.A,st.score.B]};
+  if(e.type==='pa'){x.r=e.result==='E'?'ROE':e.result;
+   const f=(e.fielders||[]).map(p=>idOf(e,p,i)).filter(Boolean);
+   if(e.result==='E'){if(f.length)x.e=f}else if(f.length&&['GO','FO','FC'].includes(e.result))x.f=f;
+   const er=(e.errs||[]).map(p=>idOf(e,p,i)).filter(Boolean);if(er.length)x.e=(x.e||[]).concat(er);
+   if(e.adv.filter(a=>a.to===-1).length>1)x.dp=1;}
+  else{x.r=e.type==='runout'?'RUN':'ADV';const f=(e.fielders||[]).map(p=>idOf(e,p,i)).filter(Boolean);if(f.length)x.f=f}
+  const sc=(e.adv||[]).filter(a=>a.to===4).map(a=>a.id);if(sc.length)x.sc=sc;
+  out.push(x);
+ });
+ // аут на 3-м ауте: steps.outs после endHalf уже 0 — поправим по накоплению
+ let prev=null;for(const x of out){if(prev&&prev.i===x.i&&prev.h===x.h&&x.o<prev.o)x.o=3;prev=x}
+ return out;
 }
 function eventsJSON(){
  const g=replay();

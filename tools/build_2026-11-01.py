@@ -72,4 +72,36 @@ for t,a,b in halves:
         if pl.get('pk'): box[pl['pk']]['PK']+=1
     line[t].append(runs)
 print(line, sum(line['A']),sum(line['B']))
+# ---- подробный протокол (plays) для страницы игры ----
+import re
+KIND={}  # тип аута по разметке пользователя
+for n,txt in [(1,'GO'),(4,'FO'),(10,'GO'),(12,'K'),(13,'FC'),(14,'GO'),(16,'FO'),(17,'FO'),(18,'FO'),(21,'FO'),(22,'K'),(23,'GO'),(25,'GO'),(26,'FO'),
+              (32,'GO'),(34,'FO'),(36,'FO'),(37,'FO'),(40,'FC'),(42,'FO'),(45,'GO'),(51,'FO'),(52,'GO'),(54,'FC'),(55,'GO'),(57,'FO'),(59,'FC'),(63,'FO'),
+              (64,'GO'),(74,'FC'),(75,'GO'),(78,'FO'),(79,'GO'),(84,'GO'),(85,'FO'),(86,'FO'),(87,'FO'),(88,'FO'),(90,'FC'),(91,'GO'),(95,'FO'),(96,'GO'),(97,'GO'),(98,'GO')]:
+    KIND[n]=txt
+OUTS2={36:2,45:2,74:2}
+tim=[]
+for ln in open('/mnt/user-data/uploads/Desktop/timings.txt',encoding='utf-8'):
+    m=re.match(r'^\s*(\d\d):(\d\d):(\d\d):(\d\d)\s*/',ln)
+    if m and 'повтор' not in ln: h_,mi,se,fr=map(int,m.groups()); tim.append(h_*3600+mi*60+se+fr/30)
+pbp=[]; score={'A':0,'B':0}; inn={'A':0,'B':0}
+for t,a,b in halves:
+    inn[t]+=1; outs=0
+    for n in range(a,b+1):
+        pl=plays[n]; r=pl['r']; k=KIND.get(n,r)
+        if r=='OUT' and k=='OUT': k='GO'
+        o=OUTS2.get(n, 1 if (r in('OUT','K','FC') or n==83) else 0); outs+=o
+        for _ in pl.get('runs',[]): score[t]+=1
+        prev=tim[n-2] if n>1 else 0
+        x={'n':n,'i':inn[t],'h':'T' if t=='A' else 'B','b':batters[n],'r':k if r in('OUT','K','FC') else r,
+           'o':outs,'s':[score['A'],score['B']],'t':int(max(prev+1,tim[n-1]-15))}
+        fl=pl.get('a',[])+[q for q in pl.get('po',[]) if q not in pl.get('a',[])]
+        if fl and x['r'] in('GO','FO','FC') or (n in(83,) and fl): x['f']=fl
+        if pl.get('err'): x['e']=pl['err']
+        if pl.get('runs'): x['sc']=pl['runs']
+        if n==83: x['note']='out'      # хит, потом аут на базах
+        if n in OUTS2: x['dp']=1
+        pbp.append(x)
+    assert outs==3,(t,a,b,outs)
+json.dump(pbp,open('/home/claude/g/plays.json','w'),ensure_ascii=False)
 json.dump({'box':list(box.values()),'line':line,'batters':batters},open('/home/claude/g/box.json','w'),ensure_ascii=False,indent=1)

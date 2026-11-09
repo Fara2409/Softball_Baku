@@ -268,6 +268,7 @@ function game(id){
   const g=S.games.find(x=>x.id===id); if(g&&!g.stats){ app().innerHTML=featureGame(g); return; } if(!g){app().innerHTML=`<p class="muted">${T('notFound')}</p>`;return;}
   let h=`<span class="eyebrow">${fmtDate(g.date)} · ${g.venue}${g.off?` · ${T('offChip')}`:''}</span><div class="card lastgame" style="margin-top:12px">${linescore(g)}
     <div class="btns">${g.video?`<a class="btn yt" href="${g.video}" target="_blank" rel="noopener">▶ ${T('youtube')}</a>`:''}</div></div>`;
+  if(window.gamePlays) h+=gamePlays(g);
   for(const k of ['A','B']){
     h+=`<div class="section-title"><h2 style="color:${g.teams[k].color}">${g.teams[k].name}</h2><span class="hint">${g.winner===k?T('winL'):g.winner?T('lossL'):T('tieL')} · ${g.score[k]} ${T('runs')}</span></div>
     <div class="card tablewrap"><table class="lb"><thead><tr><th class="l">${T('player')}</th><th class="l">${T('pos')}</th><th>${T('rating')}</th><th>AB</th><th>H</th><th>2B</th><th>3B</th><th>HR</th><th>R</th><th>RBI</th><th>BB</th><th>ROE</th><th>K</th><th>PO</th><th>A</th><th>E</th></tr></thead><tbody>`;
