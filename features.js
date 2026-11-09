@@ -17,6 +17,7 @@ Object.assign(I18N.ru,{
   chTitle:'С кем ты побеждаешь',chBest:'Лучшие партнёры',chHard:'Неудобные соперники',chHint:'от 2 игр вместе / против',chNone:'Нужно больше игр, чтобы посчитать.',chWith:'вместе',chVs:'против',
   hlTitle:'Моменты на видео',hlGame:'Моменты игры',
   shBtn:'Поделиться карточкой',shTitle:'Карточка для WhatsApp',shShare:'Отправить',shDownload:'Скачать картинку',shClose:'Закрыть',shSeason:d=>`Сезон ${d.season} стартует ${d.start}`,
+  hlPrev:'Предыдущий',hlNext:'Следующий',hlOpen:'Открыть на YouTube',
   hlTypes:{HR:'Хоум-ран','3B':'Трипл','2B':'Дабл','1B':'Сингл',K:'Страйк-аут',catch:'Поймал флай',DP:'Дабл-плей',SB:'Кража базы',play:'Момент'},
   awMVP:'MVP сезона',awMVPd:'лучший средний рейтинг',awBat:'Лучший отбивающий',awBatd:'самый высокий OPS',awHR:'Король хоум-ранов',awHRd:'больше всего HR',awRBI:'Король RBI',awRBId:'больше всего RBI',
   awGlove:'Золотая перчатка',awGloved:'лучшая игра в защите',awIron:'Железный человек',awIrond:'больше всего игр',awWin:'Победитель',awWind:'лучший процент побед',awSpeed:'Самые быстрые ноги',awSpeedd:'больше всего краж баз',awProg:'Прогресс сезона',awProgd:'рост рейтинга',
@@ -36,6 +37,7 @@ Object.assign(I18N.az,{
   chTitle:'Kiminlə qalib gəlirsən',chBest:'Ən yaxşı tərəfdaşlar',chHard:'Çətin rəqiblər',chHint:'birlikdə / qarşı ən azı 2 oyun',chNone:'Hesablamaq üçün daha çox oyun lazımdır.',chWith:'birlikdə',chVs:'qarşı',
   hlTitle:'Videoda anlar',hlGame:'Oyunun anları',
   shBtn:'Kartı paylaş',shTitle:'WhatsApp üçün kart',shShare:'Göndər',shDownload:'Şəkli yüklə',shClose:'Bağla',shSeason:d=>`${d.season} mövsümü ${d.start} başlayır`,
+  hlPrev:'Əvvəlki',hlNext:'Növbəti',hlOpen:'YouTube-da aç',
   hlTypes:{HR:'Homeran','3B':'Tripl','2B':'Dabl','1B':'Sinql',K:'Strayk-aut',catch:'Flayı tutdu',DP:'Dabl-pley',SB:'Baza oğurluğu',play:'An'},
   awMVP:'Mövsümün MVP-si',awMVPd:'ən yüksək orta reytinq',awBat:'Ən yaxşı vuran',awBatd:'ən yüksək OPS',awHR:'Homeran kralı',awHRd:'ən çox HR',awRBI:'RBI kralı',awRBId:'ən çox RBI',
   awGlove:'Qızıl əlcək',awGloved:'ən yaxşı müdafiə',awIron:'Dəmir adam',awIrond:'ən çox oyun',awWin:'Qalib',awWind:'ən yüksək qələbə faizi',awSpeed:'Ən sürətli ayaqlar',awSpeedd:'ən çox baza oğurluğu',awProg:'Mövsümün irəliləyişi',awProgd:'reytinqin artımı',
@@ -55,6 +57,7 @@ Object.assign(I18N.en,{
   chTitle:'Who you win with',chBest:'Best teammates',chHard:'Toughest opponents',chHint:'2+ games together / against',chNone:'Not enough games yet.',chWith:'together',chVs:'against',
   hlTitle:'Video moments',hlGame:'Game moments',
   shBtn:'Share card',shTitle:'Card for WhatsApp',shShare:'Share',shDownload:'Download image',shClose:'Close',shSeason:d=>`Season ${d.season} starts ${d.start}`,
+  hlPrev:'Previous',hlNext:'Next',hlOpen:'Open on YouTube',
   hlTypes:{HR:'Home run','3B':'Triple','2B':'Double','1B':'Single',K:'Strikeout',catch:'Fly catch',DP:'Double play',SB:'Stolen base',play:'Moment'},
   awMVP:'Season MVP',awMVPd:'best average rating',awBat:'Best hitter',awBatd:'highest OPS',awHR:'Home run king',awHRd:'most HR',awRBI:'RBI king',awRBId:'most RBI',
   awGlove:'Gold glove',awGloved:'best defense',awIron:'Iron man',awIrond:'most games',awWin:'Winner',awWind:'best win percentage',awSpeed:'Fastest legs',awSpeedd:'most stolen bases',awProg:'Most improved',awProgd:'rating growth',
@@ -332,7 +335,7 @@ const fmtT=s=>`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
 function ytAt(url,t){ const id=ytId(url); return id?`https://youtu.be/${id}?t=${Math.floor(t)}`:url; }
 function hlRow(h,g,showPlayer){
   const p=S.players[h.player], type=(T('hlTypes')[h.type]||T('hlTypes').play);
-  return `<a class="hl" href="${ytAt(g.video,h.t)}" target="_blank" rel="noopener"><span class="hl-t">▶ ${fmtT(h.t)}</span><span class="hl-ty">${esc(type)}</span>
+  return `<a class="hl" href="${ytAt(g.video,h.t)}" target="_blank" rel="noopener" data-yt="${ytId(g.video)||''}" data-t="${Math.floor(h.t)}" data-lbl="${esc(type)}${p?' · '+esc(pname(p)):''}"><span class="hl-t">▶ ${fmtT(h.t)}</span><span class="hl-ty">${esc(type)}</span>
     ${showPlayer&&p?`${av(p)}<span class="nm">${esc(pname(p))}</span>`:`<span class="nm">${fmtDate(g.date,{day:'numeric',month:'short'})}</span>`}${h.note?`<span class="muted small">${esc(h.note)}</span>`:''}</a>`;
 }
 function hlBlock(p){
@@ -449,3 +452,28 @@ function drawBall(x,cx,cy,r){
   x.lineCap='round'; x.globalAlpha=.55; x.strokeStyle='#c9302c'; x.lineWidth=2.4; x.stroke(new Path2D(BALL_SEAM));
   x.globalAlpha=1; x.strokeStyle='#d2312b'; x.lineWidth=3.6; x.stroke(new Path2D(BALL_ST)); x.restore();
 }
+/* Плеер моментов прямо на сайте (встроенный YouTube).
+   Ссылка youtu.be?t= в приложении YouTube часто перескакивает на место, где человек остановился в прошлый раз,
+   а встроенный плеер всегда начинает с нужной секунды. Кнопки «Предыдущий / Следующий» — по списку моментов. */
+const HL_LEN=30; // сколько секунд показывать один момент
+let HLP=null;
+document.addEventListener('click',e=>{
+  const a=e.target.closest('a.hl[data-yt]'); if(!a||!a.dataset.yt||e.ctrlKey||e.metaKey||e.shiftKey) return;
+  e.preventDefault();
+  const list=[...a.closest('.hls').querySelectorAll('a.hl[data-yt]')];
+  HLP={list,i:list.indexOf(a)}; hlShow();
+});
+function hlShow(){
+  const a=HLP.list[HLP.i], id=a.dataset.yt, t=+a.dataset.t, n=HLP.list.length;
+  const src=`https://www.youtube-nocookie.com/embed/${id}?start=${t}&end=${t+HL_LEN}&autoplay=1&rel=0&playsinline=1&modestbranding=1`;
+  let m=document.querySelector('.hlp'); if(!m){ m=document.createElement('div'); m.className='hlp';
+    m.addEventListener('click',e=>{ if(e.target===m||e.target.closest('[data-x]')) hlClose(); }); document.body.appendChild(m); }
+  m.innerHTML=`<div class="hlp-box"><div class="hlp-top"><span class="hl-t">▶ ${fmtT(t)}</span><b>${a.dataset.lbl}</b><span class="hlp-n">${HLP.i+1}/${n}</span><button class="hlp-x" data-x aria-label="×">×</button></div>
+    <div class="hlp-v"><iframe src="${src}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="${a.dataset.lbl}"></iframe></div>
+    <div class="hlp-nav"><button class="btn" ${HLP.i?'':'disabled'} onclick="hlGo(-1)">‹ ${T('hlPrev')}</button>
+      <a class="btn" href="${a.href}" target="_blank" rel="noopener">${T('hlOpen')}</a>
+      <button class="btn" ${HLP.i<n-1?'':'disabled'} onclick="hlGo(1)">${T('hlNext')} ›</button></div></div>`;
+}
+function hlGo(d){ if(!HLP) return; HLP.i=Math.max(0,Math.min(HLP.list.length-1,HLP.i+d)); hlShow(); }
+function hlClose(){ document.querySelector('.hlp')?.remove(); HLP=null; }
+document.addEventListener('keydown',e=>{ if(!HLP) return; if(e.key==='Escape') hlClose(); if(e.key==='ArrowRight') hlGo(1); if(e.key==='ArrowLeft') hlGo(-1); });
