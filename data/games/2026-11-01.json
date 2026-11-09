@@ -460,88 +460,88 @@
  "highlights": [
   {
    "player": "farhad-eyvazov",
-   "t": 275,
+   "t": 268,
    "type": "2B",
    "note": "2 RBI"
   },
   {
    "player": "mushfig-ibrahimov",
-   "t": 295,
+   "t": 288,
    "type": "2B"
   },
   {
    "player": "vidadi",
-   "t": 1077,
+   "t": 1070,
    "type": "2B"
   },
   {
    "player": "emilien",
-   "t": 1286,
+   "t": 1279,
    "type": "3B"
   },
   {
    "player": "parviz-ismayilov",
-   "t": 1299,
+   "t": 1295,
    "type": "DP"
   },
   {
    "player": "mushfig-ibrahimov",
-   "t": 1656,
+   "t": 1649,
    "type": "DP"
   },
   {
    "player": "fakhri-eyvazov",
-   "t": 1798,
+   "t": 1791,
    "type": "3B",
    "note": "2 RBI"
   },
   {
    "player": "emilien",
-   "t": 1836,
+   "t": 1829,
    "type": "3B"
   },
   {
    "player": "danylo-shapovalov",
-   "t": 2284,
+   "t": 2277,
    "type": "2B",
    "note": "2 RBI"
   },
   {
    "player": "fakhri-eyvazov",
-   "t": 2325,
+   "t": 2318,
    "type": "1B",
    "note": "2 RBI · 11:10"
   },
   {
    "player": "ilgar",
-   "t": 2478,
+   "t": 2471,
    "type": "HR",
    "note": "2 RBI"
   },
   {
    "player": "sergey-molchanov",
-   "t": 2805,
+   "t": 2798,
    "type": "DP"
   },
   {
    "player": "sergey-antipov",
-   "t": 3013,
+   "t": 3006,
    "type": "3B"
   },
   {
    "player": "vidadi",
-   "t": 3044,
+   "t": 3037,
    "type": "HR",
    "note": "2 RBI"
   },
   {
    "player": "sediyar-aliyev",
-   "t": 3232,
+   "t": 3225,
    "type": "catch"
   },
   {
    "player": "danylo-shapovalov",
-   "t": 3602,
+   "t": 3595,
    "type": "catch"
   }
  ]
