@@ -16,7 +16,7 @@ Object.assign(I18N.ru,{
   bgTitle:'Достижения',bgOf:(a,b)=>`${a} из ${b}`,
   chTitle:'С кем ты побеждаешь',chBest:'Лучшие партнёры',chHard:'Неудобные соперники',chHint:'от 2 игр вместе / против',chNone:'Нужно больше игр, чтобы посчитать.',chWith:'вместе',chVs:'против',
   hlTitle:'Моменты на видео',hlGame:'Моменты игры',
-  shBtn:'Поделиться карточкой',shTitle:'Карточка для WhatsApp',shShare:'Отправить',shDownload:'Скачать картинку',shClose:'Закрыть',shSeason:d=>`Сезон ${d.season} стартует ${d.start}`,
+  shGame:'Итоги игры картинкой',shGameT:'Итоги игры',shFinal:'Итог игры',shBest:'Лучшие игроки',shBtn:'Поделиться карточкой',shTitle:'Карточка для WhatsApp',shShare:'Отправить',shDownload:'Скачать картинку',shClose:'Закрыть',shSeason:d=>`Сезон ${d.season} стартует ${d.start}`,
   pbT:'Протокол игры',pbAll:'Развернуть всё',pbNone:'Свернуть',pbTop:'верх',pbBot:'низ',pbInn:'иннинг',pbRuns:n=>`${n} ${n===1?'ран':n>=2&&n<=4?'рана':'ранов'}`,pbHits:n=>`${n} ${n===1?'хит':n>=2&&n<=4?'хита':'хитов'}`,pbScored:'забили',pbOut:'аут',pbOuts:'аута',pbDP:'двойной аут',pbErr:'ошибка',pbOutBases:'потом аут на базах',pbSelf:'сам',
   pbR:{'1B':'сингл','2B':'дабл','3B':'трипл',HR:'хоум-ран',BB:'уок',K:'страйк-аут',GO:'аут по земле',FO:'аут в воздухе',FC:'выбор полевого',RUN:'аут бегуна',ADV:'продвижение бегуна',ROE:'на базе по ошибке',E:'на базе по ошибке'},
   hlPrev:'Предыдущий',hlNext:'Следующий',hlOpen:'Открыть на YouTube',
@@ -38,7 +38,7 @@ Object.assign(I18N.az,{
   bgTitle:'Nailiyyətlər',bgOf:(a,b)=>`${b}-dən ${a}`,
   chTitle:'Kiminlə qalib gəlirsən',chBest:'Ən yaxşı tərəfdaşlar',chHard:'Çətin rəqiblər',chHint:'birlikdə / qarşı ən azı 2 oyun',chNone:'Hesablamaq üçün daha çox oyun lazımdır.',chWith:'birlikdə',chVs:'qarşı',
   hlTitle:'Videoda anlar',hlGame:'Oyunun anları',
-  shBtn:'Kartı paylaş',shTitle:'WhatsApp üçün kart',shShare:'Göndər',shDownload:'Şəkli yüklə',shClose:'Bağla',shSeason:d=>`${d.season} mövsümü ${d.start} başlayır`,
+  shGame:'Oyunun yekunu şəkil kimi',shGameT:'Oyunun yekunu',shFinal:'Oyunun yekunu',shBest:'Ən yaxşı oyunçular',shBtn:'Kartı paylaş',shTitle:'WhatsApp üçün kart',shShare:'Göndər',shDownload:'Şəkli yüklə',shClose:'Bağla',shSeason:d=>`${d.season} mövsümü ${d.start} başlayır`,
   pbT:'Oyunun protokolu',pbAll:'Hamısını aç',pbNone:'Bağla',pbTop:'yuxarı',pbBot:'aşağı',pbInn:'inninq',pbRuns:n=>`${n} ran`,pbHits:n=>`${n} hit`,pbScored:'evə gəldi',pbOut:'aut',pbOuts:'aut',pbDP:'ikiqat aut',pbErr:'səhv',pbOutBases:'sonra bazalarda aut',pbSelf:'özü',
   pbR:{'1B':'sinql','2B':'dabl','3B':'tripl',HR:'homeran',BB:'uok',K:'strayk-aut',GO:'yerdən aut',FO:'havadan aut',FC:'müdafiəçinin seçimi',RUN:'qaçışçı aut',ADV:'qaçışçı irəlilədi',ROE:'səhvlə bazada',E:'səhvlə bazada'},
   hlPrev:'Əvvəlki',hlNext:'Növbəti',hlOpen:'YouTube-da aç',
@@ -60,7 +60,7 @@ Object.assign(I18N.en,{
   bgTitle:'Achievements',bgOf:(a,b)=>`${a} of ${b}`,
   chTitle:'Who you win with',chBest:'Best teammates',chHard:'Toughest opponents',chHint:'2+ games together / against',chNone:'Not enough games yet.',chWith:'together',chVs:'against',
   hlTitle:'Video moments',hlGame:'Game moments',
-  shBtn:'Share card',shTitle:'Card for WhatsApp',shShare:'Share',shDownload:'Download image',shClose:'Close',shSeason:d=>`Season ${d.season} starts ${d.start}`,
+  shGame:'Game recap image',shGameT:'Game recap',shFinal:'Final',shBest:'Top players',shBtn:'Share card',shTitle:'Card for WhatsApp',shShare:'Share',shDownload:'Download image',shClose:'Close',shSeason:d=>`Season ${d.season} starts ${d.start}`,
   pbT:'Play-by-play',pbAll:'Expand all',pbNone:'Collapse',pbTop:'top',pbBot:'bottom',pbInn:'inning',pbRuns:n=>`${n} run${n===1?'':'s'}`,pbHits:n=>`${n} hit${n===1?'':'s'}`,pbScored:'scored',pbOut:'out',pbOuts:'outs',pbDP:'double play',pbErr:'error',pbOutBases:'then out on the bases',pbSelf:'unassisted',
   pbR:{'1B':'single','2B':'double','3B':'triple',HR:'home run',BB:'walk',K:'strikeout',GO:'groundout',FO:'flyout',FC:'fielder\'s choice',RUN:'runner out',ADV:'runner advanced',ROE:'reached on error',E:'reached on error'},
   hlPrev:'Previous',hlNext:'Next',hlOpen:'Open on YouTube',
@@ -370,6 +370,82 @@ async function shareCard(id){
   const bt=m.querySelector('#shBtns');
   if(canShare){ const b=document.createElement('button'); b.className='btn wa'; b.textContent=T('shShare'); b.onclick=()=>navigator.share({files:[file],title:pname(p)}).catch(()=>{}); bt.appendChild(b); }
   const a=document.createElement('a'); a.className='btn'; a.href=url; a.download=file.name; a.textContent=T('shDownload'); bt.appendChild(a);
+}
+// Итоги игры одной картинкой (1080×1350) — для WhatsApp и Instagram
+async function shareGame(id){
+  const g=S.games.find(x=>x.id===id); if(!g) return;
+  const m=document.createElement('div'); m.className='modal'; m.innerHTML=`<div class="sheet"><div class="sh-h"><b>${T('shGameT')}</b><button class="x" onclick="this.closest('.modal').remove()">×</button></div><div class="sh-img">…</div><div class="btns center" id="shBtns"></div></div>`;
+  m.onclick=e=>{ if(e.target===m) m.remove(); }; document.body.appendChild(m);
+  const blob=await drawGameCard(g), url=URL.createObjectURL(blob), file=new File([blob],`softball-baku-${g.id}.png`,{type:'image/png'});
+  m.querySelector('.sh-img').innerHTML=`<img src="${url}" alt="">`;
+  const bt=m.querySelector('#shBtns');
+  if(navigator.canShare&&navigator.canShare({files:[file]})){ const b=document.createElement('button'); b.className='btn wa'; b.textContent=T('shShare'); b.onclick=()=>navigator.share({files:[file],title:`${g.teams.A.name} ${g.score.A}:${g.score.B} ${g.teams.B.name}`}).catch(()=>{}); bt.appendChild(b); }
+  const a=document.createElement('a'); a.className='btn'; a.href=url; a.download=file.name; a.textContent=T('shDownload'); bt.appendChild(a);
+}
+window.shareGame=shareGame;
+async function drawGameCard(g){
+  const W=1080,H=1350, c=document.createElement('canvas'); c.width=W; c.height=H; const x=c.getContext('2d');
+  try{ await Promise.all(['900 italic 80px Inter','800 40px Inter','700 30px Inter'].map(f=>document.fonts.load(f))); }catch(e){}
+  const F=(w,s,it)=>`${it?'italic ':''}${w} ${s}px Inter, "Inter Display", system-ui, sans-serif`;
+  const fit=(txt,max,w,size,it)=>{ let z=size; do{ x.font=F(w,z,it); z-=2; }while(x.measureText(txt).width>max&&z>14); };
+  const M=70;
+  const bg=x.createLinearGradient(0,0,W,H); bg.addColorStop(0,'#16263f'); bg.addColorStop(.6,'#0b1626'); bg.addColorStop(1,'#060d18'); x.fillStyle=bg; x.fillRect(0,0,W,H);
+  x.save(); x.globalAlpha=.035; x.strokeStyle='#fff'; x.lineWidth=3; for(let i=-H;i<W+H;i+=60){x.beginPath();x.moveTo(i,0);x.lineTo(i-H*.47,H);x.stroke();} x.restore();
+  ['#D85A30','#EF9F27','#1f6fc0'].forEach((col,i)=>{x.fillStyle=col;x.fillRect(i*W/3,0,W/3,14);});
+  // бренд и дата
+  x.textAlign='left'; drawBall(x,M+22,95,24); x.fillStyle='#eef2f8'; x.font=F(800,40); x.fillText('SOFTBALL',M+60,108); x.fillStyle='#EF9F27'; x.fillText('BAKU',x.measureText('SOFTBALL ').width+M+60,108);
+  x.textAlign='right'; x.fillStyle='#8fa0b8'; x.font=F(700,30); x.fillText(fmtDate(g.date),W-M,104);
+  x.textAlign='left'; x.fillStyle='#EF9F27'; x.font=F(800,28); x.letterSpacing='6px'; x.fillText(T('shFinal').toUpperCase(),M,200); x.letterSpacing='0px';
+  // счёт
+  const win=g.winner||(g.score.A>g.score.B?'A':g.score.B>g.score.A?'B':null);
+  ['A','B'].forEach((k,i)=>{ const y=235+i*150, t=g.teams[k], w=win===k;
+    x.fillStyle=t.color||'#8fa0b8'; roundRect(x,M,y+14,14,104,7); x.fill();
+    x.textAlign='right'; x.fillStyle=w?'#EF9F27':'#c9d3e1'; x.font=F(900,130,1); const sc=String(g.score[k]); x.fillText(sc,W-M,y+114); const sw=x.measureText(sc).width;
+    x.textAlign='left'; x.fillStyle=w?'#ffffff':'#aeb9c9'; fit(t.name,W-2*M-sw-80,900,70,1); x.fillText(t.name,M+44,y+92); });
+  // счёт по иннингам
+  const LA=(g.linescore&&g.linescore.A)||[], LB=(g.linescore&&g.linescore.B)||[], n=Math.max(LA.length,LB.length);
+  let y0=545;
+  if(n){ roundRect(x,M,y0,W-2*M,176,20); x.fillStyle='rgba(255,255,255,.04)'; x.fill();
+    const nameW=250, rW=90, cw=(W-2*M-nameW-rW-30)/n, fs=n>9?26:32;
+    x.textAlign='center'; x.fillStyle='#5f6f88'; x.font=F(700,22);
+    for(let i=0;i<n;i++) x.fillText(String(i+1),M+nameW+cw*i+cw/2,y0+40);
+    x.fillText('R',W-M-rW/2-10,y0+40);
+    ['A','B'].forEach((k,r)=>{ const yy=y0+92+r*56, L=k==='A'?LA:LB;
+      x.textAlign='left'; x.fillStyle=g.teams[k].color||'#8fa0b8'; roundRect(x,M+22,yy-24,8,30,4); x.fill();
+      x.fillStyle='#eef2f8'; fit(g.teams[k].name,nameW-60,800,28); x.fillText(g.teams[k].name,M+42,yy);
+      x.textAlign='center'; x.font=F(800,fs);
+      for(let i=0;i<n;i++){ const v=L[i]; x.fillStyle=v?'#ffffff':'#5f6f88'; x.fillText(v==null?'–':String(v),M+nameW+cw*i+cw/2,yy); }
+      x.fillStyle=win===k?'#EF9F27':'#ffffff'; x.font=F(900,36); x.fillText(String(g.score[k]),W-M-rW/2-10,yy+2); }); }
+  // игрок матча и лучшие
+  const box=(g.box||[]).filter(b=>b.rating!=null&&S.players[b.player]).sort((a,b)=>b.rating-a.rating||b.RBI-a.RBI);
+  const line=b=>{ const a=[`${b.H}/${b.AB}`]; if(b.HR) a.push(`${b.HR} HR`); if(b.RBI) a.push(`${b.RBI} RBI`); if(b.R) a.push(`${b.R} R`); if(b.BB) a.push(`${b.BB} BB`); return a.join(' · '); };
+  const badge=(v,X,Y,w,h,fs)=>{ x.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--r-'+rclass(v)).trim()||'#2fae66'; roundRect(x,X,Y,w,h,h*.22); x.fill(); x.fillStyle='#fff'; x.textAlign='center'; x.font=F(900,fs,1); x.fillText(v.toFixed(1),X+w/2,Y+h/2+fs*.35); };
+  const face=async(p,cx,cy,r,ring)=>{ const img=await loadImg(p.photo);
+    x.save(); x.beginPath(); x.arc(cx,cy,r,0,Math.PI*2); x.closePath(); x.fillStyle='#14233a'; x.fill(); x.clip();
+    if(img) x.drawImage(img,cx-r,cy-r,r*2,r*2); else { x.fillStyle='#EF9F27'; x.font=F(900,r*.9,1); x.textAlign='center'; x.fillText(String(p.number),cx,cy+r*.32); }
+    x.restore(); x.lineWidth=ring; x.strokeStyle='#EF9F27'; x.beginPath(); x.arc(cx,cy,r+ring/2,0,Math.PI*2); x.stroke(); };
+  const mvp=g.mvp&&box.includes(g.mvp)?g.mvp:box[0];
+  if(mvp){ const p=S.players[mvp.player], Y=752;
+    roundRect(x,M,Y,W-2*M,250,24); const mg=x.createLinearGradient(M,Y,W-M,Y+250); mg.addColorStop(0,'rgba(239,159,39,.16)'); mg.addColorStop(1,'rgba(239,159,39,.03)'); x.fillStyle=mg; x.fill();
+    x.lineWidth=2; x.strokeStyle='rgba(239,159,39,.45)'; roundRect(x,M,Y,W-2*M,250,24); x.stroke();
+    await face(p,M+135,Y+125,92,7);
+    x.textAlign='left'; x.fillStyle='#EF9F27'; x.font=F(800,26); x.letterSpacing='5px'; x.fillText(('★ '+T('mvp')).toUpperCase(),M+260,Y+66); x.letterSpacing='0px';
+    x.fillStyle='#ffffff'; fit(pname(p),W-2*M-260-200,900,58,1); x.fillText(pname(p),M+260,Y+135);
+    x.fillStyle=g.teams[mvp.team].color||'#8fa0b8'; x.beginPath(); x.arc(M+270,Y+183,9,0,Math.PI*2); x.fill();
+    x.fillStyle='#c9d3e1'; x.font=F(700,30); x.fillText(`#${p.number} · ${mvp.pos||''} · ${line(mvp)}`,M+292,Y+194);
+    badge(mvp.rating,W-M-180,Y+75,150,100,64);
+    const rest=box.filter(b=>b!==mvp).slice(0,3);
+    if(rest.length){ x.textAlign='left'; x.fillStyle='#8fa0b8'; x.font=F(800,22); x.letterSpacing='4px'; x.fillText(T('shBest').toUpperCase(),M,Y+294); x.letterSpacing='0px'; }
+    for(let i=0;i<rest.length;i++){ const b=rest[i], q=S.players[b.player], yy=Y+346+i*72;
+      x.textAlign='left'; x.fillStyle='#5f6f88'; x.font=F(900,30,1); x.fillText(String(i+2),M+6,yy+10);
+      await face(q,M+82,yy,28,3);
+      x.fillStyle=g.teams[b.team].color||'#8fa0b8'; roundRect(x,M+126,yy-22,6,44,3); x.fill();
+      x.textAlign='left'; x.fillStyle='#eef2f8'; fit(pname(q),360,800,32); x.fillText(pname(q),M+146,yy+11);
+      x.textAlign='right'; x.fillStyle='#8fa0b8'; x.font=F(700,26); x.fillText(line(b),W-M-130,yy+10);
+      badge(b.rating,W-M-104,yy-27,104,54,34); }
+  } else if(g.video){ x.textAlign='center'; x.fillStyle='#8fa0b8'; x.font=F(700,34); x.fillText('▶ YouTube · @softball_baku',W/2,900); }
+  x.textAlign='center'; x.fillStyle='#5f6f88'; x.font=F(700,24); x.fillText((location.host+location.pathname).replace(/\/$/,''),W/2,1322);
+  return await new Promise(r=>c.toBlob(r,'image/png'));
 }
 function loadImg(src){ return new Promise(r=>{ if(!src) return r(null); const i=new Image(); i.onload=()=>r(i); i.onerror=()=>r(null); i.src=src; }); }
 async function drawCard(p){
