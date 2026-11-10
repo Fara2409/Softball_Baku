@@ -253,6 +253,7 @@ function describe(e){
  switch(e.type){
   case 'pa':{let s=`${RES[e.result]}: ${name(e.batter)}`;
    if(e.fielders&&e.fielders.length)s+=` (${e.fielders.map(p=>PN[p]).join('-')})`;
+   if(e.dir)s+=` → ${PN[e.dir]}`;
    if(e.errs&&e.errs.length)s+=` + ошибка ${e.errs.map(p=>PN[p]).join(', ')}`;
    for(const a of e.adv){if(a.id===e.batter&&e.result==='HR')continue;
     if(a.to===4)s+=` · ${a.id===e.batter?'отбивающий':name(a.id)} → дом`;
@@ -280,6 +281,8 @@ function pa(r){
  if(r==='E')fieldM('E',s=>{e.fielders=s;next()});
  else if(r==='FO')fieldM('one',s=>{e.fielders=s;next()});
  else if(r==='GO'||r==='FC')fieldM('seq',s=>{e.fielders=s;next()});
+ // хит: куда ушёл мяч (для карты ударов на сайте); можно пропустить
+ else if(['1B','2B','3B','HR'].includes(r))fieldM('dir',s=>{if(s[0])e.dir=s[0];next()});
  else next();
 }
 // Хит + ошибка защиты: бьющему засчитывается хит, ошибка — защитнику; дальше бегуны (и сам бьющий) двигаются вручную
@@ -299,10 +302,10 @@ function fieldM(mode,cb){
  window._fd=skip=>{cb(skip?[]:seq)};
  window._fr=()=>{seq.length=0;upd()};
  const draw=()=>{
-  let h=`<h3>${mode==='E'?'Кто ошибся?':mode==='one'?'Кто поймал мяч?':'Кто разыграл? Нажимайте по порядку'}</h3><div class="field">`;
+  let h=`<h3>${mode==='E'?'Кто ошибся?':mode==='one'?'Кто поймал мяч?':mode==='dir'?'Куда ушёл мяч?':'Кто разыграл? Нажимайте по порядку'}</h3>${mode==='dir'?'<p class="muted small">Зона, куда улетел мяч, — для карты ударов. Не уверены — «Пропустить».</p>':''}<div class="field">`;
   const hasCF=!!atPos(G,'CF');
   for(const p of FPOS){const id=atPos(G,p);if(!id&&(p==='CF'?!hasCF:(p==='LCF'||p==='RCF')&&hasCF))continue;const [x,y]=FXY[p];
-   h+=`<button class="fp ${seq.includes(p)?'sel':''}" data-p="${p}" style="left:${x}%;top:${y}%" ${id?'':'disabled'} onclick="_fp('${p}')"><b>${p}</b><span>${id?esc(name(id)):'—'}</span></button>`}
+   h+=`<button class="fp ${seq.includes(p)?'sel':''}" data-p="${p}" style="left:${x}%;top:${y}%" ${id||mode==='dir'?'':'disabled'} onclick="_fp('${p}')"><b>${p}</b><span>${id?esc(name(id)):'—'}</span></button>`}
   h+=`</div>`;
   if(mode==='seq')h+=`<div class="seq" id="fseq"></div>
    <div class="acts"><button onclick="_fr()">Сброс</button><button onclick="_fd(true)">Пропустить</button><button class="pri" id="fdone" onclick="_fd(false)">Готово</button></div>`;
@@ -394,6 +397,7 @@ function playsOf(g){
    const f=(e.fielders||[]).map(p=>idOf(e,p,i)).filter(Boolean);
    if(e.result==='E'){if(f.length)x.e=f}else if(f.length&&['GO','FO','FC'].includes(e.result))x.f=f;
    const er=(e.errs||[]).map(p=>idOf(e,p,i)).filter(Boolean);if(er.length)x.e=(x.e||[]).concat(er);
+   if(e.dir)x.d=e.dir;
    if(e.adv.filter(a=>a.to===-1).length>1)x.dp=1;}
   else{x.r=e.type==='runout'?'RUN':'ADV';const f=(e.fielders||[]).map(p=>idOf(e,p,i)).filter(Boolean);if(f.length)x.f=f}
   const sc=(e.adv||[]).filter(a=>a.to===4).map(a=>a.id);if(sc.length)x.sc=sc;
@@ -548,6 +552,6 @@ function takeLineup(){
 (async()=>{await loadPlayers();S=load()||newState();takeLineup();render()})();
 window.addEventListener('hashchange',()=>{if(location.hash.startsWith('#lineup=')){takeLineup();render()}});
 </script>
-<script src="live.js?v=202611072230"></script>
+<script src="live.js?v=202611101945"></script>
 </body>
 </html>
