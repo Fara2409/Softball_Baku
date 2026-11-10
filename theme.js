@@ -16,8 +16,12 @@
     diamond:'<path d="M12 3l9 9-9 9-9-9z"/><path d="M12 21v-2"/>'
   };
   window.SBI=(n,s=20,w=2)=>`<svg class="sbi" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]||P.ball}</svg>`;
-  const bat=(c,flip)=>`<g${flip?' transform="translate(100 0) scale(-1 1)"':''}><path d="M22 84L34 72" stroke="${c}" stroke-width="5" stroke-linecap="round"/><path d="M34 72L82 24" stroke="${c}" stroke-width="12" stroke-linecap="round"/><circle cx="19" cy="87" r="5" fill="${c}"/></g>`;
-  window.SB_BATS=c=>`<svg viewBox="0 0 100 100" aria-hidden="true">${bat(c)}${bat(c,1)}</svg>`;
+  // бита: набалдашник, тонкая ручка, плавное расширение к бочке, скруглённый конец (ось x, длина ~92)
+  const BAT='<ellipse cx="7.5" cy="50" rx="3.2" ry="5.4"/><path d="M9.5 48.1L42 47.7C56 47.1 64 44.1 78 43.8L90 43.8Q96.5 43.8 96.5 50Q96.5 56.2 90 56.2L78 56.2C64 55.9 56 52.9 42 52.3L9.5 51.9Z"/>';
+  window.SB_BAT=BAT;
+  // скрещённые биты (бочками вверх) и мяч над перекрестьем
+  window.SB_BATS=(c,seam)=>`<svg viewBox="0 0 100 100" aria-hidden="true"><g fill="${c}"><g transform="rotate(-45 50 50)">${BAT}</g><g transform="rotate(-135 50 50)">${BAT}</g></g>`+
+    `<circle cx="50" cy="27" r="11" fill="${c}"/><path d="M43.5 18.5c3 4.5 3 12.5 0 17M56.5 18.5c-3 4.5-3 12.5 0 17" fill="none" stroke="${seam||'#0E1A2C'}" stroke-width="1.6" stroke-linecap="round"/></svg>`;
 
   Object.assign(I18N.ru,{sbTag:'Любительский софтбол в Баку',sbWhen:'по воскресеньям · 08:00 · Əmircan',sbHits:'хиты',sbRuns:'пробежки',winW:'Победа',lossW:'Поражение',tieW:'Ничья'});
   Object.assign(I18N.az,{sbTag:'Bakıda həvəskar softbol',sbWhen:'bazar günləri · 08:00 · Əmircan',sbHits:'hitlər',sbRuns:'qaçışlar',winW:'Qələbə',lossW:'Məğlubiyyət',tieW:'Heç-heçə'});
@@ -30,5 +34,56 @@
     let h=''; for(let i=0;i<40;i++) h+=SBI(set[i%set.length],14,1.8);
     el.innerHTML=h;
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',strip); else strip();
+  // ---------- нижние вкладки в приложении на телефоне ----------
+  const TI={
+    home:'<path d="M3 11l9-7 9 7"/><path d="M5 9.5V20h5v-6h4v6h5V9.5"/>',
+    games:'<rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+    teams:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c.6-3.6 3-5.5 6-5.5s5.4 1.9 6 5.5"/><circle cx="17" cy="9" r="2.6"/><path d="M16.5 14.6c2.6.2 4.1 2 4.5 5"/>',
+    records:'<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8"/>',
+    rules:'<path d="M5 4h9a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h9"/>',
+    me:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.2 4-6.4 8-6.4s7 2.2 8 6.4"/>'
+  };
+  const tico=n=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${TI[n]}</svg>`;
+  Object.assign(I18N.ru,{tbHome:'Главная',tbGames:'Игры',tbTeams:'Составы',tbRecords:'Рекорды',tbRules:'Правила',tbMe:'Профиль',tbIn:'Войти'});
+  Object.assign(I18N.az,{tbHome:'Əsas',tbGames:'Oyunlar',tbTeams:'Komandalar',tbRecords:'Rekordlar',tbRules:'Qaydalar',tbMe:'Profil',tbIn:'Daxil ol'});
+  Object.assign(I18N.en,{tbHome:'Home',tbGames:'Games',tbTeams:'Teams',tbRecords:'Records',tbRules:'Rules',tbMe:'Profile',tbIn:'Log in'});
+  const appMode=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true||/[?&]app=1/.test(location.search);
+  function section(){
+    const h=location.hash||'#rating';
+    if(/^#(games|game-|live)/.test(h)) return 'games';
+    if(/^#teams/.test(h)) return 'teams';
+    if(/^#records/.test(h)) return 'records';
+    if(/^#rules/.test(h)) return 'rules';
+    if(/^#(me|admin)/.test(h)) return 'me';
+    return 'home';
+  }
+  function drawTabs(){
+    if(!appMode()) return;
+    document.documentElement.classList.add('app-mode');
+    let bar=document.getElementById('tabbar');
+    if(!bar){ bar=document.createElement('nav'); bar.id='tabbar'; bar.className='tabbar'; bar.setAttribute('aria-label','Menu'); document.body.appendChild(bar); }
+    const player=!!(window.CL&&CL.canDecide&&CL.canDecide());
+    const logged=!!document.querySelector('#acct .acct-me');
+    const failed=!!document.querySelector('#acct .acct-off');
+    const tabs=[['home','#rating','tbHome'],['games','#games','tbGames']];
+    if(player) tabs.push(['teams','#teams','tbTeams']);
+    tabs.push(['records','#records','tbRecords']);
+    if(!player) tabs.push(['rules','#rules','tbRules']);
+    const cur=section();
+    bar.style.gridTemplateColumns=`repeat(${tabs.length+1},minmax(0,1fr))`;
+    bar.innerHTML=tabs.map(([k,href,t])=>`<a href="${href}" class="${cur===k?'on':''}"${cur===k?' aria-current="page"':''}>${tico(k)}<span>${T(t)}</span></a>`).join('')+
+      (logged?`<a href="#me" class="${cur==='me'?'on':''}">${tico('me')}<span>${T('tbMe')}</span></a>`
+             :`<button type="button" onclick="${failed?'CL.oldBrowser()':"CL.auth('login')"}">${tico('me')}<span>${T('tbIn')}</span></button>`);
+  }
+  window.drawTabs=drawTabs;
+  function init(){
+    strip();
+    if(!appMode()) return;
+    drawTabs();
+    window.addEventListener('hashchange',drawTabs);
+    const acct=document.getElementById('acct');
+    if(acct) new MutationObserver(()=>drawTabs()).observe(acct,{childList:true});
+    if(typeof window.chrome==='function'){ const oc=window.chrome; window.chrome=function(){ const r=oc.apply(this,arguments); drawTabs(); return r; }; }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
 })();

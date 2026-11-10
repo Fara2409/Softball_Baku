@@ -106,3 +106,42 @@ html,body{font-family:'Onest','Inter',system-ui,-apple-system,Segoe UI,Roboto,sa
   .mvp-stats b{font-size:26px}
   .eq-strip{gap:22px}
 }
+
+/* азербайджанский: в Sofia Sans нет буквы Ə — дисплейный шрифт Fira Sans Extra Condensed */
+html[lang="az"]{--disp:'Fira Sans Extra Condensed','Onest',system-ui,sans-serif}
+html[lang="az"] .section-title h2{letter-spacing:0}
+
+/* медали у тройки лидеров */
+.pod .place{display:none}
+.pod-av{position:relative;flex:none;display:inline-flex}
+.medal{position:absolute;right:-6px;bottom:-4px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:var(--disp);font-weight:900;font-size:17px;font-style:italic;color:#2A1A00;border:2.5px solid var(--panel);
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.35),0 3px 8px rgba(0,0,0,.45)}
+.medal::before{content:"";position:absolute;inset:3px;border-radius:50%;border:1px dashed rgba(0,0,0,.25)}
+.md1{background:radial-gradient(circle at 35% 30%,#FFE58A,#F2B620 60%,#C98A0C)}
+.md2{background:radial-gradient(circle at 35% 30%,#FFFFFF,#C8D1DC 60%,#8E99A8);color:#1E2632}
+.md3{background:radial-gradient(circle at 35% 30%,#FFC9A0,#D2844A 60%,#9A5422);color:#2A1206}
+.pod1{border-color:rgba(242,182,32,.45)}
+.pod1 .av{border-color:#F2B620}
+.pod2 .av{border-color:#AEB8C5}
+.pod3 .av{border-color:#C7783E}
+
+/* игрок матча: биты */
+.mvp-ghost{right:-24px;top:-6px;width:300px;height:300px;color:#182B46}
+
+/* нижние вкладки (только приложение на телефоне) */
+.tabbar{display:none}
+@media (max-width:820px){
+  html.app-mode .top nav{display:none}
+  html.app-mode body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+  html.app-mode .tabbar{display:grid;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:60;
+    background:rgba(13,24,40,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid #22344F;border-radius:22px;padding:6px;
+    box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  .tabbar a,.tabbar button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:52px;border-radius:16px;
+    color:var(--muted);font:600 11px 'Onest',sans-serif;background:none;border:0;padding:4px 2px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .tabbar svg{width:22px;height:22px}
+  .tabbar span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .tabbar .on{color:var(--amber);background:#1A2A42}
+  html.app-mode .ia-bar{display:none}
+}
+@media (max-width:820px){ html.app-mode .acct-in{display:none} }
