@@ -8,7 +8,7 @@
 
 const SB_URL='https://walqgchpwehlaqgizwxj.supabase.co';
 const SB_KEY='sb_publishable_p4odhSPoZi-rvOKZ9-9Ngg_P6lA9ehM'; // публичный ключ (publishable), его можно держать на сайте
-const SITE='https://fara2409.github.io/Softball_Baku/';
+const SITE='https://softball.az/';
 
 /* ---------- Переводы ---------- */
 const PL_RU={'1B':'Сингл','2B':'Дабл','3B':'Трипл',HR:'Хоум-ран',BB:'Уок',K:'Страйк-аут',GO:'Аут по земле',FO:'Аут в воздухе',FC:'Выбор полевого',E:'Ошибка защиты',SB:'Кража базы',ADV:'Продвижение',RO:'Аут бегуна',EH:'Конец половины иннинга',END:'Конец игры'};

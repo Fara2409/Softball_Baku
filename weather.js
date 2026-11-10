@@ -8,7 +8,7 @@
 'use strict';
 (function(){
 
-const SITE='https://fara2409.github.io/Softball_Baku/';
+const SITE='https://softball.az/';
 const CACHE='sb.wx.v2', TTL=15*60e3;
 Object.assign(I18N.ru,{
   wxTitle:'Погода в игровые дни',wxSub:'Амирджан · воскресенья и праздничные дни · прогноз обновляется автоматически каждые 15 минут',
