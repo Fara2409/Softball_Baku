@@ -186,19 +186,25 @@ function home(){
   const ps=Object.values(S.players).filter(p=>p.t.G);
   let h='';
   if(!last||!last.stats){ app().innerHTML=(last?featureGame(last):'')+seasonBanner()+rosterGrid(); return; }
-  const mvp=S.players[last.mvp.player];
+  const mvp=S.players[last.mvp.player], m=last.mvp, I=window.SBI||(()=>'');
+  const res=k=>last.winner===k?T('winW')||T('win'):last.winner?T('lossW')||T('loss'):T('tieW')||T('tie');
+  const bsTeam=(k,r)=>`<div class="bs-t${r?' r':''}"><i style="background:${last.teams[k].color}"></i><div><b>${last.teams[k].name}</b><span class="${last.winner===k?'w':''}">${res(k)}</span></div></div>`;
+  h+=`<div class="sb-tag">${I('ball',16)}<b>${T('sbTag')||''}</b><span>${T('sbWhen')||''}</span></div>`;
   h+=`<div class="hero">
     <div class="card lastgame" style="cursor:pointer" onclick="location.hash='#game-${last.id}'"><div class="meta"><span class="eyebrow">${T('lastGame')}</span><span>${fmtDate(last.date)} · ${last.venue}</span></div>
+      <div class="bigscore">${bsTeam('A')}<div class="bs-n"><em class="${last.winner==='A'?'w':''}">${last.score.A}</em><span>:</span><em class="${last.winner==='B'?'w':''}">${last.score.B}</em></div>${bsTeam('B',1)}</div>
       ${linescore(last)}<div class="btns">${last.video?`<a class="btn yt" href="${last.video}" target="_blank" rel="noopener" onclick="event.stopPropagation()">▶ ${T('youtube')}</a>`:''}<span class="btn">${T('boxscore')} →</span></div></div>
-    <a class="card mvp" href="#player-${mvp.id}"><span class="eyebrow">${T('potg')}</span>
-      <div class="who">${av(mvp,'m')}<div><div class="name">${pname(mvp)}</div><div class="line">#${mvp.number} · ${last.mvp.pos} · ${statLine(last.mvp)}</div></div></div>
-      <div>${rt(last.mvp.rating,'lg')}</div></a></div>`;
+    <a class="card mvp mvp3" href="#player-${mvp.id}"><span class="mvp-ghost">${window.SB_BATS?SB_BATS('currentColor'):''}</span>
+      <div class="mvp-top"><span class="eyebrow">${T('potg')}</span>${rt(m.rating,'lg')}</div>
+      <div class="mvp-body">${mvp.photo?`<img class="mvp-ph" src="${mvp.photo}" alt="${pname(mvp)}">`:`<span class="mvp-ph nophoto">${mvp.number}</span>`}
+        <div class="mvp-txt"><div class="mvp-pos">#${mvp.number} · ${POS_NAMES[LANG][m.pos]||m.pos}</div><div class="mvp-name ${(()=>{const L=Math.max(...pname(mvp).split(/\s+/).map(w=>w.length));return L>9?'l':L>7?'m':''})()}">${first(mvp)}${(mvp['last_'+LANG]||mvp.last)?`<br>${mvp['last_'+LANG]||mvp.last}`:''}</div></div></div>
+      <div class="mvp-stats"><div><b>${m.H}/${m.AB}</b><span>${T('sbHits')||'H'}</span></div><div><b>${m.RBI}</b><span>RBI</span></div><div><b>${m.R}</b><span>${T('sbRuns')||'R'}</span></div><div><b>${m.HR}</b><span>HR</span></div></div></a></div>`;
   const top=ps.filter(p=>p.t.qual).sort((a,b)=>b.t.RAT-a.t.RAT).slice(0,3);
   h+=periodTabs();
   if(!ps.length){ app().innerHTML=h+`<div class="card empty">${T('seasonNoGames')}</div>`+seasonBanner(); return; }
-  h+=`<div class="section-title"><h2>${S.period==='off'?T('leadersOff')(offYear()):`${T('leaders')} ${S.season}`}</h2><span class="hint">${T('avgPerGame')}</span></div><div class="podium">`;
+  h+=`<div class="section-title"><h2>${(window.SBI||(()=>''))('glove',26,2.2)}${S.period==='off'?T('leadersOff')(offYear()):`${T('leaders')} ${S.season}`}</h2><span class="hint">${T('avgPerGame')}</span></div><div class="podium">`;
   top.forEach((p,i)=>h+=`<a class="card pod" href="#player-${p.id}"><span class="place">${i+1}</span>${av(p,'m')}<div><div class="nm">${pname(p)}</div><div class="sub">#${p.number} · ${p.pos[0]?.[0]||''} · ${p.t.G} ${plural(LANG,p.t.G)}</div></div>${rt(p.t.RAT,'lg')}</a>`);
-  h+=`</div><div class="section-title"><h2>${T('table')}</h2><span class="hint">${T('qualHint')(S.qual)}</span></div><div class="card tablewrap"><table class="lb" id="lb"></table></div>`;
+  h+=`</div><div class="section-title"><h2>${(window.SBI||(()=>''))('plate',26,2.2)}${T('table')}</h2><span class="hint">${T('qualHint')(S.qual)}</span></div><div class="card tablewrap"><table class="lb" id="lb"></table></div>`;
   app().innerHTML=h; drawLB(ps);
 }
 function drawLB(ps){

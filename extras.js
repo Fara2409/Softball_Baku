@@ -49,35 +49,36 @@ function feedEvents(){
     const ev=[], add=(ic,txt,href,pid,w)=>ev.push({g,ic,txt,href,pid,w});
     const win=g.score.A>g.score.B?'A':g.score.B>g.score.A?'B':null, lose=win==='A'?'B':'A';
     const a=win||'A', b=win?lose:'B';
-    add('⚾',T('fdGame')(esc(g.teams[a].name),g.score[a],g.score[b],esc(g.teams[b].name))+(g.mvp?`<span>${T('fdGameSub')(nm(g.mvp.player))}</span>`:''),`#game-${g.id}`,g.mvp&&g.mvp.player,0);
+    add('game',T('fdGame')(esc(g.teams[a].name),g.score[a],g.score[b],esc(g.teams[b].name))+(g.mvp?`<span>${T('fdGameSub')(nm(g.mvp.player))}</span>`:''),`#game-${g.id}`,g.mvp&&g.mvp.player,0);
     const recH=rec.H, recR=rec.RBI;
     for(const x of g.box){ const id=x.player; if(!P(id)) continue;
-      if(gi>0&&!played[id]) add('👋',T('fdDebut')(nm(id)),`#player-${id}`,id,9);
+      if(gi>0&&!played[id]) add('debut',T('fdDebut')(nm(id)),`#player-${id}`,id,9);
       played[id]=true;
-      if(x.HR>0&&!hrSeen[id]) add('💥',T('fdFirstHR')(nm(id)),`#player-${id}`,id,2);
-      if(x.HR>1) add('💥',T('fdMultiHR')(nm(id),x.HR),`#player-${id}`,id,3);
+      if(x.HR>0&&!hrSeen[id]) add('hr',T('fdFirstHR')(nm(id)),`#player-${id}`,id,2);
+      if(x.HR>1) add('hr',T('fdMultiHR')(nm(id),x.HR),`#player-${id}`,id,3);
       if(x.HR>0) hrSeen[id]=true;
       streak[id]=x.H>0?(streak[id]||0)+1:0;
-      if(streak[id]>=3) add('🔥',T('fdStreak')(nm(id),streak[id]),`#player-${id}`,id,4);
-      if(x.rating>=9) add('⭐',T('fdBig')(nm(id),x.rating.toFixed(1)),`#player-${id}`,id,5);
-      if(x.AB>=4&&x.H===x.AB) add('🎯',T('fdPerfect')(nm(id),x.H,x.AB),`#player-${id}`,id,6);
-      if(gi>0&&x.H>recH&&x.H>=3) add('🏆',T('fdRecH')(nm(id),x.H),`#player-${id}`,id,1);
-      if(gi>0&&x.RBI>recR&&x.RBI>=3) add('🏆',T('fdRecRBI')(nm(id),x.RBI),`#player-${id}`,id,1);
+      if(streak[id]>=3) add('streak',T('fdStreak')(nm(id),streak[id]),`#player-${id}`,id,4);
+      if(x.rating>=9) add('big',T('fdBig')(nm(id),x.rating.toFixed(1)),`#player-${id}`,id,5);
+      if(x.AB>=4&&x.H===x.AB) add('perfect',T('fdPerfect')(nm(id),x.H,x.AB),`#player-${id}`,id,6);
+      if(gi>0&&x.H>recH&&x.H>=3) add('rec',T('fdRecH')(nm(id),x.H),`#player-${id}`,id,1);
+      if(gi>0&&x.RBI>recR&&x.RBI>=3) add('rec',T('fdRecRBI')(nm(id),x.RBI),`#player-${id}`,id,1);
       rec.H=Math.max(rec.H,x.H); rec.RBI=Math.max(rec.RBI,x.RBI);
     }
     out.push(...ev);
   });
   return out;
 }
+const FD_IC={game:'plate',debut:'cap',hr:'hr',streak:'fire',big:'star',perfect:'target',rec:'trophy'};
 function feedBlock(){
   const games=S.games.filter(g=>g.stats); if(!games.length) return '';
   // новые игры сверху, внутри игры — по важности
   const all=feedEvents(), byGame=[];
   for(const g of [...games].reverse()) byGame.push(...all.filter(e=>e.g===g).sort((p,q)=>p.w-q.w));
   const L=byGame.slice(0,8);
-  return `<div class="section-title"><h2>${T('fdTitle')}</h2><span class="hint">${T('fdHint')}</span></div>
+  return `<div class="section-title"><h2>${(window.SBI||(()=>''))('bat',26,2.2)}${T('fdTitle')}</h2><span class="hint">${T('fdHint')}</span></div>
     <div class="card feed">${L.map(e=>{ const p=e.pid&&P(e.pid);
-      return `<a class="fd-row" href="${e.href}"><span class="fd-ic">${e.ic}</span>${p?av(p):''}<span class="fd-t">${e.txt}</span><span class="fd-d">${fmtDate(e.g.date,{day:'numeric',month:'short'})}</span></a>`; }).join('')}</div>`;
+      return `<a class="fd-row" href="${e.href}"><span class="fd-ic fd-${e.ic}">${(window.SBI||(()=>""))(FD_IC[e.ic]||"ball",20)}</span>${p?av(p):''}<span class="fd-t">${e.txt}</span><span class="fd-d">${fmtDate(e.g.date,{day:'numeric',month:'short'})}</span></a>`; }).join('')}</div>`;
 }
 
 /* ---------- карта ударов ---------- */
@@ -99,7 +100,7 @@ function ballsOf(p){
 function spray(p){
   if(!p.log||!p.log.some(l=>l.game.plays)) return '';
   const {balls,hitsNoDir}=ballsOf(p);
-  let h=`<div class="section-title"><h2>${T('spTitle')}</h2><span class="hint">${T('spHint')}</span></div><div class="card spray">`;
+  let h=`<div class="section-title"><h2>${(window.SBI||(()=>''))('ball',26,2.2)}${T('spTitle')}</h2><span class="hint">${T('spHint')}</span></div><div class="card spray">`;
   if(balls.length<1) return h+`<p class="muted sp-note">${T('spFew')}</p></div>`;
   const by={}; balls.forEach(b=>(by[b.pos]=by[b.pos]||[]).push(b));
   const COL={h:'var(--r-good)',o:'var(--r-low)',e:'var(--amber)'};

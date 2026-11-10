@@ -6,7 +6,7 @@
 <title>Softball Baku · Statistika</title>
 <meta name="description" content="Softball Baku — oyunçuların reytinqi və statistikası">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#08111e">
+<meta name="theme-color" content="#070D18">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png?v=2">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2">
 <meta name="mobile-web-app-capable" content="yes">
@@ -14,16 +14,17 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Softball Baku">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..900;1,14..32,700..900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800;900&family=Sofia+Sans+Extra+Condensed:ital,wght@0,700;0,900;1,800;1,900&display=swap">
 <link rel="stylesheet" href="styles.css?v=202611101620">
 <link rel="stylesheet" href="features.css?v=202611092051">
 <link rel="stylesheet" href="club.css?v=202611101620">
 <link rel="stylesheet" href="weather.css?v=202611092051">
 <link rel="stylesheet" href="extras.css?v=202611101945">
+<link rel="stylesheet" href="theme.css?v=202611110010">
 </head>
 <body>
 <header class="top">
-  <a class="brand" href="#rating"><span class="brand-mark"><svg class="ball" viewBox="0 0 100 100" aria-hidden="true"><defs><radialGradient id="bh" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#fff"/><stop offset=".62" stop-color="#f1ede4"/><stop offset="1" stop-color="#c9c2b3"/></radialGradient></defs><circle cx="50" cy="50" r="46" fill="url(#bh)"/><g fill="none" stroke-linecap="round"><path d="M19 16C39 34 39 66 19 84 M81 16C61 34 61 66 81 84" stroke="#c9302c" stroke-width="2.4" opacity=".55"/><path d="M19.3 22.2L23.3 22.3M25.8 16.9L25.1 20.8M22.9 26.9L26.8 27.5M30.1 22.5L28.9 26.3M25.8 31.9L29.5 33.1M33.5 28.6L31.7 32.1M27.9 37.2L31.4 38.9M36.0 35.0L33.8 38.3M29.2 42.7L32.5 44.9M37.5 41.6L34.9 44.6M29.8 48.4L32.8 51.0M38.2 48.4L35.2 51.0M29.6 54.1L32.3 57.1M38.0 55.2L34.6 57.4M28.7 59.7L30.9 63.0M36.8 61.9L33.2 63.7M27.0 65.2L28.8 68.8M34.7 68.5L31.0 69.7M24.6 70.4L25.8 74.2M31.8 74.8L27.8 75.4M21.4 75.3L22.0 79.2M27.8 80.7L23.9 80.8M74.2 16.9L74.9 20.8M80.7 22.2L76.7 22.3M69.9 22.5L71.1 26.3M77.1 26.9L73.2 27.5M66.5 28.6L68.3 32.1M74.2 31.9L70.5 33.1M64.0 35.0L66.2 38.3M72.1 37.2L68.6 38.9M62.5 41.6L65.1 44.6M70.8 42.7L67.5 44.9M61.8 48.4L64.8 51.0M70.2 48.4L67.2 51.0M62.0 55.2L65.4 57.4M70.4 54.1L67.7 57.1M63.2 61.9L66.8 63.7M71.3 59.7L69.1 63.0M65.3 68.5L69.0 69.7M73.0 65.2L71.2 68.8M68.2 74.8L72.2 75.4M75.4 70.4L74.2 74.2M72.2 80.7L76.1 80.8M78.6 75.3L78.0 79.2" stroke="#d2312b" stroke-width="3.6"/></g></svg></span><span class="brand-text">SOFTBALL <b>BAKU</b></span></a>
+  <a class="brand" href="#rating"><span class="brand-mark"><svg class="logo-bb" viewBox="0 0 100 100" aria-hidden="true"><path d="M22 84L34 72" stroke="#F5A524" stroke-width="6" stroke-linecap="round"/><path d="M34 72L82 24" stroke="#F5A524" stroke-width="13" stroke-linecap="round"/><circle cx="19" cy="87" r="6" fill="#F5A524"/><g transform="translate(50 48) scale(.48)"><circle cx="50" cy="50" r="47" fill="#E6EC4C"/><path d="M20 12C38 32 38 68 20 88M80 12C62 32 62 68 80 88" stroke="#D63A2F" stroke-width="5" fill="none"/></g></svg></span><span class="brand-text">SOFTBALL <b>BAKU</b></span></a>
   <div class="right">
     <nav><a href="#rating" data-nav="home" data-t="rating">Reytinq</a><a href="#games" data-nav="games" data-t="games">Oyunlar</a><a href="#teams" data-nav="teams" data-t="navTeams">Komandalar</a><a href="#records" data-nav="records" data-t="navRecords">Rekordlar</a><a href="#rules" data-nav="rules" data-t="navRules">Qaydalar</a></nav>
     <div class="lang" role="group" aria-label="Language"><button data-lang="az">AZ</button><button data-lang="ru">RU</button><button data-lang="en">EN</button></div>
@@ -31,16 +32,18 @@
     <div class="acct" id="acct"></div>
   </div>
 </header>
+<div class="eq-strip" id="eq-strip" aria-hidden="true"></div>
 <div id="demo-banner" class="demo" hidden>Демо-версия: игроки и цифры вымышленные</div>
 <main id="app"><div class="loading">…</div></main>
 <footer class="foot" id="foot">Softball Baku</footer>
 <script src="install.js?v=202611092051"></script>
-<script src="app.js?v=202611101650"></script>
+<script src="app.js?v=202611110010"></script>
+<script src="theme.js?v=202611110010"></script>
 <script src="features.js?v=202611101650"></script>
 <script src="rules.js?v=202611092051"></script>
 <script src="club.js?v=202611102000"></script>
 <script src="weather.js?v=202611102000"></script>
-<script src="extras.js?v=202611101945"></script>
+<script src="extras.js?v=202611110010"></script>
 <script src="tips.js?v=202611092051"></script>
 </body>
 </html>

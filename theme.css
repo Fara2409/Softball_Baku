@@ -1,0 +1,108 @@
+/* Оформление «Ночной матч · снаряжение» (вариант A3) — поверх styles.css */
+:root{
+  --bg:#070D18; --panel:#0E1A2C; --panel2:#15233A; --line:#1B2B45; --text:#EEF2F8; --muted:#93A3BB; --dim:#6F819C;
+  --amber:#F5A524;
+  --disp:'Sofia Sans Extra Condensed','Onest',system-ui,sans-serif;
+}
+html,body{font-family:'Onest','Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.top{background:rgba(10,19,34,.94)}
+
+/* логотип: бита и мяч */
+.brand-mark .logo-bb{width:30px;height:30px;display:block;transition:transform .25s}
+.brand:hover .logo-bb{transform:rotate(-12deg)}
+.brand-text,.brand{font-family:var(--disp)}
+.top .brand{font-size:24px;font-weight:900;letter-spacing:2px}
+
+/* полоса значков под шапкой */
+.eq-strip{display:flex;justify-content:center;gap:28px;padding:6px 0;background:#0A1322;border-bottom:1px solid #18263D;overflow:hidden;color:#2C4060;white-space:nowrap}
+.eq-strip .sbi{flex:none}
+
+/* подпись над первой игрой */
+.sb-tag{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 16px;font-size:13px;color:var(--muted)}
+.sb-tag .sbi{color:var(--amber)}
+.sb-tag b{color:var(--amber);font-weight:800;letter-spacing:2px;text-transform:uppercase}
+
+/* крупные заголовки */
+.section-title{margin:44px 0 16px;flex-wrap:wrap;gap:6px 14px}
+.section-title h2{font-family:var(--disp);font-size:38px;font-weight:900;font-style:italic;letter-spacing:.5px;text-transform:uppercase;line-height:1;display:flex;align-items:center;gap:12px}
+.section-title h2 .sbi{color:var(--amber);flex:none}
+.pagehead h1,.season h1,.phead h1{font-family:var(--disp);font-weight:900;font-style:italic;text-transform:uppercase;letter-spacing:.5px}
+.pagehead h1{font-size:clamp(38px,5vw,56px)}
+.phead h1{font-size:60px;line-height:.92;margin-top:10px}
+.phead h1 span{font-family:'Onest',sans-serif}
+
+/* цифры дисплейным шрифтом */
+.rt{font-family:var(--disp);font-style:italic;font-weight:900;font-size:19px;letter-spacing:.3px}
+.rt.lg{font-size:32px}
+.rt.xl{font-size:50px}
+.pod .place,.pc-num,.phead .bignum,.season-num{font-family:var(--disp);font-weight:900}
+.kpi .v{font-family:var(--disp);font-size:34px;font-style:italic}
+.ls td.R{font-family:var(--disp);font-size:26px;font-style:italic}
+.ls tr.win td.R{color:var(--amber)}
+
+/* последняя игра: большой счёт */
+.hero{grid-template-columns:1.25fr 1fr;gap:20px}
+.card.lastgame,.card.mvp{border-radius:18px}
+.bigscore{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px;margin:4px 0 14px}
+.bs-t{display:flex;align-items:center;gap:12px;min-width:0}
+.bs-t.r{flex-direction:row-reverse;text-align:right}
+.bs-t i{flex:none;width:9px;height:46px;border-radius:3px}
+.bs-t b{display:block;font-size:19px;font-weight:800;line-height:1.15}
+.bs-t span{font-size:13px;font-weight:600;color:var(--muted)}
+.bs-t span.w{color:var(--amber);font-weight:700}
+.bs-n{font-family:var(--disp);font-size:88px;font-weight:900;font-style:italic;line-height:.9;font-variant-numeric:tabular-nums;white-space:nowrap}
+.bs-n em{font-style:italic}
+.bs-n em.w{color:var(--amber)}
+.bs-n span{color:#3A4D6B;padding:0 8px}
+
+/* игрок матча */
+.mvp.mvp3{position:relative;isolation:isolate;overflow:hidden;padding:0;display:flex;flex-direction:column;background:var(--panel)}
+.mvp-ghost{position:absolute;right:-70px;top:-50px;width:340px;height:340px;color:#13223A;z-index:-1;pointer-events:none}
+.mvp-ghost svg{width:100%;height:100%}
+.mvp-top{display:flex;justify-content:space-between;align-items:flex-start;padding:22px 24px 0}
+.mvp-body{display:flex;align-items:flex-end;gap:20px;padding:8px 24px 0}
+.mvp-ph{flex:none;width:150px;height:186px;object-fit:cover;border-radius:14px 14px 0 0;display:block;background:var(--panel2)}
+.mvp-ph.nophoto{display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-size:76px;font-weight:900;font-style:italic;color:var(--amber)}
+.mvp-txt{padding-bottom:16px;min-width:0}
+.mvp-pos{color:var(--muted);font-weight:700;font-size:14px;letter-spacing:1px;text-transform:uppercase}
+.mvp-name{font-family:var(--disp);font-size:52px;font-weight:900;font-style:italic;line-height:.9;text-transform:uppercase;margin-top:6px}
+.mvp-name.m{font-size:44px}.mvp-name.l{font-size:38px}
+.mvp-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line);margin-top:auto}
+.mvp-stats div{padding:14px 16px;border-right:1px solid var(--line)}
+.mvp-stats div:last-child{border-right:0}
+.mvp-stats b{display:block;font-family:var(--disp);font-size:32px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1}
+.mvp-stats span{color:var(--muted);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+
+/* лента: значки в плитках */
+.fd-ic{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:0;background:#15233A;color:var(--muted)}
+.fd-game{background:#2A1E08;color:var(--amber)}
+.fd-hr{background:#2B1414;color:#FF7A6B}
+.fd-streak{background:#2B1A0E;color:#FF9A4D}
+.fd-big{background:#1E1840;color:#B9A6FF}
+.fd-perfect{background:#0F2A22;color:#5FE0A8}
+.fd-rec{background:#2A1E08;color:#FFC664}
+.fd-debut{background:#10223A;color:#7FB8FF}
+
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr}
+  .bs-n{font-size:64px}
+  .bs-t b{font-size:16px}
+  .bs-t i{height:36px;width:7px}
+  .mvp-name{font-size:40px}.mvp-name.m{font-size:34px}.mvp-name.l{font-size:29px}
+  .mvp-ph{width:118px;height:150px}
+  .phead h1{font-size:46px}
+  .section-title h2{font-size:30px}
+}
+@media (max-width:480px){
+  .top .brand{font-size:19px;letter-spacing:1.5px}
+  .brand-mark .logo-bb{width:24px;height:24px}
+  .bigscore{gap:8px}
+  .bs-t{gap:8px}
+  .bs-t b{font-size:14px}
+  .bs-t span{font-size:12px}
+  .bs-n{font-size:50px}
+  .bs-n span{padding:0 4px}
+  .mvp-stats div{padding:12px 10px}
+  .mvp-stats b{font-size:26px}
+  .eq-strip{gap:22px}
+}
