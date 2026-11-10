@@ -1,33 +1,35 @@
 // Softball Baku — погода в игровые дни (Əmircan).
 // Игровые дни: все воскресенья + праздничные нерабочие дни из data/calendar.json.
 // Блок с вердиктами видят только игроки и админ; гостям — только прогноз у назначенной игры.
-// Прогноз: Open-Meteo (бесплатно, без ключа), берётся заново при открытии сайта (кэш в браузере 1 час).
+// Прогноз: Open-Meteo (бесплатно, без ключа). Обновляется сам: каждые 15 минут, пока сайт открыт,
+// и сразу, когда сайт / приложение снова открывают (кэш в браузере 15 минут).
+// На сегодня и завтра пороги строже, а если дождь идёт прямо сейчас — это тоже учитывается.
 // Оценка по часам игры: дождь, вероятность дождя, гроза, ветер, холод и дождь за 12 часов до игры (мокрое поле).
 'use strict';
 (function(){
 
 const SITE='https://fara2409.github.io/Softball_Baku/';
-const CACHE='sb.wx.v1', TTL=60*60e3;
+const CACHE='sb.wx.v2', TTL=15*60e3;
 Object.assign(I18N.ru,{
-  wxTitle:'Погода в игровые дни',wxSub:'Амирджан · воскресенья и праздничные дни · прогноз обновляется при каждом открытии',
+  wxTitle:'Погода в игровые дни',wxSub:'Амирджан · воскресенья и праздничные дни · прогноз обновляется автоматически каждые 15 минут',
   wxGood:'Игровая погода',wxRisk:'Под вопросом',wxBad:'Неигровая погода',wxWait:'Ждём подтверждения игры',wxBest:'Лучший день',wxFar:'прогноз на 8+ дней, может измениться',
   wxRain:mm=>`дождь ${mm} мм`,wxNoRain:'без дождя',wxProb:p=>`вероятность дождя ${p}%`,wxStorm:'гроза',wxWet:mm=>`до игры дождь ${mm} мм — поле может быть мокрым`,
   wxWind:v=>`порывы ветра до ${v} км/ч`,wxCold:t=>`холодно: ${t}°`,wxKmh:'км/ч',wxCopy:'Скопировать для WhatsApp',wxSet:'Назначить игру',wxGame:t=>`Игра назначена · ${t}`,
-  wxErr:'Не удалось загрузить прогноз погоды',wxSrc:'Прогноз: Open-Meteo.com',wxHead:t=>`погода (Амирджан), ${t}`,wxNone:'В ближайшие 16 дней игровых дней нет'
+  wxErr:'Не удалось загрузить прогноз погоды',wxUpd:t=>`обновлено в ${t}`,wxNow:'сейчас идёт дождь',wxRefresh:'Обновить',wxSrc:'Прогноз: Open-Meteo.com',wxHead:t=>`погода (Амирджан), ${t}`,wxNone:'В ближайшие 16 дней игровых дней нет'
 });
 Object.assign(I18N.az,{
-  wxTitle:'Oyun günlərində hava',wxSub:'Əmircan · bazar günləri və bayram günləri · proqnoz hər açılışda yenilənir',
+  wxTitle:'Oyun günlərində hava',wxSub:'Əmircan · bazar günləri və bayram günləri · proqnoz hər 15 dəqiqədən bir avtomatik yenilənir',
   wxGood:'Hava uyğundur',wxRisk:'Sual altındadır',wxBad:'Hava uyğun deyil',wxWait:'Oyunun təsdiqi gözlənilir',wxBest:'Ən yaxşı gün',wxFar:'8+ günlük proqnoz, dəyişə bilər',
   wxRain:mm=>`yağış ${mm} mm`,wxNoRain:'yağışsız',wxProb:p=>`yağış ehtimalı ${p}%`,wxStorm:'ildırım',wxWet:mm=>`oyundan əvvəl yağış ${mm} mm — meydança yaş ola bilər`,
   wxWind:v=>`külək ${v} km/saata qədər`,wxCold:t=>`soyuq: ${t}°`,wxKmh:'km/saat',wxCopy:'WhatsApp üçün kopyala',wxSet:'Oyun təyin et',wxGame:t=>`Oyun təyin olunub · ${t}`,
-  wxErr:'Hava proqnozunu yükləmək alınmadı',wxSrc:'Proqnoz: Open-Meteo.com',wxHead:t=>`hava (Əmircan), ${t}`,wxNone:'Yaxın 16 gündə oyun günü yoxdur'
+  wxErr:'Hava proqnozunu yükləmək alınmadı',wxUpd:t=>`${t}-da yeniləndi`,wxNow:'hazırda yağış yağır',wxRefresh:'Yenilə',wxSrc:'Proqnoz: Open-Meteo.com',wxHead:t=>`hava (Əmircan), ${t}`,wxNone:'Yaxın 16 gündə oyun günü yoxdur'
 });
 Object.assign(I18N.en,{
-  wxTitle:'Weather on game days',wxSub:'Amirajan · Sundays and holidays · forecast refreshes every time you open the site',
+  wxTitle:'Weather on game days',wxSub:'Amirajan · Sundays and holidays · forecast refreshes automatically every 15 minutes',
   wxGood:'Playable weather',wxRisk:'Doubtful',wxBad:'Unplayable weather',wxWait:'Awaiting game confirmation',wxBest:'Best day',wxFar:'8+ days out, may change',
   wxRain:mm=>`rain ${mm} mm`,wxNoRain:'dry',wxProb:p=>`${p}% chance of rain`,wxStorm:'thunderstorm',wxWet:mm=>`${mm} mm of rain before the game — field may be wet`,
   wxWind:v=>`gusts up to ${v} km/h`,wxCold:t=>`cold: ${t}°`,wxKmh:'km/h',wxCopy:'Copy for WhatsApp',wxSet:'Schedule a game',wxGame:t=>`Game set · ${t}`,
-  wxErr:'Could not load the weather forecast',wxSrc:'Forecast: Open-Meteo.com',wxHead:t=>`weather (Amirajan), ${t}`,wxNone:'No game days in the next 16 days'
+  wxErr:'Could not load the weather forecast',wxUpd:t=>`updated at ${t}`,wxNow:'raining right now',wxRefresh:'Refresh',wxSrc:'Forecast: Open-Meteo.com',wxHead:t=>`weather (Amirajan), ${t}`,wxNone:'No game days in the next 16 days'
 });
 
 const W={cal:null,data:null,err:false,busy:null};
@@ -48,24 +50,25 @@ const icon=c=>c>=95?'⛈️':c>=85?'🌨️':c>=80?'🌧️':c>=71?'🌨️':c>=
 const r1=x=>Math.round(x*10)/10;
 
 /* ---------- данные ---------- */
-function load(){
+function load(force){
   if(W.busy) return W.busy;
   W.busy=(async()=>{
     if(!W.cal) W.cal=await fetch('data/calendar.json?v=202611070315',{cache:'no-cache'}).then(r=>r.json());
     let c=null; try{ c=JSON.parse(localStorage.getItem(CACHE)); }catch(e){}
-    if(c&&Date.now()-c.at<TTL&&c.data&&c.data.hourly){ W.data=c.data; return; }
+    if(!force&&c&&Date.now()-c.at<TTL&&c.data&&c.data.hourly){ W.data=c.data; W.at=c.at; return; }
     const p=W.cal.place||{lat:40.4264,lon:49.9836};
     const url=`https://api.open-meteo.com/v1/forecast?latitude=${p.lat}&longitude=${p.lon}`+
       `&hourly=temperature_2m,precipitation,precipitation_probability,weather_code,wind_gusts_10m`+
       `&daily=weather_code,temperature_2m_max,temperature_2m_min`+
+      `&current=precipitation,weather_code`+
       `&timezone=Asia%2FBaku&forecast_days=16`;
     const r=await fetch(url); if(!r.ok) throw new Error('HTTP '+r.status);
-    W.data=await r.json(); W.err=false;
-    try{ localStorage.setItem(CACHE,JSON.stringify({at:Date.now(),data:W.data})); }catch(e){}
+    W.data=await r.json(); W.err=false; W.at=Date.now();
+    try{ localStorage.setItem(CACHE,JSON.stringify({at:W.at,data:W.data})); }catch(e){}
   })().catch(e=>{ console.warn('[weather]',e); W.err=true; if(c0()) W.data=c0(); }).finally(()=>{ W.busy=null; });
   return W.busy;
 }
-function c0(){ try{ const c=JSON.parse(localStorage.getItem(CACHE)); return c&&c.data; }catch(e){ return null; } }
+function c0(){ try{ const c=JSON.parse(localStorage.getItem(CACHE)); if(c&&c.at) W.at=c.at; return c&&c.data; }catch(e){ return null; } }
 const periodOf=ymd=>((W.cal&&W.cal.periods)||[]).find(p=>ymd>=p.from&&ymd<=p.to)||null;
 const eventsOn=ymd=>((window.CL&&CL.events&&CL.events())||[]).filter(e=>e.status!=='cancelled'&&evYmd(e.starts_at)===ymd);
 
@@ -87,13 +90,18 @@ function evalDay(ymd,startHM){
   const temps=num(inst.map(i=>H.temperature_2m[i])), tmin=temps.length?Math.round(Math.min(...temps)):null, tmax=temps.length?Math.round(Math.max(...temps)):null;
   const before=r1(num(pre.map(i=>H.precipitation[i])).reduce((a,b)=>a+b,0));
   const storm=code>=95;
-  const bad=storm||rain>=1||(prob!=null&&prob>=80)||before>=6||gust>=75;
-  const risk=!bad&&(rain>=0.2||(prob!=null&&prob>=40)||before>=2||gust>=55||(tmin!=null&&tmin<3));
+  // сегодня и завтра прогноз точнее, поэтому и строже: даже небольшой дождь или вероятность 30%+ — уже «под вопросом»
+  const days=(new Date(ymd)-new Date(bakuToday()))/864e5, near=days<=1;
+  const C=W.data.current||{}, nowRain=days===0&&bakuHour()<sh+hours&&((C.precipitation||0)>0||((C.weather_code||0)>=51&&(C.weather_code||0)<=99));
+  const pRisk=near?30:40, pBad=near?60:80, rRisk=near?0.1:0.2, rBad=near?0.5:1;
+  const bad=storm||rain>=rBad||(prob!=null&&prob>=pBad)||before>=6||gust>=75||(nowRain&&bakuHour()>=sh-2);
+  const risk=!bad&&(rain>=rRisk||(prob!=null&&prob>=pRisk)||before>=(near?1:2)||gust>=55||(tmin!=null&&tmin<3)||nowRain);
   const why=[], note=[];
+  if(nowRain){ why.push(T('wxNow')); note.push(T('wxNow')); }
   if(storm){ why.push(T('wxStorm')); note.push(T('wxStorm')); }
-  if(rain>=0.2) why.push(T('wxRain')(rain));
-  if(prob!=null&&prob>=40) why.push(T('wxProb')(prob));
-  if(before>=2){ why.push(T('wxWet')(before)); note.push(T('wxWet')(before)); }
+  if(rain>=rRisk) why.push(T('wxRain')(rain));
+  if(prob!=null&&prob>=pRisk) why.push(T('wxProb')(prob));
+  if(before>=(near?1:2)){ why.push(T('wxWet')(before)); note.push(T('wxWet')(before)); }
   if(gust>=55) why.push(T('wxWind')(gust));
   if(tmin!=null&&tmin<3){ why.push(T('wxCold')(tmin)); note.push(T('wxCold')(tmin)); }
   // при равной погоде предпочитаем воскресенье — обычный игровой день
@@ -144,7 +152,7 @@ function section(compact){
   else if(!L.length) body=`<div class="card empty" style="margin-top:0">${T('wxNone')}</div>`;
   else body=`<div class="wx-grid">${(compact?L.slice(0,5):L).map(card).join('')}</div>`;
   return `<div class="section-title wx-title"><h2>${T('wxTitle')}</h2>${L.length?`<button class="btn sm" onclick="WX.copy()">${T('wxCopy')}</button>`:''}</div>
-    <p class="wx-sub muted">${T('wxSub')}</p>${body}<p class="wx-src"><a href="https://open-meteo.com/" target="_blank" rel="noopener">${T('wxSrc')}</a></p>`;
+    <p class="wx-sub muted">${T('wxSub')}${W.at?` · ${T('wxUpd')(new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Baku',hour:'2-digit',minute:'2-digit'}).format(new Date(W.at)))} <button class="cl-link wx-ref" onclick="WX.refresh()">↻ ${T('wxRefresh')}</button>`:''}</p>${body}<p class="wx-src"><a href="https://open-meteo.com/" target="_blank" rel="noopener">${T('wxSrc')}</a></p>`;
 }
 function drawSec(){ const el=document.getElementById('wx-sec'); if(el) el.innerHTML=section(el.dataset.compact==='1'); }
 function draw(){ drawSec(); if(window.CL&&CL.redraw) CL.redraw(); }
@@ -167,7 +175,8 @@ function chip(iso){
     return `<span class="wx-chip">${icon(e.code)} ${t}° · ${e.rain>=0.2?T('wxRain')(e.rain):T('wxNoRain')}${e.prob!=null&&e.prob>=30?` · ☔ ${e.prob}%`:''}</span>`;
   return `<span class="wx-chip ${e.v}" title="${esc(e.why.join(' · ')||T('wxNoRain'))}">${icon(e.code)} ${t}° · ${T(VL[e.v])}</span>`;
 }
-window.WX={copy,setGame,chip,candidates,drawSec,ready:()=>!!W.data};
+function refresh(){ const b=document.querySelector('.wx-ref'); if(b) b.textContent='…'; return load(true).then(draw); }
+window.WX={copy,setGame,chip,candidates,drawSec,refresh,ready:()=>!!W.data};
 
 const _route=route; route=function(){
   _route();
@@ -183,4 +192,10 @@ const _route=route; route=function(){
   if(!W.data||Date.now()-at>TTL) load().then(draw);
 };
 load().then(draw);
+// автообновление: пока сайт открыт — раз в 15 минут; при возвращении в сайт / приложение — сразу, если данные старше 10 минут
+setInterval(()=>{ if(document.visibilityState==='visible') load(true).then(draw); },TTL);
+const stale=()=>!W.at||Date.now()-W.at>10*60e3;
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible'&&stale()) load(true).then(draw); });
+window.addEventListener('pageshow',()=>{ if(stale()) load(true).then(draw); });
+window.addEventListener('online',()=>load(true).then(draw));
 })();

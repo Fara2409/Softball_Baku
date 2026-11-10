@@ -218,3 +218,6 @@ a.gmedia:hover .play{transform:translate(-50%,-50%) scale(1.08)}
 .per-b.on{background:var(--amber);color:#1a1205}
 .off-chip{display:inline-block;margin-left:6px;padding:2px 8px;border-radius:999px;background:rgba(239,159,39,.14);color:var(--amber);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
 .hero + .per-tabs{margin-top:24px}
+
+/* «В-П» не переносится на телефоне */
+.lb td.wl,.lb th[data-k="W"]{white-space:nowrap}

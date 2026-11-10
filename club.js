@@ -425,6 +425,8 @@ function afterRoute(){
   if(isHome){ A.insertAdjacentHTML('afterbegin',`<div id="cl-livecard">${liveCard()}</div><div id="cl-next"></div>`); }
   if(page==='games'){ A.insertAdjacentHTML('afterbegin',`<div id="cl-sched" class="cl-sched"></div>`); }
   if(isHome||page==='games'){ drawWidgets(); loadEvents().then(drawWidgets); }
+  // кнопка «Назад» на страницах игрока и игры
+  if(['player','game'].includes(page)) A.insertAdjacentHTML('afterbegin',`<button class="back-btn" onclick="CL.back('${page==='game'?'#games':'#rating'}')">← ${T('cBack')}</button>`);
   if(page==='game'&&id&&S.games.some(g=>g.id===id)) A.insertAdjacentHTML('beforeend',commentsBlock('game:'+id));
   if(page==='player'&&id&&S.players[id]) A.insertAdjacentHTML('beforeend',commentsBlock('player:'+id));
   A.querySelectorAll('[data-cm]').forEach(el=>loadComments(el.dataset.cm));
@@ -709,8 +711,11 @@ async function delLive(){
   toast('✓'); await loadLive(); drawAdminLive();
 }
 
+// сколько переходов было внутри сайта — чтобы «Назад» не уводил с сайта
+const NAV={n:-1}; window.addEventListener('hashchange',()=>{ NAV.n++; }); NAV.n=0;
+
 /* ---------- Подключение к сайту ---------- */
-window.CL={oldBrowser:()=>openModal(sheetHead(T('cLogin'))+`<p class="cl-p">${T('cOldBrowser')}</p>`),redraw:()=>drawWidgets(),events:()=>C.events||[],isAdmin,canDecide:()=>C.ready&&canRsvp(),auth,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,rsvp,toTeams,sendComment,delComment,saveName,request,changePass,
+window.CL={back:fb=>{ if(NAV.n>0) history.back(); else location.hash=fb; },oldBrowser:()=>openModal(sheetHead(T('cLogin'))+`<p class="cl-p">${T('cOldBrowser')}</p>`),redraw:()=>drawWidgets(),events:()=>C.events||[],isAdmin,canDecide:()=>C.ready&&canRsvp(),auth,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,rsvp,toTeams,sendComment,delComment,saveName,request,changePass,
   approve,reject,setRole,setPlayer,resetPass,copy,addEvent,evStatus,delEvent,endLive,delLive};
 const TEAMS_PAGE=(window.FEATURE_ROUTES||{}).teams||(()=>home());
 Object.assign(window.FEATURE_ROUTES=window.FEATURE_ROUTES||{},{live:livePage,me:mePage,admin:adminPage,teams:teamsGate});

@@ -261,3 +261,7 @@ table.lb.lv-bx{min-width:0}
   .top .lang button{padding:6px 7px}
   .acct-in{padding:7px 10px;font-size:13px}
 }
+
+/* кнопка «Назад» */
+.back-btn{display:inline-flex;align-items:center;gap:6px;margin:0 0 14px;padding:8px 14px;border-radius:999px;background:var(--panel);border:1px solid var(--line);color:var(--text);font:inherit;font-weight:700;font-size:14px;cursor:pointer}
+.back-btn:hover{border-color:var(--amber)}
