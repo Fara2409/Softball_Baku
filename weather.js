@@ -171,8 +171,6 @@ function chip(iso){
   if(!W.data) return '';
   const ymd=evYmd(iso), e=evalDay(ymd,evHM(iso)); if(!e) return '';
   const t=e.tmax??e.dmax;
-  if(!(window.CL&&CL.canDecide&&CL.canDecide())) // гостям — просто прогноз, без «можно / нельзя играть»
-    return `<span class="wx-chip">${icon(e.code)} ${t}° · ${e.rain>=0.2?T('wxRain')(e.rain):T('wxNoRain')}${e.prob!=null&&e.prob>=30?` · ☔ ${e.prob}%`:''}</span>`;
   return `<span class="wx-chip ${e.v}" title="${esc(e.why.join(' · ')||T('wxNoRain'))}">${icon(e.code)} ${t}° · ${T(VL[e.v])}</span>`;
 }
 function refresh(){ const b=document.querySelector('.wx-ref'); if(b) b.textContent='…'; return load(true).then(draw); }
@@ -183,8 +181,7 @@ const _route=route; route=function(){
   const h=(location.hash||'').slice(1), page=h.split('-')[0];
   const FR=window.FEATURE_ROUTES||{}, isHome=!['player','game','games'].includes(page)&&!FR[page];
   if(!(isHome||page==='games')||!S.league) return;
-  // блок «можно ли играть» — только игрокам и админу: гости в этом решении не участвуют
-  if(!(window.CL&&CL.canDecide&&CL.canDecide())){ if(!W.data) load().then(()=>{ if(window.CL&&CL.redraw) CL.redraw(); }); return; }
+  // с 11.11.2026 блок погоды видят все (и гости); «+ Назначить игру» — только админу, «буду / не буду» в карточке игры — только игрокам
   const A=app(), sec=`<div id="wx-sec" class="wx-sec" data-compact="${isHome?1:0}">${section(isHome)}</div>`;
   const anchor=isHome?document.getElementById('cl-next'):document.getElementById('cl-sched');
   if(anchor) anchor.insertAdjacentHTML('afterend',sec); else A.insertAdjacentHTML('afterbegin',sec);
