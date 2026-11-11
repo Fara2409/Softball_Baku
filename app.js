@@ -128,7 +128,7 @@ function applyPeriod(per){
     for(const {game,b} of p.log){ t.G++; for(const k in t) if(k in b) t[k]+=b[k];
       if(game.winner===b.team) t.W++; else if(game.winner) t.L++; pos[b.pos]=(pos[b.pos]||0)+1; }
     const TB=t['1B']+2*t['2B']+3*t['3B']+4*t.HR;
-    t.AVG=t.H/t.AB; t.OBP=(t.H+t.BB+t.ROE)/t.PA; t.SLG=TB/t.AB; t.OPS=t.OBP+t.SLG;
+    t.AVG=t.H/t.AB; t.OBP=(t.H+t.BB+t.ROE)/(t.AB+t.BB+t.ROE); /* правило лиги (11.11.2026): ошибка добавляется и в числитель, и в знаменатель сверх AB */ t.SLG=TB/t.AB; t.OPS=t.OBP+t.SLG;
     t.OFF=t.G?p.log.reduce((s,x)=>s+x.b.rOff,0)/t.G:null; t.DEF=t.G?p.log.reduce((s,x)=>s+x.b.rDef,0)/t.G:null;
     t.RAT=t.G?Math.round(p.log.reduce((s,x)=>s+x.b.rating,0)/t.G*100)/100:null;
     t.qual=t.G>=S.qual; p.t=t;
