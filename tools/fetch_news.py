@@ -96,7 +96,14 @@ def main():
         if k in seen:
             continue
         seen.add(k); uniq.append(x)
-    res = uniq[:MAX_ITEMS]
+    # не больше 8 новостей из одного источника, чтобы были видны оба
+    per, res = {}, []
+    for x in uniq:
+        if per.get(x['source'], 0) >= 8:
+            continue
+        per[x['source']] = per.get(x['source'], 0) + 1; res.append(x)
+        if len(res) >= MAX_ITEMS:
+            break
     new = {"items": res}
     try:
         old = json.load(open(OUT, encoding="utf-8"))
