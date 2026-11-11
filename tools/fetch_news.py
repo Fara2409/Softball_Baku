@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Собирает свежие новости бейсбола (MLB.com и ESPN MLB) из RSS в data/news.json.
+"""Собирает свежие новости бейсбола (MLB.com и CBS Sports MLB; ESPN не отдаёт RSS серверам GitHub) из RSS в data/news.json.
 Запускается GitHub Actions (.github/workflows/news.yml) каждые 2 часа; сайт читает только готовый JSON
 (из браузера RSS этих сайтов не читается — CORS). Только стандартная библиотека Python."""
 import json, re, sys, html, urllib.request, email.utils, datetime as dt
@@ -7,7 +7,6 @@ import xml.etree.ElementTree as ET
 
 FEEDS = [
     ("MLB", "https://www.mlb.com/feeds/news/rss.xml"),
-    ("ESPN", "https://www.espn.com/espn/rss/mlb/news"),
     ("CBS", "https://www.cbssports.com/rss/headlines/mlb/"),
 ]
 MAX_ITEMS = 12
@@ -33,9 +32,14 @@ def image_of(it):
             if u and (m.get("medium") in (None, "image") or re.search(r"\.(jpe?g|png|webp)", u, re.I)):
                 return u
     enc = it.find("enclosure")
-    if enc is not None and (enc.get("type") or "").startswith("image"):
+    if enc is not None and enc.get("url") and ((enc.get("type") or "").startswith("image") or re.search(r"\.(jpe?g|png|webp)", enc.get("url"), re.I)):
         return enc.get("url")
-    for src in (text(it.find("content:encoded", NS)), text(it.find("description")), text(it.find("image"))):
+    img = it.find("image")   # у MLB.com: <image href="…"/> или <image><url>…</url></image>
+    if img is not None:
+        u = img.get("href") or img.get("url") or text(img.find("url")) or text(img)
+        if u.startswith("http"):
+            return u
+    for src in (text(it.find("content:encoded", NS)), text(it.find("description"))):
         m = re.search(r'<img[^>]+src="([^"]+)"', src) or re.search(r"(https?://\S+\.(?:jpe?g|png|webp))", src)
         if m:
             return m.group(1)
@@ -61,7 +65,8 @@ def fetch(source, url):
     root = ET.fromstring(data)
     first = next(root.iter("item"), None)
     if first is not None:  # для отладки: какие поля есть у новости (картинка и т.п.)
-        print(source, "item tags:", [c.tag for c in first], file=sys.stderr)
+        im = first.find("image")
+        print(source, "item tags:", [c.tag for c in first], "image:", im.attrib if im is not None else None, file=sys.stderr)
     out = []
     for it in root.iter("item"):
         title, link = clean(text(it.find("title"))), text(it.find("link"))

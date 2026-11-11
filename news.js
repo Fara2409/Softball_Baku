@@ -1,10 +1,10 @@
 /* Блок «Новости бейсбола» вверху главной (11.11.2026).
-   Данные — data/news.json, его каждые 2 часа обновляет GitHub Actions (tools/fetch_news.py: MLB.com + ESPN MLB).
+   Данные — data/news.json, его каждые 2 часа обновляет GitHub Actions (tools/fetch_news.py: MLB.com + CBS Sports MLB).
    Заголовки на английском — так в источниках; ссылки открываются на сайте источника. */
 (function(){
   Object.assign(I18N.ru,{nwTitle:'Новости бейсбола',nwHint:'MLB · на английском',nwAgo:{m:n=>`${n} мин назад`,h:n=>`${n} ч назад`,d:n=>`${n} дн. назад`},nwMore:'Ещё на MLB.com'});
   Object.assign(I18N.az,{nwTitle:'Beysbol xəbərləri',nwHint:'MLB · ingilis dilində',nwAgo:{m:n=>`${n} dəq əvvəl`,h:n=>`${n} saat əvvəl`,d:n=>`${n} gün əvvəl`},nwMore:'MLB.com-da daha çox'});
-  Object.assign(I18N.en,{nwTitle:'Baseball news',nwHint:'from MLB.com and ESPN',nwAgo:{m:n=>`${n} min ago`,h:n=>`${n}h ago`,d:n=>`${n}d ago`},nwMore:'More on MLB.com'});
+  Object.assign(I18N.en,{nwTitle:'Baseball news',nwHint:'from MLB.com and CBS Sports',nwAgo:{m:n=>`${n} min ago`,h:n=>`${n}h ago`,d:n=>`${n}d ago`},nwMore:'More on MLB.com'});
   const N={items:null,at:0};
   const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   function ago(iso){

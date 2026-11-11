@@ -16,3 +16,4 @@
 @media (max-width:480px){ .nw-card{width:220px} }
 .nw-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#22344F}
 .nw-img img{position:relative}
+.nw-cbs{background:#0A5FAD}

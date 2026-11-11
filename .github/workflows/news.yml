@@ -1,5 +1,5 @@
 name: Baseball news
-# Каждые 2 часа обновляет data/news.json (MLB.com + ESPN MLB) для блока «Новости бейсбола» на главной.
+# Каждые 2 часа обновляет data/news.json (MLB.com + CBS Sports MLB) для блока «Новости бейсбола» на главной.
 on:
   schedule:
     - cron: "17 */2 * * *"
