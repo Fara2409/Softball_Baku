@@ -127,7 +127,7 @@ const FPOS=['P','C','1B','2B','3B','SS','LF','LCF','CF','RCF','RF'];
 const PN={P:'P',C:'C','1B':'1B','2B':'2B','3B':'3B',SS:'SS',LF:'LF',LCF:'LCF',CF:'CF',RCF:'RCF',RF:'RF'}; // в описаниях пишем позиции буквами: SS-1B
 const FXY={CF:[50,8],LCF:[31,13],RCF:[69,13],LF:[12,29],RF:[88,29],SS:[33,42],'2B':[67,42],P:[50,62],'3B':[18,62],'1B':[82,62],C:[50,89]};
 const HITS={'1B':1,'2B':2,'3B':3,HR:4};
-const RES={'1B':'Сингл','2B':'Дабл','3B':'Трипл',HR:'Хоум-ран',BB:'Уок',K:'Страйк-аут',GO:'Аут по земле',FO:'Аут в воздухе',FC:'Выбор полевого',E:'Ошибка защиты'};
+const RES={'1B':'Сингл','2B':'Дабл','3B':'Трипл',HR:'Хоум-ран',BB:'Уок',K:'Страйк-аут',GO:'Аут по земле',FO:'Аут в воздухе',FC:'Выбор полевого',E:'Ошибка защиты',SAC:'Сакрифайс'};
 const BASE={1:'1-я',2:'2-я',3:'3-я',4:'дом'};
 const FALLBACK=[
  {id:'parviz-ismayilov',first_ru:'Пярвиз',last_ru:'Исмайлов',number:7,positions:['2B']},
@@ -183,7 +183,7 @@ const bat=g=>g.half%2?'B':'A', fld=g=>g.half%2?'A':'B';
 function lineupOf(k){return S.teams[k].lineup}
 function batterOf(g){const L=lineupOf(bat(g));return L.length?L[g.idx[bat(g)]%L.length]:null}
 function atPos(g,pos){return lineupOf(fld(g)).find(id=>S.pos[id]===pos)}
-function blank(id,team){return {player:id,team,pos:S.pos[id]||'EH',PA:0,AB:0,H:0,'1B':0,'2B':0,'3B':0,HR:0,BB:0,K:0,R:0,RBI:0,ROE:0,PO:0,FPO:0,KPO:0,PK:0,PBB:0,A:0,E:0}}
+function blank(id,team){return {player:id,team,pos:S.pos[id]||'EH',PA:0,AB:0,H:0,'1B':0,'2B':0,'3B':0,HR:0,BB:0,K:0,R:0,RBI:0,ROE:0,SAC:0,PO:0,FPO:0,KPO:0,PK:0,PBB:0,A:0,E:0}}
 function bx(g,id,team){if(!g.box[id])g.box[id]=blank(id,team);return g.box[id]}
 function replay(){
  const g={half:0,outs:0,bases:[null,null,null],idx:{A:0,B:0},runs:{A:0,B:0},line:{A:[0],B:[]},box:{},over:false,steps:[]};
@@ -219,7 +219,8 @@ function apply(g,e){
  const k=bat(g);
  switch(e.type){
   case 'pa':{
-   const b=bx(g,e.batter,k),r=e.result;b.PA++;if(r!=='BB')b.AB++;
+   const b=bx(g,e.batter,k),r=e.result;b.PA++;if(r!=='BB'&&r!=='SAC')b.AB++;if(r==='SAC')b.SAC=(b.SAC||0)+1; // сакрифайс: не AB, но идёт в знаменатель OBP
+  
    if(HITS[r]){b.H++;b[r]++}if(r==='BB'){b.BB++;const pp=atPos(g,'P');if(pp)bx(g,pp,fld(g)).PBB++}if(r==='E')b.ROE++;if(r==='K')b.K++;
    const fseq=e.fielders||[];
    if(r==='E'&&fseq[0]){const f=defAt(g,fseq[0]);if(f)bx(g,f,fld(g)).E++}
@@ -240,6 +241,7 @@ function forced(B){const f=[false,false,false];if(B[0]){f[0]=true;if(B[1]){f[1]=
 function defaults(g,r,batter){
  const B=g.bases,adv=[],n=HITS[r];
  if(n){for(let i=2;i>=0;i--)if(B[i])adv.push({id:B[i],from:i+1,to:Math.min(4,i+1+n)});adv.push({id:batter,from:0,to:n})}
+ else if(r==='SAC'){for(let i=2;i>=0;i--)if(B[i])adv.push({id:B[i],from:i+1,to:Math.min(4,i+2)});adv.push({id:batter,from:0,to:-1})} // бегуны на базу вперёд, бьющий аут
  else if(r==='BB'||r==='E'||r==='FC'){
   const f=forced(B);for(let i=2;i>=0;i--)if(B[i])adv.push({id:B[i],from:i+1,to:f[i]?i+2:i+1});
   if(r==='FC'){const a=adv.find(a=>a.from===1)||adv[adv.length-1];if(a){adv.forEach(x=>x.to=x.from);a.to=-1}}
@@ -277,10 +279,10 @@ function pa(r){
  const batter=batterOf(G);if(!batter)return;
  const e={type:'pa',t:Date.now(),batter,result:r,fielders:[],adv:defaults(G,r,batter)};
  const hasR=G.bases.some(Boolean);
- const next=()=>{if(hasR&&['1B','2B','3B','GO','FO','FC','E'].includes(r))runnersM(e);else commit(e)};
+ const next=()=>{if(hasR&&['1B','2B','3B','GO','FO','FC','E','SAC'].includes(r))runnersM(e);else commit(e)};
  if(r==='E')fieldM('E',s=>{e.fielders=s;next()});
  else if(r==='FO')fieldM('one',s=>{e.fielders=s;next()});
- else if(r==='GO'||r==='FC')fieldM('seq',s=>{e.fielders=s;next()});
+ else if(r==='GO'||r==='FC'||r==='SAC')fieldM('seq',s=>{e.fielders=s;next()});
  // хит: куда ушёл мяч (для карты ударов на сайте); можно пропустить
  else if(['1B','2B','3B','HR'].includes(r))fieldM('dir',s=>{if(s[0])e.dir=s[0];next()});
  else next();
@@ -395,7 +397,7 @@ function playsOf(g){
   const x={n:out.length+1,i:st.inning,h:st.top?'T':'B',b:e.batter||e.runner,o:st.outs>=3?3:st.outs,s:[st.score.A,st.score.B]};
   if(e.type==='pa'){x.r=e.result==='E'?'ROE':e.result;
    const f=(e.fielders||[]).map(p=>idOf(e,p,i)).filter(Boolean);
-   if(e.result==='E'){if(f.length)x.e=f}else if(f.length&&['GO','FO','FC'].includes(e.result))x.f=f;
+   if(e.result==='E'){if(f.length)x.e=f}else if(f.length&&['GO','FO','FC','SAC'].includes(e.result))x.f=f;
    const er=(e.errs||[]).map(p=>idOf(e,p,i)).filter(Boolean);if(er.length)x.e=(x.e||[]).concat(er);
    if(e.dir)x.d=e.dir;
    if(e.adv.filter(a=>a.to===-1).length>1)x.dp=1;}
@@ -520,7 +522,7 @@ function renderGame(){
   ${B('BB','walk','уок')}${B('K','out','страйк-аут')}${B('GO','out','аут по земле')}${B('FO','out','аут в воздухе')}
   ${B('FC','out','выбор пол.',noRun)}${B('E','walk','ошибка защ.')}
   <button class="r hit" onclick="hitErr()" ${g.over?'disabled':''}>Хит+E<small>хит и ошибка</small></button>
-  <button class="r sec star" onclick="mark()">★ Момент<small>для видео</small></button></div>
+  ${B('SAC','out','сакрифайс',noRun)}</div>
  <div class="sectit">Бегуны и иннинг</div><div class="grid">
   <button class="r sec" onclick="runnerAct('adv')" ${noRun||g.over?'disabled':''}>Продвиж.<small>без удара</small></button>
   <button class="r sec" onclick="runnerAct('runout')" ${noRun||g.over?'disabled':''}>Аут бегуна<small>на базе</small></button>

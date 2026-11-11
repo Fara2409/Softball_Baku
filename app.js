@@ -124,11 +124,11 @@ function applyPeriod(per){
   S.qual=Math.max(1,Math.ceil(S.games.filter(g=>g.stats&&inPer(g)).length*0.4));
   for(const p of Object.values(S.players)){
     p.log=p.logAll.filter(x=>inPer(x.game));
-    const t={G:0,PA:0,AB:0,H:0,'1B':0,'2B':0,'3B':0,HR:0,BB:0,K:0,R:0,RBI:0,ROE:0,PO:0,A:0,E:0,W:0,L:0}, pos={};
+    const t={G:0,PA:0,AB:0,H:0,'1B':0,'2B':0,'3B':0,HR:0,BB:0,K:0,R:0,RBI:0,ROE:0,SAC:0,PO:0,A:0,E:0,W:0,L:0}, pos={};
     for(const {game,b} of p.log){ t.G++; for(const k in t) if(k in b) t[k]+=b[k];
       if(game.winner===b.team) t.W++; else if(game.winner) t.L++; pos[b.pos]=(pos[b.pos]||0)+1; }
     const TB=t['1B']+2*t['2B']+3*t['3B']+4*t.HR;
-    t.AVG=t.H/t.AB; t.OBP=(t.H+t.BB+t.ROE)/(t.AB+t.BB+t.ROE); /* правило лиги (11.11.2026): ошибка добавляется и в числитель, и в знаменатель сверх AB */ t.SLG=TB/t.AB; t.OPS=t.OBP+t.SLG;
+    t.AVG=t.H/t.AB; t.OBP=(t.H+t.BB+t.ROE)/(t.AB+t.BB+t.ROE+t.SAC); /* правило лиги (11.11.2026): как в бейсболе (H+BB+HBP)/(AB+BB+HBP+SF), вместо HBP — ROE (ошибка добавляется и в числитель, и в знаменатель сверх AB); SAC — сакрифайс, не входит в AB */ t.SLG=TB/t.AB; t.OPS=t.OBP+t.SLG;
     t.OFF=t.G?p.log.reduce((s,x)=>s+x.b.rOff,0)/t.G:null; t.DEF=t.G?p.log.reduce((s,x)=>s+x.b.rDef,0)/t.G:null;
     t.RAT=t.G?Math.round(p.log.reduce((s,x)=>s+x.b.rating,0)/t.G*100)/100:null;
     t.qual=t.G>=S.qual; p.t=t;

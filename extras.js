@@ -91,7 +91,7 @@ function ballsOf(p){
     for(const x of g.plays){ if(x.b!==p.id) continue;
       let pos=null, kind=null;
       if(HITS.includes(x.r)){ kind='h'; pos=x.d||(x.f&&x.f[0]?posOf(g,x.f[0]):null); if(!pos){ hitsNoDir++; continue; } }
-      else if(['GO','FO','FC'].includes(x.r)&&x.f&&x.f[0]){ kind='o'; pos=posOf(g,x.f[0]); }
+      else if(['GO','FO','FC','SAC'].includes(x.r)&&x.f&&x.f[0]){ kind='o'; pos=posOf(g,x.f[0]); }
       else if(x.r==='ROE'&&x.e&&x.e[0]){ kind='e'; pos=posOf(g,x.e[0]); }
       if(pos&&XY[pos]) out.push({pos,kind,r:x.r});
     } }

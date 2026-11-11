@@ -18,7 +18,7 @@ Object.assign(I18N.ru,{
   hlTitle:'Моменты на видео',hlGame:'Моменты игры',
   shGame:'Итоги игры картинкой',shGameT:'Итоги игры',shFinal:'Итог игры',shBest:'Лучшие игроки',shBtn:'Поделиться карточкой',shTitle:'Карточка для WhatsApp',shShare:'Отправить',shDownload:'Скачать картинку',shClose:'Закрыть',shSeason:d=>`Сезон ${d.season} стартует ${d.start}`,
   pbT:'Протокол игры',pbAll:'Развернуть всё',pbNone:'Свернуть',pbTop:'верх',pbBot:'низ',pbInn:'иннинг',pbRuns:n=>`${n} ${n===1?'ран':n>=2&&n<=4?'рана':'ранов'}`,pbHits:n=>`${n} ${n===1?'хит':n>=2&&n<=4?'хита':'хитов'}`,pbScored:'забили',pbOut:'аут',pbOuts:'аута',pbDP:'двойной аут',pbErr:'ошибка',pbOutBases:'потом аут на базах',pbSelf:'сам',
-  pbR:{'1B':'сингл','2B':'дабл','3B':'трипл',HR:'хоум-ран',BB:'уок',K:'страйк-аут',GO:'аут по земле',FO:'аут в воздухе',FC:'выбор полевого',RUN:'аут бегуна',ADV:'продвижение бегуна',ROE:'на базе по ошибке',E:'на базе по ошибке'},
+  pbR:{'1B':'сингл','2B':'дабл','3B':'трипл',HR:'хоум-ран',BB:'уок',K:'страйк-аут',GO:'аут по земле',FO:'аут в воздухе',SAC:'сакрифайс',FC:'выбор полевого',RUN:'аут бегуна',ADV:'продвижение бегуна',ROE:'на базе по ошибке',E:'на базе по ошибке'},
   hlPrev:'Предыдущий',hlNext:'Следующий',hlOpen:'Открыть на YouTube',
   hlTypes:{HR:'Хоум-ран','3B':'Трипл','2B':'Дабл','1B':'Сингл',K:'Страйк-аут',catch:'Поймал флай',DP:'Дабл-плей',SB:'Кража базы',play:'Момент'},
   awMVP:'MVP сезона',awMVPd:'лучший средний рейтинг',awBat:'Лучший отбивающий',awBatd:'самый высокий OPS',awHR:'Король хоум-ранов',awHRd:'больше всего HR',awRBI:'Король RBI',awRBId:'больше всего RBI',
@@ -40,7 +40,7 @@ Object.assign(I18N.az,{
   hlTitle:'Videoda anlar',hlGame:'Oyunun anları',
   shGame:'Oyunun yekunu şəkil kimi',shGameT:'Oyunun yekunu',shFinal:'Oyunun yekunu',shBest:'Ən yaxşı oyunçular',shBtn:'Kartı paylaş',shTitle:'WhatsApp üçün kart',shShare:'Göndər',shDownload:'Şəkli yüklə',shClose:'Bağla',shSeason:d=>`${d.season} mövsümü ${d.start} başlayır`,
   pbT:'Oyunun protokolu',pbAll:'Hamısını aç',pbNone:'Bağla',pbTop:'yuxarı',pbBot:'aşağı',pbInn:'inninq',pbRuns:n=>`${n} ran`,pbHits:n=>`${n} hit`,pbScored:'evə gəldi',pbOut:'aut',pbOuts:'aut',pbDP:'ikiqat aut',pbErr:'səhv',pbOutBases:'sonra bazalarda aut',pbSelf:'özü',
-  pbR:{'1B':'sinql','2B':'dabl','3B':'tripl',HR:'homeran',BB:'uok',K:'strayk-aut',GO:'yerdən aut',FO:'havadan aut',FC:'müdafiəçinin seçimi',RUN:'qaçışçı aut',ADV:'qaçışçı irəlilədi',ROE:'səhvlə bazada',E:'səhvlə bazada'},
+  pbR:{'1B':'sinql','2B':'dabl','3B':'tripl',HR:'homeran',BB:'uok',K:'strayk-aut',GO:'yerdən aut',FO:'havadan aut',SAC:'sakrifays',FC:'müdafiəçinin seçimi',RUN:'qaçışçı aut',ADV:'qaçışçı irəlilədi',ROE:'səhvlə bazada',E:'səhvlə bazada'},
   hlPrev:'Əvvəlki',hlNext:'Növbəti',hlOpen:'YouTube-da aç',
   hlTypes:{HR:'Homeran','3B':'Tripl','2B':'Dabl','1B':'Sinql',K:'Strayk-aut',catch:'Flayı tutdu',DP:'Dabl-pley',SB:'Baza oğurluğu',play:'An'},
   awMVP:'Mövsümün MVP-si',awMVPd:'ən yüksək orta reytinq',awBat:'Ən yaxşı vuran',awBatd:'ən yüksək OPS',awHR:'Homeran kralı',awHRd:'ən çox HR',awRBI:'RBI kralı',awRBId:'ən çox RBI',
@@ -62,7 +62,7 @@ Object.assign(I18N.en,{
   hlTitle:'Video moments',hlGame:'Game moments',
   shGame:'Game recap image',shGameT:'Game recap',shFinal:'Final',shBest:'Top players',shBtn:'Share card',shTitle:'Card for WhatsApp',shShare:'Share',shDownload:'Download image',shClose:'Close',shSeason:d=>`Season ${d.season} starts ${d.start}`,
   pbT:'Play-by-play',pbAll:'Expand all',pbNone:'Collapse',pbTop:'top',pbBot:'bottom',pbInn:'inning',pbRuns:n=>`${n} run${n===1?'':'s'}`,pbHits:n=>`${n} hit${n===1?'':'s'}`,pbScored:'scored',pbOut:'out',pbOuts:'outs',pbDP:'double play',pbErr:'error',pbOutBases:'then out on the bases',pbSelf:'unassisted',
-  pbR:{'1B':'single','2B':'double','3B':'triple',HR:'home run',BB:'walk',K:'strikeout',GO:'groundout',FO:'flyout',FC:'fielder\'s choice',RUN:'runner out',ADV:'runner advanced',ROE:'reached on error',E:'reached on error'},
+  pbR:{'1B':'single','2B':'double','3B':'triple',HR:'home run',BB:'walk',K:'strikeout',GO:'groundout',FO:'flyout',SAC:'sacrifice',FC:'fielder\'s choice',RUN:'runner out',ADV:'runner advanced',ROE:'reached on error',E:'reached on error'},
   hlPrev:'Previous',hlNext:'Next',hlOpen:'Open on YouTube',
   hlTypes:{HR:'Home run','3B':'Triple','2B':'Double','1B':'Single',K:'Strikeout',catch:'Fly catch',DP:'Double play',SB:'Stolen base',play:'Moment'},
   awMVP:'Season MVP',awMVPd:'best average rating',awBat:'Best hitter',awBatd:'highest OPS',awHR:'Home run king',awHRd:'most HR',awRBI:'RBI king',awRBId:'most RBI',
@@ -572,7 +572,7 @@ window.gamePlays=function(g){
     const runs=hf.list.reduce((s,x)=>s+(x.sc?x.sc.length:0),0), hits=hf.list.filter(x=>['1B','2B','3B','HR'].includes(x.r)).length;
     h+=`<details class="pb-half"><summary><i style="background:${col}"></i><b>${hf.i} ${T('pbInn')} · ${hf.h==='T'?T('pbTop'):T('pbBot')}</b><span class="pb-tm">${esc(g.teams[team].name)}</span><span class="pb-sum">${T('pbRuns')(runs)} · ${T('pbHits')(hits)}</span></summary>`;
     for(const x of hf.list){
-      const hit=['1B','2B','3B','HR'].includes(x.r), bad=['GO','FO','K','FC','RUN'].includes(x.r);
+      const hit=['1B','2B','3B','HR'].includes(x.r), bad=['GO','FO','K','FC','RUN','SAC'].includes(x.r);
       let d=`<b>${nm(x.b)}</b> — <span class="pb-r ${hit?'hit':bad?'out':'on'}">${R[x.r]||x.r}</span>`;
       if(x.f&&x.f.length) d+=` <span class="muted">(${x.f.length===1&&x.r!=='1B'?`${nm(x.f[0])}, ${T('pbSelf')}`:x.f.map(nm).join(' → ')})</span>`;
       if(x.note==='out') d+=` · ${T('pbOutBases')}`;
