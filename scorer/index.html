@@ -98,6 +98,14 @@ h2{font-size:17px;margin:18px 0 8px}h3{margin:0 0 12px;font-size:17px}
 .pool .p.first{border-top:0}
 .pool .p .nm{flex:1}
 .pool .p button{min-width:52px;font-weight:700}
+.dh{touch-action:none;cursor:grab;padding:8px 6px 8px 2px;color:var(--mut);font-size:20px;line-height:1;flex:none;user-select:none;-webkit-user-select:none}
+.dl{min-height:44px;border-radius:10px;transition:background .15s}
+.dl.dover{background:rgba(255,176,32,.07);outline:2px dashed rgba(255,176,32,.55);outline-offset:3px}
+.dmark{height:3px;background:var(--acc);border-radius:2px;margin:1px 0}
+.ghost{position:fixed;z-index:50;pointer-events:none;display:flex;align-items:center;gap:8px;background:var(--card2);border:1px solid var(--acc);border-radius:12px;padding:6px 10px;box-shadow:0 10px 30px rgba(0,0,0,.55);opacity:.96}
+.ghost button,.ghost select{display:none}
+.dragging{opacity:.3}
+body.dragmode{cursor:grabbing}
 .pf{display:flex;flex-wrap:wrap;gap:6px;padding:2px 0 8px}
 .pf button{flex:none;padding:7px 12px;border-radius:999px;font-size:13px;font-weight:600}
 .pf button i{font-style:normal;color:var(--mut);font-weight:400;margin-left:4px}
@@ -471,10 +479,17 @@ $('#imp').addEventListener('change',async ev=>{
 
 /* ===== экран состава ===== */
 function setT(k,f,v){S.teams[k][f]=v;save()}
-function addP(k,id){const L=S.teams[k].lineup;L.push(id);
- const taken=new Set(L.map(x=>S.pos[x]).filter(Boolean)),pref=(P[id]?.positions||[]).find(p=>!taken.has(p));
- if(!S.pos[id]||taken.has(S.pos[id])&&L.filter(x=>S.pos[x]===S.pos[id]).length>1)S.pos[id]=pref||POS.find(p=>!taken.has(p))||'EH';
+// позиция игрока, попавшего в команду: оставляем его, если свободна, иначе его любимую свободную
+function fixPos(k,id){const taken=new Set(S.teams[k].lineup.filter(x=>x!==id).map(x=>S.pos[x]).filter(p=>p&&p!=='EH'));
+ if(S.pos[id]&&(S.pos[id]==='EH'||!taken.has(S.pos[id])))return;
+ S.pos[id]=(P[id]?.positions||[]).find(p=>!taken.has(p))||POS.find(p=>p!=='EH'&&!taken.has(p))||'EH'}
+// переставить игрока: k = 'A' | 'B' | 'pool', idx = место в порядке отбивания
+function placeP(id,k,idx){
+ const from=['A','B'].find(t=>S.teams[t].lineup.includes(id));
+ for(const t of ['A','B']){const L=S.teams[t].lineup,j=L.indexOf(id);if(j>=0)L.splice(j,1)}
+ if(k!=='pool'){const L=S.teams[k].lineup;L.splice(Math.min(idx,L.length),0,id);if(from!==k)fixPos(k,id)}
  save();render()}
+function addP(k,id){placeP(id,k,1e9)}
 function rmP(k,i){S.teams[k].lineup.splice(i,1);save();render()}
 function upP(k,i){if(!i)return;const L=S.teams[k].lineup;[L[i-1],L[i]]=[L[i],L[i-1]];save();render()}
 function setPos(id,v){S.pos[id]=v;save()}
@@ -490,9 +505,9 @@ function renderSetup(){
  <div class="row"><label class="small muted">Дата<input type="date" value="${S.id}" onchange="S.id=this.value;save()"></label>
  <label class="small muted">Место<input value="${esc(S.venue)}" onchange="S.venue=this.value;save()"></label></div>`;
  for(const k of ['A','B']){const T=S.teams[k];
-  h+=`<h2>${k==='A'?'▲ Бьют первыми':'▼ Бьют вторыми'}</h2><div class="card"><div class="th"><input value="${esc(T.name)}" onchange="setT('${k}','name',this.value)"><input type="color" value="${T.color}" onchange="setT('${k}','color',this.value)"></div>`;
-  if(!T.lineup.length)h+=`<p class="muted small">Добавьте игроков ниже, в порядке отбивания</p>`;
-  T.lineup.forEach((id,i)=>{h+=`<div class="lrow"><span class="o">${i+1}</span><span class="nm">${esc(nameN(id))}</span>
+  h+=`<h2>${k==='A'?'▲ Бьют первыми':'▼ Бьют вторыми'}</h2><div class="card dl" data-k="${k}"><div class="th"><input value="${esc(T.name)}" onchange="setT('${k}','name',this.value)"><input type="color" value="${T.color}" onchange="setT('${k}','color',this.value)"></div>`;
+  if(!T.lineup.length)h+=`<p class="muted small" style="margin:12px 0">Перетащите сюда игроков или нажмите ${k==='A'?'▲':'▼'} в списке ниже</p>`;
+  T.lineup.forEach((id,i)=>{h+=`<div class="lrow" data-id="${id}"><span class="dh" aria-label="Перетащить">⠿</span><span class="o">${i+1}</span><span class="nm">${esc(nameN(id))}</span>
    <select onchange="setPos('${id}',this.value)">${POS.map(p=>`<option ${S.pos[id]===p?'selected':''}>${p}</option>`).join('')}</select>
    <button onclick="upP('${k}',${i})" ${i?'':'disabled'}>↑</button><button class="danger" onclick="rmP('${k}',${i})">✕</button></div>`});
   h+=`</div>`;
@@ -500,18 +515,49 @@ function renderSetup(){
  const free=ids.filter(id=>!used.has(id));
  const cnt={};free.forEach(id=>(P[id].positions||[]).forEach(x=>cnt[x]=(cnt[x]||0)+1));
  if(PF&&!cnt[PF])PF='';
- if(free.length){h+=`<h2>Игроки</h2><div class="pf"><button data-p="" onclick="PF='';poolFilter()">Все<i>${free.length}</i></button>`+
+ {h+=`<h2>Игроки</h2><div class="pf"><button data-p="" onclick="PF='';poolFilter()">Все<i>${free.length}</i></button>`+
   POS.filter(x=>cnt[x]).map(x=>`<button data-p="${x}" onclick="PF=PF==='${x}'?'':'${x}';poolFilter()">${x}<i>${cnt[x]}</i></button>`).join('')+`</div>
   <input class="ps" type="search" placeholder="Поиск: имя или номер" value="${esc(PQ)}" oninput="PQ=this.value.trim().toLowerCase();poolFilter()">
-  <div class="card pool">`+free.map(id=>{const p=P[id],q=[p.number,p.first,p.last,p.first_ru,p.last_ru,p.first_az,p.last_az].filter(Boolean).join(' ').toLowerCase();
-  return `<div class="p" data-pos="${esc((p.positions||[]).join(' '))}" data-q="${esc(q)}"><span class="nm">${esc(nameN(id))}${(p.positions||[]).length?`<span class="pt">${esc(p.positions.join('/'))}</span>`:''}</span>
-  <button style="border-color:${S.teams.A.color}" onclick="addP('A','${id}')">▲</button><button style="border-color:${S.teams.B.color}" onclick="addP('B','${id}')">▼</button></div>`}).join('')+`<div class="pempty muted small">Никого не найдено</div></div>`}
- h+=`<p class="muted small">Новых игроков сначала добавьте в data/players.json на сайте. EH — только отбивает.</p>
+  <div class="card pool dl" data-k="pool">${free.length?'':'<p class="muted small" style="margin:10px 0">Все игроки распределены. Перетащите игрока сюда, чтобы убрать из команды</p>'}`+free.map(id=>{const p=P[id],q=[p.number,p.first,p.last,p.first_ru,p.last_ru,p.first_az,p.last_az].filter(Boolean).join(' ').toLowerCase();
+  return `<div class="p" data-id="${id}" data-pos="${esc((p.positions||[]).join(' '))}" data-q="${esc(q)}"><span class="dh" aria-label="Перетащить">⠿</span><span class="nm">${esc(nameN(id))}${(p.positions||[]).length?`<span class="pt">${esc(p.positions.join('/'))}</span>`:''}</span>
+  <button style="border-color:${S.teams.A.color}" onclick="addP('A','${id}')">▲</button><button style="border-color:${S.teams.B.color}" onclick="addP('B','${id}')">▼</button></div>`}).join('')+`<div class="pempty muted small">${free.length?'Никого не найдено':''}</div></div>`}
+ h+=`<p class="muted small">⠿ — потяните, чтобы поменять порядок отбивания или перенести игрока в другую команду. Новых игроков сначала добавьте в data/players.json на сайте. EH — только отбивает.</p>
  <button class="pri" style="width:100%;padding:16px;font-size:17px" onclick="start()">${S.events.length?'Продолжить игру':'Начать игру'}</button>
  ${S.events.length?'':'<button style="width:100%;margin-top:10px" onclick="$(\'#imp\').click()">Загрузить резервную копию</button>'}</div>`;
  $('#app').innerHTML=h;poolFilter();
 }
 let PF='',PQ='';
+/* ===== перетаскивание игроков (палец и мышь) ===== */
+let DG=null;
+function dgStart(ev){
+ const hd=ev.target.closest&&ev.target.closest('.dh');if(!hd||S.started)return;
+ const row=hd.closest('[data-id]');if(!row)return;ev.preventDefault();
+ const r=row.getBoundingClientRect(),gh=row.cloneNode(true);
+ gh.classList.add('ghost');gh.style.left=r.left+'px';gh.style.top=r.top+'px';gh.style.width=r.width+'px';
+ document.body.appendChild(gh);row.classList.add('dragging');document.body.classList.add('dragmode');
+ try{hd.setPointerCapture(ev.pointerId)}catch(e){}
+ DG={id:row.dataset.id,row,gh,dy:ev.clientY-r.top,x:ev.clientX,y:ev.clientY,tgt:null,idx:0};
+ DG.timer=setInterval(()=>{if(!DG)return;const m=70;if(DG.y<m)scrollBy(0,-14);else if(DG.y>innerHeight-m)scrollBy(0,14);dgOver()},30);
+ dgOver();
+}
+function dgMove(ev){if(!DG)return;ev.preventDefault();DG.x=ev.clientX;DG.y=ev.clientY;DG.gh.style.top=(ev.clientY-DG.dy)+'px';dgOver()}
+function dgOver(){
+ const el=document.elementFromPoint(Math.min(Math.max(DG.x,1),innerWidth-2),DG.y),list=el&&el.closest('.dl');
+ document.querySelectorAll('.dl').forEach(l=>l.classList.toggle('dover',l===list));
+ document.querySelectorAll('.dmark').forEach(m=>m.remove());
+ DG.tgt=list?list.dataset.k:null;if(!list||DG.tgt==='pool')return;
+ const rows=[...list.querySelectorAll('.lrow')].filter(x=>x!==DG.row);
+ let i=rows.findIndex(x=>{const b=x.getBoundingClientRect();return DG.y<b.top+b.height/2});if(i<0)i=rows.length;DG.idx=i;
+ const mk=document.createElement('div');mk.className='dmark';if(rows[i])rows[i].before(mk);else if(rows.length)rows[rows.length-1].after(mk);else list.appendChild(mk);
+}
+function dgEnd(){
+ if(!DG)return;const d=DG;DG=null;clearInterval(d.timer);d.gh.remove();d.row.classList.remove('dragging');document.body.classList.remove('dragmode');
+ document.querySelectorAll('.dmark').forEach(m=>m.remove());document.querySelectorAll('.dl.dover').forEach(l=>l.classList.remove('dover'));
+ if(d.tgt)placeP(d.id,d.tgt,d.idx);
+}
+document.addEventListener('pointerdown',dgStart);
+document.addEventListener('pointermove',dgMove,{passive:false});
+document.addEventListener('pointerup',dgEnd);document.addEventListener('pointercancel',dgEnd);
 function poolFilter(){
  let n=0;document.querySelectorAll('.pool .p').forEach(el=>{const ok=(!PF||el.dataset.pos.split(' ').includes(PF))&&(!PQ||el.dataset.q.includes(PQ));el.style.display=ok?'':'none';el.classList.toggle('first',ok&&!n);if(ok)n++});
  document.querySelectorAll('.pf button').forEach(b=>b.classList.toggle('on',b.dataset.p===PF));
