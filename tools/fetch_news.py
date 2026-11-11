@@ -8,6 +8,7 @@ import xml.etree.ElementTree as ET
 FEEDS = [
     ("MLB", "https://www.mlb.com/feeds/news/rss.xml"),
     ("ESPN", "https://www.espn.com/espn/rss/mlb/news"),
+    ("CBS", "https://www.cbssports.com/rss/headlines/mlb/"),
 ]
 MAX_ITEMS = 12
 OUT = "data/news.json"
@@ -54,10 +55,13 @@ def when(it):
     return d.astimezone(dt.timezone.utc)
 
 def fetch(source, url):
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/rss+xml, application/xml;q=0.9, */*;q=0.8"})
     with urllib.request.urlopen(req, timeout=30) as r:
         data = r.read()
     root = ET.fromstring(data)
+    first = next(root.iter("item"), None)
+    if first is not None:  # для отладки: какие поля есть у новости (картинка и т.п.)
+        print(source, "item tags:", [c.tag for c in first], file=sys.stderr)
     out = []
     for it in root.iter("item"):
         title, link = clean(text(it.find("title"))), text(it.find("link"))
