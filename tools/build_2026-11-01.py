@@ -17,8 +17,8 @@ plays={
  11:e('ROE',err=[I]),12:e('K',pk=AN),13:e('FC',a=[AN],po=[PA_]),14:e('OUT',a=[AN],po=[M]),
  # 2 TOP
  15:e('ROE',err=[MO]),16:e('OUT',po=[MO],fpo=MO),17:e('OUT',po=[MO],fpo=MO),18:e('OUT',po=[FK],fpo=FK),
- # 2 BOTTOM
- 19:e('ROE',err=[V]),20:e('1B',err=[I]),21:e('OUT',po=[V],fpo=V),22:e('K',pk=AN),23:e('OUT',a=[V],po=[PA_]),
+ # 2 BOTTOM (#20 Молчанов: 11.11.2026 не хит, а ошибка Ильгара — ROE, правка пользователя)
+ 19:e('ROE',err=[V]),20:e('ROE',err=[I]),21:e('OUT',po=[V],fpo=V),22:e('K',pk=AN),23:e('OUT',a=[V],po=[PA_]),
  # 3 TOP (3B Рашид, Фахри RF)
  24:e('1B'),25:e('OUT',po=[HK]),26:e('OUT',po=[AL],fpo=AL),27:e('1B'),28:e('1B',runs=[F],rbi=1),29:e('2B',runs=[I],rbi=1),
  30:e('1B',err=[HK],runs=[AN,V],rbi=1),31:e('2B',err=[EM],runs=[RA],rbi=1),32:e('OUT',a=[RM],po=[HK]),
