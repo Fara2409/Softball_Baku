@@ -15,7 +15,7 @@ const PL_RU={'1B':'Сингл','2B':'Дабл','3B':'Трипл',HR:'Хоум-р
 const PL_AZ={'1B':'Sinql','2B':'Dabl','3B':'Tripl',HR:'Homeran',BB:'Uok',K:'Strayk-aut',GO:'Yerdən aut',FO:'Havada aut',FC:'Müdafiəçinin seçimi',E:'Müdafiə səhvi',SB:'Baza oğurluğu',ADV:'İrəliləmə',RO:'Qaçışçı autu',EH:'Yarım innin bitdi',END:'Oyun bitdi'};
 const PL_EN={'1B':'Single','2B':'Double','3B':'Triple',HR:'Home run',BB:'Walk',K:'Strikeout',GO:'Groundout',FO:'Flyout',FC:"Fielder's choice",E:'Error',SB:'Stolen base',ADV:'Advance',RO:'Runner out',EH:'Half-inning ended',END:'Game over'};
 Object.assign(I18N.ru,{
-  cLogin:'Войти',cSignup:'Регистрация',cGuest:'Продолжить как гость',cWelcome:'Добро пожаловать!',
+  cGoogle:'Войти через Google',cOr:'или по почте',cGoogleErr:'Не получилось войти через Google. Попробуйте ещё раз.',cGooglePick:'Добро пожаловать! Выберите себя из состава, чтобы отмечаться на игры.',cLogin:'Войти',cSignup:'Регистрация',cGuest:'Продолжить как гость',cWelcome:'Добро пожаловать!',
   cWelcomeTxt:'Смотреть сайт можно без регистрации. С аккаунтом можно писать комментарии, а игроки отмечают, придут ли на игру.',
   cName:'Ваше имя',cEmail:'Эл. почта',cPass:'Пароль',cPass2:'Повторите пароль',cErrMismatch:'Пароли не совпадают',cPassHint:'минимум 6 символов',cIAm:'Вы играете в команде?',cFan:'— Нет, я болельщик —',
   cIAmHint:'Когда админ подтвердит, сможете отмечать «буду / не буду».',cForgot:'Забыли пароль?',
@@ -46,7 +46,7 @@ Object.assign(I18N.ru,{
   cOffline:'Онлайн-функции сейчас недоступны',cOldBrowser:'На этом устройстве вход не работает: браузер слишком старый для онлайн-функций (вход, «буду / не буду», онлайн-счёт). Статистику, игры и рейтинг можно смотреть как обычно. Войти можно с телефона или компьютера с более новой системой.',cTeamsOnly:'Деление на команды — только для игроков',cTeamsOnlyTxt:'Войдите под аккаунтом игрока. Если вы в команде, но ещё не подтверждены, отправьте заявку в профиле.',cPendingN:n=>`Новых заявок: ${n}`,cNow:'сейчас'
 });
 Object.assign(I18N.az,{
-  cLogin:'Daxil ol',cSignup:'Qeydiyyat',cGuest:'Qonaq kimi davam et',cWelcome:'Xoş gəlmisiniz!',
+  cGoogle:'Google ilə daxil ol',cOr:'və ya e-poçtla',cGoogleErr:'Google ilə daxil olmaq alınmadı. Yenidən cəhd edin.',cGooglePick:'Xoş gəlmisiniz! Oyunlara qeyd olunmaq üçün heyətdən özünüzü seçin.',cLogin:'Daxil ol',cSignup:'Qeydiyyat',cGuest:'Qonaq kimi davam et',cWelcome:'Xoş gəlmisiniz!',
   cWelcomeTxt:'Saytı izləmək üçün qeydiyyat lazım deyil. Hesabla şərh yaza bilərsiniz, oyunçular isə oyuna gəlib-gəlməyəcəklərini qeyd edir.',
   cName:'Adınız',cEmail:'E-poçt',cPass:'Şifrə',cPass2:'Şifrəni təkrarlayın',cErrMismatch:'Şifrələr eyni deyil',cPassHint:'ən azı 6 simvol',cIAm:'Komandada oynayırsınız?',cFan:'— Xeyr, mən azarkeşəm —',
   cIAmHint:'Admin təsdiq edəndən sonra «gələcəyəm / gəlməyəcəyəm» qeyd edə biləcəksiniz.',cForgot:'Şifrəni unutmusunuz?',
@@ -77,7 +77,7 @@ Object.assign(I18N.az,{
   cOffline:'Onlayn funksiyalar hazırda əlçatan deyil',cOldBrowser:'Bu cihazda giriş işləmir: brauzer onlayn funksiyalar (giriş, «gələcəyəm / gəlməyəcəyəm», canlı hesab) üçün çox köhnədir. Statistikaya, oyunlara və reytinqə adi qaydada baxmaq olar. Daha yeni sistemli telefondan və ya kompüterdən daxil ola bilərsiniz.',cTeamsOnly:'Komandalara bölmə yalnız oyunçular üçündür',cTeamsOnlyTxt:'Oyunçu hesabı ilə daxil olun. Komandadasınızsa, amma hələ təsdiqlənməmisinizsə, profildə sorğu göndərin.',cPendingN:n=>`Yeni sorğular: ${n}`,cNow:'indi'
 });
 Object.assign(I18N.en,{
-  cLogin:'Log in',cSignup:'Sign up',cGuest:'Continue as guest',cWelcome:'Welcome!',
+  cGoogle:'Continue with Google',cOr:'or with email',cGoogleErr:'Could not sign in with Google. Please try again.',cGooglePick:'Welcome! Pick yourself from the roster to reply to games.',cLogin:'Log in',cSignup:'Sign up',cGuest:'Continue as guest',cWelcome:'Welcome!',
   cWelcomeTxt:'You can browse without an account. With one you can comment, and players mark whether they are coming to games.',
   cName:'Your name',cEmail:'Email',cPass:'Password',cPass2:'Repeat password',cErrMismatch:"Passwords don't match",cPassHint:'at least 6 characters',cIAm:'Do you play on the team?',cFan:"— No, I'm a fan —",
   cIAmHint:"Once the admin confirms, you can mark whether you're coming.",cForgot:'Forgot password?',
@@ -273,16 +273,18 @@ function auth(mode){
   if(!C.ok){ toast(C.failed?T('cOffline'):'…'); return; }
   const tabs=`<div class="cl-tabs"><button class="${mode==='login'?'on':''}" onclick="CL.auth('login')">${T('cLogin')}</button><button class="${mode==='signup'?'on':''}" onclick="CL.auth('signup')">${T('cSignup')}</button></div>`;
   const guest=`<button class="cl-guest" onclick="CL.close()">${T('cGuest')} →</button>`;
+  const gBtn=`<button type="button" class="btn g-btn" onclick="CL.google()"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>${T('cGoogle')}</button>`;
+  const gOr=`${gBtn}<div class="cl-or"><span>${T('cOr')}</span></div>`;
   let h;
   if(mode==='welcome'){
     h=`<div class="cl-hello"><div class="cl-logo"><span class="brand-mark">${ballSVG()}</span><span class="brand-text">SOFTBALL <b>BAKU</b></span></div>
       <h2>${T('cWelcome')}</h2><p>${T('cWelcomeTxt')}</p></div>
-      <div class="cl-btns"><button class="btn pri" onclick="CL.auth('login')">${T('cLogin')}</button><button class="btn" onclick="CL.auth('signup')">${T('cSignup')}</button></div>${guest}`;
+      ${gBtn}<div class="cl-btns"><button class="btn pri" onclick="CL.auth('login')">${T('cLogin')}</button><button class="btn" onclick="CL.auth('signup')">${T('cSignup')}</button></div>${guest}`;
   } else if(mode==='forgot'){
     h=sheetHead(T('cForgot'))+`<p class="cl-p">${T('cForgotTxt')}</p>${S.links&&S.links.whatsapp?`<a class="btn wa" href="${esc(S.links.whatsapp)}" target="_blank" rel="noopener">WhatsApp</a>`:''}
       <button class="cl-guest" onclick="CL.auth('login')">← ${T('cBack')}</button>`;
   } else if(mode==='signup'){
-    h=sheetHead(T('cSignup'))+tabs+`<form class="cl-form" onsubmit="return CL.doSignup(event)" novalidate>
+    h=sheetHead(T('cSignup'))+tabs+gOr+`<form class="cl-form" onsubmit="return CL.doSignup(event)" novalidate>
       <label>${T('cName')}<input name="name" autocomplete="name" maxlength="40" required></label>
       <label>${T('cEmail')}<input name="email" type="email" autocomplete="email" inputmode="email" required></label>
       <label><span>${T('cPass')} <span class="muted">· ${T('cPassHint')}</span></span><input name="pass" type="password" autocomplete="new-password" minlength="6" required></label>
@@ -290,7 +292,7 @@ function auth(mode){
       <label>${T('cIAm')}<select name="player">${playerOptions('')}</select><span class="cl-hint">${T('cIAmHint')}</span></label>
       <div class="cl-err" id="cl-err"></div><button class="btn pri big" type="submit">${T('cSignup')}</button></form>${guest}`;
   } else {
-    h=sheetHead(T('cLogin'))+tabs+`<form class="cl-form" onsubmit="return CL.doLogin(event)" novalidate>
+    h=sheetHead(T('cLogin'))+tabs+gOr+`<form class="cl-form" onsubmit="return CL.doLogin(event)" novalidate>
       <label>${T('cEmail')}<input name="email" type="email" autocomplete="email" inputmode="email" required></label>
       <label>${T('cPass')}<input name="pass" type="password" autocomplete="current-password" required></label>
       <div class="cl-err" id="cl-err"></div><button class="btn pri big" type="submit">${T('cLogin')}</button>
@@ -312,6 +314,32 @@ async function doLogin(ev){
     toast(T('cHello')(shortName(C.profile)));
   }catch(e){ formErr(errText(e)); }
   formBusy(f,false); return false;
+}
+// вход через Google (OAuth, PKCE): уходим на Google, возвращаемся на SITE?code=… — код меняем на сессию в init()
+async function google(){
+  if(!C.ok){ toast(C.failed?T('cOffline'):'…'); return; }
+  lsSet('sb.ret',location.hash||'#rating');
+  try{
+    const {error}=await C.sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+location.pathname}});
+    if(error) throw error;
+  }catch(e){ console.warn('[club]',e); toast(T('cGoogleErr')); }
+}
+async function finishOAuth(){
+  const q=new URLSearchParams(location.search), code=q.get('code'), err=q.get('error');
+  if(!code&&!err) return false;
+  C.welcomed=true; closeModal();
+  const ret=lsGet('sb.ret','')||location.hash||'#rating'; lsSet('sb.ret','');
+  try{ history.replaceState(null,'',location.pathname+ret); }catch(e){}
+  if(err){ toast(T('cGoogleErr')); rerender(); return true; }
+  try{
+    const {data,error}=await C.sb.auth.exchangeCodeForSession(code);
+    if(error) throw error;
+    await onSession(data.session,true);
+    const pr=C.profile||{}, fresh=C.user&&C.user.created_at&&Date.now()-new Date(C.user.created_at).getTime()<10*60e3;
+    if(fresh&&!pr.player_id&&!pr.requested_player_id){ toast(T('cGooglePick')); location.hash='#me'; }
+    else toast(T('cHello')(shortName(pr)));
+  }catch(e){ console.warn('[club]',e); toast(T('cGoogleErr')); rerender(); }
+  return true;
 }
 async function doSignup(ev){
   ev.preventDefault(); const f=ev.target, name=f.name.value.trim(), email=f.email.value.trim(), pass=f.pass.value, pid=f.player.value;
@@ -715,7 +743,7 @@ async function delLive(){
 const NAV={n:-1}; window.addEventListener('hashchange',()=>{ NAV.n++; }); NAV.n=0;
 
 /* ---------- Подключение к сайту ---------- */
-window.CL={back:fb=>{ if(NAV.n>0) history.back(); else location.hash=fb; },oldBrowser:()=>openModal(sheetHead(T('cLogin'))+`<p class="cl-p">${T('cOldBrowser')}</p>`),redraw:()=>drawWidgets(),events:()=>C.events||[],isAdmin,canDecide:()=>C.ready&&canRsvp(),auth,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,rsvp,toTeams,sendComment,delComment,saveName,request,changePass,
+window.CL={back:fb=>{ if(NAV.n>0) history.back(); else location.hash=fb; },oldBrowser:()=>openModal(sheetHead(T('cLogin'))+`<p class="cl-p">${T('cOldBrowser')}</p>`),redraw:()=>drawWidgets(),events:()=>C.events||[],isAdmin,canDecide:()=>C.ready&&canRsvp(),auth,google,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,rsvp,toTeams,sendComment,delComment,saveName,request,changePass,
   approve,reject,setRole,setPlayer,resetPass,copy,addEvent,evStatus,delEvent,endLive,delLive};
 const TEAMS_PAGE=(window.FEATURE_ROUTES||{}).teams||(()=>home());
 Object.assign(window.FEATURE_ROUTES=window.FEATURE_ROUTES||{},{live:livePage,me:mePage,admin:adminPage,teams:teamsGate});
@@ -731,7 +759,7 @@ const SDK_SRC=[`https://cdn.jsdelivr.net/npm/${SDK_NEW}`,`https://cdn.jsdelivr.n
 function makeClient(){
   try{
     if(!(window.supabase&&typeof window.supabase.createClient==='function')) return false;
-    const sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+    const sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,flowType:'pkce'}});
     if(!sb||typeof sb.from!=='function'||!sb.auth) return false;
     C.sb=sb; return true;
   }catch(e){ console.warn('[club]',e); return false; }
@@ -750,6 +778,7 @@ function loadSdk(){
 function init(){
   C.ok=true;
   rerender();
+  finishOAuth();
   C.sb.auth.onAuthStateChange((ev,session)=>{ setTimeout(()=>onSession(session,false),0); });
   loadLive(); subscribe();
   setInterval(()=>{ if(document.visibilityState!=='visible') return;
