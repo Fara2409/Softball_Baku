@@ -33,9 +33,9 @@ Object.assign(I18N.en,{
   fdStreak:(n,k)=>`${n} — hits in ${k} straight games`,fdBig:(n,r)=>`${n} played to a ${r}`,
   fdRecH:(n,k)=>`New record: ${n} — ${k} hits in a game`,fdRecRBI:(n,k)=>`New record: ${n} — ${k} RBI in a game`,
   fdDebut:n=>`${n} played his first game`,fdPerfect:(n,h,ab)=>`${n} — ${h} for ${ab}, never out at the plate`,
-  spTitle:'Spray chart',spGround:'on the ground',spFly:'in the air',spLine:'line drive',spReplay:'Replay',spHint:'where the player sends the ball',spHit:'hit',spOut:'out',spErr:'error',
-  spLeft:'left',spCenter:'center',spRight:'right',spBalls:n=>`balls in play: ${n}`,
-  spNoDir:'Hit directions are recorded from new games on — for now the chart shows mostly outs.',spFew:'No balls with a known direction yet — the chart fills in with new games.'
+  spTitle:'Spray Chart',spGround:'ground ball',spFly:'fly ball',spLine:'line drive',spReplay:'Replay',spHint:'where this batter hits the ball',spHit:'hit',spOut:'out',spErr:'reached on error',
+  spLeft:'left field',spCenter:'center field',spRight:'right field',spBalls:n=>`batted balls: ${n}`,
+  spNoDir:'Hit locations are tracked from the next game on, so for now the chart mostly shows outs.',spFew:'No batted balls with a known location yet. The chart fills in as new games are scored.'
 });
 
 const P=id=>S.players[id];
@@ -87,7 +87,8 @@ const SIDE={'3B':'L',SS:'L',LF:'L',LCF:'C',CF:'C',RCF:'C',P:'C',C:'C','2B':'R','
 function posOf(g,id){ const b=g.box.find(x=>x.player===id); return b?b.pos:null; }
 // как летел мяч: g — по земле (прямая), l — лайн-драйв (лёгкая дуга), f — флай (высокая дуга)
 const INF=['P','C','1B','2B','3B','SS'];
-function trajOf(r,pos){
+function trajOf(r,pos,bt){
+  if(bt==='g'||bt==='l'||bt==='f') return bt;   // записано в счётчике
   const inf=INF.includes(pos);
   if(r==='GO'||r==='FC') return 'g';
   if(r==='FO'||r==='SAC') return 'f';
@@ -102,9 +103,9 @@ function ballsOf(p){
     for(const x of g.plays){ if(x.b!==p.id) continue;
       let pos=null, kind=null;
       if(HITS.includes(x.r)){ kind='h'; pos=x.d||(x.f&&x.f[0]?posOf(g,x.f[0]):null); if(!pos){ hitsNoDir++; continue; } }
-      else if(['GO','FO','FC','SAC'].includes(x.r)&&x.f&&x.f[0]){ kind='o'; pos=posOf(g,x.f[0]); }
-      else if(x.r==='ROE'&&x.e&&x.e[0]){ kind='e'; pos=posOf(g,x.e[0]); }
-      if(pos&&XY[pos]) out.push({pos,kind,r:x.r,tr:trajOf(x.r,pos)});
+      else if(['GO','FO','FC','SAC'].includes(x.r)&&(x.d||x.f&&x.f[0])){ kind='o'; pos=x.d||posOf(g,x.f[0]); }
+      else if(x.r==='ROE'&&(x.d||x.e&&x.e[0])){ kind='e'; pos=x.d||posOf(g,x.e[0]); }   // d — куда ушёл мяч (ошибиться мог принимающий, напр. 1B)
+      if(pos&&XY[pos]) out.push({pos,kind,r:x.r,tr:trajOf(x.r,pos,x.bt)});
     } }
   return {balls:out,hitsNoDir};
 }

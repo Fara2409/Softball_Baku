@@ -69,6 +69,7 @@ h2{font-size:17px;margin:18px 0 8px}h3{margin:0 0 12px;font-size:17px}
 .pri{background:var(--acc);color:#111;border-color:var(--acc);font-weight:700}
 .danger{color:var(--red)}
 /* field picker */
+.bt-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:4px 0 12px}.bt-b{min-height:46px;font-weight:700}.bt-b.sel{background:#f5a524;color:#1a1203;border-color:#f5a524}
 .field{position:relative;width:100%;max-width:380px;aspect-ratio:1/1.02;margin:0 auto;background:radial-gradient(circle at 50% 95%,#3a2a1a 0 30%,transparent 30.5%),radial-gradient(ellipse at 50% 100%,#173d22 0 75%,#0f2a17 75.5%);border-radius:50% 50% 12px 12px/40% 40% 12px 12px;overflow:hidden}
 .fp{position:absolute;transform:translate(-50%,-50%);width:72px;min-height:48px;padding:7px 2px;text-align:center;background:rgba(15,17,21,.92);border-radius:10px}
 .fp b{display:block;font-size:15px}.fp span{display:block;font-size:10px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -255,7 +256,7 @@ function describe(e){
  switch(e.type){
   case 'pa':{let s=`${RES[e.result]}: ${name(e.batter)}`;
    if(e.fielders&&e.fielders.length)s+=` (${e.fielders.map(p=>PN[p]).join('-')})`;
-   if(e.dir)s+=` → ${PN[e.dir]}`;
+   if(e.dir)s+=` → ${PN[e.dir]}${e.bt?` (${BT[e.bt].toLowerCase()})`:''}`;
    if(e.errs&&e.errs.length)s+=` + ошибка ${e.errs.map(p=>PN[p]).join(', ')}`;
    for(const a of e.adv){if(a.id===e.batter&&e.result==='HR')continue;
     if(a.to===4)s+=` · ${a.id===e.batter?'отбивающий':name(a.id)} → дом`;
@@ -280,19 +281,39 @@ function pa(r){
  const e={type:'pa',t:Date.now(),batter,result:r,fielders:[],adv:defaults(G,r,batter)};
  const hasR=G.bases.some(Boolean);
  const next=()=>{if(hasR&&['1B','2B','3B','GO','FO','FC','E','SAC'].includes(r))runnersM(e);else commit(e)};
- if(r==='E')fieldM('E',s=>{e.fielders=s;next()});
- else if(r==='FO')fieldM('one',s=>{e.fielders=s;next()});
- else if(r==='GO'||r==='FC'||r==='SAC')fieldM('seq',s=>{e.fielders=s;next()});
- // хит: куда ушёл мяч (для карты ударов на сайте); можно пропустить
- else if(['1B','2B','3B','HR'].includes(r))fieldM('dir',s=>{if(s[0])e.dir=s[0];next()});
+ // после каждого мяча в игре: куда и как полетел мяч (для карты ударов на сайте); можно пропустить
+ const ball=()=>ballM(e,next);
+ if(r==='E')fieldM('E',s=>{e.fielders=s;ball()});
+ else if(r==='FO')fieldM('one',s=>{e.fielders=s;ball()});
+ else if(r==='GO'||r==='FC'||r==='SAC')fieldM('seq',s=>{e.fielders=s;ball()});
+ else if(['1B','2B','3B','HR'].includes(r))ball();
  else next();
+}
+// «Куда и как полетел мяч?»: зона (e.dir) + тип удара (e.bt: g — по земле, l — лайн-драйв, f — флай).
+// Подставляем по умолчанию: зона — первый защитник в розыгрыше (для ошибки — нет: ошибиться мог принимающий),
+// тип — по результату. Нажатие на зону сразу записывает.
+const BT={g:'По земле',l:'Лайн-драйв',f:'Флай'};
+function ballM(e,cb){
+ const r=e.result,inf=p=>['P','C','1B','2B','3B','SS'].includes(p),f0=(e.fielders||[])[0];
+ let dir=r==='E'?null:(f0||null);
+ let bt=r==='GO'||r==='FC'?'g':r==='FO'||r==='SAC'||r==='HR'?'f':r==='E'?(f0&&!inf(f0)?'f':'g'):'l';
+ window._bt=t=>{bt=t;document.querySelectorAll('.bt-b').forEach(b=>b.classList.toggle('sel',b.dataset.t===t))};
+ window._bz=p=>{e.dir=p;e.bt=bt;cb()};
+ window._bk=skip=>{if(!skip&&dir){e.dir=dir;e.bt=bt}cb()};
+ const hasCF=!!atPos(G,'CF');
+ let h=`<h3>Куда и как полетел мяч?</h3><p class="muted small">Сначала тип удара, потом зона, куда ушёл мяч (не обязательно, кто ловил). Для карты ударов на сайте.</p>
+  <div class="bt-row">${Object.entries(BT).map(([t,l])=>`<button class="bt-b ${t===bt?'sel':''}" data-t="${t}" onclick="_bt('${t}')">${l}</button>`).join('')}</div><div class="field">`;
+ for(const p of FPOS){if(p==='CF'?!hasCF:(p==='LCF'||p==='RCF')&&hasCF)continue;const [x,y]=FXY[p];
+  h+=`<button class="fp ${p===dir?'sel':''}" style="left:${x}%;top:${y}%" onclick="_bz('${p}')"><b>${p}</b><span>${p===dir?'по умолч.':''}</span></button>`}
+ h+=`</div><div class="acts"><button onclick="_bk(true)">Пропустить</button>${dir?`<button class="pri" onclick="_bk(false)">Готово (${PN[dir]})</button>`:''}</div>`;
+ modal(h);
 }
 // Хит + ошибка защиты: бьющему засчитывается хит, ошибка — защитнику; дальше бегуны (и сам бьющий) двигаются вручную
 function hitErr(){
  if(G.over)return toast('Игра окончена');
  const batter=batterOf(G);if(!batter)return;
  window._he=r=>{const e={type:'pa',t,batter,result:r,fielders:[],errs:[],adv:defaults(G,r,batter)};
-  fieldM('E',s=>{if(s[0])e.errs.push(s[0]);runnersM(e)})};
+  fieldM('E',s=>{if(s[0])e.errs.push(s[0]);ballM(e,()=>runnersM(e))})};
  const t=Date.now();
  modal(`<h3>Хит + ошибка защиты</h3><p class="muted small">Сначала какой был удар, потом кто ошибся. Затем отметьте, куда добежали бегуны и сам отбивающий.</p>
   <div class="grid">${['1B','2B','3B'].map(r=>`<button class="r hit" onclick="_he('${r}')">${r}<small>${RES[r].toLowerCase()}</small></button>`).join('')}</div>
@@ -399,7 +420,7 @@ function playsOf(g){
    const f=(e.fielders||[]).map(p=>idOf(e,p,i)).filter(Boolean);
    if(e.result==='E'){if(f.length)x.e=f}else if(f.length&&['GO','FO','FC','SAC'].includes(e.result))x.f=f;
    const er=(e.errs||[]).map(p=>idOf(e,p,i)).filter(Boolean);if(er.length)x.e=(x.e||[]).concat(er);
-   if(e.dir)x.d=e.dir;
+   if(e.dir)x.d=e.dir;if(e.bt)x.bt=e.bt;
    if(e.adv.filter(a=>a.to===-1).length>1)x.dp=1;}
   else{x.r=e.type==='runout'?'RUN':'ADV';const f=(e.fielders||[]).map(p=>idOf(e,p,i)).filter(Boolean);if(f.length)x.f=f}
   const sc=(e.adv||[]).filter(a=>a.to===4).map(a=>a.id);if(sc.length)x.sc=sc;
