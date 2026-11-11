@@ -11,8 +11,8 @@ const SB_KEY='sb_publishable_p4odhSPoZi-rvOKZ9-9Ngg_P6lA9ehM'; // публичн
 const SITE='https://softball.az/';
 
 /* ---------- Переводы ---------- */
-const PL_RU={'1B':'Сингл','2B':'Дабл','3B':'Трипл',HR:'Хоум-ран',BB:'Уок',K:'Страйк-аут',GO:'Аут по земле',FO:'Аут в воздухе',FC:'Выбор полевого',E:'Ошибка защиты',SB:'Кража базы',ADV:'Продвижение',RO:'Аут бегуна',EH:'Конец половины иннинга',END:'Конец игры'};
-const PL_AZ={'1B':'Sinql','2B':'Dabl','3B':'Tripl',HR:'Homeran',BB:'Uok',K:'Strayk-aut',GO:'Yerdən aut',FO:'Havada aut',FC:'Müdafiəçinin seçimi',E:'Müdafiə səhvi',SB:'Baza oğurluğu',ADV:'İrəliləmə',RO:'Qaçışçı autu',EH:'Yarım innin bitdi',END:'Oyun bitdi'};
+const PL_RU={'1B':'Сингл','2B':'Дабл','3B':'Трипл',HR:'Хоум-ран',BB:'BB',K:'Страйк-аут',GO:'Аут по земле',FO:'Аут в воздухе',FC:'Выбор полевого',E:'Ошибка защиты',SB:'Кража базы',ADV:'Продвижение',RO:'Аут бегуна',EH:'Конец половины иннинга',END:'Конец игры'};
+const PL_AZ={'1B':'Sinql','2B':'Dabl','3B':'Tripl',HR:'Homeran',BB:'BB',K:'Strayk-aut',GO:'Yerdən aut',FO:'Havada aut',FC:'Müdafiəçinin seçimi',E:'Müdafiə səhvi',SB:'Baza oğurluğu',ADV:'İrəliləmə',RO:'Qaçışçı autu',EH:'Yarım innin bitdi',END:'Oyun bitdi'};
 const PL_EN={'1B':'Single','2B':'Double','3B':'Triple',HR:'Home run',BB:'Walk',K:'Strikeout',GO:'Groundout',FO:'Flyout',FC:"Fielder's choice",E:'Error',SB:'Stolen base',ADV:'Advance',RO:'Runner out',EH:'Half-inning ended',END:'Game over'};
 Object.assign(I18N.ru,{
   cGoogle:'Войти через Google',cOr:'или по почте',cGoogleErr:'Не получилось войти через Google. Попробуйте ещё раз.',cGooglePick:'Добро пожаловать! Выберите себя из состава, чтобы отмечаться на игры.',cLogin:'Войти',cSignup:'Регистрация',cGuest:'Продолжить как гость',cWelcome:'Добро пожаловать!',

@@ -136,7 +136,7 @@ const FPOS=['P','C','1B','2B','3B','SS','LF','LCF','CF','RCF','RF'];
 const PN={P:'P',C:'C','1B':'1B','2B':'2B','3B':'3B',SS:'SS',LF:'LF',LCF:'LCF',CF:'CF',RCF:'RCF',RF:'RF'}; // в описаниях пишем позиции буквами: SS-1B
 const FXY={CF:[50,8],LCF:[31,13],RCF:[69,13],LF:[12,29],RF:[88,29],SS:[33,42],'2B':[67,42],P:[50,62],'3B':[18,62],'1B':[82,62],C:[50,89]};
 const HITS={'1B':1,'2B':2,'3B':3,HR:4};
-const RES={'1B':'Сингл','2B':'Дабл','3B':'Трипл',HR:'Хоум-ран',BB:'Уок',K:'Страйк-аут',GO:'Аут по земле',FO:'Аут в воздухе',FC:'Выбор полевого',E:'Ошибка защиты',SAC:'Сакрифайс'};
+const RES={'1B':'Сингл','2B':'Дабл','3B':'Трипл',HR:'Хоум-ран',BB:'BB',K:'Страйк-аут',GO:'Аут по земле',FO:'Аут в воздухе',FC:'Выбор полевого',E:'Ошибка защиты',SAC:'Сакрифайс'};
 const BASE={1:'1-я',2:'2-я',3:'3-я',4:'дом'};
 const FALLBACK=[
  {id:'parviz-ismayilov',first_ru:'Пярвиз',last_ru:'Исмайлов',number:7,positions:['2B']},
@@ -586,7 +586,7 @@ function renderGame(){
  const B=(r,cls,sub,dis)=>`<button class="r ${cls}" onclick="pa('${r}')" ${dis||g.over?'disabled':''}>${r}<small>${sub}</small></button>`;
  h+=`<div class="sectit">Результат выхода</div><div class="grid">
   ${B('1B','hit','сингл')}${B('2B','hit','дабл')}${B('3B','hit','трипл')}${B('HR','hit','хоум-ран')}
-  ${B('BB','walk','уок')}${B('K','out','страйк-аут')}${B('GO','out','аут по земле')}${B('FO','out','аут в воздухе')}
+  ${B('BB','walk','4 бола')}${B('K','out','страйк-аут')}${B('GO','out','аут по земле')}${B('FO','out','аут в воздухе')}
   ${B('FC','out','выбор пол.',noRun)}${B('E','walk','ошибка защ.')}
   <button class="r hit" onclick="hitErr()" ${g.over?'disabled':''}>Хит+E<small>хит и ошибка</small></button>
   ${B('SAC','out','сакрифайс',noRun)}</div>
