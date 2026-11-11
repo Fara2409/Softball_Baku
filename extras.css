@@ -22,3 +22,21 @@
 .sp-leg i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
 .sp-note{font-size:12px;line-height:1.5;margin:0}
 @media (max-width:820px){ .sp-wrap{grid-template-columns:1fr} .fd-row{padding:10px 14px;gap:10px} .fd-t{font-size:14px} }
+
+/* траектории мяча на карте ударов */
+.sp-tr{fill:none;stroke-width:1.8;stroke-linecap:round;opacity:.75}
+.sp-hop{fill:none;stroke-width:4;stroke-linecap:round;opacity:.55;stroke-dasharray:0 .16;stroke-dashoffset:-.08}
+.sp-svg:not(.go) .sp-tr,.sp-svg:not(.go) .sp-hop{opacity:0}
+.sp-svg:not(.go) .sp-dot{opacity:0}
+.sp-svg.go .sp-tr{stroke-dasharray:1;animation:spDraw .6s ease-out both}
+.sp-svg.go .sp-tr.sp-f{animation-duration:.8s}
+.sp-svg.go .sp-hop{animation:spFade .3s ease-out both}
+.sp-svg.go .sp-dot{animation:spPop .3s cubic-bezier(.3,1.6,.5,1) both;transform-box:fill-box;transform-origin:center}
+@keyframes spDraw{from{stroke-dashoffset:1;opacity:.75}to{stroke-dashoffset:0;opacity:.75}}
+@keyframes spFade{from{opacity:0}to{opacity:.75}}
+@keyframes spPop{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:scale(1)}}
+.sp-leg2{color:var(--muted);align-items:center}
+.sp-leg2 span{display:inline-flex;align-items:center;gap:6px}
+.sp-leg2 svg{flex:none}
+.sp-replay{margin-left:auto;font-size:13px}
+@media (prefers-reduced-motion:reduce){ .sp-svg .sp-tr,.sp-svg .sp-hop,.sp-svg .sp-dot{animation:none!important;opacity:.75} .sp-svg .sp-dot{opacity:1} }

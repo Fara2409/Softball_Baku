@@ -11,7 +11,7 @@ Object.assign(I18N.ru,{
   fdStreak:(n,k)=>`${n} — ${k} игры подряд с хитом`,fdBig:(n,r)=>`${n} сыграл на ${r}`,
   fdRecH:(n,k)=>`Новый рекорд: ${n} — ${k} хитов за игру`,fdRecRBI:(n,k)=>`Новый рекорд: ${n} — ${k} RBI за игру`,
   fdDebut:n=>`${n} провёл первую игру`,fdPerfect:(n,h,ab)=>`${n} — ${h} из ${ab}, ни одного аута на бите`,
-  spTitle:'Карта ударов',spHint:'куда игрок отправляет мяч',spHit:'хит',spOut:'аут',spErr:'ошибка защиты',
+  spTitle:'Карта ударов',spGround:'по земле',spFly:'в воздухе',spLine:'лайн-драйв',spReplay:'Повторить',spHint:'куда игрок отправляет мяч',spHit:'хит',spOut:'аут',spErr:'ошибка защиты',
   spLeft:'влево',spCenter:'центр',spRight:'вправо',spBalls:n=>`мячей в игре: ${n}`,
   spNoDir:'Направление хитов записывается с новых игр — пока на карте в основном ауты.',spFew:'Пока нет мячей с известным направлением — карта заполнится с новыми играми.'
 });
@@ -22,7 +22,7 @@ Object.assign(I18N.az,{
   fdStreak:(n,k)=>`${n} — ardıcıl ${k} oyunda hit`,fdBig:(n,r)=>`${n} ${r} reytinqlə oynadı`,
   fdRecH:(n,k)=>`Yeni rekord: ${n} — bir oyunda ${k} hit`,fdRecRBI:(n,k)=>`Yeni rekord: ${n} — bir oyunda ${k} RBI`,
   fdDebut:n=>`${n} ilk oyununu keçirdi`,fdPerfect:(n,h,ab)=>`${n} — ${ab} vuruşdan ${h} hit, bir dəfə də aut olmadı`,
-  spTitle:'Zərbə xəritəsi',spHint:'oyunçu topu hara göndərir',spHit:'hit',spOut:'aut',spErr:'müdafiə səhvi',
+  spTitle:'Zərbə xəritəsi',spGround:'yerlə',spFly:'havadan',spLine:'düz zərbə',spReplay:'Təkrarla',spHint:'oyunçu topu hara göndərir',spHit:'hit',spOut:'aut',spErr:'müdafiə səhvi',
   spLeft:'sola',spCenter:'mərkəz',spRight:'sağa',spBalls:n=>`oyundakı toplar: ${n}`,
   spNoDir:'Hitlərin istiqaməti yeni oyunlardan qeyd olunur — hələlik xəritədə əsasən autlar var.',spFew:'Hələ istiqaməti məlum olan top yoxdur — xəritə yeni oyunlarla dolacaq.'
 });
@@ -33,7 +33,7 @@ Object.assign(I18N.en,{
   fdStreak:(n,k)=>`${n} — hits in ${k} straight games`,fdBig:(n,r)=>`${n} played to a ${r}`,
   fdRecH:(n,k)=>`New record: ${n} — ${k} hits in a game`,fdRecRBI:(n,k)=>`New record: ${n} — ${k} RBI in a game`,
   fdDebut:n=>`${n} played his first game`,fdPerfect:(n,h,ab)=>`${n} — ${h} for ${ab}, never out at the plate`,
-  spTitle:'Spray chart',spHint:'where the player sends the ball',spHit:'hit',spOut:'out',spErr:'error',
+  spTitle:'Spray chart',spGround:'on the ground',spFly:'in the air',spLine:'line drive',spReplay:'Replay',spHint:'where the player sends the ball',spHit:'hit',spOut:'out',spErr:'error',
   spLeft:'left',spCenter:'center',spRight:'right',spBalls:n=>`balls in play: ${n}`,
   spNoDir:'Hit directions are recorded from new games on — for now the chart shows mostly outs.',spFew:'No balls with a known direction yet — the chart fills in with new games.'
 });
@@ -85,6 +85,17 @@ function feedBlock(){
 const XY={P:[150,168],C:[150,226],'1B':[204,160],'2B':[180,124],SS:[120,124],'3B':[96,160],LF:[62,82],LCF:[104,54],CF:[150,42],RCF:[196,54],RF:[238,82]};
 const SIDE={'3B':'L',SS:'L',LF:'L',LCF:'C',CF:'C',RCF:'C',P:'C',C:'C','2B':'R','1B':'R',RF:'R'};
 function posOf(g,id){ const b=g.box.find(x=>x.player===id); return b?b.pos:null; }
+// как летел мяч: g — по земле (прямая), l — лайн-драйв (лёгкая дуга), f — флай (высокая дуга)
+const INF=['P','C','1B','2B','3B','SS'];
+function trajOf(r,pos){
+  const inf=INF.includes(pos);
+  if(r==='GO'||r==='FC') return 'g';
+  if(r==='FO'||r==='SAC') return 'f';
+  if(r==='HR'||r==='3B') return 'f';
+  if(r==='2B') return inf?'g':'l';
+  if(r==='1B') return inf?'g':'l';
+  return inf?'g':'f';   // ROE: по зоне ошибки
+}
 function ballsOf(p){
   const out=[]; let hitsNoDir=0;
   for(const {game:g} of p.log){ if(!g.plays) continue;
@@ -93,9 +104,16 @@ function ballsOf(p){
       if(HITS.includes(x.r)){ kind='h'; pos=x.d||(x.f&&x.f[0]?posOf(g,x.f[0]):null); if(!pos){ hitsNoDir++; continue; } }
       else if(['GO','FO','FC','SAC'].includes(x.r)&&x.f&&x.f[0]){ kind='o'; pos=posOf(g,x.f[0]); }
       else if(x.r==='ROE'&&x.e&&x.e[0]){ kind='e'; pos=posOf(g,x.e[0]); }
-      if(pos&&XY[pos]) out.push({pos,kind,r:x.r});
+      if(pos&&XY[pos]) out.push({pos,kind,r:x.r,tr:trajOf(x.r,pos)});
     } }
   return {balls:out,hitsNoDir};
+}
+const R_=new Proxy({},{get:(o,k)=>((I18N[LANG]&&I18N[LANG].pbR)||{})[k]});
+window.spReplay=btn=>{ const sv=btn.closest('.spray').querySelector('.sp-svg'); sv.classList.remove('go'); void sv.getBoundingClientRect(); sv.classList.add('go'); };
+function spObserve(){
+  document.querySelectorAll('.sp-svg:not(.obs)').forEach(sv=>{ sv.classList.add('obs');
+    if(!('IntersectionObserver' in window)){ sv.classList.add('go'); return; }
+    const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ sv.classList.add('go'); io.disconnect(); } }),{threshold:.35}); io.observe(sv); });
 }
 function spray(p){
   if(!p.log||!p.log.some(l=>l.game.plays)) return '';
@@ -111,18 +129,31 @@ function spray(p){
     <path d="M150 236 L204 176 L150 124 L96 176 Z" fill="none" stroke="#eef2f8" stroke-opacity=".5" stroke-width="1.5"/>
     ${[[204,176],[150,124],[96,176]].map(([x,y])=>`<rect x="${x-4}" y="${y-4}" width="8" height="8" transform="rotate(45 ${x} ${y})" fill="#eef2f8"/>`).join('')}
     <path d="M145 233 h10 v4 l-5 4 l-5 -4 z" fill="#eef2f8"/>`;
+  const HX=150, HY=230; let paths='', dots='', labels='', k=0;
   for(const [pos,L] of Object.entries(by)){ const [cx,cy]=XY[pos], n=L.length;
     L.sort((a,b)=>'hoe'.indexOf(a.kind)-'hoe'.indexOf(b.kind)).forEach((b,i)=>{ // точки по спирали вокруг зоны
       const a=i*2.4, r=i?5+3.2*Math.sqrt(i):0;
-      svg+=`<circle cx="${(cx+r*Math.cos(a)).toFixed(1)}" cy="${(cy+r*Math.sin(a)).toFixed(1)}" r="5" fill="${COL[b.kind]}" stroke="#0b1626" stroke-width="1.2"/>`; });
-    svg+=`<text x="${cx}" y="${cy-12-Math.min(14,3.2*Math.sqrt(n))}" text-anchor="middle" font-size="10" font-weight="800" fill="#c9d3e1">${pos} · ${n}</text>`;
+      let x=cx+r*Math.cos(a), y=cy+r*Math.sin(a);
+      if(b.r==='HR'){ const dx=x-HX, dy=y-HY, d=Math.hypot(dx,dy)||1; x=HX+dx/d*Math.max(d,200); y=HY+dy/d*Math.max(d,200); } // хоум-ран — за забор
+      const dx=x-HX, dy=y-HY, d=Math.hypot(dx,dy)||1;
+      // дуга: контрольная точка сдвинута перпендикулярно (вид сверху, как на трансляциях)
+      const bend=b.tr==='f'?0.32:b.tr==='l'?0.12:0, side=dx>=0?-1:1;
+      const mx=HX+dx/2+(-dy/d)*d*bend*side, my=HY+dy/2+(dx/d)*d*bend*side;
+      const dpath=b.tr==='g'?`M${HX} ${HY} L${x.toFixed(1)} ${y.toFixed(1)}`:`M${HX} ${HY} Q${mx.toFixed(1)} ${my.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)}`;
+      const del=(k*0.12).toFixed(2); k++;
+      paths+=`<path class="sp-tr sp-${b.tr}" d="${dpath}" pathLength="1" stroke="${COL[b.kind]}" style="animation-delay:${del}s"><title>${pos} · ${R_[b.r]||b.r}</title></path>`;
+      if(b.tr==='g') paths+=`<path class="sp-hop" d="${dpath}" pathLength="1" stroke="${COL[b.kind]}" style="animation-delay:${del}s"/>`;
+      dots+=`<circle class="sp-dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5" fill="${COL[b.kind]}" stroke="#0b1626" stroke-width="1.2" style="animation-delay:${(+del+0.55).toFixed(2)}s"><title>${pos} · ${R_[b.r]||b.r}</title></circle>`; });
+    labels+=`<text x="${cx}" y="${cy-12-Math.min(14,3.2*Math.sqrt(n))}" text-anchor="middle" font-size="10" font-weight="800" fill="#c9d3e1">${pos} · ${n}</text>`;
   }
+  svg+=`<g fill="none">${paths}</g>${dots}${labels}`;
   svg+='</svg>';
   const side={L:0,C:0,R:0}; balls.forEach(b=>side[SIDE[b.pos]]++); const tot=balls.length, pct=k=>Math.round(side[k]/tot*100);
   const cnt=k=>balls.filter(b=>b.kind===k).length;
   h+=`<div class="sp-wrap">${svg}<div class="sp-side">
       <div class="sp-bars">${[['L','spLeft'],['C','spCenter'],['R','spRight']].map(([k,l])=>`<div class="sp-bar"><span>${T(l)}</span><i><b style="width:${pct(k)}%"></b></i><em>${pct(k)}%</em></div>`).join('')}</div>
       <div class="sp-leg"><span><i style="background:var(--r-good)"></i>${T('spHit')} · ${cnt('h')}</span><span><i style="background:var(--r-low)"></i>${T('spOut')} · ${cnt('o')}</span>${cnt('e')?`<span><i style="background:var(--amber)"></i>${T('spErr')} · ${cnt('e')}</span>`:''}</div>
+      <div class="sp-leg sp-leg2"><span><svg width="26" height="10" aria-hidden="true"><path d="M1 8 L25 2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 6.5 L19 3.5" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-dasharray="0 6" fill="none" opacity=".6"/></svg>${T('spGround')}</span><span><svg width="26" height="12" aria-hidden="true"><path d="M1 10 Q10 -2 25 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>${T('spFly')}</span><button type="button" class="cl-link sp-replay" onclick="spReplay(this)">↻ ${T('spReplay')}</button></div>
       <div class="muted sp-note">${T('spBalls')(tot)}${hitsNoDir?` · ${T('spNoDir')}`:''}</div></div></div></div>`;
   return h;
 }
@@ -132,6 +163,7 @@ const _pe=window.playerExtras;
 window.playerExtras=function(p){ const r=_pe?_pe(p):{top:'',bottom:''}; return {top:r.top,bottom:spray(p)+r.bottom}; };
 const _route=route; route=function(){
   _route();
+  setTimeout(spObserve,0);
   const h=(location.hash||'').slice(1), page=h.split('-')[0], FR=window.FEATURE_ROUTES||{};
   const isHome=!['player','game','games'].includes(page)&&!FR[page];
   if(!isHome||!S.league) return;
