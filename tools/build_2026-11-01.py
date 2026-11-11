@@ -14,7 +14,7 @@ plays={
  1:e('OUT',a=[MO],po=[HK]),2:e('1B'),3:e('1B'),4:e('OUT',po=[MO],fpo=MO),5:e('1B'),
  6:e('1B',err=[FK],runs=[AN],rbi=1),7:e('2B',runs=[V,PA_],rbi=2),8:e('2B',err=[EM],runs=[IH,F],rbi=1),9:e('1B'),10:e('OUT',a=[FK],po=[HK]),
  # 1 BOTTOM
- 11:e('1B',err=[I]),12:e('K',pk=AN),13:e('FC',a=[AN],po=[PA_]),14:e('OUT',a=[AN],po=[M]),
+ 11:e('1B'),12:e('K',pk=AN),13:e('FC',a=[AN],po=[PA_]),14:e('OUT',a=[AN],po=[M]),
  # 2 TOP
  15:e('ROE',err=[MO]),16:e('OUT',po=[MO],fpo=MO),17:e('OUT',po=[MO],fpo=MO),18:e('OUT',po=[FK],fpo=FK),
  # 2 BOTTOM (#20 Молчанов: 11.11.2026 не хит, а ошибка Ильгара — ROE, правка пользователя)
@@ -27,8 +27,8 @@ plays={
  # 4 TOP
  37:e('OUT',po=[D],fpo=D),38:e('1B'),39:e('1B'),40:e('FC',po=[MO],fpo=MO),41:e('1B',err=[HK],runs=[RS],rbi=1),42:e('OUT',po=[EM],fpo=EM),
  # 4 BOTTOM (Расул Шукюров на месте кэтчера — по решению пользователя засчитано)
- 43:e('1B',err=[M]),44:e('1B',err=[I]),45:e('OUT',po=[M,RS],fpo=M,a=[M]),46:e('ROE',err=[V],runs=[MO],rbi=1),47:e('1B',err=[I]),
- 48:e('1B',err=[I],runs=[SD],rbi=1),49:e('3B',runs=[RD,D],rbi=2),50:e('3B',runs=[FK],rbi=1),51:e('OUT',po=[RS],fpo=RS),
+ 43:e('1B',err=[M]),44:e('1B',err=[I]),45:e('OUT',po=[M,RS],fpo=M,a=[M]),46:e('ROE',err=[V],runs=[MO],rbi=1),47:e('1B'),
+ 48:e('1B',runs=[SD],rbi=1),49:e('3B',runs=[RD,D],rbi=2),50:e('3B',runs=[FK],rbi=1),51:e('OUT',po=[RS],fpo=RS),
  # 5 TOP
  52:e('OUT',a=[MO],po=[HK]),53:e('BB'),54:e('FC',a=[AL],po=[MO]),55:e('OUT',a=[RD],po=[AL]),
  # 5 BOTTOM
