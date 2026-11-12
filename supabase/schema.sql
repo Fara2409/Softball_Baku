@@ -202,6 +202,43 @@ begin
    where user_id = target and provider = 'email';
 end $$;
 
+-- ---------- 6c. Кто заходил на сайт (12.11.2026) ----------
+-- Когда участник под своим аккаунтом открывает сайт или приложение, сайт вызывает touch_seen()
+-- (не чаще раза в 5 минут). Таблицу никто не читает напрямую — только админ через admin_users().
+create table if not exists public.last_seen (
+  user_id  uuid primary key references auth.users(id) on delete cascade,
+  seen_at  timestamptz not null default now(),
+  visits   integer not null default 1        -- визиты: новый, если с прошлого прошло больше 30 минут
+);
+alter table public.last_seen enable row level security;   -- политик нет: напрямую не читается и не пишется
+
+create or replace function public.touch_seen()
+returns void
+language plpgsql security definer set search_path = '' as $$
+begin
+  if auth.uid() is null then return; end if;
+  insert into public.last_seen as s (user_id, seen_at, visits) values (auth.uid(), now(), 1)
+  on conflict (user_id) do update
+    set visits  = s.visits + case when s.seen_at < now() - interval '30 minutes' then 1 else 0 end,
+        seen_at = now();
+end $$;
+
+drop function if exists public.admin_users();
+create or replace function public.admin_users()
+returns table (id uuid, email text, display_name text, role text, player_id text,
+               requested_player_id text, created_at timestamptz, last_sign_in_at timestamptz,
+               last_seen_at timestamptz, visits integer)
+language plpgsql stable security definer set search_path = '' as $$
+begin
+  if not public.is_admin() then raise exception 'Только для админа'; end if;
+  return query
+    select u.id, u.email::text, p.display_name, p.role, p.player_id,
+           p.requested_player_id, u.created_at, u.last_sign_in_at, s.seen_at, s.visits
+    from auth.users u join public.profiles p on p.id = u.id
+    left join public.last_seen s on s.user_id = u.id
+    order by coalesce(s.seen_at, u.last_sign_in_at, u.created_at) desc;
+end $$;
+
 -- ---------- 7. Доступ сайта к таблицам ----------
 -- С 30.05.2026 Supabase в новых проектах не открывает таблицы автоматически —
 -- выдаём права явно. Что именно разрешено каждому — решают политики RLS выше.
@@ -213,9 +250,9 @@ grant insert, update, delete on public.events, public.rsvps, public.live_games t
 grant insert, delete on public.comments to authenticated;
 grant usage, select on all sequences in schema public to authenticated;
 
-revoke execute on function public.admin_users(), public.admin_reset_password(uuid, text), public.admin_set_email(uuid, text) from public, anon;
+revoke execute on function public.admin_users(), public.admin_reset_password(uuid, text), public.admin_set_email(uuid, text), public.touch_seen() from public, anon;
 grant execute on function public.my_role(), public.is_admin() to anon, authenticated;
-grant execute on function public.admin_users(), public.admin_reset_password(uuid, text), public.admin_set_email(uuid, text) to authenticated;
+grant execute on function public.admin_users(), public.admin_reset_password(uuid, text), public.admin_set_email(uuid, text), public.touch_seen() to authenticated;
 
 -- =====================================================================
 -- ПОСЛЕ ТОГО, КАК ВЫ ЗАРЕГИСТРИРУЕТЕСЬ НА САЙТЕ — сделать себя админом

@@ -287,3 +287,6 @@ table.lb.lv-bx{min-width:0}
 }
 @keyframes evBadgeIn{from{opacity:0;transform:scale(.85) rotate(-4deg)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){ .ev-badge{animation:none} }
+.adm-seen{font-weight:700;color:var(--text)}
+.adm-seen.fresh{color:#5FD08E}
+.adm-seen-sum{margin:-4px 0 10px;font-size:13px}

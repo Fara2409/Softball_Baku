@@ -39,7 +39,7 @@ Object.assign(I18N.ru,{
   cSchedule:'Расписание игр',cAddEvent:'Добавить игру',cDate:'Дата',cTime:'Время',cPlace:'Место',cNote:'Примечание',cNotePh:'например: берём свои перчатки',
   cCancelEv:'Отменить',cRestoreEv:'Вернуть',cDelete:'Удалить',cDelQ:'Удалить?',cPast:'прошла',cLiveAdmin:'Онлайн-счёт',
   cLiveHow:'Откройте на телефоне приложение для записи игры, войдя под аккаунтом админа, — счёт будет транслироваться на сайт автоматически.',
-  cOpenScorer:'Открыть запись игры',cEndLive:'Завершить трансляцию',cDelLive:'Удалить',cDelLiveQ:'Удалить этот онлайн-счёт вместе с комментариями? Отменить будет нельзя.',cNoLiveRow:'Трансляций пока не было',cYou:'вы',cLastSeen:'вход',cNever:'не входил',
+  cOpenScorer:'Открыть запись игры',cEndLive:'Завершить трансляцию',cDelLive:'Удалить',cDelLiveQ:'Удалить этот онлайн-счёт вместе с комментариями? Отменить будет нельзя.',cNoLiveRow:'Трансляций пока не было',cYou:'вы',cLastSeen:'вход',cNever:'не входил',cSeen:'на сайте',cVisits:n=>`визитов: ${n}`,cSeenSum:(d,w,a)=>`Сегодня заходили: ${d} · за 7 дней: ${w} · всего аккаунтов: ${a}`,
   cLive:'Онлайн',cLivePill:'ОНЛАЙН',cNoLive:'Сейчас игра не идёт',cNoLiveTxt:'Когда начнётся игра, счёт появится здесь в реальном времени.',
   cFinal:'Игра окончена',cFinalShort:'Итог',cPaused:'Нет обновлений',cAtBat:'Отбивает',cOnDeck:'Следующий',cFirstPA:'первый выход сегодня',cTodayL:'сегодня',
   cPlays:'Последние розыгрыши',cLiveBox:'Статистика по ходу игры',cLiveRt:'рейтинг по ходу игры',cUpdated:'обновлено',cWatchLive:'Смотреть онлайн',cRuns:'ран',
@@ -71,7 +71,7 @@ Object.assign(I18N.az,{
   cSchedule:'Oyun cədvəli',cAddEvent:'Oyun əlavə et',cDate:'Tarix',cTime:'Saat',cPlace:'Yer',cNote:'Qeyd',cNotePh:'məsələn: əlcəklərinizi götürün',
   cCancelEv:'Ləğv et',cRestoreEv:'Bərpa et',cDelete:'Sil',cDelQ:'Silinsin?',cPast:'keçib',cLiveAdmin:'Canlı hesab',
   cLiveHow:'Telefonda oyun qeydi tətbiqini admin hesabı ilə açın — hesab sayta avtomatik canlı ötürüləcək.',
-  cOpenScorer:'Oyun qeydini aç',cEndLive:'Yayımı bitir',cDelLive:'Sil',cDelLiveQ:'Bu canlı hesab şərhləri ilə birlikdə silinsin? Geri qaytarmaq olmayacaq.',cNoLiveRow:'Hələ canlı yayım olmayıb',cYou:'siz',cLastSeen:'giriş',cNever:'daxil olmayıb',
+  cOpenScorer:'Oyun qeydini aç',cEndLive:'Yayımı bitir',cDelLive:'Sil',cDelLiveQ:'Bu canlı hesab şərhləri ilə birlikdə silinsin? Geri qaytarmaq olmayacaq.',cNoLiveRow:'Hələ canlı yayım olmayıb',cYou:'siz',cLastSeen:'giriş',cNever:'daxil olmayıb',cSeen:'saytda',cVisits:n=>`ziyarət: ${n}`,cSeenSum:(d,w,a)=>`Bu gün girənlər: ${d} · 7 gündə: ${w} · cəmi hesab: ${a}`,
   cLive:'Canlı',cLivePill:'CANLI',cNoLive:'Hazırda oyun getmir',cNoLiveTxt:'Oyun başlayanda hesab burada canlı göstəriləcək.',
   cFinal:'Oyun bitdi',cFinalShort:'Yekun',cPaused:'Yenilənmə yoxdur',cAtBat:'Vuruşda',cOnDeck:'Növbəti',cFirstPA:'bu gün ilk çıxışı',cTodayL:'bu gün',
   cPlays:'Son anlar',cLiveBox:'Oyun boyu statistika',cLiveRt:'oyun boyu reytinq',cUpdated:'yeniləndi',cWatchLive:'Canlı izlə',cRuns:'ran',
@@ -103,7 +103,7 @@ Object.assign(I18N.en,{
   cSchedule:'Game schedule',cAddEvent:'Add game',cDate:'Date',cTime:'Time',cPlace:'Place',cNote:'Note',cNotePh:'e.g. bring your own gloves',
   cCancelEv:'Cancel',cRestoreEv:'Restore',cDelete:'Delete',cDelQ:'Delete?',cPast:'past',cLiveAdmin:'Live score',
   cLiveHow:'Open the game scorer on your phone while logged in as admin — the score will stream to the site automatically.',
-  cOpenScorer:'Open the scorer',cEndLive:'End broadcast',cDelLive:'Delete',cDelLiveQ:'Delete this live score together with its comments? This cannot be undone.',cNoLiveRow:'No broadcasts yet',cYou:'you',cLastSeen:'login',cNever:'never',
+  cOpenScorer:'Open the scorer',cEndLive:'End broadcast',cDelLive:'Delete',cDelLiveQ:'Delete this live score together with its comments? This cannot be undone.',cNoLiveRow:'No broadcasts yet',cYou:'you',cLastSeen:'login',cNever:'never',cSeen:'on site',cVisits:n=>`visits: ${n}`,cSeenSum:(d,w,a)=>`Visited today: ${d} · last 7 days: ${w} · accounts: ${a}`,
   cLive:'Live',cLivePill:'LIVE',cNoLive:'No game in progress',cNoLiveTxt:'When a game starts, the score will appear here in real time.',
   cFinal:'Final',cFinalShort:'Final',cPaused:'No updates',cAtBat:'At bat',cOnDeck:'On deck',cFirstPA:'first time up today',cTodayL:'today',
   cPlays:'Latest plays',cLiveBox:'Live box score',cLiveRt:'live rating',cUpdated:'updated',cWatchLive:'Watch live',cRuns:'runs',
@@ -161,12 +161,22 @@ function errText(e){
 const fail=e=>{console.warn('[club]',e); toast(errText(e));};
 
 /* ---------- Данные ---------- */
+// отметка «был на сайте» (для админа): не чаще раза в 5 минут
+function touchSeen(){
+  if(!C.ok||!C.user) return;
+  const k='sb.seen.'+C.user.id; let t=0; try{ t=+localStorage.getItem(k)||0; }catch(e){}
+  if(Date.now()-t<5*60e3) return;
+  try{ localStorage.setItem(k,String(Date.now())); }catch(e){}
+  C.sb.rpc('touch_seen').then(({error})=>{ if(error) console.warn('[club] touch_seen',error.message); });
+}
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') touchSeen(); });
 async function loadProfile(){
   if(!C.user){ C.profile=null; return; }
   const {data,error}=await C.sb.from('profiles').select('*').eq('id',C.user.id).maybeSingle();
   if(error) console.warn('[club] profile',error);
   C.profile=data||{id:C.user.id,role:'guest',display_name:(C.user.user_metadata||{}).display_name||''};
   C.profiles[C.profile.id]=C.profile;
+  touchSeen();
 }
 async function loadProfiles(force){
   if(!force&&Date.now()-C.profAt<60e3) return;
@@ -724,8 +734,13 @@ function drawAdminUsers(){
       return `<div class="adm-req">${p?av(p,'s'):''}<div class="adm-u-t"><b>${esc(u.display_name||'—')}</b><span class="muted">${esc(u.email||'')} · ${T('cWants')} <b>${p?`#${p.number} ${esc(pname(p))}`:esc(u.requested_player_id)}</b></span></div>
         <div class="adm-ev-a"><button class="btn sm pri" onclick="CL.approve('${esc(u.id)}')">✓ ${T('cApprove')}</button><button class="btn sm" onclick="CL.reject('${esc(u.id)}')">${T('cReject')}</button></div></div>`; }).join('')+'</div>'
     :`<div class="card empty" style="margin-top:0">${T('cNoRequests')}</div>`;
-  el.innerHTML=`<div class="card adm-list">`+ADM.users.map(u=>{ const self=C.user&&u.id===C.user.id, pr=C.profiles[u.id]||u;
-    return `<div class="adm-user">${personAv(pr,'s')}<div class="adm-u-t"><b>${esc(u.display_name||'—')}${self?` <span class="muted">(${T('cYou')})</span>`:''}</b><span class="muted">${esc(u.email||'')} · ${T('cLastSeen')}: ${u.last_sign_in_at?whenShort(u.last_sign_in_at):T('cNever')}</span></div>
+  const now=Date.now(), seenT=u=>u.last_seen_at?new Date(u.last_seen_at).getTime():0;
+  const hasSeen=ADM.users.some(u=>'last_seen_at' in u);
+  const dayStart=new Date(new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Baku'})+'T00:00:00+04:00').getTime();
+  const sum=hasSeen?`<p class="muted adm-seen-sum">${T('cSeenSum')(ADM.users.filter(u=>seenT(u)>=dayStart).length,ADM.users.filter(u=>now-seenT(u)<7*864e5).length,ADM.users.length)}</p>`:'';
+  const list=hasSeen?[...ADM.users].sort((a,b)=>seenT(b)-seenT(a)):ADM.users;
+  el.innerHTML=sum+`<div class="card adm-list">`+list.map(u=>{ const self=C.user&&u.id===C.user.id, pr=C.profiles[u.id]||u;
+    return `<div class="adm-user">${personAv(pr,'s')}<div class="adm-u-t"><b>${esc(u.display_name||'—')}${self?` <span class="muted">(${T('cYou')})</span>`:''}</b><span class="muted">${esc(u.email||'')} · ${T('cLastSeen')}: ${u.last_sign_in_at?whenShort(u.last_sign_in_at):T('cNever')}${u.last_seen_at?` · <b class="adm-seen ${now-seenT(u)<864e5?'fresh':''}">${T('cSeen')}: ${whenShort(u.last_seen_at)}</b>${u.visits?` · ${T('cVisits')(u.visits)}`:''}`:''}</span></div>
       <div class="adm-u-c"><select onchange="CL.setRole('${esc(u.id)}',this.value)" ${self?'disabled':''}>${['guest','player','admin'].map(r=>`<option value="${r}" ${u.role===r?'selected':''}>${T('cRole_'+r)}</option>`).join('')}</select>
         <select onchange="CL.setPlayer('${esc(u.id)}',this.value)"><option value="">${T('cPlayerL')}: —</option>${sortedPlayers().map(p=>`<option value="${esc(p.id)}" ${u.player_id===p.id?'selected':''}>#${p.number} ${esc(pname(p))}</option>`).join('')}</select>
         <button class="btn sm" onclick="CL.resetPass('${esc(u.id)}')">🔑 ${T('cReset')}</button><button class="btn sm" onclick="CL.setEmail('${esc(u.id)}')">✉️ ${T('cMailBtn')}</button></div></div>`; }).join('')+'</div>';
