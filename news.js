@@ -33,28 +33,41 @@
   window.nwArrows=row=>{ const w=row.parentNode, max=row.scrollWidth-row.clientWidth-4;
     w.querySelector('.nw-prev').hidden=row.scrollLeft<=4; w.querySelector('.nw-next').hidden=row.scrollLeft>=max;
     w.classList.toggle('at-start',row.scrollLeft<=4); w.classList.toggle('at-end',row.scrollLeft>=max); };
-  // автопрокрутка: каждые 5 с на одну карточку, в конце — плавно в начало.
-  // Пауза: курсор или фокус на ленте, касание, лента не на экране, вкладка скрыта; после ручного листания — 12 с.
+  // автопрокрутка (12.11.2026): лента всё время очень медленно и плавно едет к последней новости,
+  // в конце — пауза 2 с и плавный возврат в начало, пауза 2 с, и снова. Скорость SPEED пикс/с.
+  // Пауза: курсор или фокус на ленте, касание, лента не на экране, вкладка скрыта; после ручного листания — 8 с.
   // При «уменьшить движение» в системе автопрокрутки нет.
-  const AUTO_MS=5000;
+  const SPEED=18;
   function auto(box,row){
     if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if(box._auto) clearInterval(box._auto);
-    let hold=0, seen=true, hover=false;
-    const step=()=>{ const c=row.querySelector('.nw-card'); return c?c.getBoundingClientRect().width+14:260; };
-    const pause=ms=>{ hold=Date.now()+ms; };
+    if(box._raf) cancelAnimationFrame(box._raf);
+    let hold=0, seen=true, hover=false, pos=row.scrollLeft, last=0, phase='go', until=0;
+    const pause=ms=>{ hold=performance.now()+ms; };
     row.addEventListener('mouseenter',()=>hover=true); row.addEventListener('mouseleave',()=>hover=false);
     row.addEventListener('focusin',()=>hover=true); row.addEventListener('focusout',()=>hover=false);
-    ['touchstart','wheel','pointerdown'].forEach(ev=>row.addEventListener(ev,()=>pause(12000),{passive:true}));
-    box.querySelectorAll('.nw-arr').forEach(b=>b.addEventListener('click',()=>pause(12000)));
-    if('IntersectionObserver' in window) new IntersectionObserver(es=>{ seen=es[0].isIntersecting; },{threshold:.5}).observe(row);
-    box._auto=setInterval(()=>{
-      if(!document.body.contains(row)){ clearInterval(box._auto); return; }
-      if(hover||!seen||document.hidden||Date.now()<hold) return;
-      const max=row.scrollWidth-row.clientWidth-4;
-      if(row.scrollLeft>=max) row.scrollTo({left:0,behavior:'smooth'});
-      else row.scrollBy({left:step(),behavior:'smooth'});
-    },AUTO_MS);
+    ['touchstart','wheel','pointerdown'].forEach(ev=>row.addEventListener(ev,()=>pause(8000),{passive:true}));
+    box.querySelectorAll('.nw-arr').forEach(b=>b.addEventListener('click',()=>pause(8000)));
+    if('IntersectionObserver' in window) new IntersectionObserver(es=>{ seen=es[0].isIntersecting; },{threshold:.3}).observe(row);
+    const tick=now=>{
+      if(!document.body.contains(row)) return;
+      box._raf=requestAnimationFrame(tick);
+      const dt=last?Math.min(100,now-last):0; last=now;
+      const busy=hover||!seen||document.hidden||now<hold;
+      if(busy){ pos=row.scrollLeft; return; }
+      const max=row.scrollWidth-row.clientWidth;
+      if(max<=0) return;
+      if(phase==='go'){
+        pos=Math.min(max,pos+SPEED*dt/1000); row.scrollLeft=pos;
+        if(pos>=max-0.5){ phase='wait-end'; until=now+2000; }
+      }else if(phase==='wait-end'){
+        if(now>=until){ phase='back'; row.scrollTo({left:0,behavior:'smooth'}); until=now+Math.min(2500,400+max*0.6); }
+      }else if(phase==='back'){
+        pos=row.scrollLeft; if(now>=until||pos<=1){ phase='wait-start'; until=now+2000; }
+      }else if(phase==='wait-start'){
+        pos=row.scrollLeft; if(now>=until){ phase='go'; }
+      }
+    };
+    box._raf=requestAnimationFrame(tick);
   }
   function isHome(){ const h=(location.hash||'').slice(1), page=h.split('-')[0], FR=window.FEATURE_ROUTES||{}; return !page||page==='rating'||(!['player','game','games'].includes(page)&&!FR[page]); }
   function draw(){
