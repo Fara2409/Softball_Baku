@@ -23,7 +23,7 @@
     const card=x=>`<a class="nw-card" href="${esc(x.link)}" target="_blank" rel="noopener">
       <span class="nw-img"><i class="nw-ph">${(window.SBI||(()=>''))('ball',46,1.3)}</i>${x.image?`<img src="${esc(x.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:''}<b class="nw-src nw-${esc((x.source||'').toLowerCase())}">${esc(x.source)}</b></span>
       <span class="nw-body"><span class="nw-t">${esc(x.title)}</span><span class="nw-when">${ago(x.date)}</span></span></a>`;
-    return `<div class="section-title nw-head"><h2>${(window.SBI||(()=>''))('ball',26,2.2)}${T('nwTitle')}</h2><span class="hint">${T('nwHint')}</span></div>
+    return `<div class="section-title nw-head"><h2>${T('nwTitle')}</h2><span class="hint">${T('nwHint')}</span></div>
       <div class="nw-wrap"><button type="button" class="nw-arr nw-prev" aria-label="‹" onclick="nwScroll(this,-1)" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
       <div class="nw-row" onscroll="nwArrows(this)"><div class="nw-track">${N.items.map(card).join('')}<a class="nw-card nw-more" href="https://www.mlb.com/news" target="_blank" rel="noopener"><span>${T('nwMore')} →</span></a></div></div>
       <button type="button" class="nw-arr nw-next" aria-label="›" onclick="nwScroll(this,1)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>`;

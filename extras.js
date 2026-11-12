@@ -76,7 +76,7 @@ function feedBlock(){
   const all=feedEvents(), byGame=[];
   for(const g of [...games].reverse()) byGame.push(...all.filter(e=>e.g===g).sort((p,q)=>p.w-q.w));
   const L=byGame.slice(0,8);
-  return `<div class="section-title"><h2>${(window.SBI||(()=>''))('bat',26,2.2)}${T('fdTitle')}</h2><span class="hint">${T('fdHint')}</span></div>
+  return `<div class="section-title"><h2>${T('fdTitle')}</h2><span class="hint">${T('fdHint')}</span></div>
     <div class="card feed">${L.map(e=>{ const p=e.pid&&P(e.pid);
       return `<a class="fd-row" href="${e.href}"><span class="fd-ic fd-${e.ic}">${(window.SBI||(()=>""))(FD_IC[e.ic]||"ball",20)}</span>${p?av(p):''}<span class="fd-t">${e.txt}</span><span class="fd-d">${fmtDate(e.g.date,{day:'numeric',month:'short'})}</span></a>`; }).join('')}</div>`;
 }
@@ -119,7 +119,7 @@ function spObserve(){
 function spray(p){
   if(!p.log||!p.log.some(l=>l.game.plays)) return '';
   const {balls,hitsNoDir}=ballsOf(p);
-  let h=`<div class="section-title"><h2>${(window.SBI||(()=>''))('ball',26,2.2)}${T('spTitle')}</h2><span class="hint">${T('spHint')}</span></div><div class="card spray">`;
+  let h=`<div class="section-title"><h2>${T('spTitle')}</h2><span class="hint">${T('spHint')}</span></div><div class="card spray">`;
   if(balls.length<1) return h+`<p class="muted sp-note">${T('spFew')}</p></div>`;
   const by={}; balls.forEach(b=>(by[b.pos]=by[b.pos]||[]).push(b));
   const COL={h:'var(--r-good)',o:'var(--r-low)',e:'var(--amber)'};

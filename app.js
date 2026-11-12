@@ -203,9 +203,9 @@ function home(){
   const top=ps.filter(p=>p.t.qual).sort((a,b)=>b.t.RAT-a.t.RAT).slice(0,3);
   h+=periodTabs();
   if(!ps.length){ app().innerHTML=h+`<div class="card empty">${T('seasonNoGames')}</div>`+seasonBanner(); return; }
-  h+=`<div class="section-title"><h2>${(window.SBI||(()=>''))('glove',26,2.2)}${S.period==='off'?T('leadersOff')(offYear()):`${T('leaders')} ${S.season}`}</h2><span class="hint">${T('avgPerGame')}</span></div><div class="podium">`;
+  h+=`<div class="section-title"><h2>${S.period==='off'?T('leadersOff')(offYear()):`${T('leaders')} ${S.season}`}</h2><span class="hint">${T('avgPerGame')}</span></div><div class="podium">`;
   top.forEach((p,i)=>h+=`<a class="card pod pod${i+1}" href="#player-${p.id}"><span class="pod-av">${av(p,'m')}<span class="medal md${i+1}" aria-label="${i+1}">${i+1}</span></span><div><div class="nm">${pname(p)}</div><div class="sub">#${p.number} · ${p.pos[0]?.[0]||''} · ${p.t.G} ${plural(LANG,p.t.G)}</div></div>${rt(p.t.RAT,'lg')}</a>`);
-  h+=`</div><div class="section-title"><h2>${(window.SBI||(()=>''))('plate',26,2.2)}${T('table')}</h2><span class="hint">${T('qualHint')(S.qual)}</span></div><div class="card tablewrap"><table class="lb" id="lb"></table></div>`;
+  h+=`</div><div class="section-title"><h2>${T('table')}</h2><span class="hint">${T('qualHint')(S.qual)}</span></div><div class="card tablewrap"><table class="lb" id="lb"></table></div>`;
   app().innerHTML=h; drawLB(ps);
 }
 function drawLB(ps){

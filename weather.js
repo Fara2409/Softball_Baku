@@ -199,7 +199,7 @@ function section(compact){
   if(!W.data) body=W.err?`<div class="card empty" style="margin-top:0">${T('wxErr')}</div>`:`<div class="loading" style="padding:20px">…</div>`;
   else body=`<div class="wd-grid">${L.map(dayTile).join('')}</div>`;
   const hasGame=L.some(d=>d.g&&!d.g.past);
-  return `<div class="section-title wx-title"><h2>${(window.SBI||(()=>''))('ball',26,2.2)}${T('wxTitle2')}</h2>${hasGame?`<button class="btn sm" onclick="WX.copy()">${T('wxCopy')}</button>`:''}</div>
+  return `<div class="section-title wx-title"><h2>${T('wxTitle2')}</h2>${hasGame?`<button class="btn sm" onclick="WX.copy()">${T('wxCopy')}</button>`:''}</div>
     <div class="wx-top">${nowBox()}<p class="wx-sub muted">${T('wxSub2')}${W.at?` · ${T('wxUpd')(new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Baku',hour:'2-digit',minute:'2-digit'}).format(new Date(W.at)))} <button class="cl-link wx-ref" onclick="WX.refresh()">↻ ${T('wxRefresh')}</button>`:''}</p></div>${body}<p class="wx-src"><a href="https://open-meteo.com/" target="_blank" rel="noopener">${T('wxSrc')}</a></p>`;
 }
 function drawSec(){ const el=document.getElementById('wx-sec'); if(el) el.innerHTML=section(el.dataset.compact==='1'); }

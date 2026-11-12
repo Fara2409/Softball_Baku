@@ -154,3 +154,7 @@ html[lang="az"] .section-title h2{letter-spacing:0}
 .foot-loc{align-items:flex-start!important}
 .foot-loc svg{flex:none;color:var(--amber);margin-top:1px}
 @media (max-width:820px){ .foot-inner{grid-template-columns:1fr 1fr} }
+
+/* значки заголовков — все одного размера */
+.section-title h2 svg.sbi{width:28px;height:28px;flex:none;color:var(--amber)}
+@media (max-width:820px){ .section-title h2 svg.sbi{width:24px;height:24px} }
