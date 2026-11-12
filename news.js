@@ -33,13 +33,36 @@
   window.nwArrows=row=>{ const w=row.parentNode, max=row.scrollWidth-row.clientWidth-4;
     w.querySelector('.nw-prev').hidden=row.scrollLeft<=4; w.querySelector('.nw-next').hidden=row.scrollLeft>=max;
     w.classList.toggle('at-start',row.scrollLeft<=4); w.classList.toggle('at-end',row.scrollLeft>=max); };
+  // автопрокрутка: каждые 5 с на одну карточку, в конце — плавно в начало.
+  // Пауза: курсор или фокус на ленте, касание, лента не на экране, вкладка скрыта; после ручного листания — 12 с.
+  // При «уменьшить движение» в системе автопрокрутки нет.
+  const AUTO_MS=5000;
+  function auto(box,row){
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if(box._auto) clearInterval(box._auto);
+    let hold=0, seen=true, hover=false;
+    const step=()=>{ const c=row.querySelector('.nw-card'); return c?c.getBoundingClientRect().width+14:260; };
+    const pause=ms=>{ hold=Date.now()+ms; };
+    row.addEventListener('mouseenter',()=>hover=true); row.addEventListener('mouseleave',()=>hover=false);
+    row.addEventListener('focusin',()=>hover=true); row.addEventListener('focusout',()=>hover=false);
+    ['touchstart','wheel','pointerdown'].forEach(ev=>row.addEventListener(ev,()=>pause(12000),{passive:true}));
+    box.querySelectorAll('.nw-arr').forEach(b=>b.addEventListener('click',()=>pause(12000)));
+    if('IntersectionObserver' in window) new IntersectionObserver(es=>{ seen=es[0].isIntersecting; },{threshold:.5}).observe(row);
+    box._auto=setInterval(()=>{
+      if(!document.body.contains(row)){ clearInterval(box._auto); return; }
+      if(hover||!seen||document.hidden||Date.now()<hold) return;
+      const max=row.scrollWidth-row.clientWidth-4;
+      if(row.scrollLeft>=max) row.scrollTo({left:0,behavior:'smooth'});
+      else row.scrollBy({left:step(),behavior:'smooth'});
+    },AUTO_MS);
+  }
   function isHome(){ const h=(location.hash||'').slice(1), page=h.split('-')[0], FR=window.FEATURE_ROUTES||{}; return !page||page==='rating'||(!['player','game','games'].includes(page)&&!FR[page]); }
   function draw(){
     const a=document.getElementById('app'); if(!a||!isHome()||!S.league) return;
     let box=a.querySelector('.news-sec'); const h=block(); if(!h){ if(box) box.remove(); return; }
     if(!box){ box=document.createElement('div'); box.className='news-sec'; a.prepend(box); }
     box.innerHTML=h;
-    const row=box.querySelector('.nw-row'); if(row) requestAnimationFrame(()=>nwArrows(row));
+    const row=box.querySelector('.nw-row'); if(row){ requestAnimationFrame(()=>nwArrows(row)); auto(box,row); }
   }
   const _route=route; route=function(){ _route(); if(isHome()){ load(); draw(); } };
 })();
