@@ -21,7 +21,7 @@ plays={
  19:e('ROE',err=[V]),20:e('ROE',err=[I]),21:e('OUT',po=[V],fpo=V),22:e('K',pk=AN),23:e('OUT',a=[V],po=[PA_]),
  # 3 TOP (3B Рашид, Фахри RF)
  24:e('1B'),25:e('OUT',po=[HK]),26:e('OUT',po=[AL],fpo=AL),27:e('1B'),28:e('1B',runs=[F],rbi=1),29:e('2B',runs=[I],rbi=1),
- 30:e('1B',err=[HK],runs=[AN,V],rbi=1),31:e('2B',err=[EM],runs=[RA],rbi=1),32:e('OUT',a=[RM],po=[HK]),
+ 30:e('ROE',err=[MO],runs=[AN,V],rbi=1),31:e('2B',err=[EM],runs=[RA],rbi=1),32:e('OUT',a=[RM],po=[HK]),
  # 3 BOTTOM
  33:e('1B'),34:e('OUT',po=[F],fpo=F),35:e('3B',runs=[D],rbi=1),36:e('OUT',po=[PA_,I],fpo=PA_,a=[PA_]),
  # 4 TOP
