@@ -431,6 +431,8 @@ function whoGroups(yes,maybe,no){
   const h=g(yes,'y','✓',T('cYesL'))+g(maybe,'m','?',T('cMaybeL'))+noPart;
   return h?`<div class="who-groups">${h}</div>`:'';
 }
+// эмблема на карточке игры в особый день (дата по Баку → картинка)
+const EV_BADGES={'2026-11-15':{src:'img/az-baseball-40.webp',alt:'Azərbaycanda beysbolun 40 ili · 1986–2026'}};
 function evCard(e,compact){
   const R=C.rsvps.filter(r=>r.event_id===e.id), by=s=>R.filter(r=>r.status===s);
   const yes=by('yes'), maybe=by('maybe'), no=by('no'), mine=C.user?(R.find(r=>r.user_id===C.user.id)||{}).status:null;
@@ -440,7 +442,8 @@ function evCard(e,compact){
   let hint='';
   if(!cx&&!can) hint=!C.user?`<button class="cl-link" onclick="CL.auth('login')">${T('cPlayerLogin')}</button>`
     :pr.requested_player_id&&!pr.player_id?T('cWaitApproval'):'';
-  return `<div class="card ev ${cx?'cancelled':''} ${compact?'compact':''}" data-ev="${+e.id}">
+  const badge=EV_BADGES[new Date(e.starts_at).toLocaleDateString('sv-SE',{timeZone:'Asia/Baku'})];
+  return `<div class="card ev ${cx?'cancelled':''} ${compact?'compact':''} ${badge?'ev-special':''}" data-ev="${+e.id}">${badge?`<img class="ev-badge" src="${badge.src}" alt="${esc(badge.alt)}">`:''}<div class="ev-main">
     <div class="ev-head"><div class="ev-when">${compact?`<span class="eyebrow">${T('cNextOne')}</span>`:''}<b>${evWhen(e.starts_at)}</b>
       <span class="muted">${esc(e.place||'')}${e.note?` · ${esc(e.note)}`:''}</span>${!cx&&window.WX?WX.chip(e.starts_at):''}</div>
       ${cx?`<span class="ev-x">${T('cCancelled')}</span>`:`<div class="ev-count"><b>${yes.length}</b><span>${T('cComing')}</span></div>`}</div>
@@ -448,7 +451,7 @@ function evCard(e,compact){
     ${hint?`<div class="ev-hint">${hint}</div>`:''}
     ${whoGroups(yes,maybe,no)}
     ${yes.length>=4&&canRsvp()?`<button class="btn sm ev-teams" onclick="CL.toTeams(${+e.id})">⚖ ${T('cToTeams')}</button>`:''}`}
-  </div>`;
+  </div></div>`;
 }
 async function rsvp(eid,status){
   if(!canRsvp()) return;
