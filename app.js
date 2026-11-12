@@ -72,8 +72,9 @@ function rating(b,won){
   const {off,def}=ratingParts(b);
   return Math.round(Math.min(10,Math.max(3,BASE+off+def+(won&&W.WIN?W.WIN:0)))*10)/10;
 }
-function rclass(r){return r==null?'na':r>=8?'great':r>=7?'good':r>=6?'mid':'low'}
-const RCOL={low:'var(--r-low)',mid:'var(--r-mid)',good:'var(--r-good)',great:'var(--r-great)',elite:'var(--r-elite)'};
+function rclass(r){return r==null?'na':r>=9?'elite':r>=8?'great':r>=7?'good':r>=6?'mid':'low'}
+const RCOL={low:'var(--r-low)',mid:'var(--r-mid)',good:'var(--r-good)',great:'var(--r-great)',elite:'linear-gradient(135deg,#22d3ee,#8b5cf6)'}; // 9+ — бирюзово-фиолетовый градиент (12.11.2026)
+const RFILL=c=>c==='elite'?'url(#rElite)':RCOL[c]; // для SVG
 function rt(r,size=''){const c=rclass(r);return `<span class="rt ${size} ${c==='na'?'na':''}" style="${c!=='na'?`background:${RCOL[c]}`:''}">${r==null?'–':r.toFixed(1)}</span>`}
 const avg3=x=>isFinite(x)?x.toFixed(3).replace(/^0/,''):'–';
 const AZ_M=['yanvar','fevral','mart','aprel','may','iyun','iyul','avqust','sentyabr','oktyabr','noyabr','dekabr'];
@@ -224,10 +225,10 @@ function drawLB(ps){
 function chart(p){
   const L=p.log, n=L.length; if(!n) return '';
   const W0=1000,H0=260,pad=36,bw=Math.min(64,(W0-pad*2)/n*0.62),step=(W0-pad*2)/n, y=v=>H0-40-((v-3)/7)*(H0-70);
-  let s=`<svg viewBox="0 0 ${W0} ${H0}" role="img" aria-label="${T('byGame')}">`;
+  let s=`<svg viewBox="0 0 ${W0} ${H0}" role="img" aria-label="${T('byGame')}"><defs><linearGradient id="rElite" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>`;
   for(const g of [4,6,8,10]) s+=`<line x1="${pad}" x2="${W0-pad}" y1="${y(g)}" y2="${y(g)}" stroke="#1f3150"/><text x="${pad-10}" y="${y(g)+4}" fill="#5f6f88" font-size="12" text-anchor="end">${g}</text>`;
   L.forEach(({game,b},i)=>{const x=pad+step*i+(step-bw)/2;
-    s+=`<a href="#game-${game.id}"><rect x="${x}" y="${y(b.rating)}" width="${bw}" height="${y(3)-y(b.rating)}" rx="6" fill="${RCOL[rclass(b.rating)]}"/>
+    s+=`<a href="#game-${game.id}"><rect x="${x}" y="${y(b.rating)}" width="${bw}" height="${y(3)-y(b.rating)}" rx="6" fill="${RFILL(rclass(b.rating))}"/>
     <text x="${x+bw/2}" y="${y(b.rating)-8}" fill="#eef2f8" font-size="15" font-weight="800" text-anchor="middle">${b.rating.toFixed(1)}</text>
     <text x="${x+bw/2}" y="${H0-16}" fill="#8fa0b8" font-size="12" text-anchor="middle">${fmtDate(game.date,{day:'numeric',month:'short'})}</text></a>`;});
   if(p.t.RAT!=null) s+=`<line x1="${pad}" x2="${W0-pad}" y1="${y(p.t.RAT)}" y2="${y(p.t.RAT)}" stroke="#EF9F27" stroke-dasharray="6 6" stroke-width="2"/><text x="${W0-pad}" y="${y(p.t.RAT)-6}" fill="#EF9F27" font-size="12" font-weight="700" text-anchor="end">${T('avgLbl')} ${p.t.RAT.toFixed(2)}</text>`;

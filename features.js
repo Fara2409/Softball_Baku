@@ -419,7 +419,7 @@ async function drawGameCard(g){
   // игрок матча и лучшие
   const box=(g.box||[]).filter(b=>b.rating!=null&&S.players[b.player]).sort((a,b)=>b.rating-a.rating||b.RBI-a.RBI);
   const line=b=>{ const a=[`${b.H}/${b.AB}`]; if(b.HR) a.push(`${b.HR} HR`); if(b.RBI) a.push(`${b.RBI} RBI`); if(b.R) a.push(`${b.R} R`); if(b.BB) a.push(`${b.BB} BB`); return a.join(' · '); };
-  const badge=(v,X,Y,w,h,fs)=>{ x.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--r-'+rclass(v)).trim()||'#2fae66'; roundRect(x,X,Y,w,h,h*.22); x.fill(); x.fillStyle='#fff'; x.textAlign='center'; x.font=F(900,fs,1); x.fillText(v.toFixed(1),X+w/2,Y+h/2+fs*.35); };
+  const badge=(v,X,Y,w,h,fs)=>{ x.fillStyle=rFillCanvas(x,v,X,Y,w,h); roundRect(x,X,Y,w,h,h*.22); x.fill(); x.fillStyle='#fff'; x.textAlign='center'; x.font=F(900,fs,1); x.fillText(v.toFixed(1),X+w/2,Y+h/2+fs*.35); };
   const face=async(p,cx,cy,r,ring)=>{ const img=await loadImg(p.photo);
     x.save(); x.beginPath(); x.arc(cx,cy,r,0,Math.PI*2); x.closePath(); x.fillStyle='#14233a'; x.fill(); x.clip();
     if(img) x.drawImage(img,cx-r,cy-r,r*2,r*2); else { x.fillStyle='#EF9F27'; x.font=F(900,r*.9,1); x.textAlign='center'; x.fillText(String(p.number),cx,cy+r*.32); }
@@ -473,7 +473,7 @@ async function drawCard(p){
   const t=p.t;
   if(t.G){
     const rv=Math.round(t.RAT*10)/10, rc=getComputedStyle(document.documentElement).getPropertyValue('--r-'+rclass(rv)).trim()||'#2fae66';
-    x.fillStyle=rc; roundRect(x,cx-120,1030,240,110,22); x.fill(); x.fillStyle='#fff'; x.font=F(900,74,1); x.fillText(rv.toFixed(1),cx,1112);
+    x.fillStyle=rFillCanvas(x,rv,cx-120,1030,240,110); roundRect(x,cx-120,1030,240,110,22); x.fill(); x.fillStyle='#fff'; x.font=F(900,74,1); x.fillText(rv.toFixed(1),cx,1112);
     const st=[[T('G'),t.G],['AVG',avg3(t.AVG)],['OPS',avg3(t.OPS)],['HR',t.HR],['RBI',t.RBI]], w=W/st.length;
     st.forEach(([k,v],i)=>{ x.fillStyle='#ffffff'; x.font=F(900,48); x.fillText(String(v),w*i+w/2,1225); x.fillStyle='#8fa0b8'; x.font=F(700,24); x.fillText(String(k).toUpperCase(),w*i+w/2,1262); });
   } else {
@@ -588,3 +588,10 @@ window.gamePlays=function(g){
   return h+`</div>`;
 };
 window.pbToggle=function(a){ const open=a.dataset.open!=='1'; document.querySelectorAll('.pb-half').forEach(d=>d.open=open); a.dataset.open=open?'1':'0'; a.textContent=open?T('pbNone'):T('pbAll'); };
+
+/* цвет плашки рейтинга для canvas: 9+ — градиент */
+function rFillCanvas(x,v,X,Y,w,h){
+  const c=rclass(v), cs=getComputedStyle(document.documentElement);
+  if(c==='elite'){ const g=x.createLinearGradient(X,Y,X+w,Y+h); g.addColorStop(0,cs.getPropertyValue('--r-elite-a').trim()||'#22d3ee'); g.addColorStop(1,cs.getPropertyValue('--r-elite-b').trim()||'#8b5cf6'); return g; }
+  return cs.getPropertyValue('--r-'+c).trim()||'#2fae66';
+}
