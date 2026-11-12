@@ -25,49 +25,44 @@
       <span class="nw-body"><span class="nw-t">${esc(x.title)}</span><span class="nw-when">${ago(x.date)}</span></span></a>`;
     return `<div class="section-title nw-head"><h2>${(window.SBI||(()=>''))('ball',26,2.2)}${T('nwTitle')}</h2><span class="hint">${T('nwHint')}</span></div>
       <div class="nw-wrap"><button type="button" class="nw-arr nw-prev" aria-label="‹" onclick="nwScroll(this,-1)" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <div class="nw-row" onscroll="nwArrows(this)">${N.items.map(card).join('')}<a class="nw-card nw-more" href="https://www.mlb.com/news" target="_blank" rel="noopener"><span>${T('nwMore')} →</span></a></div>
+      <div class="nw-row" onscroll="nwArrows(this)"><div class="nw-track">${N.items.map(card).join('')}<a class="nw-card nw-more" href="https://www.mlb.com/news" target="_blank" rel="noopener"><span>${T('nwMore')} →</span></a></div></div>
       <button type="button" class="nw-arr nw-next" aria-label="›" onclick="nwScroll(this,1)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>`;
   }
   // стрелки карусели: листаем на ширину видимой части, у краёв стрелка прячется
-  window.nwScroll=(btn,dir)=>{ const row=btn.parentNode.querySelector('.nw-row'); row.scrollBy({left:dir*Math.max(260,row.clientWidth*0.85),behavior:'smooth'}); };
+  window.nwScroll=(btn,dir)=>{ const row=btn.parentNode.querySelector('.nw-row'); if(row._freeze) row._freeze(); row.scrollBy({left:dir*Math.max(260,row.clientWidth*0.85),behavior:'smooth'}); };
   window.nwArrows=row=>{ const w=row.parentNode, max=row.scrollWidth-row.clientWidth-4;
+    if(w.classList.contains('nw-anim')){ w.querySelector('.nw-prev').hidden=false; w.querySelector('.nw-next').hidden=false; w.classList.remove('at-start','at-end'); return; }
     w.querySelector('.nw-prev').hidden=row.scrollLeft<=4; w.querySelector('.nw-next').hidden=row.scrollLeft>=max;
     w.classList.toggle('at-start',row.scrollLeft<=4); w.classList.toggle('at-end',row.scrollLeft>=max); };
-  // автопрокрутка (12.11.2026): лента всё время очень медленно и плавно едет к последней новости,
-  // в конце — пауза 2 с и плавный возврат в начало, пауза 2 с, и снова. Скорость SPEED пикс/с.
-  // Пауза: курсор или фокус на ленте, касание, лента не на экране, вкладка скрыта; после ручного листания — 8 с.
-  // При «уменьшить движение» в системе автопрокрутки нет.
-  const SPEED=18;
+  // автопрокрутка (12.11.2026, v2): лента всё время очень медленно едет к последней новости, в конце пауза
+  // и плавный возврат в начало. Двигаем не scrollLeft (на iPhone он округляется до пикселей и «дрожит»),
+  // а CSS-анимацию transform у .nw-track — её плавно рисует видеокарта.
+  // Наведение — пауза (CSS). Касание / колёсико / стрелки — анимация останавливается, лента листается рукой,
+  // через 8 с без касаний анимация продолжается с того же места. При «уменьшить движение» — без автопрокрутки.
+  const SPEED=18, GO=.78, START=.03;   // пикс/с; доля цикла на движение вперёд; пауза в начале
   function auto(box,row){
     if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if(box._raf) cancelAnimationFrame(box._raf);
-    let hold=0, seen=true, hover=false, pos=row.scrollLeft, last=0, phase='go', until=0;
-    const pause=ms=>{ hold=performance.now()+ms; };
-    row.addEventListener('mouseenter',()=>hover=true); row.addEventListener('mouseleave',()=>hover=false);
-    row.addEventListener('focusin',()=>hover=true); row.addEventListener('focusout',()=>hover=false);
-    ['touchstart','wheel','pointerdown'].forEach(ev=>row.addEventListener(ev,()=>pause(8000),{passive:true}));
-    box.querySelectorAll('.nw-arr').forEach(b=>b.addEventListener('click',()=>pause(8000)));
-    if('IntersectionObserver' in window) new IntersectionObserver(es=>{ seen=es[0].isIntersecting; },{threshold:.3}).observe(row);
-    const tick=now=>{
-      if(!document.body.contains(row)) return;
-      box._raf=requestAnimationFrame(tick);
-      const dt=last?Math.min(100,now-last):0; last=now;
-      const busy=hover||!seen||document.hidden||now<hold;
-      if(busy){ pos=row.scrollLeft; return; }
-      const max=row.scrollWidth-row.clientWidth;
-      if(max<=0) return;
-      if(phase==='go'){
-        pos=Math.min(max,pos+SPEED*dt/1000); row.scrollLeft=pos;
-        if(pos>=max-0.5){ phase='wait-end'; until=now+2000; }
-      }else if(phase==='wait-end'){
-        if(now>=until){ phase='back'; row.scrollTo({left:0,behavior:'smooth'}); until=now+Math.min(2500,400+max*0.6); }
-      }else if(phase==='back'){
-        pos=row.scrollLeft; if(now>=until||pos<=1){ phase='wait-start'; until=now+2000; }
-      }else if(phase==='wait-start'){
-        pos=row.scrollLeft; if(now>=until){ phase='go'; }
-      }
+    const tr=row.querySelector('.nw-track'); if(!tr) return;
+    let dist=0, dur=0, idle=0;
+    const measure=()=>{ dist=Math.max(0,tr.scrollWidth-row.clientWidth); dur=dist/SPEED/GO; };
+    const play=pos=>{                         // запустить с позиции pos (пикс)
+      measure(); if(dist<20){ tr.classList.remove('nw-run'); return; }
+      const t=START+Math.min(1,Math.max(0,pos/dist))*GO;
+      tr.style.setProperty('--nw-dist',`-${dist}px`); tr.style.setProperty('--nw-dur',`${dur.toFixed(1)}s`);
+      tr.style.animationDelay=`-${(t*dur).toFixed(2)}s`;
+      row.scrollLeft=0; tr.classList.remove('nw-run'); void tr.offsetWidth; tr.classList.add('nw-run');
+      row.parentNode.classList.add('nw-anim'); nwArrows(row);
     };
-    box._raf=requestAnimationFrame(tick);
+    const freeze=()=>{                        // остановить и перевести смещение анимации в обычную прокрутку
+      clearTimeout(idle); idle=setTimeout(()=>play(row.scrollLeft),8000);
+      if(!tr.classList.contains('nw-run')) return;
+      const m=new DOMMatrixReadOnly(getComputedStyle(tr).transform), x=-m.m41;
+      tr.classList.remove('nw-run'); row.parentNode.classList.remove('nw-anim'); row.scrollLeft=x; nwArrows(row);
+    };
+    row._freeze=freeze;
+    ['touchstart','wheel','pointerdown'].forEach(ev=>row.addEventListener(ev,freeze,{passive:true}));
+    window.addEventListener('resize',()=>{ if(tr.classList.contains('nw-run')){ freeze(); } });
+    play(0);
   }
   function isHome(){ const h=(location.hash||'').slice(1), page=h.split('-')[0], FR=window.FEATURE_ROUTES||{}; return !page||page==='rating'||(!['player','game','games'].includes(page)&&!FR[page]); }
   function draw(){

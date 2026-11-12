@@ -2,7 +2,7 @@
 .news-sec{margin:0 0 8px}
 .news-sec .section-title{margin-top:4px}
 .nw-wrap{position:relative}
-.nw-row{display:flex;gap:14px;overflow-x:auto;padding:2px 2px 6px;margin:0 -2px;scrollbar-width:none;-ms-overflow-style:none;
+.nw-row{overflow-x:auto;padding:2px 2px 6px;margin:0 -2px;scrollbar-width:none;-ms-overflow-style:none;
   -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 28px,#000 calc(100% - 48px),transparent);mask-image:linear-gradient(90deg,transparent 0,#000 28px,#000 calc(100% - 48px),transparent)}
 .nw-row::-webkit-scrollbar{display:none}
 .nw-wrap.at-start .nw-row{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent)}
@@ -30,3 +30,14 @@
 .nw-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#22344F}
 .nw-img img{position:relative}
 .nw-cbs{background:#0A5FAD}
+
+.nw-track{display:flex;gap:14px;width:max-content;will-change:transform}
+.nw-track.nw-run{animation:nwPing var(--nw-dur,60s) infinite both}
+.nw-row:hover .nw-track.nw-run{animation-play-state:paused}
+@keyframes nwPing{
+  0%,3%{transform:translate3d(0,0,0);animation-timing-function:linear}
+  81%,85%{transform:translate3d(var(--nw-dist),0,0);animation-timing-function:ease-in-out}
+  97%,100%{transform:translate3d(0,0,0)}
+}
+/* пока идёт анимация, лента «прокручена» трансформом: обе стрелки и оба затухания краёв показываем */
+.nw-wrap.nw-anim .nw-row{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 28px,#000 calc(100% - 48px),transparent);mask-image:linear-gradient(90deg,transparent 0,#000 28px,#000 calc(100% - 48px),transparent)}
