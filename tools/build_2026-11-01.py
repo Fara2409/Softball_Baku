@@ -28,7 +28,7 @@ plays={
  37:e('OUT',po=[D],fpo=D),38:e('1B'),39:e('1B'),40:e('FC',po=[MO],fpo=MO),41:e('1B',runs=[RS],rbi=1),42:e('OUT',po=[EM],fpo=EM),
  # 4 BOTTOM (Расул Шукюров на месте кэтчера — по решению пользователя засчитано)
  43:e('1B',err=[M]),44:e('1B'),45:e('OUT',po=[M,RS],fpo=M,a=[M]),46:e('ROE',err=[V],runs=[MO],rbi=1),47:e('1B'),
- 48:e('1B',runs=[SD],rbi=1),49:e('3B',runs=[RD,D],rbi=2),50:e('3B',runs=[FK],rbi=1),51:e('OUT',po=[RS],fpo=RS),
+ 48:e('ROE',err=[I],runs=[SD],rbi=1),49:e('3B',runs=[RD,D],rbi=2),50:e('3B',runs=[FK],rbi=1),51:e('OUT',po=[RS],fpo=RS),
  # 5 TOP
  52:e('OUT',a=[MO],po=[HK]),53:e('BB'),54:e('FC',a=[AL],po=[MO]),55:e('OUT',a=[RD],po=[AL]),
  # 5 BOTTOM
