@@ -39,7 +39,7 @@ plays={
  # 6 BOTTOM
  75:e('OUT',a=[AN],po=[M]),76:e('1B'),77:e('1B'),78:e('OUT',po=[M],fpo=M),79:e('OUT',a=[V],po=[I]),
  # 7 TOP
- 80:e('ROE',err=[HK]),81:e('3B',runs=[I],rbi=1),82:e('HR',runs=[AN,V],rbi=2),83:e('1B',po=[RD],fpo=RD),84:e('OUT',a=[MO],po=[HK]),85:e('OUT',po=[SD],fpo=SD),
+ 80:e('1B',err=[HK]),81:e('3B',runs=[I],rbi=1),82:e('HR',runs=[AN,V],rbi=2),83:e('1B',po=[RD],fpo=RD),84:e('OUT',a=[MO],po=[HK]),85:e('OUT',po=[SD],fpo=SD),
  # 7 BOTTOM
  86:e('OUT',po=[I],fpo=I),87:e('OUT',po=[RA],fpo=RA),88:e('OUT',po=[F],fpo=F),
  # 8 TOP
