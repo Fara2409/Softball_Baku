@@ -34,7 +34,7 @@ plays={
  # 5 BOTTOM
  56:e('ROE',err=[M]),57:e('OUT',po=[I],fpo=I),58:e('BB'),59:e('FC',a=[V],po=[I]),60:e('1B'),61:e('2B',runs=[HK,SD],rbi=2),62:e('1B',runs=[RD,D],rbi=2),63:e('OUT',po=[IH],fpo=IH),
  # 6 TOP
- 64:e('OUT',a=[MO],po=[HK]),65:e('ROE',err=[RD]),66:e('HR',runs=[RS,I],rbi=2),67:e('1B'),68:e('2B'),69:e('ROE',err=[RD,D],runs=[AN,V],rbi=0),
+ 64:e('OUT',a=[MO],po=[HK]),65:e('ROE',err=[RD]),66:e('HR',runs=[RS,I],rbi=2),67:e('1B'),68:e('2B'),69:e('1B',err=[D],runs=[AN,V],rbi=2),
  70:e('1B'),71:e('BB'),72:e('1B',runs=[RA],rbi=1),73:e('1B',runs=[PA_],rbi=1),74:e('FC',po=[MO,MO],fpo=MO),
  # 6 BOTTOM
  75:e('OUT',a=[AN],po=[M]),76:e('1B'),77:e('1B'),78:e('OUT',po=[M],fpo=M),79:e('OUT',a=[V],po=[I]),
