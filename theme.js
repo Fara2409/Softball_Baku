@@ -63,7 +63,7 @@
     }
     return null;
   }
-  function decorate(){
+  let decorate=function(){
     document.querySelectorAll('#app .section-title h2').forEach(h=>{
       const ic=h.dataset.ic||titleIcon(h.textContent.trim()); if(!ic) return;
       const old=h.querySelector(':scope > svg.sbi');
@@ -71,7 +71,18 @@
       if(old) old.remove();
       h.insertAdjacentHTML('afterbegin',SBI(ic,28,2.1).replace('<svg ',`<svg data-ic="${ic}" `));
     });
+  };
+  // маленькие значки у подзаголовков карточек («Последняя игра», «Игрок матча», «Следующая игра», «Сейчас отбивает»)
+  const EYE_IC={lastGame:'cal',firstGame:'cal',potg:'medal',cNextOne:'cal',cAtBat:'bat',cProfile:'users'};
+  function decorateEyebrows(){
+    const L=I18N[LANG]||{};
+    document.querySelectorAll('#app .card .eyebrow').forEach(el=>{
+      if(el.querySelector('svg.sbi')) return;
+      const t=el.textContent.trim();
+      for(const [k,ic] of Object.entries(EYE_IC)){ const v=L[k]; if(typeof v==='string'&&v&&t.startsWith(v)){ el.insertAdjacentHTML('afterbegin',SBI(ic,15,2.3)); el.classList.add('eb-ic'); break; } }
+    });
   }
+  const _dec=decorate; decorate=function(){ _dec(); decorateEyebrows(); };
   window.sbDecorate=decorate;
   let decT=0; const decLater=()=>{ cancelAnimationFrame(decT); decT=requestAnimationFrame(decorate); };
 
