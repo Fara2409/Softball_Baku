@@ -180,6 +180,28 @@ begin
   if not found then raise exception 'Пользователь не найден'; end if;
 end $$;
 
+-- ---------- 6b. Админ: исправить почту участника (12.11.2026) ----------
+-- Например, человек ошибся при регистрации (…@olimpes.sz вместо …@olimpes.az).
+-- Меняем адрес и в auth.users, и в auth.identities (вход по почте), сразу подтверждённым.
+create or replace function public.admin_set_email(target uuid, new_email text)
+returns void
+language plpgsql security definer set search_path = '' as $$
+declare e text := lower(trim(coalesce(new_email,'')));
+begin
+  if not public.is_admin() then raise exception 'Только для админа'; end if;
+  if e !~ '^[^@\s]+@[^@\s]+\.[a-z]{2,}$' then raise exception 'Неверный адрес почты'; end if;
+  if exists (select 1 from auth.users where lower(email) = e and id <> target) then
+    raise exception 'Эта почта уже занята другим участником'; end if;
+  update auth.users
+     set email = e, email_confirmed_at = coalesce(email_confirmed_at, now()),
+         email_change = '', email_change_token_new = '', updated_at = now()
+   where id = target;
+  if not found then raise exception 'Пользователь не найден'; end if;
+  update auth.identities
+     set identity_data = jsonb_set(identity_data, '{email}', to_jsonb(e)), updated_at = now()
+   where user_id = target and provider = 'email';
+end $$;
+
 -- ---------- 7. Доступ сайта к таблицам ----------
 -- С 30.05.2026 Supabase в новых проектах не открывает таблицы автоматически —
 -- выдаём права явно. Что именно разрешено каждому — решают политики RLS выше.
@@ -191,9 +213,9 @@ grant insert, update, delete on public.events, public.rsvps, public.live_games t
 grant insert, delete on public.comments to authenticated;
 grant usage, select on all sequences in schema public to authenticated;
 
-revoke execute on function public.admin_users(), public.admin_reset_password(uuid, text) from public, anon;
+revoke execute on function public.admin_users(), public.admin_reset_password(uuid, text), public.admin_set_email(uuid, text) from public, anon;
 grant execute on function public.my_role(), public.is_admin() to anon, authenticated;
-grant execute on function public.admin_users(), public.admin_reset_password(uuid, text) to authenticated;
+grant execute on function public.admin_users(), public.admin_reset_password(uuid, text), public.admin_set_email(uuid, text) to authenticated;
 
 -- =====================================================================
 -- ПОСЛЕ ТОГО, КАК ВЫ ЗАРЕГИСТРИРУЕТЕСЬ НА САЙТЕ — сделать себя админом

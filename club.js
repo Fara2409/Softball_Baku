@@ -32,6 +32,7 @@ Object.assign(I18N.ru,{
   cCountNo:n=>`не будут: ${n}`,cYesL:'Будут',cMaybeL:'Может быть',cNoL:'Не будут',cOnlyPlayers:'Отмечаться могут только игроки',cPlayerLogin:'Вы игрок? Войдите',cWaitApproval:'Ваша заявка игрока ждёт подтверждения админа',
   cCancelled:'Отменена',cNoEvents:'⏳ Ждём подтверждения следующей игры',cAwait:'Ждём подтверждения игры',cAwaitAdm:'Назначить игру',cToTeams:'Разделить пришедших на команды',
   cAdminTitle:'Панель админа',cRequests:'Заявки игроков',cNoRequests:'Новых заявок нет',cApprove:'Подтвердить',cReject:'Отклонить',cWants:'хочет быть',
+  cMailNo:d=>`Почты на домене «${d}» не существует — проверьте адрес.`,cMailMean:s=>`Может быть, вы имели в виду ${s}?`,cMailFix:'Исправить',cMailKeep:'Нет, адрес верный',cMailBtn:'Почта',cMailQ:n=>`Новая почта для ${n}:`,cMailDone:'Почта изменена. Теперь вход по новому адресу (пароль прежний).',cMailNeedSQL:'Сначала обновите базу: запустите supabase/schema.sql в Supabase → SQL Editor.',
   cUsers:'Пользователи',cPlayerL:'Игрок',cReset:'Сбросить пароль',cResetQ:n=>`Задать ${n} новый временный пароль?`,cTempPass:'Временный пароль',
   cTempHint:'Отправьте этот пароль человеку. После входа пусть поменяет его в профиле.',cCopy:'Скопировать',cSendWA:'Отправить в WhatsApp',
   cWAtext:(e,p)=>`Softball Baku: ваш временный пароль для входа на сайт\n${SITE}\nПочта: ${e}\nПароль: ${p}\nПосле входа поменяйте его в профиле.`,
@@ -63,6 +64,7 @@ Object.assign(I18N.az,{
   cCountNo:n=>`gəlmir: ${n}`,cYesL:'Gələcəklər',cMaybeL:'Bəlkə',cNoL:'Gəlməyəcəklər',cOnlyPlayers:'Qeyd olunmaq yalnız oyunçular üçündür',cPlayerLogin:'Oyunçusunuz? Daxil olun',cWaitApproval:'Oyunçu sorğunuz admin təsdiqini gözləyir',
   cCancelled:'Ləğv edildi',cNoEvents:'⏳ Növbəti oyunun təsdiqi gözlənilir',cAwait:'Oyunun təsdiqi gözlənilir',cAwaitAdm:'Oyun təyin et',cToTeams:'Gələnləri komandalara böl',
   cAdminTitle:'Admin paneli',cRequests:'Oyunçu sorğuları',cNoRequests:'Yeni sorğu yoxdur',cApprove:'Təsdiq et',cReject:'Rədd et',cWants:'olmaq istəyir',
+  cMailNo:d=>`«${d}» domenində e-poçt yoxdur — ünvanı yoxlayın.`,cMailMean:s=>`Bəlkə ${s} nəzərdə tutursunuz?`,cMailFix:'Düzəlt',cMailKeep:'Xeyr, ünvan düzgündür',cMailBtn:'E-poçt',cMailQ:n=>`${n} üçün yeni e-poçt:`,cMailDone:'E-poçt dəyişdirildi. İndi giriş yeni ünvanla (şifrə əvvəlki).',cMailNeedSQL:'Əvvəlcə bazanı yeniləyin: supabase/schema.sql faylını Supabase → SQL Editor-da işə salın.',
   cUsers:'İstifadəçilər',cPlayerL:'Oyunçu',cReset:'Şifrəni sıfırla',cResetQ:n=>`${n} üçün yeni müvəqqəti şifrə yaradılsın?`,cTempPass:'Müvəqqəti şifrə',
   cTempHint:'Bu şifrəni həmin şəxsə göndərin. Daxil olandan sonra onu profilində dəyişsin.',cCopy:'Kopyala',cSendWA:'WhatsApp-da göndər',
   cWAtext:(e,p)=>`Softball Baku: sayta giriş üçün müvəqqəti şifrəniz\n${SITE}\nE-poçt: ${e}\nŞifrə: ${p}\nDaxil olandan sonra şifrəni profilinizdə dəyişin.`,
@@ -94,6 +96,7 @@ Object.assign(I18N.en,{
   cCountNo:n=>`out: ${n}`,cYesL:'Coming',cMaybeL:'Maybe',cNoL:'Not coming',cOnlyPlayers:'Only players can respond',cPlayerLogin:'Are you a player? Log in',cWaitApproval:'Your player request is waiting for admin approval',
   cCancelled:'Cancelled',cNoEvents:'⏳ Awaiting confirmation of the next game',cAwait:'Awaiting game confirmation',cAwaitAdm:'Schedule a game',cToTeams:'Split those coming into teams',
   cAdminTitle:'Admin panel',cRequests:'Player requests',cNoRequests:'No new requests',cApprove:'Approve',cReject:'Reject',cWants:'wants to be',
+  cMailNo:d=>`There is no email on the domain “${d}” — check the address.`,cMailMean:s=>`Did you mean ${s}?`,cMailFix:'Fix it',cMailKeep:'No, it is correct',cMailBtn:'Email',cMailQ:n=>`New email for ${n}:`,cMailDone:'Email changed. Log in with the new address (same password).',cMailNeedSQL:'Update the database first: run supabase/schema.sql in Supabase → SQL Editor.',
   cUsers:'Users',cPlayerL:'Player',cReset:'Reset password',cResetQ:n=>`Set a new temporary password for ${n}?`,cTempPass:'Temporary password',
   cTempHint:'Send this password to the person. After logging in they should change it in their profile.',cCopy:'Copy',cSendWA:'Send via WhatsApp',
   cWAtext:(e,p)=>`Softball Baku: your temporary password for the site\n${SITE}\nEmail: ${e}\nPassword: ${p}\nPlease change it in your profile after logging in.`,
@@ -341,13 +344,53 @@ async function finishOAuth(){
   }catch(e){ console.warn('[club]',e); toast(T('cGoogleErr')); rerender(); }
   return true;
 }
+// ---- проверка почты при регистрации (12.11.2026: игрок написал …@olimpes.sz вместо .az) ----
+const MAIL_DOMAINS=['gmail.com','mail.ru','yandex.ru','yandex.com','bk.ru','list.ru','inbox.ru','rambler.ru','outlook.com','hotmail.com','live.com','icloud.com','yahoo.com','box.az','mail.az','proton.me','protonmail.com'];
+const MAIL_TLDS=['com','ru','az','net','org','ua','tr','de','uk','io','info','me','co','us','edu','gov','kz','ge','by','eu','biz','pro','app','dev','fr','it','es','pl','nl','ch','at','ca','au','in','cn','jp','kr','il','ae','sa','qa','uz','am','lt','lv','ee','fi','se','no','dk','cz','sk','hu','ro','bg','gr','pt','be','ie','tv','xyz','online','site','me'];
+function lev(a,b){ const m=a.length,n=b.length,d=Array.from({length:m+1},(_,i)=>[i,...Array(n).fill(0)]); for(let j=1;j<=n;j++)d[0][j]=j;
+  for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1)); return d[m][n]; }
+function mailSuggest(email){
+  const [u,dom]=email.toLowerCase().split('@'); if(!dom) return null;
+  if(MAIL_DOMAINS.includes(dom)) return null;
+  let best=null,bd=3; for(const d of MAIL_DOMAINS){ const x=lev(dom,d); if(x<bd){bd=x;best=d;} }
+  if(best&&bd<=2) return u+'@'+best;
+  const parts=dom.split('.'), tld=parts.pop();
+  if(!MAIL_TLDS.includes(tld)&&lev(tld,'az')===1) return u+'@'+parts.join('.')+'.az';
+  if(!MAIL_TLDS.includes(tld)&&lev(tld,'com')===1) return u+'@'+parts.join('.')+'.com';
+  if(!MAIL_TLDS.includes(tld)&&lev(tld,'ru')===1) return u+'@'+parts.join('.')+'.ru';
+  return null;
+}
+// существует ли домен почты: публичный DNS Google (DoH, без ключа). Нет связи / долго — не мешаем регистрации.
+async function mailDomainExists(dom){
+  try{
+    const ctl=new AbortController(), tm=setTimeout(()=>ctl.abort(),3500);
+    const q=t=>fetch(`https://dns.google/resolve?name=${encodeURIComponent(dom)}&type=${t}`,{signal:ctl.signal}).then(r=>r.json());
+    const mx=await q('MX'); if(mx.Status===3){ clearTimeout(tm); return false; }
+    if(mx.Status===0&&(mx.Answer||[]).length){ clearTimeout(tm); return true; }
+    const a=await q('A'); clearTimeout(tm); return !(a.Status===3||!(a.Answer||[]).length);
+  }catch(e){ return null; }
+}
+async function checkMail(f,email){
+  if(f.dataset.mailOk===email) return true;
+  const sug=mailSuggest(email), dom=email.split('@')[1];
+  const exists=await mailDomainExists(dom);
+  if(exists===false||sug){
+    const el=$id('cl-err'); if(!el) return false;
+    el.innerHTML=(exists===false?esc(T('cMailNo')(dom))+' ':'')+(sug?esc(T('cMailMean')(sug)):'')+
+      `<span class="cl-mailfix">${sug?`<button type="button" class="btn sm pri" data-v="${esc(sug)}">${T('cMailFix')}</button>`:''}${exists===false?'':`<button type="button" class="btn sm" data-keep="1">${T('cMailKeep')}</button>`}</span>`;
+    el.querySelectorAll('button').forEach(b=>b.onclick=()=>{ if(b.dataset.v){ f.email.value=b.dataset.v; f.dataset.mailOk=b.dataset.v; } else f.dataset.mailOk=email; el.textContent=''; f.requestSubmit?f.requestSubmit():f.querySelector('[type=submit]').click(); });
+    return false;
+  }
+  f.dataset.mailOk=email; return true;
+}
 async function doSignup(ev){
   ev.preventDefault(); const f=ev.target, name=f.name.value.trim(), email=f.email.value.trim(), pass=f.pass.value, pid=f.player.value;
   if(!name){ formErr(T('cErrName')); return false; }
-  if(!/^\S+@\S+\.\S+$/.test(email)){ formErr(T('cErrEmail')); return false; }
+  if(!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)){ formErr(T('cErrEmail')); return false; }
   if(pass.length<6){ formErr(T('cErrShort')); return false; }
   if(pass!==f.pass2.value){ formErr(T('cErrMismatch')); f.pass2.focus(); return false; }
   formBusy(f,true); formErr('');
+  if(!(await checkMail(f,email))){ formBusy(f,false); return false; }
   try{
     const {data,error}=await C.sb.auth.signUp({email,password:pass,options:{data:{display_name:name,requested_player_id:pid||null}}});
     if(error) throw error;
@@ -682,7 +725,7 @@ function drawAdminUsers(){
     return `<div class="adm-user">${personAv(pr,'s')}<div class="adm-u-t"><b>${esc(u.display_name||'—')}${self?` <span class="muted">(${T('cYou')})</span>`:''}</b><span class="muted">${esc(u.email||'')} · ${T('cLastSeen')}: ${u.last_sign_in_at?whenShort(u.last_sign_in_at):T('cNever')}</span></div>
       <div class="adm-u-c"><select onchange="CL.setRole('${esc(u.id)}',this.value)" ${self?'disabled':''}>${['guest','player','admin'].map(r=>`<option value="${r}" ${u.role===r?'selected':''}>${T('cRole_'+r)}</option>`).join('')}</select>
         <select onchange="CL.setPlayer('${esc(u.id)}',this.value)"><option value="">${T('cPlayerL')}: —</option>${sortedPlayers().map(p=>`<option value="${esc(p.id)}" ${u.player_id===p.id?'selected':''}>#${p.number} ${esc(pname(p))}</option>`).join('')}</select>
-        <button class="btn sm" onclick="CL.resetPass('${esc(u.id)}')">🔑 ${T('cReset')}</button></div></div>`; }).join('')+'</div>';
+        <button class="btn sm" onclick="CL.resetPass('${esc(u.id)}')">🔑 ${T('cReset')}</button><button class="btn sm" onclick="CL.setEmail('${esc(u.id)}')">✉️ ${T('cMailBtn')}</button></div></div>`; }).join('')+'</div>';
 }
 async function admUpdate(uid,patch){
   const {error}=await C.sb.from('profiles').update(patch).eq('id',uid);
@@ -703,6 +746,15 @@ async function resetPass(uid){
   const msg=T('cWAtext')(u.email,pw);
   openModal(sheetHead(T('cTempPass'))+`<p class="cl-p"><b>${esc(u.display_name||'')}</b> · ${esc(u.email||'')}</p><div class="cl-temp">${esc(pw)}</div><p class="cl-p muted">${T('cTempHint')}</p>
     <div class="cl-btns"><button class="btn" onclick="CL.copy(${esc(JSON.stringify(msg))})">${T('cCopy')}</button><a class="btn wa" href="https://wa.me/?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">${T('cSendWA')}</a></div>`);
+}
+async function setEmail(uid){
+  const u=ADM.users.find(x=>x.id===uid); if(!u) return;
+  let e=prompt(T('cMailQ')(u.display_name||u.email),u.email||''); if(e==null) return; e=e.trim().toLowerCase();
+  if(!e||e===(u.email||'').toLowerCase()) return;
+  if(!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/.test(e)){ toast(T('cErrEmail')); return; }
+  const {error}=await C.sb.rpc('admin_set_email',{target:uid,new_email:e});
+  if(error){ if(/admin_set_email|function|schema cache/i.test(error.message||'')) toast(T('cMailNeedSQL')); else fail(error); return; }
+  u.email=e; toast(T("cMailDone")); drawAdminUsers();
 }
 function copy(t){ (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast(T('tmCopied'))).catch(()=>prompt('',t)); }
 async function addEvent(ev){
@@ -744,7 +796,7 @@ const NAV={n:-1}; window.addEventListener('hashchange',()=>{ NAV.n++; }); NAV.n=
 
 /* ---------- Подключение к сайту ---------- */
 window.CL={back:fb=>{ if(NAV.n>0) history.back(); else location.hash=fb; },oldBrowser:()=>openModal(sheetHead(T('cLogin'))+`<p class="cl-p">${T('cOldBrowser')}</p>`),redraw:()=>drawWidgets(),events:()=>C.events||[],isAdmin,canDecide:()=>C.ready&&canRsvp(),auth,google,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,rsvp,toTeams,sendComment,delComment,saveName,request,changePass,
-  approve,reject,setRole,setPlayer,resetPass,copy,addEvent,evStatus,delEvent,endLive,delLive};
+  approve,reject,setRole,setPlayer,resetPass,setEmail,copy,addEvent,evStatus,delEvent,endLive,delLive};
 const TEAMS_PAGE=(window.FEATURE_ROUTES||{}).teams||(()=>home());
 Object.assign(window.FEATURE_ROUTES=window.FEATURE_ROUTES||{},{live:livePage,me:mePage,admin:adminPage,teams:teamsGate});
 applyGates();
