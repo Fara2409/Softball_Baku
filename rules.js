@@ -67,6 +67,19 @@ function fieldSVG(){
   for(const [p,[x,y]] of Object.entries(FXY)) s+=`<g><circle cx="${x}" cy="${y}" r="4.6" fill="#0b1626" stroke="#EF9F27" stroke-width=".7"/><text x="${x}" y="${y+1.3}" font-size="3.6" font-weight="800" fill="#eef2f8" text-anchor="middle">${p}</text></g>`;
   return s+'</svg>';
 }
+// пример из профиля: лучший игрок периода — общий рейтинг и разбивка «нападение / защита»
+function rateExample(){
+  if(typeof rsplit!=='function'||!S.players) return '';
+  const P=Object.values(S.players).filter(p=>p.t&&p.t.G&&p.t.RAT!=null&&p.t.OFF!=null).sort((a,b)=>b.t.RAT-a.t.RAT)[0];
+  if(!P) return '';
+  const t=P.t, B=typeof BASE!=='undefined'?BASE:6, sum=Math.round((B+t.OFF+t.DEF)*10)/10;
+  const L={ru:{h:'Пример из профиля',eq:'старт',o:'нападение',d:'защита',open:'Открыть профиль'},
+           az:{h:'Profildən nümunə',eq:'başlanğıc',o:'hücum',d:'müdafiə',open:'Profilə bax'},
+           en:{h:'Example from a profile',eq:'start',o:'offense',d:'defense',open:'Open profile'}}[LANG]||{};
+  const n=v=>`${v>=0?'+':'−'}${Math.abs(Math.round(v*100)/100).toFixed(2)}`;
+  const eq=Math.abs(sum-t.RAT)<0.06?`<div class="rx-eq"><b>${B.toFixed(1)}</b> ${L.eq} <span class="${t.OFF>=0?'pos':'neg'}">${n(t.OFF)}</span> ${L.o} <span class="${t.DEF>=0?'pos':'neg'}">${n(t.DEF)}</span> ${L.d} = ${rt(t.RAT)}</div>`:'';
+  return `<div class="rx"><h4>${L.h}</h4><a class="rx-p" href="#player-${P.id}">${av(P,'m')}<span><b>${pname(P)}</b><small>#${P.number} · ${(P.positions||[])[0]||''} · ${L.open} →</small></span>${rt(t.RAT,'lg')}</a>${rsplit(t)}${eq}</div>`;
+}
 window.rulesPage=function(){
   const R=RULES[LANG]||RULES.en, G=GLOSS[LANG]||GLOSS.en, X=RT_TXT[LANG]||RT_TXT.en;
   const NUM={P:1,C:2,'1B':3,'2B':4,'3B':5,SS:6,LF:7,LCF:8,RCF:9,RF:10};
@@ -80,7 +93,7 @@ window.rulesPage=function(){
   const row=k=>(k in W)?`<div class="w-row"><span>${X.n[k]}</span><b class="${W[k]>0?'pos':W[k]<0?'neg':''}">${fmt(W[k])}</b></div>`:'';
   h+=`<div class="section-title"><h2 data-ic="chart">${X.t}</h2></div><div class="card rule"><p>${X.intro(typeof BASE!=='undefined'?BASE:6)}</p>
      <div class="w-cols"><div><h4>${X.bat}</h4>${bat.map(row).join('')}</div><div><h4>${X.def}</h4>${def.map(row).join('')}</div><div>${'WIN' in W?`<h4>${X.win}</h4>${row('WIN')}`:''}
-     <div class="r-scale">${[['low','< 5'],['avg','5–5.9'],['mid','6–6.9'],['good','7–7.9'],['great','8–8.9'],['elite','9–10']].map(([c,l])=>`<span style="background:${RCOL[c]}">${l}</span>`).join('')}</div></div></div></div>`;
+     <div class="r-scale">${[['low','< 5'],['avg','5–5.9'],['mid','6–6.9'],['good','7–7.9'],['great','8–8.9'],['elite','9–10']].map(([c,l])=>`<span style="background:${RCOL[c]}">${l}</span>`).join('')}</div>${rateExample()}</div></div></div>`;
   h+=`<div class="section-title"><h2 data-ic="book">${G.t}</h2></div><div class="card gloss">${G.items.map(([k,v])=>`<div><b>${k}</b><span>${v}</span></div>`).join('')}</div>`;
   h+=`<div class="section-title"><h2 data-ic="shield">${R.sec[3][0]}</h2></div><div class="card rule">${R.sec[3][1]}</div>`;
   app().innerHTML=h;

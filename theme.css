@@ -162,3 +162,19 @@ html[lang="az"] .section-title h2{letter-spacing:0}
 .eyebrow.eb-ic{display:inline-flex;align-items:center;gap:7px}
 .eyebrow.eb-ic svg.sbi{flex:none;color:var(--amber)}
 .sb-tag .sbi{width:15px;height:15px}
+
+/* правила: пример рейтинга из профиля */
+.rx{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:12px}
+.rx h4{margin:0}
+.rx-p{display:flex;align-items:center;gap:12px;color:var(--text);text-decoration:none}
+.rx-p>span{flex:1;min-width:0;display:flex;flex-direction:column}
+.rx-p small{color:var(--muted);font-size:12px;font-weight:600}
+.rx-p:hover small{color:var(--amber)}
+.rx .rsplit{margin:0}
+.rx-eq{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.rx-eq b{color:var(--text)}
+.rx-eq .pos{color:#5FD08E;font-weight:800}.rx-eq .neg{color:#FF8A80;font-weight:800}
+.rx-eq .rt{font-size:15px}
+.rx .rsplit{display:grid;grid-template-columns:1fr 1fr;gap:10px;justify-content:stretch}
+.rx .rs-hint{display:none}
+.rx-eq .rt{margin-left:2px}
