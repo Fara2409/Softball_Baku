@@ -274,14 +274,16 @@ table.lb.lv-bx{min-width:0}
 .cl-or::before,.cl-or::after{content:"";flex:1;height:1px;background:var(--line)}
 .cl-mailfix{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 
-/* особая игра: эмблема справа (15.11.2026 — 40 лет бейсбола в Азербайджане) */
-.ev.ev-special{display:flex;flex-direction:row-reverse;align-items:center;gap:24px;position:relative;overflow:hidden;
+/* особая игра: эмблема справа (15.11.2026 — 40 лет бейсбола в Азербайджане).
+   Карточка — контейнер: широкая → эмблема справа, узкая → эмблема сверху (без container queries — тоже сверху). */
+.ev.ev-special{container-type:inline-size;position:relative;overflow:hidden;grid-column:1/-1;
   background:radial-gradient(120% 140% at 100% 50%,rgba(29,62,140,.35),transparent 55%),var(--panel)}
-.ev-special .ev-main{flex:1;min-width:0}
-.ev-badge{flex:none;width:230px;height:auto;filter:drop-shadow(0 8px 22px rgba(0,0,0,.55));animation:evBadgeIn .6s ease-out both}
-@keyframes evBadgeIn{from{opacity:0;transform:scale(.85) rotate(-4deg)}to{opacity:1;transform:none}}
-@media (max-width:760px){
-  .ev.ev-special{flex-direction:column;align-items:stretch;gap:6px}
-  .ev-badge{width:min(250px,70%);align-self:center;margin-top:-4px}
+.ev-special .ev-in{display:flex;flex-direction:column;gap:6px}
+.ev-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:14px}
+.ev-badge{flex:none;width:min(250px,70%);height:auto;align-self:center;filter:drop-shadow(0 8px 22px rgba(0,0,0,.55));animation:evBadgeIn .6s ease-out both}
+@container (min-width:700px){
+  .ev-special .ev-in{flex-direction:row-reverse;align-items:center;gap:28px}
+  .ev-badge{width:230px}
 }
+@keyframes evBadgeIn{from{opacity:0;transform:scale(.85) rotate(-4deg)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){ .ev-badge{animation:none} }

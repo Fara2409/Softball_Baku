@@ -442,8 +442,8 @@ function evCard(e,compact){
   let hint='';
   if(!cx&&!can) hint=!C.user?`<button class="cl-link" onclick="CL.auth('login')">${T('cPlayerLogin')}</button>`
     :pr.requested_player_id&&!pr.player_id?T('cWaitApproval'):'';
-  const badge=EV_BADGES[new Date(e.starts_at).toLocaleDateString('sv-SE',{timeZone:'Asia/Baku'})];
-  return `<div class="card ev ${cx?'cancelled':''} ${compact?'compact':''} ${badge?'ev-special':''}" data-ev="${+e.id}">${badge?`<img class="ev-badge" src="${badge.src}" alt="${esc(badge.alt)}">`:''}<div class="ev-main">
+  const badge=e.status==='cancelled'?null:EV_BADGES[new Date(e.starts_at).toLocaleDateString('sv-SE',{timeZone:'Asia/Baku'})];
+  return `<div class="card ev ${cx?'cancelled':''} ${compact?'compact':''} ${badge?'ev-special':''}" data-ev="${+e.id}">${badge?`<div class="ev-in"><img class="ev-badge" src="${badge.src}" alt="${esc(badge.alt)}">`:''}<div class="ev-main">
     <div class="ev-head"><div class="ev-when">${compact?`<span class="eyebrow">${T('cNextOne')}</span>`:''}<b>${evWhen(e.starts_at)}</b>
       <span class="muted">${esc(e.place||'')}${e.note?` · ${esc(e.note)}`:''}</span>${!cx&&window.WX?WX.chip(e.starts_at):''}</div>
       ${cx?`<span class="ev-x">${T('cCancelled')}</span>`:`<div class="ev-count"><b>${yes.length}</b><span>${T('cComing')}</span></div>`}</div>
@@ -451,7 +451,7 @@ function evCard(e,compact){
     ${hint?`<div class="ev-hint">${hint}</div>`:''}
     ${whoGroups(yes,maybe,no)}
     ${yes.length>=4&&canRsvp()?`<button class="btn sm ev-teams" onclick="CL.toTeams(${+e.id})">⚖ ${T('cToTeams')}</button>`:''}`}
-  </div></div>`;
+  </div>${badge?'</div>':''}</div>`;
 }
 async function rsvp(eid,status){
   if(!canRsvp()) return;
