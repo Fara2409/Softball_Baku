@@ -24,14 +24,22 @@
       <span class="nw-img"><i class="nw-ph">${(window.SBI||(()=>''))('ball',46,1.3)}</i>${x.image?`<img src="${esc(x.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:''}<b class="nw-src nw-${esc((x.source||'').toLowerCase())}">${esc(x.source)}</b></span>
       <span class="nw-body"><span class="nw-t">${esc(x.title)}</span><span class="nw-when">${ago(x.date)}</span></span></a>`;
     return `<div class="section-title nw-head"><h2>${(window.SBI||(()=>''))('ball',26,2.2)}${T('nwTitle')}</h2><span class="hint">${T('nwHint')}</span></div>
-      <div class="nw-row">${N.items.map(card).join('')}<a class="nw-card nw-more" href="https://www.mlb.com/news" target="_blank" rel="noopener"><span>${T('nwMore')} →</span></a></div>`;
+      <div class="nw-wrap"><button type="button" class="nw-arr nw-prev" aria-label="‹" onclick="nwScroll(this,-1)" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="nw-row" onscroll="nwArrows(this)">${N.items.map(card).join('')}<a class="nw-card nw-more" href="https://www.mlb.com/news" target="_blank" rel="noopener"><span>${T('nwMore')} →</span></a></div>
+      <button type="button" class="nw-arr nw-next" aria-label="›" onclick="nwScroll(this,1)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>`;
   }
+  // стрелки карусели: листаем на ширину видимой части, у краёв стрелка прячется
+  window.nwScroll=(btn,dir)=>{ const row=btn.parentNode.querySelector('.nw-row'); row.scrollBy({left:dir*Math.max(260,row.clientWidth*0.85),behavior:'smooth'}); };
+  window.nwArrows=row=>{ const w=row.parentNode, max=row.scrollWidth-row.clientWidth-4;
+    w.querySelector('.nw-prev').hidden=row.scrollLeft<=4; w.querySelector('.nw-next').hidden=row.scrollLeft>=max;
+    w.classList.toggle('at-start',row.scrollLeft<=4); w.classList.toggle('at-end',row.scrollLeft>=max); };
   function isHome(){ const h=(location.hash||'').slice(1), page=h.split('-')[0], FR=window.FEATURE_ROUTES||{}; return !page||page==='rating'||(!['player','game','games'].includes(page)&&!FR[page]); }
   function draw(){
     const a=document.getElementById('app'); if(!a||!isHome()||!S.league) return;
     let box=a.querySelector('.news-sec'); const h=block(); if(!h){ if(box) box.remove(); return; }
     if(!box){ box=document.createElement('div'); box.className='news-sec'; a.prepend(box); }
     box.innerHTML=h;
+    const row=box.querySelector('.nw-row'); if(row) requestAnimationFrame(()=>nwArrows(row));
   }
   const _route=route; route=function(){ _route(); if(isHome()){ load(); draw(); } };
 })();
