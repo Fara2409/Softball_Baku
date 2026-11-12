@@ -148,3 +148,9 @@ html[lang="az"] .section-title h2{letter-spacing:0}
 /* логотип в шапке — снова бело-красный мяч (11.11.2026) */
 .top .brand-mark .ball{width:28px;height:28px}
 @media (max-width:480px){ .top .brand-mark .ball{width:23px;height:23px} }
+
+/* подвал: без колонки «Сайт» (11.11 → 12.11.2026), значок локации у «Где играем» */
+.foot-inner{grid-template-columns:1.6fr 1.2fr 1.4fr 160px}
+.foot-loc{align-items:flex-start!important}
+.foot-loc svg{flex:none;color:var(--amber);margin-top:1px}
+@media (max-width:820px){ .foot-inner{grid-template-columns:1fr 1fr} }

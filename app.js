@@ -353,9 +353,8 @@ function footer(){
       ${window.installBtnHTML?installBtnHTML():''}
       ${S.season?`<span class="foot-pill">${T('seasonPill')({season:S.season,start:startTxt})}</span>`:''}
     </div>
-    <div class="foot-col"><h4>${T('site')}</h4><a href="#rating">${T('rating')}</a><a href="#games">${T('games')}</a>${I18N[LANG].navTeams?`<a href="#teams">${T('navTeams')}</a><a href="#records">${T('navRecords')}</a><a href="#rules">${T('navRules')}</a>`:''}</div>
     <div class="foot-col"><h4>${T('watch')}</h4>${L.youtube?`<a href="${L.youtube}" target="_blank" rel="noopener"><span class="yt-dot">▶</span>${T('channel')}</a>`:''}${vid?`<a href="${vid}" target="_blank" rel="noopener"><span class="yt-dot">▶</span>${T('lastVideo')}</a>`:(L.youtube?'':`<span class="muted">${T('videoSoon')}</span>`)}</div>
-    <div class="foot-col"><h4>${T('where')}</h4><span>${T('place')}</span></div>
+    <div class="foot-col"><h4>${T('where')}</h4><a class="foot-loc" href="https://maps.google.com/?q=40.4264,49.9836" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>${T('place')}</span></a></div>
     <svg class="foot-diamond" viewBox="0 0 200 200" aria-hidden="true">
       <path d="M100 185 L15 100 A120 120 0 0 1 185 100 Z" fill="none" stroke="#1f3150" stroke-width="2"/>
       <path d="M100 170 L45 115 L100 60 L155 115 Z" fill="rgba(239,159,39,.06)" stroke="#2a3a55" stroke-width="2"/>

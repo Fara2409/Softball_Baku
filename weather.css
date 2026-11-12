@@ -40,3 +40,43 @@
   .wx-card{flex:0 0 72%;scroll-snap-align:start}
   .wx-sec .section-title .btn{padding:6px 10px;font-size:12px}
 }
+
+/* ===== обычный прогноз по дням, игровые дни выделены (12.11.2026) ===== */
+.wx-top{display:flex;align-items:center;gap:14px 18px;flex-wrap:wrap;margin:-4px 0 14px}
+.wx-top .wx-sub{margin:0;flex:1;min-width:240px}
+.wx-now{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:8px 14px}
+.wx-now-l{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber)}
+.wx-now-ic{font-size:24px;line-height:1}
+.wx-now b{font-family:var(--disp,inherit);font-size:28px;font-weight:900;font-style:italic;line-height:1}
+.wx-now .muted{font-size:12px}
+.wd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:10px;grid-auto-flow:dense}
+.wd{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.wd b{font-size:13px;font-weight:800}
+.wd-dt{font-size:11px;color:var(--muted);font-weight:600}
+.wd-ic{font-size:30px;line-height:1.15;margin:2px 0}
+.wd-t{font-family:var(--disp,inherit);font-size:24px;font-weight:900;font-style:italic;line-height:1}
+.wd-t i{font-size:15px;color:var(--muted);margin-left:4px;font-weight:800}
+.wd em{font-style:normal;font-size:11px;font-weight:700;color:var(--muted)}
+.wd em.hi{color:#7fb8ff}
+.wd.today{border-color:#2C4466;background:#11203A}
+/* игровой день — крупная карточка на 2 колонки */
+.wd.wd-game{grid-column:span 2;align-items:stretch;text-align:left;padding:12px 14px 14px;gap:7px;border-width:1.5px;
+  border-color:rgba(245,165,36,.55);background:linear-gradient(180deg,rgba(245,165,36,.10),var(--panel) 55%)}
+.wd-game.risk{border-color:rgba(232,145,45,.6)}
+.wd-game.bad{border-color:rgba(217,83,79,.55);background:linear-gradient(180deg,rgba(217,83,79,.10),var(--panel) 55%)}
+.wd-game.good{border-color:rgba(47,174,102,.55);background:linear-gradient(180deg,rgba(47,174,102,.10),var(--panel) 55%)}
+.wd-game.best{box-shadow:0 0 0 1px var(--amber) inset}
+.wd-tag{align-self:flex-start;font-size:11px;font-weight:800;letter-spacing:.5px;color:#1A1203;background:var(--amber);border-radius:999px;padding:3px 9px}
+.wd-gh{display:flex;align-items:center;gap:10px}
+.wd-gh>div{display:flex;flex-direction:column;flex:1;min-width:0}
+.wd-gh b{font-size:15px}
+.wd-game .wd-ic{font-size:32px}
+.wd-game .wd-t{font-size:28px}
+.wd-game .wx-v{font-size:14px}
+@media (max-width:700px){
+  .wd-grid{display:flex;overflow-x:auto;gap:8px;margin:0 -14px;padding:0 14px 6px;scrollbar-width:none;scroll-snap-type:x proximity}
+  .wd-grid::-webkit-scrollbar{display:none}
+  .wd{flex:0 0 84px;scroll-snap-align:start}
+  .wd.wd-game{flex:0 0 230px}
+  .wx-now b{font-size:24px}
+}
