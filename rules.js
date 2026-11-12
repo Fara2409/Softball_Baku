@@ -67,18 +67,18 @@ function fieldSVG(){
   for(const [p,[x,y]] of Object.entries(FXY)) s+=`<g><circle cx="${x}" cy="${y}" r="4.6" fill="#0b1626" stroke="#EF9F27" stroke-width=".7"/><text x="${x}" y="${y+1.3}" font-size="3.6" font-weight="800" fill="#eef2f8" text-anchor="middle">${p}</text></g>`;
   return s+'</svg>';
 }
-// пример из профиля: лучший игрок периода — общий рейтинг и разбивка «нападение / защита»
+// пример (без имени и фото): цифры лучшего игрока периода — общий рейтинг и разбивка «нападение / защита»
 function rateExample(){
   if(typeof rsplit!=='function'||!S.players) return '';
   const P=Object.values(S.players).filter(p=>p.t&&p.t.G&&p.t.RAT!=null&&p.t.OFF!=null).sort((a,b)=>b.t.RAT-a.t.RAT)[0];
   if(!P) return '';
   const t=P.t, B=typeof BASE!=='undefined'?BASE:6, sum=Math.round((B+t.OFF+t.DEF)*10)/10;
-  const L={ru:{h:'Пример из профиля',eq:'старт',o:'нападение',d:'защита',open:'Открыть профиль'},
-           az:{h:'Profildən nümunə',eq:'başlanğıc',o:'hücum',d:'müdafiə',open:'Profilə bax'},
-           en:{h:'Example from a profile',eq:'start',o:'offense',d:'defense',open:'Open profile'}}[LANG]||{};
+  const L={ru:{h:'Пример',tot:'Общий рейтинг',sub:'так он выглядит в профиле игрока',eq:'старт',o:'нападение',d:'защита'},
+           az:{h:'Nümunə',tot:'Ümumi reytinq',sub:'oyunçu profilində belə görünür',eq:'başlanğıc',o:'hücum',d:'müdafiə'},
+           en:{h:'Example',tot:'Overall rating',sub:'this is how it looks in a player profile',eq:'start',o:'offense',d:'defense'}}[LANG]||{};
   const n=v=>`${v>=0?'+':'−'}${Math.abs(Math.round(v*100)/100).toFixed(2)}`;
   const eq=Math.abs(sum-t.RAT)<0.06?`<div class="rx-eq"><b>${B.toFixed(1)}</b> ${L.eq} <span class="${t.OFF>=0?'pos':'neg'}">${n(t.OFF)}</span> ${L.o} <span class="${t.DEF>=0?'pos':'neg'}">${n(t.DEF)}</span> ${L.d} = ${rt(t.RAT)}</div>`:'';
-  return `<div class="rx"><h4>${L.h}</h4><a class="rx-p" href="#player-${P.id}">${av(P,'m')}<span><b>${pname(P)}</b><small>#${P.number} · ${(P.positions||[])[0]||''} · ${L.open} →</small></span>${rt(t.RAT,'lg')}</a>${rsplit(t)}${eq}</div>`;
+  return `<div class="rx"><h4>${L.h}</h4><div class="rx-p"><span><b>${L.tot}</b><small>${L.sub}</small></span>${rt(t.RAT,'lg')}</div>${rsplit(t)}${eq}</div>`;
 }
 window.rulesPage=function(){
   const R=RULES[LANG]||RULES.en, G=GLOSS[LANG]||GLOSS.en, X=RT_TXT[LANG]||RT_TXT.en;
