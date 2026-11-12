@@ -80,7 +80,7 @@ window.rulesPage=function(){
   const row=k=>(k in W)?`<div class="w-row"><span>${X.n[k]}</span><b class="${W[k]>0?'pos':W[k]<0?'neg':''}">${fmt(W[k])}</b></div>`:'';
   h+=`<div class="section-title"><h2>${X.t}</h2></div><div class="card rule"><p>${X.intro(typeof BASE!=='undefined'?BASE:6)}</p>
      <div class="w-cols"><div><h4>${X.bat}</h4>${bat.map(row).join('')}</div><div><h4>${X.def}</h4>${def.map(row).join('')}</div><div>${'WIN' in W?`<h4>${X.win}</h4>${row('WIN')}`:''}
-     <div class="r-scale">${[['low','< 6'],['mid','6–6.9'],['good','7–7.9'],['great','8–8.9'],['elite','9+']].map(([c,l])=>`<span style="background:${RCOL[c]}">${l}</span>`).join('')}</div></div></div></div>`;
+     <div class="r-scale">${[['low','< 6'],['mid','6–6.9'],['good','7–7.9'],['great','8–10']].map(([c,l])=>`<span style="background:${RCOL[c]}">${l}</span>`).join('')}</div></div></div></div>`;
   h+=`<div class="section-title"><h2>${G.t}</h2></div><div class="card gloss">${G.items.map(([k,v])=>`<div><b>${k}</b><span>${v}</span></div>`).join('')}</div>`;
   h+=`<div class="section-title"><h2>${R.sec[3][0]}</h2></div><div class="card rule">${R.sec[3][1]}</div>`;
   app().innerHTML=h;

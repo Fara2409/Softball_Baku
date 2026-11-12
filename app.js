@@ -72,7 +72,7 @@ function rating(b,won){
   const {off,def}=ratingParts(b);
   return Math.round(Math.min(10,Math.max(3,BASE+off+def+(won&&W.WIN?W.WIN:0)))*10)/10;
 }
-function rclass(r){return r==null?'na':r>=9?'elite':r>=8?'great':r>=7?'good':r>=6?'mid':'low'}
+function rclass(r){return r==null?'na':r>=8?'great':r>=7?'good':r>=6?'mid':'low'}
 const RCOL={low:'var(--r-low)',mid:'var(--r-mid)',good:'var(--r-good)',great:'var(--r-great)',elite:'var(--r-elite)'};
 function rt(r,size=''){const c=rclass(r);return `<span class="rt ${size} ${c==='na'?'na':''}" style="${c!=='na'?`background:${RCOL[c]}`:''}">${r==null?'–':r.toFixed(1)}</span>`}
 const avg3=x=>isFinite(x)?x.toFixed(3).replace(/^0/,''):'–';
