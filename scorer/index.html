@@ -232,9 +232,14 @@ function apply(g,e){
   
    if(HITS[r]){b.H++;b[r]++}if(r==='BB'){b.BB++;const pp=atPos(g,'P');if(pp)bx(g,pp,fld(g)).PBB++}if(r==='E')b.ROE++;if(r==='K')b.K++;
    const fseq=e.fielders||[];
-   const eAdd=(p,n)=>{const f=defAt(g,p);if(!f)return;const x=bx(g,f,fld(g));x.E++;if(n===2)x.E2=(x.E2||0)+1;else if(n>=3)x.E3=(x.E3||0)+1}; // n — сколько баз отдала ошибка (13.11.2026)
-   if(r==='E'&&fseq[0])eAdd(fseq[0],e.eb&&e.eb[0]);
-   (e.errs||[]).forEach((p,i)=>eAdd(p,e.ebx&&e.ebx[i])); // хит + ошибка защиты
+   // ошибка: сколько лишних баз из-за неё прошёл самый дальний бегун (включая отбивающего) — считается само по продвижению (13.11.2026)
+   // ROE: от исходной базы (отбивающий — от 0); хит+ошибка и другие розыгрыши: сверх обычного продвижения при этом результате
+   const dflt={};if(r!=='E')defaults(g,r,e.batter).forEach(a=>dflt[a.id]=Math.max(a.to,a.from));
+   const eb=Math.max(1,...e.adv.filter(a=>a.to>0).map(a=>a.to-(r==='E'?a.from:(dflt[a.id]??a.from))));
+   const eAdd=p=>{const f=defAt(g,p);if(!f)return;const x=bx(g,f,fld(g));x.E++;if(eb===2)x.E2=(x.E2||0)+1;else if(eb>=3)x.E3=(x.E3||0)+1};
+   if(r==='E'&&fseq[0])eAdd(fseq[0]);
+   (e.errs||[]).forEach(eAdd); // хит + ошибка защиты
+   e.ebc=eb;
    const m=move(g,e.adv);
    b.RBI+=m.runs-e.adv.filter(a=>a.to===4&&a.ue).length; // RBI и при попадании на базу по ошибке (правило лиги, 11.11.2026); без RBI — только отмеченные «из-за ошибки»
    if(r==='K'){/* кэтчер за страйк-аут ничего не получает (решение 07.11.2026) */const pp=atPos(g,'P');if(pp)bx(g,pp,fld(g)).PK++;if(m.outs>1)credit(g,fseq,m.outs-1)}
@@ -292,7 +297,7 @@ function pa(r){
  const next=()=>{if(hasR&&['1B','2B','3B','GO','FO','FC','E','SAC'].includes(r))runnersM(e);else commit(e)};
  // после каждого мяча в игре: куда и как полетел мяч (для карты ударов на сайте); можно пропустить
  const ball=()=>ballM(e,next);
- if(r==='E')fieldM('E',s=>{e.fielders=s;if(!s.length)return ball();ebM(n=>{e.eb=[n];ball()})});
+ if(r==='E')fieldM('E',s=>{e.fielders=s;ball()});
  else if(r==='FO')fieldM('one',s=>{e.fielders=s;ball()});
  else if(r==='GO'||r==='FC'||r==='SAC')fieldM('seq',s=>{e.fielders=s;ball()});
  else if(['1B','2B','3B','HR'].includes(r))ball();
@@ -322,18 +327,11 @@ function hitErr(){
  if(G.over)return toast('Игра окончена');
  const batter=batterOf(G);if(!batter)return;
  window._he=r=>{const e={type:'pa',t,batter,result:r,fielders:[],errs:[],adv:defaults(G,r,batter)};
-  fieldM('E',s=>{const go=()=>ballM(e,()=>runnersM(e));if(!s[0])return go();e.errs.push(s[0]);ebM(n=>{(e.ebx=e.ebx||[]).push(n);go()})})};
+  fieldM('E',s=>{if(s[0])e.errs.push(s[0]);ballM(e,()=>runnersM(e))})};
  const t=Date.now();
  modal(`<h3>Хит + ошибка защиты</h3><p class="muted small">Сначала какой был удар, потом кто ошибся. Затем отметьте, куда добежали бегуны и сам отбивающий.</p>
   <div class="grid">${['1B','2B','3B'].map(r=>`<button class="r hit" onclick="_he('${r}')">${r}<small>${RES[r].toLowerCase()}</small></button>`).join('')}</div>
   <div class="acts"><button onclick="closeM()">Отмена</button></div>`);
-}
-// Сколько баз отдала ошибка — по самому дальнему бегуну: 1 / 2 / 3+ (рейтинг: −0.2 / −0.25 / −0.3)
-function ebM(cb){
- window._eb=n=>cb(n);
- modal(`<h3>Сколько баз отдала ошибка?</h3><p class="muted small">Смотрим на бегуна, который из-за ошибки продвинулся дальше всех (включая отбивающего): на сколько лишних баз он прошёл. Пример: с 1-й базы добежал домой из-за ошибки — 3+.</p>
-  <div class="grid">${[1,2,3].map(n=>`<button class="r walk" onclick="_eb(${n})">${n===3?'3+':n}<small>${n===1?'база':'базы'}</small></button>`).join('')}</div>
-  <div class="acts"><button onclick="_eb(1)">Не знаю (1)</button></div>`);
 }
 function fieldM(mode,cb){
  const seq=[];
@@ -362,7 +360,7 @@ function fieldM(mode,cb){
 function runnersM(e){
  window._ra=(i,to)=>{e.adv[i].to=to;if(to!==4)delete e.adv[i].ue;draw()};
  window._ru=i=>{e.adv[i].ue=!e.adv[i].ue;draw()};
- window._re=()=>fieldM('E',s=>{if(!s[0])return runnersM(e);e.errs.push(s[0]);ebM(n=>{(e.ebx=e.ebx||[]).push(n);runnersM(e)})});
+ window._re=()=>fieldM('E',s=>{if(s[0])e.errs.push(s[0]);runnersM(e)});
  window._rs=()=>{
   const occ={};let outs=0;
   for(const a of e.adv){if(a.to===-1)outs++;else if(a.to<4){if(occ[a.to])return draw(`На ${BASE[a.to]} базе два бегуна`);occ[a.to]=1}}
@@ -434,8 +432,9 @@ function playsOf(g){
   const x={n:out.length+1,i:st.inning,h:st.top?'T':'B',b:e.batter||e.runner,o:st.outs>=3?3:st.outs,s:[st.score.A,st.score.B]};
   if(e.type==='pa'){x.r=e.result==='E'?'ROE':e.result;
    const f=(e.fielders||[]).map(p=>idOf(e,p,i)).filter(Boolean);
-   if(e.result==='E'){if(f.length){x.e=f;if(e.eb)x.eb=[e.eb[0]||1]}}else if(f.length&&['GO','FO','FC','SAC'].includes(e.result))x.f=f;
-   const er=(e.errs||[]).map((p,k)=>[idOf(e,p,i),(e.ebx&&e.ebx[k])||1]).filter(a=>a[0]);if(er.length){x.e=(x.e||[]).concat(er.map(a=>a[0]));const eb=(x.eb||(x.e.length>er.length?[1]:[])).concat(er.map(a=>a[1]));if(eb.some(n=>n>1))x.eb=eb;else delete x.eb}
+   if(e.result==='E'){if(f.length)x.e=f}else if(f.length&&['GO','FO','FC','SAC'].includes(e.result))x.f=f;
+   const er=(e.errs||[]).map(p=>idOf(e,p,i)).filter(Boolean);if(er.length)x.e=(x.e||[]).concat(er);
+   if(x.e&&e.ebc>1)x.eb=x.e.map(()=>e.ebc);
    if(e.dir)x.d=e.dir;if(e.bt)x.bt=e.bt;
    if(e.adv.filter(a=>a.to===-1).length>1)x.dp=1;}
   else{x.r=e.type==='runout'?'RUN':'ADV';const f=(e.fielders||[]).map(p=>idOf(e,p,i)).filter(Boolean);if(f.length)x.f=f}
