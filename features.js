@@ -17,7 +17,7 @@ Object.assign(I18N.ru,{
   chTitle:'С кем ты побеждаешь',chBest:'Лучшие партнёры',chHard:'Неудобные соперники',chHint:'от 2 игр вместе / против',chNone:'Нужно больше игр, чтобы посчитать.',chWith:'вместе',chVs:'против',
   hlTitle:'Моменты на видео',hlGame:'Моменты игры',
   shGame:'Итоги игры картинкой',shGameT:'Итоги игры',shFinal:'Итог игры',shBest:'Лучшие игроки',shBtn:'Поделиться карточкой',shTitle:'Карточка для WhatsApp',shShare:'Отправить',shDownload:'Скачать картинку',shClose:'Закрыть',shSeason:d=>`Сезон ${d.season} стартует ${d.start}`,
-  pbT:'Протокол игры',pbAll:'Развернуть всё',pbNone:'Свернуть',pbTop:'верх',pbBot:'низ',pbInn:'иннинг',pbRuns:n=>`${n} ${n===1?'ран':n>=2&&n<=4?'рана':'ранов'}`,pbHits:n=>`${n} ${n===1?'хит':n>=2&&n<=4?'хита':'хитов'}`,pbScored:'забили',pbOut:'аут',pbOuts:'аута',pbDP:'двойной аут',pbErr:'ошибка',pbOutBases:'потом аут на базах',pbSelf:'сам',
+  pbT:'Протокол игры',pbAll:'Развернуть всё',pbNone:'Свернуть',pbTop:'верх',pbBot:'низ',pbInn:'иннинг',pbRuns:n=>`${n} ${n===1?'ран':n>=2&&n<=4?'рана':'ранов'}`,pbHits:n=>`${n} ${n===1?'хит':n>=2&&n<=4?'хита':'хитов'}`,pbScored:'забили',pbOut:'аут',pbOuts:'аута',pbDP:'двойной аут',pbErr:'ошибка',pbBases:'базы',pbOutBases:'потом аут на базах',pbSelf:'сам',
   pbR:{'1B':'сингл','2B':'дабл','3B':'трипл',HR:'хоум-ран',BB:'BB',K:'страйк-аут',GO:'аут по земле',FO:'аут в воздухе',SAC:'сакрифайс',FC:'выбор полевого',RUN:'аут бегуна',ADV:'продвижение бегуна',ROE:'на базе по ошибке',E:'на базе по ошибке'},
   hlPrev:'Предыдущий',hlNext:'Следующий',hlOpen:'Открыть на YouTube',
   hlTypes:{HR:'Хоум-ран','3B':'Трипл','2B':'Дабл','1B':'Сингл',K:'Страйк-аут',catch:'Поймал флай',DP:'Дабл-плей',SB:'Кража базы',play:'Момент'},
@@ -39,7 +39,7 @@ Object.assign(I18N.az,{
   chTitle:'Kiminlə qalib gəlirsən',chBest:'Ən yaxşı tərəfdaşlar',chHard:'Çətin rəqiblər',chHint:'birlikdə / qarşı ən azı 2 oyun',chNone:'Hesablamaq üçün daha çox oyun lazımdır.',chWith:'birlikdə',chVs:'qarşı',
   hlTitle:'Videoda anlar',hlGame:'Oyunun anları',
   shGame:'Oyunun yekunu şəkil kimi',shGameT:'Oyunun yekunu',shFinal:'Oyunun yekunu',shBest:'Ən yaxşı oyunçular',shBtn:'Kartı paylaş',shTitle:'WhatsApp üçün kart',shShare:'Göndər',shDownload:'Şəkli yüklə',shClose:'Bağla',shSeason:d=>`${d.season} mövsümü ${d.start} başlayır`,
-  pbT:'Oyunun protokolu',pbAll:'Hamısını aç',pbNone:'Bağla',pbTop:'yuxarı',pbBot:'aşağı',pbInn:'inninq',pbRuns:n=>`${n} ran`,pbHits:n=>`${n} hit`,pbScored:'evə gəldi',pbOut:'aut',pbOuts:'aut',pbDP:'ikiqat aut',pbErr:'səhv',pbOutBases:'sonra bazalarda aut',pbSelf:'özü',
+  pbT:'Oyunun protokolu',pbAll:'Hamısını aç',pbNone:'Bağla',pbTop:'yuxarı',pbBot:'aşağı',pbInn:'inninq',pbRuns:n=>`${n} ran`,pbHits:n=>`${n} hit`,pbScored:'evə gəldi',pbOut:'aut',pbOuts:'aut',pbDP:'ikiqat aut',pbErr:'səhv',pbBases:'baza',pbOutBases:'sonra bazalarda aut',pbSelf:'özü',
   pbR:{'1B':'sinql','2B':'dabl','3B':'tripl',HR:'homeran',BB:'BB',K:'strayk-aut',GO:'yerdən aut',FO:'havadan aut',SAC:'sakrifays',FC:'müdafiəçinin seçimi',RUN:'qaçışçı aut',ADV:'qaçışçı irəlilədi',ROE:'səhvlə bazada',E:'səhvlə bazada'},
   hlPrev:'Əvvəlki',hlNext:'Növbəti',hlOpen:'YouTube-da aç',
   hlTypes:{HR:'Homeran','3B':'Tripl','2B':'Dabl','1B':'Sinql',K:'Strayk-aut',catch:'Flayı tutdu',DP:'Dabl-pley',SB:'Baza oğurluğu',play:'An'},
@@ -61,7 +61,7 @@ Object.assign(I18N.en,{
   chTitle:'Who you win with',chBest:'Best teammates',chHard:'Toughest opponents',chHint:'2+ games together / against',chNone:'Not enough games yet.',chWith:'together',chVs:'against',
   hlTitle:'Video moments',hlGame:'Game moments',
   shGame:'Game recap image',shGameT:'Game recap',shFinal:'Final',shBest:'Top players',shBtn:'Share card',shTitle:'Card for WhatsApp',shShare:'Share',shDownload:'Download image',shClose:'Close',shSeason:d=>`Season ${d.season} starts ${d.start}`,
-  pbT:'Play-by-play',pbAll:'Expand all',pbNone:'Collapse',pbTop:'top',pbBot:'bottom',pbInn:'inning',pbRuns:n=>`${n} run${n===1?'':'s'}`,pbHits:n=>`${n} hit${n===1?'':'s'}`,pbScored:'scored',pbOut:'out',pbOuts:'outs',pbDP:'double play',pbErr:'error',pbOutBases:'then out on the bases',pbSelf:'unassisted',
+  pbT:'Play-by-play',pbAll:'Expand all',pbNone:'Collapse',pbTop:'top',pbBot:'bottom',pbInn:'inning',pbRuns:n=>`${n} run${n===1?'':'s'}`,pbHits:n=>`${n} hit${n===1?'':'s'}`,pbScored:'scored',pbOut:'out',pbOuts:'outs',pbDP:'double play',pbErr:'error',pbBases:'bases',pbOutBases:'then out on the bases',pbSelf:'unassisted',
   pbR:{'1B':'single','2B':'double','3B':'triple',HR:'home run',BB:'walk',K:'strikeout',GO:'groundout',FO:'flyout',SAC:'sacrifice',FC:'fielder\'s choice',RUN:'runner out',ADV:'runner advanced',ROE:'reached on error',E:'reached on error'},
   hlPrev:'Previous',hlNext:'Next',hlOpen:'Open on YouTube',
   hlTypes:{HR:'Home run','3B':'Triple','2B':'Double','1B':'Single',K:'Strikeout',catch:'Fly catch',DP:'Double play',SB:'Stolen base',play:'Moment'},
@@ -576,7 +576,7 @@ window.gamePlays=function(g){
       let d=`<b>${nm(x.b)}</b> — <span class="pb-r ${hit?'hit':bad?'out':'on'}">${R[x.r]||x.r}</span>`;
       if(x.f&&x.f.length) d+=` <span class="muted">(${x.f.length===1&&x.r!=='1B'?`${nm(x.f[0])}, ${T('pbSelf')}`:x.f.map(nm).join(' → ')})</span>`;
       if(x.note==='out') d+=` · ${T('pbOutBases')}`;
-      if(x.e&&x.e.length) d+=` · <span class="pb-e">${T('pbErr')}: ${x.e.map(nm).join(', ')}</span>`;
+      if(x.e&&x.e.length) d+=` · <span class="pb-e">${T('pbErr')}: ${x.e.map((id,k)=>nm(id)+(x.eb&&x.eb[k]>1?` (${x.eb[k]>=3?'3+':x.eb[k]} ${T('pbBases')})`:'')).join(', ')}</span>`;
       if(x.dp) d+=` · <b>${T('pbDP')}</b>`;
       if(x.sc&&x.sc.length) d+=`<div class="pb-sc">${T('pbScored')}: ${x.sc.map(nm).join(', ')}</div>`;
       const scored=x.s[0]!==prev[0]||x.s[1]!==prev[1]; prev=x.s;

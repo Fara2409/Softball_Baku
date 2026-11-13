@@ -59,13 +59,13 @@ function ballSVG(){ const i='b'+(++_ballN);
 // Кражи баз в нашей игре нет, в рейтинг не идут.
 const BASE=6.0;
 const W={'1B':.2,'2B':.4,'3B':.6,HR:.8,BB:.15,ROE:.15,R:.1,RBI:.15,OUT:-.25,K:-.35,
-  FPO:.2,A:.13,RPO:.07,PK:.2,PBB:-.1,E:-.2}; // 12.11.2026: R .1, RBI .15 (меньше зависимость от команды), FPO .2, A .13, принятый бросок .07 (защита весомее) // E −0.2 с 09.11.2026 (было −0.4) // бонуса за победу нет (убран 07.11.2026)
+  FPO:.2,A:.13,RPO:.07,PK:.2,PBB:-.1,E:-.2,E2:-.25,E3:-.3}; // 13.11.2026: ошибка по числу отданных баз: 1 база −0.2, 2 базы −0.25, 3+ базы −0.3 (E2/E3 в box; остальные E — по 1 базе) // 12.11.2026: R .1, RBI .15 (меньше зависимость от команды), FPO .2, A .13, принятый бросок .07 (защита весомее) // E −0.2 с 09.11.2026 (было −0.4) // бонуса за победу нет (убран 07.11.2026)
 // Вклад в нападение и защиту (очки сверх BASE), без округления
 function ratingParts(b){
   const roe=b.ROE||0, outs=Math.max(0,b.AB-b.H-b.K-roe);
   const off=W['1B']*b['1B']+W['2B']*b['2B']+W['3B']*b['3B']+W.HR*b.HR+W.BB*b.BB+W.ROE*roe+W.R*b.R+W.RBI*b.RBI+W.OUT*outs+W.K*b.K;
   const fpo=b.FPO||0,kpo=b.KPO||0,rpo=Math.max(0,(b.PO||0)-fpo-kpo); // в старых протоколах без FPO/KPO все PO считаются принятыми бросками
-  const def=W.FPO*fpo+W.RPO*rpo+W.A*(b.A||0)+W.PK*(b.PK||0)+W.PBB*(b.PBB||0)+W.E*(b.E||0);
+  const def=W.FPO*fpo+W.RPO*rpo+W.A*(b.A||0)+W.PK*(b.PK||0)+W.PBB*(b.PBB||0)+W.E*((b.E||0)-(b.E2||0)-(b.E3||0))+W.E2*(b.E2||0)+W.E3*(b.E3||0);
   return {off,def};
 }
 function rating(b,won){
