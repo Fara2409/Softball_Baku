@@ -328,10 +328,10 @@ function hitErr(){
   <div class="grid">${['1B','2B','3B'].map(r=>`<button class="r hit" onclick="_he('${r}')">${r}<small>${RES[r].toLowerCase()}</small></button>`).join('')}</div>
   <div class="acts"><button onclick="closeM()">Отмена</button></div>`);
 }
-// Сколько баз отдала ошибка: 1 / 2 / 3+ (рейтинг: −0.2 / −0.25 / −0.3)
+// Сколько баз отдала ошибка — по самому дальнему бегуну: 1 / 2 / 3+ (рейтинг: −0.2 / −0.25 / −0.3)
 function ebM(cb){
  window._eb=n=>cb(n);
- modal(`<h3>Сколько баз отдала ошибка?</h3><p class="muted small">Насколько дальше продвинулись бегуны (и отбивающий) из-за этой ошибки, всего.</p>
+ modal(`<h3>Сколько баз отдала ошибка?</h3><p class="muted small">Смотрим на бегуна, который из-за ошибки продвинулся дальше всех (включая отбивающего): на сколько лишних баз он прошёл. Пример: с 1-й базы добежал домой из-за ошибки — 3+.</p>
   <div class="grid">${[1,2,3].map(n=>`<button class="r walk" onclick="_eb(${n})">${n===3?'3+':n}<small>${n===1?'база':'базы'}</small></button>`).join('')}</div>
   <div class="acts"><button onclick="_eb(1)">Не знаю (1)</button></div>`);
 }
