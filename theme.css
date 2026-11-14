@@ -178,3 +178,21 @@ html[lang="az"] .section-title h2{letter-spacing:0}
 .rx .rsplit{display:grid;grid-template-columns:1fr 1fr;gap:10px;justify-content:stretch}
 .rx .rs-hint{display:none}
 .rx-eq .rt{margin-left:2px}
+
+/* переключатель темы (14.11.2026) */
+.thm-btn{flex:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--muted);cursor:pointer;padding:0;font:600 13px 'Onest',sans-serif}
+.thm-btn:hover{color:var(--amber);border-color:var(--amber)}
+.thm-btn svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.thm-btn.thm-foot{width:auto;padding:0 12px}
+.foot-set{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+@media (max-width:480px){ .top .thm-btn{display:none} }
+/* полоса значков в тёмной теме */
+.eq-strip svg.eq{flex:none;width:22px;height:22px;opacity:.55}
+.eq-strip .o{fill:none;stroke:#3A5378;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.eq-strip .o.w{fill:#0A1322}
+.eq-strip .r{fill:none;stroke:#B0453D;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.eq-strip .r.t{stroke-width:1.2}
+.eq-strip .r.f{fill:#B0453D;stroke:none}
+.eq-strip{color:inherit;gap:30px}
+/* рейтинг в тёмной теме — залитая плашка */
+.rt{background:var(--rc,var(--panel2))}

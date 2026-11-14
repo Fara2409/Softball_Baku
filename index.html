@@ -21,8 +21,9 @@
 <link rel="stylesheet" href="weather.css?v=202611131658">
 <link rel="stylesheet" href="extras.css?v=202611131658">
 <link rel="stylesheet" href="news.css?v=202611131658">
-<link rel="stylesheet" href="theme.css?v=202611131658">
-<link rel="stylesheet" href="light.css?v=202611140830">
+<link rel="stylesheet" href="theme.css?v=202611140915">
+<link rel="stylesheet" id="light-css" href="light.css?v=202611140915">
+<script>/* тема: светлая по умолчанию, тёмная — по выбору (sb.theme=dark) */try{if(localStorage.getItem('sb.theme')==='dark'){document.getElementById('light-css').disabled=true;document.documentElement.classList.add('theme-dark');document.querySelector('meta[name=theme-color]').content='#070D18'}}catch(e){}</script>
 </head>
 <body>
 <header class="top">
@@ -30,6 +31,7 @@
   <div class="right">
     <nav><a href="#rating" data-nav="home" data-t="rating">Reytinq</a><a href="#games" data-nav="games" data-t="games">Oyunlar</a><a href="#teams" data-nav="teams" data-t="navTeams">Komandalar</a><a href="#records" data-nav="records" data-t="navRecords">Rekordlar</a><a href="#rules" data-nav="rules" data-t="navRules">Qaydalar</a></nav>
     <div class="lang" role="group" aria-label="Language"><button data-lang="az">AZ</button><button data-lang="ru">RU</button><button data-lang="en">EN</button></div>
+    <button type="button" class="thm-btn" id="thm-btn" onclick="sbTheme()" aria-label="Theme"></button>
     <a id="live-pill" class="live-pill" href="#live" hidden></a>
     <div class="acct" id="acct"></div>
   </div>
@@ -39,8 +41,8 @@
 <main id="app"><div class="loading">…</div></main>
 <footer class="foot" id="foot">Softball Baku</footer>
 <script src="install.js?v=202611131658"></script>
-<script src="app.js?v=202611140830"></script>
-<script src="theme.js?v=202611140830"></script>
+<script src="app.js?v=202611140915"></script>
+<script src="theme.js?v=202611140915"></script>
 <script src="features.js?v=202611131658"></script>
 <script src="rules.js?v=202611140830"></script>
 <script src="club.js?v=202611140830"></script>

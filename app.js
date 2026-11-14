@@ -366,7 +366,7 @@ function footer(){
     </svg>
   </div>
   <div class="foot-bottom"><span>© ${new Date().getFullYear()} ${lg} · ${T('footer')}</span>
-    <div class="lang" role="group" aria-label="${T('language')}">${langs}</div></div>`;
+    <span class="foot-set"><button type="button" class="thm-btn thm-foot" onclick="sbTheme()" aria-label="Theme"></button><span class="lang" role="group" aria-label="${T('language')}">${langs}</span></span></div>`;
 }
 /* ---------- Счётчик посещений (GoatCounter, без cookies) ---------- */
 function countView(){ try{ if(window.goatcounter&&window.goatcounter.count) window.goatcounter.count({path:'/'+((location.hash||'').slice(1)||'rating')}); }catch(e){} }
