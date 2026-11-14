@@ -272,7 +272,10 @@ function openModal(html,cls){
   m.innerHTML=`<div class="sheet">${html}</div>`;
   m.addEventListener('click',e=>{ if(e.target===m) closeModal(); });
   document.body.appendChild(m);
-  const f=m.querySelector('input:not([type=hidden])'); if(f&&matchMedia('(hover: hover)').matches) f.focus();
+  /* Автофокус только на компьютере. На iPad/iPhone (в т.ч. iPad в «настольном» режиме, где hover: hover) программный focus()
+     ставит курсор без клавиатуры, и потом нажатие на это поле клавиатуру уже не открывает (баг iOS, особенно в режиме приложения). */
+  const touch=(navigator.maxTouchPoints||0)>0||'ontouchstart' in window;
+  const f=m.querySelector('input:not([type=hidden])'); if(f&&!touch&&matchMedia('(hover: hover) and (pointer: fine)').matches) f.focus();
 }
 function closeModal(){ const m=$id('cl-modal'); if(m) m.remove(); }
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
@@ -398,7 +401,7 @@ async function doSignup(ev){
   if(!name){ formErr(T('cErrName')); return false; }
   if(!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)){ formErr(T('cErrEmail')); return false; }
   if(pass.length<6){ formErr(T('cErrShort')); return false; }
-  if(pass!==f.pass2.value){ formErr(T('cErrMismatch')); f.pass2.focus(); return false; }
+  if(pass!==f.pass2.value){ formErr(T('cErrMismatch')); return false; }
   formBusy(f,true); formErr('');
   if(!(await checkMail(f,email))){ formBusy(f,false); return false; }
   try{
@@ -858,4 +861,17 @@ function init(){
   document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible'){ loadLive(); if(['home','games'].includes(C.page)) loadEvents().then(drawWidgets); } });
 }
 loadSdk();
+})();
+
+/* iOS: если поле уже в фокусе, а клавиатуры нет (так бывает в режиме приложения на старых iPad/iPhone),
+   нажатие на него клавиатуру не открывает. Тогда переставляем фокус внутри самого нажатия — так iOS клавиатуру показывает. */
+(function(){
+  const iOS=/iP(ad|hone|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&(navigator.maxTouchPoints||0)>1);
+  if(!iOS) return;
+  document.addEventListener('touchend',e=>{
+    const t=e.target; if(!t||!t.matches||!t.matches('input:not([type=checkbox]):not([type=radio]):not([type=button]):not([type=submit]),textarea')) return;
+    if(document.activeElement!==t) return;
+    const vv=window.visualViewport; if(vv&&vv.height<window.innerHeight*0.8) return; // клавиатура уже открыта
+    t.blur(); t.focus();
+  },{passive:true});
 })();
