@@ -520,11 +520,11 @@ function afterRoute(){
 /* ---------- Онлайн-счёт ---------- */
 function diamondSVG(bases){
   const pts=[[150,78],[100,28],[50,78]], lbl=[[150,108],[100,14],[50,108]];
-  let s=`<svg class="lv-dia" viewBox="0 0 200 140" aria-hidden="true"><path d="M100 128 L150 78 L100 28 L50 78 Z" fill="rgba(239,159,39,.05)" stroke="#2a3a55" stroke-width="2"/>
-    <path d="M92 124 h16 v6 l-8 7 l-8 -7 z" fill="#eef2f8"/>`;
+  let s=`<svg class="lv-dia" viewBox="0 0 200 140" aria-hidden="true"><path d="M100 128 L150 78 L100 28 L50 78 Z" fill="rgba(31,95,191,.05)" stroke="#B9C6DA" stroke-width="2"/>
+    <path d="M92 124 h16 v6 l-8 7 l-8 -7 z" fill="#10233F"/>`;
   pts.forEach(([x,y],i)=>{ const on=bases&&bases[i];
-    s+=`<rect x="${x-10}" y="${y-10}" width="20" height="20" transform="rotate(45 ${x} ${y})" fill="${on?'#EF9F27':'#14233a'}" stroke="${on?'#EF9F27':'#5f6f88'}" stroke-width="2"/>`;
-    if(on) s+=`<text x="${lbl[i][0]}" y="${lbl[i][1]}" text-anchor="middle" fill="#eef2f8" font-size="12" font-weight="700">${esc(plShort(on))}</text>`; });
+    s+=`<rect x="${x-10}" y="${y-10}" width="20" height="20" transform="rotate(45 ${x} ${y})" fill="${on?'#1F5FBF':'#FFFFFF'}" stroke="${on?'#1F5FBF':'#8A99B0'}" stroke-width="2"/>`;
+    if(on) s+=`<text x="${lbl[i][0]}" y="${lbl[i][1]}" text-anchor="middle" fill="#10233F" font-size="12" font-weight="700">${esc(plShort(on))}</text>`; });
   return s+'</svg>';
 }
 function playLabel(p){

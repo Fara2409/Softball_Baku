@@ -73,9 +73,9 @@ function rating(b,won){
   return Math.round(Math.min(10,Math.max(3,BASE+off+def+(won&&W.WIN?W.WIN:0)))*10)/10;
 }
 function rclass(r){return r==null?'na':r>=9?'elite':r>=8?'great':r>=7?'good':r>=6?'mid':r>=5?'avg':'low'}
-const RCOL={low:'var(--r-low)',mid:'var(--r-mid)',avg:'var(--r-avg)',good:'var(--r-good)',great:'var(--r-great)',elite:'linear-gradient(135deg,#22d3ee,#8b5cf6)'}; // 9+ — бирюзово-фиолетовый градиент (12.11.2026)
+const RCOL={low:'var(--r-low)',mid:'var(--r-mid)',avg:'var(--r-avg)',good:'var(--r-good)',great:'var(--r-great)',elite:'var(--r-elite)'}; // 9+ — бирюзово-фиолетовый градиент (12.11.2026)
 const RFILL=c=>c==='elite'?'url(#rElite)':RCOL[c]; // для SVG
-function rt(r,size=''){const c=rclass(r);return `<span class="rt ${size} ${c==='na'?'na':''}" style="${c!=='na'?`background:${RCOL[c]}`:''}">${r==null?'–':r.toFixed(1)}</span>`}
+function rt(r,size=''){const c=rclass(r);return `<span class="rt ${size} ${c==='na'?'na':''}" style="${c!=='na'?`--rc:${RCOL[c]}`:''}">${r==null?'–':r.toFixed(1)}</span>`}
 const avg3=x=>isFinite(x)?x.toFixed(3).replace(/^0/,''):'–';
 const AZ_M=['yanvar','fevral','mart','aprel','may','iyun','iyul','avqust','sentyabr','oktyabr','noyabr','dekabr'];
 const AZ_ABL=['yanvardan','fevraldan','martdan','apreldən','maydan','iyundan','iyuldan','avqustdan','sentyabrdan','oktyabrdan','noyabrdan','dekabrdan'];
@@ -225,13 +225,13 @@ function drawLB(ps){
 function chart(p){
   const L=p.log, n=L.length; if(!n) return '';
   const W0=1000,H0=260,pad=36,bw=Math.min(64,(W0-pad*2)/n*0.62),step=(W0-pad*2)/n, y=v=>H0-40-((v-3)/7)*(H0-70);
-  let s=`<svg viewBox="0 0 ${W0} ${H0}" role="img" aria-label="${T('byGame')}"><defs><linearGradient id="rElite" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>`;
-  for(const g of [4,6,8,10]) s+=`<line x1="${pad}" x2="${W0-pad}" y1="${y(g)}" y2="${y(g)}" stroke="#1f3150"/><text x="${pad-10}" y="${y(g)+4}" fill="#5f6f88" font-size="12" text-anchor="end">${g}</text>`;
+  let s=`<svg viewBox="0 0 ${W0} ${H0}" role="img" aria-label="${T('byGame')}"><defs><linearGradient id="rElite" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6B4BE0"/><stop offset="1" stop-color="#6B4BE0"/></linearGradient></defs>`;
+  for(const g of [4,6,8,10]) s+=`<line x1="${pad}" x2="${W0-pad}" y1="${y(g)}" y2="${y(g)}" stroke="#D9E1EC"/><text x="${pad-10}" y="${y(g)+4}" fill="#66758C" font-size="12" text-anchor="end">${g}</text>`;
   L.forEach(({game,b},i)=>{const x=pad+step*i+(step-bw)/2;
     s+=`<a href="#game-${game.id}"><rect x="${x}" y="${y(b.rating)}" width="${bw}" height="${y(3)-y(b.rating)}" rx="6" fill="${RFILL(rclass(b.rating))}"/>
-    <text x="${x+bw/2}" y="${y(b.rating)-8}" fill="#eef2f8" font-size="15" font-weight="800" text-anchor="middle">${b.rating.toFixed(1)}</text>
-    <text x="${x+bw/2}" y="${H0-16}" fill="#8fa0b8" font-size="12" text-anchor="middle">${fmtDate(game.date,{day:'numeric',month:'short'})}</text></a>`;});
-  if(p.t.RAT!=null) s+=`<line x1="${pad}" x2="${W0-pad}" y1="${y(p.t.RAT)}" y2="${y(p.t.RAT)}" stroke="#EF9F27" stroke-dasharray="6 6" stroke-width="2"/><text x="${W0-pad}" y="${y(p.t.RAT)-6}" fill="#EF9F27" font-size="12" font-weight="700" text-anchor="end">${T('avgLbl')} ${p.t.RAT.toFixed(2)}</text>`;
+    <text x="${x+bw/2}" y="${y(b.rating)-8}" fill="#10233F" font-size="15" font-weight="800" text-anchor="middle">${b.rating.toFixed(1)}</text>
+    <text x="${x+bw/2}" y="${H0-16}" fill="#55657D" font-size="12" text-anchor="middle">${fmtDate(game.date,{day:'numeric',month:'short'})}</text></a>`;});
+  if(p.t.RAT!=null) s+=`<line x1="${pad}" x2="${W0-pad}" y1="${y(p.t.RAT)}" y2="${y(p.t.RAT)}" stroke="#1F5FBF" stroke-dasharray="6 6" stroke-width="2"/><text x="${W0-pad}" y="${y(p.t.RAT)-6}" fill="#1F5FBF" font-size="12" font-weight="700" text-anchor="end">${T('avgLbl')} ${p.t.RAT.toFixed(2)}</text>`;
   return s+'</svg>';
 }
 // ±очки (вклад) и разбивка рейтинга на нападение и защиту
@@ -356,13 +356,13 @@ function footer(){
     <div class="foot-col"><h4>${T('watch')}</h4>${L.youtube?`<a href="${L.youtube}" target="_blank" rel="noopener"><span class="yt-dot">▶</span>${T('channel')}</a>`:''}${vid?`<a href="${vid}" target="_blank" rel="noopener"><span class="yt-dot">▶</span>${T('lastVideo')}</a>`:(L.youtube?'':`<span class="muted">${T('videoSoon')}</span>`)}</div>
     <div class="foot-col"><h4>${T('where')}</h4><a class="foot-loc" href="https://maps.google.com/?q=40.4264,49.9836" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>${T('place')}</span></a></div>
     <svg class="foot-diamond" viewBox="0 0 200 200" aria-hidden="true">
-      <path d="M100 185 L15 100 A120 120 0 0 1 185 100 Z" fill="none" stroke="#1f3150" stroke-width="2"/>
-      <path d="M100 170 L45 115 L100 60 L155 115 Z" fill="rgba(239,159,39,.06)" stroke="#2a3a55" stroke-width="2"/>
-      <rect x="149" y="109" width="12" height="12" transform="rotate(45 155 115)" fill="#8fa0b8"/>
+      <path d="M100 185 L15 100 A120 120 0 0 1 185 100 Z" fill="none" stroke="#C5CFDD" stroke-width="2"/>
+      <path d="M100 170 L45 115 L100 60 L155 115 Z" fill="rgba(31,95,191,.06)" stroke="#B9C6DA" stroke-width="2"/>
+      <rect x="149" y="109" width="12" height="12" transform="rotate(45 155 115)" fill="#8A99B0"/>
       <rect x="94" y="54" width="12" height="12" transform="rotate(45 100 60)" fill="#8fa0b8"/>
       <rect x="39" y="109" width="12" height="12" transform="rotate(45 45 115)" fill="#8fa0b8"/>
-      <path d="M92 166 h16 v6 l-8 7 l-8 -7 z" fill="#EF9F27"/>
-      <circle cx="100" cy="118" r="4" fill="#2a3a55"/>
+      <path d="M92 166 h16 v6 l-8 7 l-8 -7 z" fill="#1F5FBF"/>
+      <circle cx="100" cy="118" r="4" fill="#B9C6DA"/>
     </svg>
   </div>
   <div class="foot-bottom"><span>© ${new Date().getFullYear()} ${lg} · ${T('footer')}</span>

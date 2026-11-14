@@ -17,17 +17,17 @@ const hms=t=>new Date(t).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-di
 
 /* ---------- значок ---------- */
 const st=document.createElement('style');
-st.textContent=`.lvb{flex:none;display:flex;align-items:center;gap:6px;padding:5px 9px;border-radius:10px;font:700 11px/1.15 system-ui,-apple-system,sans-serif;background:#1a1d24;border:1px solid #2c313c;color:#8a93a3;text-align:left;white-space:nowrap}
+st.textContent=`.lvb{flex:none;display:flex;align-items:center;gap:6px;padding:5px 9px;border-radius:10px;font:700 11px/1.15 system-ui,-apple-system,sans-serif;background:#FFFFFF;border:1px solid #D9E1EC;color:#55657D;text-align:left;white-space:nowrap}
 .lvb small{display:block;font-size:9px;font-weight:600;letter-spacing:.06em;opacity:.7}
 .lvb.fx{position:fixed;top:calc(8px + env(safe-area-inset-top));right:10px;z-index:20}
-.lvb i{width:8px;height:8px;border-radius:50%;background:#5a6170;flex:none}
-.lvb.ok{color:#eef1f5;border-color:#e5484d;background:#2a1416}.lvb.ok i{background:#ff4d4f;animation:bl 1.2s infinite}
-.lvb.wait i{background:#ffb020}
-.lvb.err{color:#ffb020;border-color:#ffb020}.lvb.err i{background:#ffb020}
+.lvb i{width:8px;height:8px;border-radius:50%;background:#8A99B0;flex:none}
+.lvb.ok{color:#B3261E;border-color:#e5484d;background:#FDE8E8}.lvb.ok i{background:#ff4d4f;animation:bl 1.2s infinite}
+.lvb.wait i{background:#A85E12}
+.lvb.err{color:#A85E12;border-color:#A85E12}.lvb.err i{background:#A85E12}
 .lvp p{margin:6px 0 12px;line-height:1.45}.lvp label{display:block;margin:10px 0 4px;font-size:13px;color:var(--mut)}
 .lvp .row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.lvp .row>*{flex:1}
-.lvp .on{background:#2a1416;border-color:#e5484d;color:#fff;font-weight:700}
-.lvp .err{color:#ffb020}.lvp a{color:var(--acc)}`;
+.lvp .on{background:#FDE8E8;border-color:#e5484d;color:#B3261E;font-weight:700}
+.lvp .err{color:#A85E12}.lvp a{color:var(--acc)}`;
 document.head.appendChild(st);
 const pill=document.createElement('button'); pill.className='lvb'; pill.onclick=panel;
 // значок живёт в шапке (.sb); шапка перерисовывается при каждом нажатии, поэтому возвращаем его на место

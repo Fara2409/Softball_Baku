@@ -35,7 +35,7 @@
   window.SB_BAT=BAT;
   // скрещённые биты (бочками вверх) и мяч над перекрестьем
   window.SB_BATS=(c,seam)=>`<svg viewBox="0 0 100 100" aria-hidden="true"><g fill="${c}"><g transform="rotate(-45 50 50)">${BAT}</g><g transform="rotate(-135 50 50)">${BAT}</g></g>`+
-    `<circle cx="50" cy="27" r="11" fill="${c}"/><path d="M43.5 18.5c3 4.5 3 12.5 0 17M56.5 18.5c-3 4.5-3 12.5 0 17" fill="none" stroke="${seam||'#0E1A2C'}" stroke-width="1.6" stroke-linecap="round"/></svg>`;
+    `<circle cx="50" cy="27" r="11" fill="${c}"/><path d="M43.5 18.5c3 4.5 3 12.5 0 17M56.5 18.5c-3 4.5-3 12.5 0 17" fill="none" stroke="${seam||'#FFFFFF'}" stroke-width="1.6" stroke-linecap="round"/></svg>`;
 
   Object.assign(I18N.ru,{sbTag:'Любительский софтбол в Баку',sbWhen:'по воскресеньям · 08:00 · Əmircan',sbHits:'хиты',sbRuns:'пробежки',winW:'Победа',lossW:'Поражение',tieW:'Ничья'});
   Object.assign(I18N.az,{sbTag:'Bakıda həvəskar softbol',sbWhen:'bazar günləri · 08:00 · Əmircan',sbHits:'hitlər',sbRuns:'qaçışlar',winW:'Qələbə',lossW:'Məğlubiyyət',tieW:'Heç-heçə'});

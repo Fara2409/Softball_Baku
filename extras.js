@@ -124,12 +124,12 @@ function spray(p){
   const by={}; balls.forEach(b=>(by[b.pos]=by[b.pos]||[]).push(b));
   const COL={h:'var(--r-good)',o:'var(--r-low)',e:'var(--amber)'};
   let svg=`<svg viewBox="0 0 300 250" class="sp-svg" role="img" aria-label="${T('spTitle')}">
-    <path d="M150 236 L14 100 A190 190 0 0 1 286 100 Z" fill="#12301f" opacity=".55"/>
-    <path d="M150 236 L14 100 A190 190 0 0 1 286 100 Z" fill="none" stroke="#2f5a3f" stroke-width="2"/>
-    <path d="M150 236 L204 176 L150 124 L96 176 Z" fill="#4a3424" opacity=".7"/>
-    <path d="M150 236 L204 176 L150 124 L96 176 Z" fill="none" stroke="#eef2f8" stroke-opacity=".5" stroke-width="1.5"/>
-    ${[[204,176],[150,124],[96,176]].map(([x,y])=>`<rect x="${x-4}" y="${y-4}" width="8" height="8" transform="rotate(45 ${x} ${y})" fill="#eef2f8"/>`).join('')}
-    <path d="M145 233 h10 v4 l-5 4 l-5 -4 z" fill="#eef2f8"/>`;
+    <path d="M150 236 L14 100 A190 190 0 0 1 286 100 Z" fill="#CFE8D6"/>
+    <path d="M150 236 L14 100 A190 190 0 0 1 286 100 Z" fill="none" stroke="#7FB894" stroke-width="2"/>
+    <path d="M150 236 L204 176 L150 124 L96 176 Z" fill="#E6D3BC"/>
+    <path d="M150 236 L204 176 L150 124 L96 176 Z" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+    ${[[204,176],[150,124],[96,176]].map(([x,y])=>`<rect x="${x-4}" y="${y-4}" width="8" height="8" transform="rotate(45 ${x} ${y})" fill="#FFFFFF" stroke="#8A99B0" stroke-width=".8"/>`).join('')}
+    <path d="M145 233 h10 v4 l-5 4 l-5 -4 z" fill="#FFFFFF" stroke="#8A99B0" stroke-width=".8"/>`;
   const HX=150, HY=230; let paths='', dots='', labels='', k=0;
   for(const [pos,L] of Object.entries(by)){ const [cx,cy]=XY[pos], n=L.length;
     L.sort((a,b)=>'hoe'.indexOf(a.kind)-'hoe'.indexOf(b.kind)).forEach((b,i)=>{ // точки по спирали вокруг зоны
@@ -144,8 +144,8 @@ function spray(p){
       const del=(k*0.12).toFixed(2); k++;
       paths+=`<path class="sp-tr sp-${b.tr}" d="${dpath}" pathLength="1" stroke="${COL[b.kind]}" style="animation-delay:${del}s"><title>${pos} · ${R_[b.r]||b.r}</title></path>`;
       if(b.tr==='g') paths+=`<path class="sp-hop" d="${dpath}" pathLength="1" stroke="${COL[b.kind]}" style="animation-delay:${del}s"/>`;
-      dots+=`<circle class="sp-dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5" fill="${COL[b.kind]}" stroke="#0b1626" stroke-width="1.2" style="animation-delay:${(+del+0.55).toFixed(2)}s"><title>${pos} · ${R_[b.r]||b.r}</title></circle>`; });
-    labels+=`<text x="${cx}" y="${cy-12-Math.min(14,3.2*Math.sqrt(n))}" text-anchor="middle" font-size="10" font-weight="800" fill="#c9d3e1">${pos} · ${n}</text>`;
+      dots+=`<circle class="sp-dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5" fill="${COL[b.kind]}" stroke="#FFFFFF" stroke-width="1.2" style="animation-delay:${(+del+0.55).toFixed(2)}s"><title>${pos} · ${R_[b.r]||b.r}</title></circle>`; });
+    labels+=`<text x="${cx}" y="${cy-12-Math.min(14,3.2*Math.sqrt(n))}" text-anchor="middle" font-size="10" font-weight="800" fill="#2C3F5C">${pos} · ${n}</text>`;
   }
   svg+=`<g fill="none">${paths}</g>${dots}${labels}`;
   svg+='</svg>';

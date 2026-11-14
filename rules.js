@@ -60,11 +60,11 @@ const RT_TXT={
 function fieldSVG(){
   // схема для 10 игроков в защите: четыре аутфилдера
   const FXY={LF:[14,27],LCF:[35,13],RCF:[65,13],RF:[86,27],SS:[34,44],'2B':[66,44],P:[50,62],'3B':[20,63],'1B':[80,63],C:[50,90]};
-  let s=`<svg viewBox="0 0 100 100" class="field"><path d="M50 96 L4 50 A64 64 0 0 1 96 50 Z" fill="#12301f" stroke="#1d4a30" stroke-width=".6"/>
-    <path d="M50 92 L24 66 L50 40 L76 66 Z" fill="#5a3b22" opacity=".55"/><path d="M50 86 L30 66 L50 46 L70 66 Z" fill="#1a3d28"/>`;
-  for(const [x,y] of [[76,66],[50,40],[24,66]]) s+=`<rect x="${x-1.6}" y="${y-1.6}" width="3.2" height="3.2" transform="rotate(45 ${x} ${y})" fill="#eef2f8"/>`;
-  s+=`<path d="M48.2 91 h3.6 v1.6 l-1.8 1.6 l-1.8 -1.6 z" fill="#EF9F27"/>`;
-  for(const [p,[x,y]] of Object.entries(FXY)) s+=`<g><circle cx="${x}" cy="${y}" r="4.6" fill="#0b1626" stroke="#EF9F27" stroke-width=".7"/><text x="${x}" y="${y+1.3}" font-size="3.6" font-weight="800" fill="#eef2f8" text-anchor="middle">${p}</text></g>`;
+  let s=`<svg viewBox="0 0 100 100" class="field"><path d="M50 96 L4 50 A64 64 0 0 1 96 50 Z" fill="#CFE8D6" stroke="#7FB894" stroke-width=".6"/>
+    <path d="M50 92 L24 66 L50 40 L76 66 Z" fill="#E6D3BC"/><path d="M50 86 L30 66 L50 46 L70 66 Z" fill="#DCEFE2"/>`;
+  for(const [x,y] of [[76,66],[50,40],[24,66]]) s+=`<rect x="${x-1.6}" y="${y-1.6}" width="3.2" height="3.2" transform="rotate(45 ${x} ${y})" fill="#FFFFFF" stroke="#8A99B0" stroke-width=".3"/>`;
+  s+=`<path d="M48.2 91 h3.6 v1.6 l-1.8 1.6 l-1.8 -1.6 z" fill="#1F5FBF"/>`;
+  for(const [p,[x,y]] of Object.entries(FXY)) s+=`<g><circle cx="${x}" cy="${y}" r="4.6" fill="#FFFFFF" stroke="#1F5FBF" stroke-width=".7"/><text x="${x}" y="${y+1.3}" font-size="3.6" font-weight="800" fill="#10233F" text-anchor="middle">${p}</text></g>`;
   return s+'</svg>';
 }
 // пример (без имени и фото): цифры лучшего игрока периода — общий рейтинг и разбивка «нападение / защита»
