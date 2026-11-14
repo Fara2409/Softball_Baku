@@ -875,3 +875,22 @@ loadSdk();
     t.blur(); t.focus();
   },{passive:true});
 })();
+
+/* Диагностика клавиатуры: softball.az/?kbdebug=1 — внизу журнал касаний, фокуса и высоты экрана. */
+(function(){
+  if(!/[?&]kbdebug=1/.test(location.search)) return;
+  const box=document.createElement('div');
+  box.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:2147483647;max-height:38vh;overflow:auto;background:rgba(0,0,0,.85);color:#7CFC9A;font:11px/1.35 ui-monospace,Menlo,monospace;padding:6px 8px;pointer-events:none;white-space:pre-wrap';
+  const lines=[]; const t0=Date.now();
+  const d=el=>el?(el.tagName.toLowerCase()+(el.name?'[name='+el.name+']':'')+(el.className&&typeof el.className==='string'?'.'+el.className.split(' ')[0]:'')):'-';
+  const log=s=>{ lines.push(((Date.now()-t0)/1000).toFixed(1)+' '+s); if(lines.length>40) lines.shift(); box.textContent=lines.slice().reverse().join('\n'); };
+  const add=()=>{ if(!box.isConnected) document.body.appendChild(box); };
+  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',add):add();
+  log('UA '+navigator.userAgent.slice(0,120)+' | standalone='+(navigator.standalone||matchMedia('(display-mode: standalone)').matches)+' | win '+innerWidth+'x'+innerHeight);
+  ['touchstart','touchend','mousedown','click'].forEach(ev=>document.addEventListener(ev,e=>log(ev+' '+d(e.target)+(e.defaultPrevented?' PREVENTED':'')),true));
+  ['touchend','click'].forEach(ev=>document.addEventListener(ev,e=>{ if(e.defaultPrevented) log(ev+' prevented later by '+d(e.target)); },false));
+  document.addEventListener('focusin',e=>log('focusin '+d(e.target)),true);
+  document.addEventListener('focusout',e=>log('focusout '+d(e.target)+' → '+d(e.relatedTarget)),true);
+  if(window.visualViewport) visualViewport.addEventListener('resize',()=>log('viewport '+Math.round(visualViewport.width)+'x'+Math.round(visualViewport.height)+' (клавиатура '+(visualViewport.height<innerHeight*0.8?'есть':'нет')+')'));
+  addEventListener('error',e=>log('JS ERROR '+e.message));
+})();

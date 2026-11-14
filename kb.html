@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Проверка клавиатуры</title>
+<style>
+body{font:16px -apple-system,system-ui,sans-serif;margin:0;padding:20px;background:#F2F5FA;color:#10233F}
+h1{font-size:20px;margin:0 0 6px}
+.box{background:#fff;border:1px solid #D9E1EC;border-radius:12px;padding:14px;margin:14px 0}
+.box b{display:block;margin-bottom:8px}
+input.t{font-size:16px;padding:11px 12px;border:1px solid #D9E1EC;border-radius:10px;width:100%;box-sizing:border-box}
+button{font-size:16px;padding:11px 14px;border-radius:10px;border:0;background:#1F5FBF;color:#fff}
+#info{font:12px ui-monospace,Menlo,monospace;white-space:pre-wrap;color:#55657D}
+.ov{position:fixed;inset:0;background:rgba(16,35,63,.45);display:none;align-items:center;justify-content:center;padding:16px;z-index:90}
+.ov .sh{background:#fff;border-radius:16px;padding:20px;width:min(430px,100%)}
+</style>
+</head>
+<body>
+<h1>Проверка клавиатуры</h1>
+<p>Нажмите по очереди на каждое поле и запомните, в каком появилась клавиатура.</p>
+
+<div class="box"><b>Поле 1 — обычное</b><input class="t" type="text" placeholder="Нажмите сюда"></div>
+<div class="box"><b>Поле 2 — почта</b><input class="t" type="email" inputmode="email" autocomplete="email" placeholder="Нажмите сюда"></div>
+<div class="box"><b>Поле 3 — во всплывающем окне, как «Войти»</b><button onclick="document.getElementById('ov').style.display='flex'">Открыть окно</button></div>
+<div class="box"><b>Шаг 4 — настоящий сайт с журналом</b><p style="margin:0 0 10px">Откроется сайт, внизу будет чёрная полоска с записями. Нажмите «Войти», потом на поле почты, и сделайте скриншот.</p><a href="/?kbdebug=1#rating"><button>Открыть сайт с журналом</button></a></div>
+<div class="box"><b>Сведения об устройстве</b><div id="info"></div></div>
+
+<div class="ov" id="ov" onclick="if(event.target===this)this.style.display='none'">
+  <div class="sh"><b>Окно</b><p>Нажмите на поле:</p>
+    <label style="display:flex;flex-direction:column;gap:6px">Эл. почта<input class="t" type="email" inputmode="email" autocomplete="email"></label>
+    <p><button onclick="document.getElementById('ov').style.display='none'">Закрыть</button></p></div>
+</div>
+
+<script>
+const sa=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+document.getElementById('info').textContent=
+ 'Режим: '+(sa?'приложение (с экрана «Домой»)':'браузер')+'\n'+
+ 'Экран: '+screen.width+'×'+screen.height+', окно '+innerWidth+'×'+innerHeight+'\n'+
+ 'Касания: '+(navigator.maxTouchPoints||0)+'\n'+
+ navigator.userAgent;
+</script>
+</body>
+</html>
