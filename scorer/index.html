@@ -121,6 +121,7 @@ body.dragmode{cursor:grabbing}
 .toast{position:fixed;left:50%;top:calc(12px + env(safe-area-inset-top));transform:translateX(-50%);background:#10233F;color:#fff;padding:10px 14px;border-radius:12px;font-size:14px;z-index:30;max-width:92vw;box-shadow:0 6px 24px rgba(0,0,0,.4);transition:opacity .3s}
 .ebtn{display:block;width:100%;text-align:left;padding:14px;margin-bottom:8px}
 .ebtn b{display:block}.ebtn span{font-size:12px;color:var(--mut)}
+.pt.rk{color:#1E7F4C;background:rgba(30,127,76,.12)}
 </style>
 </head>
 <body>
@@ -526,7 +527,7 @@ function renderSetup(){
   POS.filter(x=>cnt[x]).map(x=>`<button data-p="${x}" onclick="PF=PF==='${x}'?'':'${x}';poolFilter()">${x}<i>${cnt[x]}</i></button>`).join('')+`</div>
   <input class="ps" type="search" placeholder="Поиск: имя или номер" value="${esc(PQ)}" oninput="PQ=this.value.trim().toLowerCase();poolFilter()">
   <div class="card pool dl" data-k="pool">${free.length?'':'<p class="muted small" style="margin:10px 0">Все игроки распределены. Перетащите игрока сюда, чтобы убрать из команды</p>'}`+free.map(id=>{const p=P[id],q=[p.number,p.first,p.last,p.first_ru,p.last_ru,p.first_az,p.last_az].filter(Boolean).join(' ').toLowerCase();
-  return `<div class="p" data-id="${id}" data-pos="${esc((p.positions||[]).join(' '))}" data-q="${esc(q)}"><span class="dh" aria-label="Перетащить">⠿</span><span class="nm">${esc(nameN(id))}${(p.positions||[]).length?`<span class="pt">${esc(p.positions.join('/'))}</span>`:''}</span>
+  return `<div class="p" data-id="${id}" data-pos="${esc((p.positions||[]).join(' '))}" data-q="${esc(q)}"><span class="dh" aria-label="Перетащить">⠿</span><span class="nm">${esc(nameN(id))}${(p.positions||[]).length?`<span class="pt">${esc(p.positions.join('/'))}</span>`:''}${p.rookie?`<span class="pt rk">новичок</span>`:''}</span>
   <button style="border-color:${S.teams.A.color}" onclick="addP('A','${id}')">▲</button><button style="border-color:${S.teams.B.color}" onclick="addP('B','${id}')">▼</button></div>`}).join('')+`<div class="pempty muted small">${free.length?'Никого не найдено':''}</div></div>`}
  h+=`<p class="muted small">⠿ — потяните, чтобы поменять порядок отбивания или перенести игрока в другую команду. Новых игроков сначала добавьте в data/players.json на сайте. EH — только отбивает.</p>
  <button class="pri" style="width:100%;padding:16px;font-size:17px" onclick="start()">${S.events.length?'Продолжить игру':'Начать игру'}</button>

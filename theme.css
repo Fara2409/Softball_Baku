@@ -198,3 +198,12 @@ html[lang="az"] .section-title h2{letter-spacing:0}
 /* рейтинг в тёмной теме — залитая плашка */
 .rt{background:var(--rc,var(--panel2))}
 @media (max-width:820px){ .foot-set{justify-content:center} }
+
+/* Новичок */
+.rk{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;font-size:10.5px;font-weight:700;letter-spacing:.3px;line-height:16px;vertical-align:middle;white-space:nowrap;color:#1E7F4C;background:rgba(30,127,76,.12);border:1px solid rgba(30,127,76,.35);font-style:normal}
+html.theme-dark .rk{color:#5FD39A;background:rgba(95,211,154,.12);border-color:rgba(95,211,154,.35)}
+.rk-line{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin-top:10px;font-size:12.5px;color:var(--muted)}
+.rk-line .rk{margin-left:0}
+.rk-line i{flex:0 0 100%;max-width:220px;height:5px;border-radius:9px;background:var(--line);position:relative;overflow:hidden}
+.rk-line i::after{content:"";position:absolute;inset:0;width:calc(var(--k)*100%);background:#1E7F4C;border-radius:9px}
+@media (max-width:820px){ .phead .rk-line{justify-content:center} .phead .rk-line i{margin:0 auto} }

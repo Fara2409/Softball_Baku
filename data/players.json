@@ -307,6 +307,19 @@
     "RF"
    ],
    "photo": null
+  },
+  {
+   "id": "nariman",
+   "first": "Nariman",
+   "last": "",
+   "first_ru": "Нариман",
+   "last_ru": "",
+   "first_az": "Nəriman",
+   "last_az": "",
+   "number": 1,
+   "positions": [],
+   "photo": null,
+   "rookie": true
   }
  ]
 }

@@ -9,7 +9,7 @@ const I18N={
     G:'Игры',W:'Победы',WL:'В-П',R:'Раны',PO:'Ауты в защите',byGame:'Рейтинг по играм',dashed:'пунктир — среднее за сезон',avgLbl:'среднее',allGames:'Все игры',
     date:'Дата',team:'Команда',result:'Итог',win:'Победа',loss:'Поражение',tie:'Ничья',winL:'победа',lossL:'поражение',tieL:'ничья',runs:'ран',
     seasonStarts:d=>`Сезон ${d.season} стартует ${d.start}`,daysLeft:n=>`До старта ${n} ${pluralDays('ru',n)}`,seasonGames:'Игры сезона',
-    noGames:'Игр пока нет. Первая игра сезона появится здесь.',noStats:'Статистика появится после первой игры сезона.',mainPos:'основная позиция',
+    noGames:'Игр пока нет. Первая игра сезона появится здесь.',noStats:'Статистика появится после первой игры сезона.',mainPos:'основная позиция',rookie:'Новичок',rookieHint:(n,k)=>`Новичок: станет игроком после ${k} игр · сыграно ${n} из ${k}`,
     roster:'Состав',openProfile:'Открыть профиль',title:'Статистика',tagline:'Любительский софтбол в Баку. Рейтинг игроков, статистика и ролики каждой игры.',site:'Сайт',watch:'Смотреть',where:'Где играем',lastVideo:'Последняя игра на YouTube',channel:'Наш YouTube-канал',place:'Амирджан, Баку, Азербайджан',seasonPill:d=>`Сезон ${d.season} · старт ${d.start}`,language:'Язык',firstGame:'Первая игра',videoSoon:'Видео скоро',final:'Итог',notFound:'Не найдено',loadErr:'Не удалось загрузить данные',footer:'рейтинг считается автоматически после каждой игры',mvp:'MVP',city:'Баку'},
   az:{rating:'Reytinq',games:'Oyunlar',players:'Oyunçular',lastGame:'Son oyun',potg:'Oyunun ən yaxşısı',leaders:'Mövsümün liderləri',perSeason:y=>`${y} mövsümü`,perOff:y=>`Mövsümlərarası ${y}`,leadersOff:y=>`Mövsümlərarası liderlər ${y}`,offChip:'mövsümlərarası',seasonNoGames:'Mövsüm hələ başlamayıb — sınaq oyunlarının statistikası «Mövsümlərarası» bölməsindədir.',avgPerGame:'oyun başına orta reytinq',
     table:'Oyunçuların reytinqi',qualHint:n=>`reytinqdə — ən azı ${n} oyun · sıralamaq üçün sütuna toxunun`,player:'Oyunçu',position:'Mövqe',pos:'Mövqe',
@@ -17,7 +17,7 @@ const I18N={
     G:'Oyunlar',W:'Qələbələr',WL:'Q-M',R:'Ranlar',PO:'Müdafiədə autlar',byGame:'Oyunlar üzrə reytinq',dashed:'qırıq xətt — mövsüm ortalaması',avgLbl:'orta',allGames:'Bütün oyunlar',
     date:'Tarix',team:'Komanda',result:'Nəticə',win:'Qələbə',loss:'Məğlubiyyət',tie:'Heç-heçə',winL:'qələbə',lossL:'məğlubiyyət',tieL:'heç-heçə',runs:'ran',
     seasonStarts:d=>`${d.season} mövsümü ${d.start} başlayır`,daysLeft:n=>`Başlanğıca ${n} gün qalıb`,seasonGames:'Mövsümün oyunları',
-    noGames:'Hələ oyun yoxdur. Mövsümün ilk oyunu burada görünəcək.',noStats:'Statistika mövsümün ilk oyunundan sonra görünəcək.',mainPos:'əsas mövqe',
+    noGames:'Hələ oyun yoxdur. Mövsümün ilk oyunu burada görünəcək.',noStats:'Statistika mövsümün ilk oyunundan sonra görünəcək.',mainPos:'əsas mövqe',rookie:'Yeni oyunçu',rookieHint:(n,k)=>`Yeni oyunçu: ${k} oyundan sonra əsas heyətə keçəcək · oynanılıb ${n} / ${k}`,
     roster:'Heyət',openProfile:'Profilə bax',title:'Statistika',tagline:'Bakıda həvəskar softbol. Oyunçuların reytinqi, statistika və hər oyunun videosu.',site:'Sayt',watch:'İzlə',where:'Harada oynayırıq',lastVideo:'Son oyun YouTube-da',channel:'YouTube kanalımız',place:'Əmircan, Bakı, Azərbaycan',seasonPill:d=>`${d.season} mövsümü · ${d.start}`,language:'Dil',firstGame:'İlk oyun',videoSoon:'Video tezliklə',final:'Yekun',notFound:'Tapılmadı',loadErr:'Məlumatları yükləmək alınmadı',footer:'reytinq hər oyundan sonra avtomatik hesablanır',mvp:'MVP',city:'Bakı'},
   en:{rating:'Ratings',games:'Games',players:'Players',lastGame:'Last game',potg:'Player of the game',leaders:'Season leaders',perSeason:y=>`Season ${y}`,perOff:y=>`Off-season ${y}`,leadersOff:y=>`Off-season leaders ${y}`,offChip:'off-season',seasonNoGames:'The season hasn’t started yet — test games are under “Off-season”.',avgPerGame:'average rating per game',
     table:'Player ratings',qualHint:n=>`qualified — ${n}+ ${plural('en',n)} · click a column to sort`,player:'Player',position:'Position',pos:'Pos',
@@ -25,7 +25,7 @@ const I18N={
     G:'Games',W:'Wins',WL:'W-L',R:'Runs',PO:'Putouts',byGame:'Rating by game',dashed:'dashed line — season average',avgLbl:'avg',allGames:'Game log',
     date:'Date',team:'Team',result:'Result',win:'Win',loss:'Loss',tie:'Tie',winL:'win',lossL:'loss',tieL:'tie',runs:'runs',
     seasonStarts:d=>`Season ${d.season} starts ${d.start}`,daysLeft:n=>`${n} ${n===1?'day':'days'} to go`,seasonGames:'Season games',
-    noGames:'No games yet. The first game of the season will appear here.',noStats:'Stats will appear after the first game of the season.',mainPos:'primary position',
+    noGames:'No games yet. The first game of the season will appear here.',noStats:'Stats will appear after the first game of the season.',mainPos:'primary position',rookie:'Rookie',rookieHint:(n,k)=>`Rookie: becomes a full player after ${k} games · played ${n} of ${k}`,
     roster:'Roster',openProfile:'View profile',title:'Stats',tagline:'Amateur softball in Baku. Player ratings, stats and a video of every game.',site:'Site',watch:'Watch',where:'Where we play',lastVideo:'Latest game on YouTube',channel:'Our YouTube channel',place:'Amirajan, Baku, Azerbaijan',seasonPill:d=>`Season ${d.season} · from ${d.start}`,language:'Language',firstGame:'First game',videoSoon:'Video coming soon',final:'Final',notFound:'Not found',loadErr:'Could not load data',footer:'ratings are calculated automatically after every game',mvp:'MVP',city:'Baku'}
 };
 const POS_NAMES={
@@ -90,6 +90,10 @@ const pname=p=>`${first(p)} ${last(p)}`.trim();
 const initials=p=>(first(p)[0]+(last(p)[0]||'')).toUpperCase();
 const av=(p,size='s')=>`<span class="av ${size} ${p.photo?'':'nophoto'}">${p.photo?`<img src="${p.photo}" alt="${pname(p)}" loading="lazy">`:p.number}</span>`;
 const S={players:{},games:[]};
+/* Новичок (players.json: "rookie": true) — до ROOKIE_GAMES сыгранных игр (за всё время). Статистика и рейтинг считаются как у всех. */
+const ROOKIE_GAMES=3;
+const isRookie=p=>!!(p&&p.rookie&&(p.logAll||p.log||[]).length<ROOKIE_GAMES);
+const rkBadge=(p,full)=>isRookie(p)?`<span class="rk" title="${T('rookieHint')((p.logAll||[]).length,ROOKIE_GAMES)}">${T('rookie')}${full?'':` ${(p.logAll||[]).length}/${ROOKIE_GAMES}`}</span>`:'';
 
 /* ---------- Загрузка и расчёт ---------- */
 async function load(){
@@ -161,7 +165,7 @@ function rosterGrid(){
   const ps=Object.values(S.players).sort((a,b)=>a.number-b.number);
   return `<div class="section-title"><h2>${T('roster')}</h2><span class="hint">${ps.length}</span></div><div class="roster">`+
     ps.map(p=>`<a class="card pcard" href="#player-${p.id}" data-peek="${p.id}"><span class="pc-num">${p.number}</span>${av(p,'m')}
-      <div class="pc-txt"><div class="nm">${first(p)}${last(p)?`<br>${last(p)}`:''}</div><div class="sub">#${p.number} · ${p.pos[0]?.[0]||''}</div></div>
+      <div class="pc-txt"><div class="nm">${first(p)}${last(p)?`<br>${last(p)}`:''}</div><div class="sub">#${p.number} · ${p.pos[0]?.[0]||''}${rkBadge(p)}</div></div>
       ${p.t.RAT==null?'':rt(Math.round(p.t.RAT*10)/10,'lg')}</a>`).join('')+'</div>';
 }
 function ytId(u){ const m=(u||'').match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([\w-]{11})/); return m?m[1]:null; }
@@ -216,7 +220,7 @@ function drawLB(ps){
   let rank=0;
   for(const p of ps){ const t=p.t; if(t.qual) rank++;
     h+=`<tr data-peek="${p.id}" onclick="location.hash='#player-${p.id}'" style="${t.qual?'':'opacity:.55'}"><td class="l rank">${t.qual?rank:'–'}</td>
-      <td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}</div><div class="no">#${p.number}</div></div></div></td>
+      <td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}${rkBadge(p)}</div><div class="no">#${p.number}</div></div></div></td>
       <td class="l">${p.pos.slice(0,2).map((x,i)=>`<span class="chip ${i?'':'main'}">${x[0]}</span>`).join(' ')}</td>
       <td>${rt(t.RAT)}</td><td>${t.G}</td><td class="wl">${t.W}–${t.L}</td><td>${avg3(t.AVG)}</td><td>${avg3(t.OBP)}</td><td>${avg3(t.OPS)}</td><td>${t.HR}</td><td>${t.RBI}</td><td>${t.R}</td><td>${t.E}</td></tr>`; }
   const el=document.getElementById('lb'); el.innerHTML=h+'</tbody>';
@@ -247,7 +251,7 @@ function player(id){
   let h=periodTabs()+`<div class="card phead"><span class="bignum">${p.number}</span>${av(p,'xl')}
     <div><span class="eyebrow">#${p.number} · ${periodName()}</span><h1>${first(p)}<span>${last(p).toUpperCase()}</span></h1>
     <div class="posname">${POS_NAMES[LANG][p.pos[0]?.[0]]||''}${!has&&p.pos.length?` · <span class="muted">${T('mainPos')}</span>`:''}</div>
-    <div class="chips">${p.pos.map(posChip).join('')}</div></div>
+    <div class="chips">${p.pos.map(posChip).join('')}</div>${isRookie(p)?`<div class="rk-line">${rkBadge(p,1)}<span>${T('rookieHint')(p.logAll.length,ROOKIE_GAMES).split(': ')[1]||''}</span><i style="--k:${p.logAll.length/ROOKIE_GAMES}"></i></div>`:''}</div>
     <div class="rbox">${rt(t.RAT==null?null:Math.round(t.RAT*10)/10,'xl')}<div class="lbl">${has?T('avgRating'):T('noRating')}</div>${has?rsplit(t):''}</div></div>
     <div class="kpis">${[[T('G'),t.G],[T('W'),d(`${t.W}-${t.L}`)],['AVG',d(avg3(t.AVG))],['OBP',d(avg3(t.OBP))],['SLG',d(avg3(t.SLG))],['OPS',d(avg3(t.OPS))],['HR',d(t.HR)],['RBI',d(t.RBI)],[T('R'),d(t.R)],[T('PO'),d(t.PO)]]
       .map(([n,v])=>`<div class="card kpi"><div class="v">${v}</div><div class="k">${n}</div></div>`).join('')}</div>`;
@@ -280,7 +284,7 @@ function game(id){
     h+=`<div class="section-title"><h2 style="color:${g.teams[k].color}">${g.teams[k].name}</h2><span class="hint">${g.winner===k?T('winL'):g.winner?T('lossL'):T('tieL')} · ${g.score[k]} ${T('runs')}</span></div>
     <div class="card tablewrap"><table class="lb"><thead><tr><th class="l">${T('player')}</th><th class="l">${T('pos')}</th><th>${T('rating')}</th><th>AB</th><th>H</th><th>2B</th><th>3B</th><th>HR</th><th>R</th><th>RBI</th><th>BB</th><th>ROE</th><th>K</th><th>PO</th><th>A</th><th>E</th></tr></thead><tbody>`;
     for(const b of g.box.filter(b=>b.team===k)){const p=S.players[b.player];
-      h+=`<tr onclick="location.hash='#player-${p.id}'"><td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}${g.mvp===b?` <span class="chip main">${T('mvp')}</span>`:''}</div><div class="no">#${p.number}</div></div></div></td><td class="l">${b.pos}</td><td>${rt(b.rating)}</td><td>${b.AB}</td><td>${b.H}</td><td>${b['2B']}</td><td>${b['3B']}</td><td>${b.HR}</td><td>${b.R}</td><td>${b.RBI}</td><td>${b.BB}</td><td>${b.ROE||0}</td><td>${b.K}</td><td>${b.PO}</td><td>${b.A}</td><td>${b.E}</td></tr>`;}
+      h+=`<tr onclick="location.hash='#player-${p.id}'"><td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}${g.mvp===b?` <span class="chip main">${T('mvp')}</span>`:''}${rkBadge(p)}</div><div class="no">#${p.number}</div></div></div></td><td class="l">${b.pos}</td><td>${rt(b.rating)}</td><td>${b.AB}</td><td>${b.H}</td><td>${b['2B']}</td><td>${b['3B']}</td><td>${b.HR}</td><td>${b.R}</td><td>${b.RBI}</td><td>${b.BB}</td><td>${b.ROE||0}</td><td>${b.K}</td><td>${b.PO}</td><td>${b.A}</td><td>${b.E}</td></tr>`;}
     h+='</tbody></table></div>';
   }
   if(window.gameHighlights) h+=gameHighlights(g);
