@@ -157,15 +157,19 @@
     if(typeof window.chrome==='function'){ const oc=window.chrome; window.chrome=function(){ const r=oc.apply(this,arguments); drawTabs(); return r; }; }
   }
   // ---------- переключатель темы: светлая (по умолчанию) / тёмная (14.11.2026) ----------
-  Object.assign(I18N.ru,{thmToDark:'Тёмная тема',thmToLight:'Светлая тема'});
-  Object.assign(I18N.az,{thmToDark:'Tünd mövzu',thmToLight:'İşıqlı mövzu'});
-  Object.assign(I18N.en,{thmToDark:'Dark theme',thmToLight:'Light theme'});
+  Object.assign(I18N.ru,{thmToDark:'Тёмная тема',thmToLight:'Светлая тема',toTop:'Наверх'});
+  Object.assign(I18N.az,{thmToDark:'Tünd mövzu',thmToLight:'İşıqlı mövzu',toTop:'Yuxarı'});
+  Object.assign(I18N.en,{thmToDark:'Dark theme',thmToLight:'Light theme',toTop:'Back to top'});
   const MOON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>';
   const SUN='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>';
+  const UP='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5"/></svg>';
+  window.sbUp=function(){ try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){ window.scrollTo(0,0); } };
   const isDark=()=>document.documentElement.classList.contains('theme-dark');
   function drawThm(){
     const d=isDark(), t=T(d?'thmToLight':'thmToDark');
-    document.querySelectorAll('.thm-btn').forEach(b=>{ b.innerHTML=(d?SUN:MOON)+(b.classList.contains('thm-foot')?`<span>${t}</span>`:''); b.title=t; b.setAttribute('aria-label',t); });
+    const up=T('toTop');
+    document.querySelectorAll('.up-btn').forEach(b=>{ b.innerHTML=UP+`<span>${up}</span>`; b.title=up; b.setAttribute('aria-label',up); });
+    document.querySelectorAll('.thm-btn:not(.up-btn)').forEach(b=>{ b.innerHTML=(d?SUN:MOON)+(b.classList.contains('thm-foot')?`<span>${t}</span>`:''); b.title=t; b.setAttribute('aria-label',t); });
   }
   window.sbTheme=function(){
     const d=!isDark(), l=document.getElementById('light-css');
