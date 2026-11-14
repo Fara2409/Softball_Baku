@@ -128,3 +128,8 @@ body .ia-btn{border-color:#C9D8F2;background:var(--tint);color:var(--amber)}
 body .ia-modal{background:rgba(16,35,63,.45)}
 body .ia-banner{background:rgba(255,255,255,.98);border-color:#C9D8F2;box-shadow:0 10px 30px rgba(16,35,63,.2)}
 body .ia-head img{box-shadow:0 6px 18px rgba(16,35,63,.25)}
+
+/* без «свечения» по краям (14.11.2026): у ленты новостей края не затухают, у особой игры нет подсветки сбоку */
+.nw-row,.nw-wrap .nw-row,.nw-wrap.at-start .nw-row,.nw-wrap.at-end .nw-row,.nw-wrap.nw-anim .nw-row{-webkit-mask-image:none!important;mask-image:none!important}
+.ev.ev-special,.ev.compact,.mvp,.phead,.season,.wx-card.best,.wd.wd-game,.wd-game.good,.wd-game.bad,.lv-mini.on{background:var(--panel)!important}
+.ev-badge{filter:none}
