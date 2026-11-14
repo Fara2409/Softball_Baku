@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /scorer/
+
+Sitemap: https://softball.az/sitemap.xml
