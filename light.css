@@ -133,3 +133,14 @@ body .ia-head img{box-shadow:0 6px 18px rgba(16,35,63,.25)}
 .nw-row,.nw-wrap .nw-row,.nw-wrap.at-start .nw-row,.nw-wrap.at-end .nw-row,.nw-wrap.nw-anim .nw-row{-webkit-mask-image:none!important;mask-image:none!important}
 .ev.ev-special,.ev.compact,.mvp,.phead,.season,.wx-card.best,.wd.wd-game,.wd-game.good,.wd-game.bad,.lv-mini.on{background:var(--panel)!important}
 .ev-badge{filter:none}
+
+/* полоса бейсбольных значков под шапкой (14.11.2026) */
+.eq-strip{gap:30px;padding:7px 0;color:inherit}
+.eq-strip svg.eq{flex:none;width:22px;height:22px;opacity:.55;transition:opacity .2s}
+.eq-strip:hover svg.eq{opacity:.8}
+.eq-strip .o{fill:none;stroke:#2C4A78;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.eq-strip .o.w{fill:#FFFFFF}
+.eq-strip .r{fill:none;stroke:#C8463C;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.eq-strip .r.t{stroke-width:1.2}
+.eq-strip .r.f{fill:#C8463C;stroke:none}
+@media (max-width:480px){ .eq-strip{gap:22px} .eq-strip svg.eq{width:20px;height:20px} }

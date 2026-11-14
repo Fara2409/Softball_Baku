@@ -42,10 +42,28 @@
   Object.assign(I18N.en,{sbTag:'Amateur softball in Baku',sbWhen:'Sundays · 08:00 · Əmircan',sbHits:'hits',sbRuns:'runs',winW:'Win',lossW:'Loss',tieW:'Tie'});
 
   // полоса значков под шапкой
+  // полоса бейсбольных значков под шапкой (14.11.2026): двухцветные — контур тёмно-синий, детали красные
+  const STRIP={
+    // мяч: два шва со стежками
+    ball:'<circle cx="16" cy="16" r="12.5" class="o"/><path class="r" d="M9.6 6.6c3.4 3 3.4 15.8 0 18.8M22.4 6.6c-3.4 3-3.4 15.8 0 18.8"/><path class="r t" d="M10.4 9.6l2.2-.7M11.3 13l2.3-.3M11.3 19l2.3.3M10.4 22.4l2.2.7M21.6 9.6l-2.2-.7M20.7 13l-2.3-.3M20.7 19l-2.3.3M21.6 22.4l-2.2.7"/>',
+    // скрещённые биты
+    bats:'<path class="o" d="M6.2 26.6l2.6-2.6M8.8 24L21.9 9.4a2.6 2.6 0 0 1 3.7 3.7L11 26.2zM25.8 26.6l-2.6-2.6M23.2 24L10.1 9.4a2.6 2.6 0 0 0-3.7 3.7L21 26.2z"/><circle cx="5.6" cy="27.2" r="1.3" class="r f"/><circle cx="26.4" cy="27.2" r="1.3" class="r f"/>',
+    // ловушка (перчатка) с мячом
+    glove:'<path class="o" d="M9 28c-2.6-1.4-4-4-4-7.4V12a2 2 0 0 1 4 0V7.6a2 2 0 0 1 4 0V6.2a2 2 0 0 1 4 0v1.4a2 2 0 0 1 4 0v6.2l1.6-1.5a2.2 2.2 0 0 1 3 3.2L19.8 22c-1.8 3.9-4.8 6-8.6 6z"/><path class="r" d="M9 13v5.5M13 9v8M17 8v8"/><circle cx="23.6" cy="23.6" r="4.2" class="o w"/><path class="r" d="M21.2 20.7c1 1 1 4.8 0 5.8M26 20.7c-1 1-1 4.8 0 5.8"/>',
+    // «дом»
+    plate:'<path class="o" d="M7 6.5h18v11.2L16 26.5l-9-8.8z"/><path class="r" d="M10.5 10h11"/>',
+    // шлем отбивающего
+    helmet:'<path class="o" d="M5.5 20.5C5.5 13 10 7.5 16.5 7.5c5.3 0 9.5 3.7 10 9.5l-.3 3.5z"/><path class="o" d="M5.5 20.5h22l-1.5 3H9.5z"/><path class="r" d="M15 12.5c1.6-1.5 4.2-1.9 6.2-.9"/><circle cx="12.5" cy="17" r="1.6" class="r f"/>',
+    // поле-ромб с базами
+    diamond:'<path class="o" d="M16 4.5L27.5 16 16 27.5 4.5 16z"/><circle cx="16" cy="16" r="2.2" class="r"/><rect x="14.4" y="2.9" width="3.2" height="3.2" rx=".6" transform="rotate(45 16 4.5)" class="r f"/><rect x="25.9" y="14.4" width="3.2" height="3.2" rx=".6" transform="rotate(45 27.5 16)" class="r f"/><rect x="2.9" y="14.4" width="3.2" height="3.2" rx=".6" transform="rotate(45 4.5 16)" class="r f"/>',
+    // кепка
+    cap:'<path class="o" d="M5 19.5C5 12.6 9.8 8 16 8s10.5 4.2 11 10.5"/><path class="o" d="M5 19.5h23.5c1.2 0 1.7 1.5.7 2.2l-1.2.8H5z"/><path class="r" d="M16 8v11.5M10.5 10.5c1.2 2.7 1.6 5.8 1.3 9M21.5 10.5c-1.2 2.7-1.6 5.8-1.3 9"/><circle cx="16" cy="7.4" r="1.1" class="r f"/>'
+  };
+  const stripIc=n=>`<svg class="eq" viewBox="0 0 32 32" aria-hidden="true">${STRIP[n]}</svg>`;
   function strip(){
     const el=document.getElementById('eq-strip'); if(!el||el.childElementCount) return;
-    const set=['ball','bat','glove','plate','cap'];
-    let h=''; for(let i=0;i<40;i++) h+=SBI(set[i%set.length],14,1.8);
+    const set=['ball','bats','glove','plate','helmet','diamond','cap'];
+    let h=''; for(let i=0;i<42;i++) h+=stripIc(set[i%set.length]);
     el.innerHTML=h;
   }
   // ---------- значки у всех заголовков разделов (одного размера) ----------
