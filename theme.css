@@ -185,7 +185,8 @@ html[lang="az"] .section-title h2{letter-spacing:0}
 .thm-btn svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .thm-btn.thm-foot{width:auto;padding:0 12px}
 .foot-set{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-@media (max-width:480px){ .top .thm-btn{display:none} }
+@media (max-width:480px){ html body .top .thm-btn{width:32px;height:32px;border-radius:9px} html body .top .acct-in{padding:7px 10px;font-size:12px} .top .thm-btn svg{width:17px;height:17px} html body .top .right{gap:6px} html body .top .brand{font-size:14px;letter-spacing:.6px;gap:6px} html body .top .lang button{padding:6px 5px;letter-spacing:.5px} html body .top .lang{padding:2px} }
+@media (max-width:379px){ html body .top .brand{font-size:13px;letter-spacing:.4px;gap:5px} html body .top .brand-mark .ball{width:20px;height:20px} html body .top .lang button{padding:5px 4px;letter-spacing:.3px} html body .top{padding-left:8px;padding-right:8px} }
 /* полоса значков в тёмной теме */
 .eq-strip svg.eq{flex:none;width:22px;height:22px;opacity:.55}
 .eq-strip .o{fill:none;stroke:#3A5378;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
