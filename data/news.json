@@ -2,6 +2,46 @@
  "items": [
   {
    "source": "MLB",
+   "title": "Top prospects set to face off for Fall League championship",
+   "link": "https://www.mlb.com/news/2026-arizona-fall-league-championship-game",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/a999clcdojrfjtetmjsk",
+   "date": "2026-11-14T06:14:07Z"
+  },
+  {
+   "source": "MLB",
+   "title": "Top first-time candidates to win MVP, Cy Young in 2027",
+   "link": "https://www.mlb.com/news/mlb-candidates-to-win-first-mvp-cy-young-2027",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/tsbgcqxasbxuko6y1pxe",
+   "date": "2026-11-14T03:00:09Z"
+  },
+  {
+   "source": "MLB",
+   "title": "Five reasons why Skubal is so dominant",
+   "link": "https://www.mlb.com/news/what-makes-tarik-skubal-so-dominant",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/btbaoa10h0phavauehgq",
+   "date": "2026-11-14T03:00:09Z"
+  },
+  {
+   "source": "MLB",
+   "title": "How Gunnar could become an MVP candidate once again",
+   "link": "https://www.mlb.com/news/gunnar-henderson-outlook-for-orioles-in-2027",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/xz8ckebqmw9rclwuvm0j",
+   "date": "2026-11-14T03:00:09Z"
+  },
+  {
+   "source": "MLB",
+   "title": "Marsh to resume baseball activities after October wrist surgery",
+   "link": "https://www.mlb.com/news/brandon-marsh-had-minor-wrist-surgery-after-season",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/vi0xx8he05jhe56hkf3q",
+   "date": "2026-11-14T01:08:45Z"
+  },
+  {
+   "source": "MLB",
    "title": "After falling just short twice, will Piniella be elected to the Hall?",
    "link": "https://www.mlb.com/news/lou-piniella-baseball-hall-of-fame-case",
    "summary": "",
@@ -33,46 +73,6 @@
    "date": "2026-11-13T22:01:55Z"
   },
   {
-   "source": "MLB",
-   "title": "Can practice at Rogers Centre stave off slump? Maple Leafs hoping so",
-   "link": "https://www.mlb.com/news/toronto-maple-leafs-practice-at-rogers-centre",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/umakolecbuscfsg8l5bt",
-   "date": "2026-11-13T20:09:04Z"
-  },
-  {
-   "source": "MLB",
-   "title": "Watch LIVE: Top prospects in Arizona Fall League semifinals",
-   "link": "https://www.mlb.com/news/watch-arizona-fall-league-playoffs-2026",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/ledknss6mbk03fndajcr",
-   "date": "2026-11-13T19:55:00Z"
-  },
-  {
-   "source": "MLB",
-   "title": "A deeper look into Astros' hiring of Ausmus as manager",
-   "link": "https://www.mlb.com/news/brad-ausmus-introduced-as-astros-new-manager",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/vzt9qqttdaqkmwqzboak",
-   "date": "2026-11-13T19:39:12Z"
-  },
-  {
-   "source": "MLB",
-   "title": "Hot Stove rumors: Cubs, King, Duran, RP market, Rays",
-   "link": "https://www.mlb.com/news/mlb-rumors-and-2026-27-free-agent-news-november-13",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/ohww7kflprhko3e7nxdh",
-   "date": "2026-11-13T19:11:17Z"
-  },
-  {
-   "source": "MLB",
-   "title": "Postseason breakout star Bauers agrees to 4-year deal with Red Sox (source)",
-   "link": "https://www.mlb.com/news/jake-bauers-4-year-contract-with-red-sox",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/tmdqnegtid15mikeqfxg",
-   "date": "2026-11-13T19:02:00Z"
-  },
-  {
    "source": "CBS",
    "title": "Jake Bauers reportedly agrees to $58 million deal with Red Sox after helping lead Brewers to World Series",
    "link": "https://www.cbssports.com/mlb/news/jake-bauers-contract-red-sox-brewers-mlb-free-agency/",
@@ -97,5 +97,5 @@
    "date": "2026-11-13T17:01:52Z"
   }
  ],
- "updated": "2026-11-14T00:53:47Z"
+ "updated": "2026-11-14T08:59:03Z"
 }
