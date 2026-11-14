@@ -293,6 +293,20 @@
     "2B"
    ],
    "photo": null
+  },
+  {
+   "id": "mammad-aliyev",
+   "first": "Mammad",
+   "last": "Aliyev",
+   "first_ru": "Мамед",
+   "last_ru": "Алиев",
+   "first_az": "Məmməd",
+   "last_az": "Əliyev",
+   "number": 2,
+   "positions": [
+    "RF"
+   ],
+   "photo": null
   }
  ]
 }
