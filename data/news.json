@@ -1,8 +1,48 @@
 {
  "items": [
   {
+   "source": "CBS",
+   "title": "MLB rumors: Giants declining calls on Logan Webb, three contenders eyeing Japanese ace Kaima Taira",
+   "link": "https://www.cbssports.com/mlb/news/mlb-rumors-free-agency-giants-logan-webb-kaima-taira-braves-tigers-cardinals-blue-jays/",
+   "summary": "Here are the latest news and rumors from the MLB hot stove on Saturday, Nov. 14",
+   "image": "https://sportshub.cbsistatic.com/i/2026/11/14/515bec6e-cafd-4e7f-9171-16cc7fcf060c/webb-getty.png",
+   "date": "2026-11-14T15:37:52Z"
+  },
+  {
    "source": "MLB",
-   "title": "Top prospects set to face off for Fall League championship",
+   "title": "Improving 'pen a top priority for Nationals. How might they do that?",
+   "link": "https://www.mlb.com/news/nationals-looking-to-improve-bullpen-after-2026",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/v1794613062/mlb/btlhflbo9lomlhjq0y3o",
+   "date": "2026-11-14T14:58:44Z"
+  },
+  {
+   "source": "MLB",
+   "title": "What roster upgrades might Miami target this offseason?",
+   "link": "https://www.mlb.com/news/marlins-2026-2027-offseason-targets",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/uijtm6ohmhgcmc3dwrn5",
+   "date": "2026-11-14T14:35:25Z"
+  },
+  {
+   "source": "MLB",
+   "title": "Pitching prospect Flesland has strong '26 campaign across Minors, AFL",
+   "link": "https://www.mlb.com/news/stu-flesland-iii-impresses-in-minor-leagues-and-arizona-fall-league-in-2026",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/ecvhyb8f2mpxjcbjfrna",
+   "date": "2026-11-14T14:31:47Z"
+  },
+  {
+   "source": "MLB",
+   "title": "'Respect 70': Maddon presents strong HOF case on Contemporary Baseball Era ballot",
+   "link": "https://www.mlb.com/news/joe-maddon-hall-of-fame-case",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/oy5buolfrm04yselrqhn",
+   "date": "2026-11-14T14:15:12Z"
+  },
+  {
+   "source": "MLB",
+   "title": "Watch top prospects face off for Fall League championship (Live at 8 p.m. ET)",
    "link": "https://www.mlb.com/news/2026-arizona-fall-league-championship-game",
    "summary": "",
    "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/a999clcdojrfjtetmjsk",
@@ -33,38 +73,6 @@
    "date": "2026-11-14T03:00:09Z"
   },
   {
-   "source": "MLB",
-   "title": "Marsh to resume baseball activities after October wrist surgery",
-   "link": "https://www.mlb.com/news/brandon-marsh-had-minor-wrist-surgery-after-season",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/vi0xx8he05jhe56hkf3q",
-   "date": "2026-11-14T01:08:45Z"
-  },
-  {
-   "source": "MLB",
-   "title": "After falling just short twice, will Piniella be elected to the Hall?",
-   "link": "https://www.mlb.com/news/lou-piniella-baseball-hall-of-fame-case",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/fhc2zfhskj9v32aqo0ol",
-   "date": "2026-11-14T00:35:13Z"
-  },
-  {
-   "source": "MLB",
-   "title": "Edgardo Henriquez was great in 2026 -- he could be even better moving forward",
-   "link": "https://www.mlb.com/news/edgardo-henriquez-2026-analysis-and-2027-outlook",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/u1jtklptpkfbhnxd9cok",
-   "date": "2026-11-13T23:50:00Z"
-  },
-  {
-   "source": "MLB",
-   "title": "Angels bring back catcher Heineman on 1-year deal",
-   "link": "https://www.mlb.com/news/tyler-heineman-angels-contract",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/mp0slvxhzizs7spfwnxx",
-   "date": "2026-11-13T22:40:00Z"
-  },
-  {
    "source": "CBS",
    "title": "Blue Jays' Anthony Santander issues statement after sharing anti-Muslim videos: 'This content caused hurt'",
    "link": "https://www.cbssports.com/mlb/news/blue-jays-anthony-santander-statement-anti-muslim-social-media-posts/",
@@ -87,15 +95,7 @@
    "summary": "Who will land a new frontline ace or top slugger? Follow along as we keep track of all the moves",
    "image": "https://sportshub.cbsistatic.com/i/2026/10/26/b333c1a0-245e-4dc8-a1cf-16276a18580f/skubal-getty-3.png",
    "date": "2026-11-13T17:59:04Z"
-  },
-  {
-   "source": "CBS",
-   "title": "Could Tarik Skubal take a short-term, high-AAV contract? Breaking down pros and cons",
-   "link": "https://www.cbssports.com/mlb/news/tarik-skubal-short-term-high-aav-contract-pros-cons/",
-   "summary": "The Dodgers would reportedly prefer to bring Skubal back on a shorter-term deal ... is that something MLB's top free agent should consider?",
-   "image": "https://sportshub.cbsistatic.com/i/2026/11/13/68d9dc63-cbf6-4cc0-84d8-78de34d8632a/tarik-skubal-getty-7.png",
-   "date": "2026-11-13T17:01:52Z"
   }
  ],
- "updated": "2026-11-14T08:59:03Z"
+ "updated": "2026-11-14T16:36:33Z"
 }
