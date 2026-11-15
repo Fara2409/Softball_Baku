@@ -320,6 +320,21 @@
    "positions": [],
    "photo": null,
    "rookie": true
+  },
+  {
+   "id": "kesha",
+   "first": "Kesha",
+   "last": "",
+   "first_ru": "Кеша",
+   "last_ru": "",
+   "first_az": "Keşa",
+   "last_az": "",
+   "number": 4,
+   "positions": [
+    "C"
+   ],
+   "photo": null,
+   "rookie": true
   }
  ]
 }
