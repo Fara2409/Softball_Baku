@@ -282,13 +282,30 @@ function game(id){
   if(window.gamePlays) h+=gamePlays(g);
   for(const k of ['A','B']){
     h+=`<div class="section-title"><h2 style="color:${g.teams[k].color}">${g.teams[k].name}</h2><span class="hint">${g.winner===k?T('winL'):g.winner?T('lossL'):T('tieL')} · ${g.score[k]} ${T('runs')}</span></div>
-    <div class="card tablewrap"><table class="lb"><thead><tr><th class="l">${T('player')}</th><th class="l">${T('pos')}</th><th>${T('rating')}</th><th>AB</th><th>H</th><th>2B</th><th>3B</th><th>HR</th><th>R</th><th>RBI</th><th>BB</th><th>ROE</th><th>K</th><th>PO</th><th>A</th><th>E</th></tr></thead><tbody>`;
-    for(const b of g.box.filter(b=>b.team===k)){const p=S.players[b.player];
-      h+=`<tr onclick="location.hash='#player-${p.id}'"><td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}${g.mvp===b?` <span class="chip main">${T('mvp')}</span>`:''}${rkBadge(p)}</div><div class="no">#${p.number}</div></div></div></td><td class="l">${b.pos}</td><td>${rt(b.rating)}</td><td>${b.AB}</td><td>${b.H}</td><td>${b['2B']}</td><td>${b['3B']}</td><td>${b.HR}</td><td>${b.R}</td><td>${b.RBI}</td><td>${b.BB}</td><td>${b.ROE||0}</td><td>${b.K}</td><td>${b.PO}</td><td>${b.A}</td><td>${b.E}</td></tr>`;}
-    h+='</tbody></table></div>';
+    <div class="card tablewrap" id="gbox-${k}">${gameBox(g,k)}</div>`;
   }
   if(window.gameHighlights) h+=gameHighlights(g);
-  app().innerHTML=h;
+  app().innerHTML=h; bindGameBox(g);
+}
+/* Таблицы команд на странице игры: сортировка по нажатию на столбец (как в рейтинге на главной). По умолчанию — рейтинг ↓. */
+let gSortKey='rating', gSortDir=-1;
+const GCOLS=[['rating',()=>T('rating')],['AB'],['H'],['2B'],['3B'],['HR'],['R'],['RBI'],['BB'],['ROE'],['K'],['PO'],['A'],['E']];
+function gameBox(g,k){
+  const rows=g.box.filter(b=>b.team===k).map((b,i)=>({b,i}));
+  if(gSortKey) rows.sort((x,y)=>gSortDir*(((x.b[gSortKey]||0)-(y.b[gSortKey]||0)))||(y.b.rating-x.b.rating)||(x.i-y.i));
+  let h=`<table class="lb"><thead><tr><th class="l">${T('player')}</th><th class="l">${T('pos')}</th>${GCOLS.map(([c,n])=>`<th data-gk="${c}" class="${c===gSortKey?'sorted':''}" style="cursor:pointer">${n?n():c}${c===gSortKey?(gSortDir<0?' ↓':' ↑'):''}</th>`).join('')}</tr></thead><tbody>`;
+  for(const {b} of rows){const p=S.players[b.player];
+    h+=`<tr onclick="location.hash='#player-${p.id}'"><td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}${g.mvp===b?` <span class="chip main">${T('mvp')}</span>`:''}${rkBadge(p)}</div><div class="no">#${p.number}</div></div></div></td><td class="l">${b.pos}</td><td>${rt(b.rating)}</td>${GCOLS.slice(1).map(([c])=>`<td>${b[c]||0}</td>`).join('')}</tr>`;}
+  return h+'</tbody></table>';
+}
+function bindGameBox(g){
+  for(const k of ['A','B']){ const el=document.getElementById('gbox-'+k); if(!el) continue;
+    el.querySelectorAll('th[data-gk]').forEach(th=>th.onclick=e=>{ e.stopPropagation(); const c=th.dataset.gk;
+      if(c===gSortKey) gSortDir*=-1; else { gSortKey=c; gSortDir=-1; }
+      for(const kk of ['A','B']){ const x=document.getElementById('gbox-'+kk); if(x){ x.innerHTML=gameBox(g,kk); } }
+      bindGameBox(g); if(window.sbDecorate) try{sbDecorate()}catch(_){}
+      if(window.tipsBind) try{tipsBind()}catch(_){}
+    }); }
 }
 
 /* ---------- Мини-превью игрока при наведении ---------- */
