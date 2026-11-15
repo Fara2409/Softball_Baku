@@ -2,6 +2,30 @@
  "items": [
   {
    "source": "MLB",
+   "title": "Hill agrees to 1-year deal to return to Yankees (source)",
+   "link": "https://www.mlb.com/news/tim-hill-deal-with-yankees",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/j69cafgdastxukysoqj4",
+   "date": "2026-11-15T16:26:00Z"
+  },
+  {
+   "source": "CBS",
+   "title": "MLB rumors: Mets targeting first-base help; Padres look wide for pitching; new Ketel Marte suitor emerges",
+   "link": "https://www.cbssports.com/mlb/news/mlb-rumors-mets-ty-france-padres-starting-pitching-orioles-ketel-marte-trade-diamondbacks-jonathan-loaisiga/",
+   "summary": "Here are the latest news and rumors from the MLB hot stove on Sunday, Nov. 15",
+   "image": "https://sportshub.cbsistatic.com/i/2026/11/15/f03c5f67-a06c-4bfe-ba58-935ef04b2564/france-getty.png",
+   "date": "2026-11-15T16:08:53Z"
+  },
+  {
+   "source": "MLB",
+   "title": "Hot Stove rumors: Padres, Marte, young bats in trade talks, Dodgers",
+   "link": "https://www.mlb.com/news/mlb-rumors-and-2026-27-free-agent-news-november-14",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/v1793572812/mlb/hfvlgzwjcstzhu8ekuge",
+   "date": "2026-11-15T16:05:00Z"
+  },
+  {
+   "source": "MLB",
    "title": "How to shake off a disappointing 2026? Fix 'atrocious' defense",
    "link": "https://www.mlb.com/news/how-the-mariners-can-fix-defensive-issues-in-2027",
    "summary": "Mariners need internal improvement, external additions to patch 30th-ranked unit",
@@ -49,22 +73,6 @@
    "date": "2026-11-15T13:58:46Z"
   },
   {
-   "source": "MLB",
-   "title": "Can McFarlane establish himself as long-term setup option?",
-   "link": "https://www.mlb.com/news/alex-mcfarlane-outlook-for-phillies-2027",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/l6lovwit0tkjorco7jio",
-   "date": "2026-11-15T13:29:56Z"
-  },
-  {
-   "source": "MLB",
-   "title": "Which version of Kyle Harrison will Crew get in ’27?",
-   "link": "https://www.mlb.com/news/kyle-harrison-2027-outlook-brewers-inconsistent-2026",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/up8ullh1jwfmlzkvunye",
-   "date": "2026-11-15T13:28:32Z"
-  },
-  {
    "source": "CBS",
    "title": "What's next for Red Sox after Jake Bauers deal? Plus more intel from the MLB GM Meetings",
    "link": "https://www.cbssports.com/mlb/news/whats-next-for-red-sox-jake-bauers-mlb-gm-meetings/",
@@ -87,15 +95,7 @@
    "summary": "Santander said he 'should have been more thoughtful' about what he shares on social media",
    "image": "https://sportshub.cbsistatic.com/i/2026/11/13/918ab569-3540-4378-a4fc-1259320c2aa5/santander-getty.png",
    "date": "2026-11-13T22:01:55Z"
-  },
-  {
-   "source": "CBS",
-   "title": "Jake Bauers reportedly agrees to $58 million deal with Red Sox after helping lead Brewers to World Series",
-   "link": "https://www.cbssports.com/mlb/news/jake-bauers-contract-red-sox-brewers-mlb-free-agency/",
-   "summary": "Bauers broke out this past season, slugging 26 home runs that more than doubled his previous career high",
-   "image": "https://sportshub.cbsistatic.com/i/2026/11/13/4b1f770e-6bc1-479e-923d-83094531b95c/jake-bauers-getty.png",
-   "date": "2026-11-13T18:17:01Z"
   }
  ],
- "updated": "2026-11-15T15:40:35Z"
+ "updated": "2026-11-15T21:03:35Z"
 }
