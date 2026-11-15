@@ -7,7 +7,7 @@ RS,EM,MO,DA,AN,RD,HK,AL,IH,NA,SD='rasul-4','emilien','sergey-molchanov','danylo-
 # Bina
 IG,RZ,FA,RA,VI,RM,MU,PA,MM,KE='ilgar','ramiz-ismayilov','farhad-eyvazov','rasul-21','vidadi','rasim','mushfig-ibrahimov','parviz-ismayilov','mammad-aliyev','kesha'
 A_ord=[RS,EM,MO,DA,AN,RD,HK,AL,IH,NA,SD]; B_ord=[IG,RZ,FA,RA,VI,RM,MU,PA,MM,KE]
-POS={AN:'P',SD:'C',HK:'1B',RS:'2B',RD:'3B',MO:'SS',DA:'LF',EM:'LCF',AL:'RCF',IH:'RF',NA:'CF',
+POS={AN:'P',SD:'C',HK:'1B',RS:'2B',RD:'3B',MO:'SS',DA:'LF',EM:'LCF',AL:'RCF',IH:'RF',NA:'RF',
      RM:'P',KE:'C',MU:'1B',PA:'2B',IG:'3B',VI:'SS',RA:'LF',RZ:'LCF',FA:'RCF',MM:'RF'}
 TEAM={**{p:'A' for p in A_ord},**{p:'B' for p in B_ord}}
 PIT={'A':AN,'B':RM}
