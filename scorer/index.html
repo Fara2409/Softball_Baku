@@ -223,7 +223,7 @@ function credit(g,seq,outs){
  seq=seq||[];if(!seq.length||!outs)return;
  const ids=seq.map(p=>defAt(g,p)),last=ids[ids.length-1],f=fld(g);
  if(last){const L=bx(g,last,f);L.PO+=outs;if(new Set(seq).size===1){L.FPO++; // один защитник: флай или аут без передачи
-   // филдер: сколько бегунов было на базах перед розыгрышем — 2 → OFF2 (+0.25), 3 → OFF3 (+0.3), иначе +0.2 (16.11.2026)
+   // филдер: где стоял самый дальний бегун перед розыгрышем — 2-я база → OFF2 (+0.25), 3-я → OFF3 (+0.3), пусто или 1-я → +0.2 (16.11.2026)
    if(OFP.has(seq[0])){const n=g.pre||0;if(n===2)L.OFF2=(L.OFF2||0)+1;else if(n>=3)L.OFF3=(L.OFF3||0)+1}}}
  new Set(ids.slice(0,-1).filter(id=>id&&id!==last)).forEach(id=>bx(g,id,f).A++);
 }
@@ -232,7 +232,7 @@ function apply(g,e){
  const k=bat(g);
  switch(e.type){
   case 'pa':{
-   g.pre=g.bases.filter(Boolean).length; // бегунов на базах до розыгрыша
+   g.pre=g.bases[2]?3:g.bases[1]?2:g.bases[0]?1:0; // самый дальний бегун до розыгрыша (база), 0 — базы пусты
    const b=bx(g,e.batter,k),r=e.result;b.PA++;if(r!=='BB'&&r!=='SAC')b.AB++;if(r==='SAC')b.SAC=(b.SAC||0)+1; // сакрифайс: не AB, но идёт в знаменатель OBP
   
    if(HITS[r]){b.H++;b[r]++}if(r==='BB'){b.BB++;const pp=atPos(g,'P');if(pp)bx(g,pp,fld(g)).PBB++}if(r==='E')b.ROE++;if(r==='K')b.K++;
