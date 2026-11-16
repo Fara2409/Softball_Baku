@@ -70,12 +70,12 @@ function ratingParts(b){
 }
 function rating(b,won){
   const {off,def}=ratingParts(b);
-  return Math.round(Math.min(10,Math.max(3,BASE+off+def+(won&&W.WIN?W.WIN:0)))*10)/10;
+  return Math.round(Math.min(10,Math.max(3,BASE+off+def+(won&&W.WIN?W.WIN:0)))*100)/100; // 2 знака после запятой (16.11.2026)
 }
 function rclass(r){return r==null?'na':r>=9?'elite':r>=8?'great':r>=7?'good':r>=6?'mid':r>=5?'avg':'low'}
 const RCOL={low:'var(--r-low)',mid:'var(--r-mid)',avg:'var(--r-avg)',good:'var(--r-good)',great:'var(--r-great)',elite:'var(--r-elite)'}; // 9+ — бирюзово-фиолетовый градиент (12.11.2026)
 const RFILL=c=>c==='elite'?'url(#rElite)':RCOL[c]; // для SVG
-function rt(r,size=''){const c=rclass(r);return `<span class="rt ${size} ${c==='na'?'na':''}" style="${c!=='na'?`--rc:${RCOL[c]}`:''}">${r==null?'–':r.toFixed(1)}</span>`}
+function rt(r,size=''){const c=rclass(r);return `<span class="rt ${size} ${c==='na'?'na':''}" style="${c!=='na'?`--rc:${RCOL[c]}`:''}">${r==null?'–':r.toFixed(2)}</span>`}
 const avg3=x=>isFinite(x)?x.toFixed(3).replace(/^0/,''):'–';
 const AZ_M=['yanvar','fevral','mart','aprel','may','iyun','iyul','avqust','sentyabr','oktyabr','noyabr','dekabr'];
 const AZ_ABL=['yanvardan','fevraldan','martdan','apreldən','maydan','iyundan','iyuldan','avqustdan','sentyabrdan','oktyabrdan','noyabrdan','dekabrdan'];
@@ -166,7 +166,7 @@ function rosterGrid(){
   return `<div class="section-title"><h2>${T('roster')}</h2><span class="hint">${ps.length}</span></div><div class="roster">`+
     ps.map(p=>`<a class="card pcard" href="#player-${p.id}" data-peek="${p.id}"><span class="pc-num">${p.number}</span>${av(p,'m')}
       <div class="pc-txt"><div class="nm">${first(p)}${last(p)?`<br>${last(p)}`:''}</div><div class="sub">#${p.number} · ${p.pos[0]?.[0]||''}${rkBadge(p)}</div></div>
-      ${p.t.RAT==null?'':rt(Math.round(p.t.RAT*10)/10,'lg')}</a>`).join('')+'</div>';
+      ${p.t.RAT==null?'':rt(Math.round(p.t.RAT*100)/100,'lg')}</a>`).join('')+'</div>';
 }
 function ytId(u){ const m=(u||'').match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([\w-]{11})/); return m?m[1]:null; }
 function ytThumbCheck(el){ if(el.naturalWidth<=120) ytThumbFail(el); }
@@ -233,7 +233,7 @@ function chart(p){
   for(const g of [4,6,8,10]) s+=`<line x1="${pad}" x2="${W0-pad}" y1="${y(g)}" y2="${y(g)}" stroke="#D9E1EC"/><text x="${pad-10}" y="${y(g)+4}" fill="#66758C" font-size="12" text-anchor="end">${g}</text>`;
   L.forEach(({game,b},i)=>{const x=pad+step*i+(step-bw)/2;
     s+=`<a href="#game-${game.id}"><rect x="${x}" y="${y(b.rating)}" width="${bw}" height="${y(3)-y(b.rating)}" rx="6" fill="${RFILL(rclass(b.rating))}"/>
-    <text x="${x+bw/2}" y="${y(b.rating)-8}" fill="#10233F" font-size="15" font-weight="800" text-anchor="middle">${b.rating.toFixed(1)}</text>
+    <text x="${x+bw/2}" y="${y(b.rating)-8}" fill="#10233F" font-size="15" font-weight="800" text-anchor="middle">${b.rating.toFixed(2)}</text>
     <text x="${x+bw/2}" y="${H0-16}" fill="#55657D" font-size="12" text-anchor="middle">${fmtDate(game.date,{day:'numeric',month:'short'})}</text></a>`;});
   if(p.t.RAT!=null) s+=`<line x1="${pad}" x2="${W0-pad}" y1="${y(p.t.RAT)}" y2="${y(p.t.RAT)}" stroke="#1F5FBF" stroke-dasharray="6 6" stroke-width="2"/><text x="${W0-pad}" y="${y(p.t.RAT)-6}" fill="#1F5FBF" font-size="12" font-weight="700" text-anchor="end">${T('avgLbl')} ${p.t.RAT.toFixed(2)}</text>`;
   return s+'</svg>';
@@ -241,7 +241,7 @@ function chart(p){
 // ±очки (вклад) и разбивка рейтинга на нападение и защиту
 function pts(v){ if(v==null) return '–'; const r=Math.round(v*100)/100; return `<span class="pts ${r>0?'pos':r<0?'neg':''}">${r>0?'+':r<0?'−':'±'}${Math.abs(r).toFixed(2)}</span>`; }
 function rsplit(t){
-  const cell=(lbl,ic,v)=>`<div class="rs-i"><span class="rs-l">${ic}${lbl}</span>${rt(Math.round(Math.min(10,Math.max(3,BASE+v))*10)/10)}${pts(v)}</div>`;
+  const cell=(lbl,ic,v)=>`<div class="rs-i"><span class="rs-l">${ic}${lbl}</span>${rt(Math.round(Math.min(10,Math.max(3,BASE+v))*100)/100)}${pts(v)}</div>`;
   return `<div class="rsplit">${cell(T('rOff'),'<svg viewBox="0 0 24 24"><path d="M4 20 18 6" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="19.5" cy="4.5" r="2.5" fill="currentColor"/></svg>',t.OFF)}${cell(T('rDef'),'<svg viewBox="0 0 24 24"><path d="M7 21c-2-1-3-3-3-6V9a1.5 1.5 0 013 0V5a1.5 1.5 0 013 0V4a1.5 1.5 0 013 0v1a1.5 1.5 0 013 0v5l1-1a1.6 1.6 0 012.3 2.2L15 17c-1 2-3 4-6 4z" fill="currentColor"/></svg>',t.DEF)}</div>
     <div class="rs-hint">${T('rSplit')(BASE.toFixed(1))}</div>`;
 }
@@ -252,7 +252,7 @@ function player(id){
     <div><span class="eyebrow">#${p.number} · ${periodName()}</span><h1>${first(p)}<span>${last(p).toUpperCase()}</span></h1>
     <div class="posname">${POS_NAMES[LANG][p.pos[0]?.[0]]||''}${!has&&p.pos.length?` · <span class="muted">${T('mainPos')}</span>`:''}</div>
     <div class="chips">${p.pos.map(posChip).join('')}</div>${isRookie(p)?`<div class="rk-line">${rkBadge(p,1)}<span>${T('rookieHint')(p.logAll.length,ROOKIE_GAMES).split(': ')[1]||''}</span><i style="--k:${p.logAll.length/ROOKIE_GAMES}"></i></div>`:''}</div>
-    <div class="rbox">${rt(t.RAT==null?null:Math.round(t.RAT*10)/10,'xl')}<div class="lbl">${has?T('avgRating'):T('noRating')}</div>${has?rsplit(t):''}</div></div>
+    <div class="rbox">${rt(t.RAT==null?null:Math.round(t.RAT*100)/100,'xl')}<div class="lbl">${has?T('avgRating'):T('noRating')}</div>${has?rsplit(t):''}</div></div>
     <div class="kpis">${[[T('G'),t.G],[T('W'),d(`${t.W}-${t.L}`)],['AVG',d(avg3(t.AVG))],['OBP',d(avg3(t.OBP))],['SLG',d(avg3(t.SLG))],['OPS',d(avg3(t.OPS))],['HR',d(t.HR)],['RBI',d(t.RBI)],[T('R'),d(t.R)],[T('PO'),d(t.PO)]]
       .map(([n,v])=>`<div class="card kpi"><div class="v">${v}</div><div class="k">${n}</div></div>`).join('')}</div>`;
   const X=window.playerExtras||(()=>({top:'',bottom:''})), ex=X(p);
@@ -317,7 +317,7 @@ function peekHTML(p){
     <div class="pk-body"><div class="pk-name">${first(p)}${last(p)?` <b>${last(p)}</b>`:''}</div>
     <div class="pk-pos">${main?`${POS_NAMES[LANG][main]||main}`:''}</div>
     <div class="pk-chips">${p.pos.map(posChip).join('')}</div>
-    <div class="pk-rt">${rt(t.RAT==null?null:Math.round(t.RAT*10)/10,'lg')}<span>${has?T('avgRating'):T('noRating')}</span></div>
+    <div class="pk-rt">${rt(t.RAT==null?null:Math.round(t.RAT*100)/100,'lg')}<span>${has?T('avgRating'):T('noRating')}</span></div>
     ${has?`<div class="pk-split"><span>${T('rOff')} ${pts(t.OFF)}</span><span>${T('rDef')} ${pts(t.DEF)}</span></div>`:''}
     ${has?`<div class="pk-stats">${[[T('G'),t.G],['AVG',avg3(t.AVG)],['OPS',avg3(t.OPS)],['HR',t.HR],['RBI',t.RBI]].map(([k,v])=>`<div><b>${v}</b><i>${k}</i></div>`).join('')}</div>`:''}
     <div class="pk-go">${T('openProfile')} →</div></div>`;

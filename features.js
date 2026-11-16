@@ -165,7 +165,7 @@ function teamsPage(){
   for(const p of ps){ const st=strengthOf(p), on=present.has(p.id);
     h+=`<div class="tm-p ${on?'on':''}" onclick="tmToggle('${p.id}',event)">${av(p)}<div class="tm-n"><b>${esc(first(p))}</b><span>#${p.number} · ${mainPos(p)}</span></div>
       ${showLv&&st.est?`<div class="lv" onclick="event.stopPropagation()"><button onclick="tmLv('${p.id}',-0.5)">−</button><b>${(lv[p.id]??p.level??6.5).toFixed(1)}</b><button onclick="tmLv('${p.id}',0.5)">+</button></div>`
-        :`<span class="tm-s ${st.est?'est':''}" title="${st.est?T('tmEst'):T('avgRating')}">${st.est?'≈':''}${st.v.toFixed(1)}</span>`}
+        :`<span class="tm-s ${st.est?'est':''}" title="${st.est?T('tmEst'):T('avgRating')}">${st.est?'≈':''}${st.v.toFixed(2)}</span>`}
       <span class="tm-check">✓</span></div>`; }
   h+=`</div><button class="btn pri big" onclick="tmSplit(true)">${T('tmGo')}</button></div><div id="tmOut"></div>`;
   app().innerHTML=h;
@@ -193,7 +193,7 @@ function tmRender(){
   teams.forEach((t,k)=>{ const d=TEAM_DEF[k];
     h+=`<div class="card tm-team"><div class="tm-head" style="border-color:${d.color}"><i style="background:${d.color}"></i><b>${d.name}</b><span>${T('tmAvg')} ${avg(t).toFixed(2)} · ${t.length}</span></div>`;
     const ci=t[0]&&t[0].pos==='P'?1:0; t.forEach((x,i)=>{ if(t.subC&&i===ci) h+=`<div class="tm-row tm-subc"><span class="chip">C</span><span class="nm muted">${T('tmSubC')}</span></div>`;
-      h+=`<div class="tm-row" data-peek="${x.p.id}"><span class="chip ${x.pos==='EH'?'':'main'}">${x.pos}</span>${av(x.p)}<span class="nm">${esc(pname(x.p))}</span><span class="no">#${x.p.number}</span>${rt(Math.round(x.s*10)/10)}</div>`; });
+      h+=`<div class="tm-row" data-peek="${x.p.id}"><span class="chip ${x.pos==='EH'?'':'main'}">${x.pos}</span>${av(x.p)}<span class="nm">${esc(pname(x.p))}</span><span class="no">#${x.p.number}</span>${rt(Math.round(x.s*100)/100)}</div>`; });
     h+=`</div>`; });
   h+=`</div><div class="btns center"><button class="btn" onclick="tmSplit(false)">↻ ${T('tmAgain')}</button><button class="btn wa" onclick="tmCopy(this)">${T('tmCopy')}</button></div>
     <div class="btns center"><button class="btn pri" onclick="tmScorer()">▶ ${T('tmScorer')}</button><button class="btn" title="${T('tmScorerLink')}" aria-label="${T('tmScorerLink')}" onclick="tmScorerLink()">🔗</button></div></div>`;
@@ -286,7 +286,7 @@ function recordsData(){
   const single=(key,label,fmt=v=>v)=>{ let best=null;
     for(const g of statGames()) for(const b of g.box){ const v=b[key]; if(v>0&&(!best||v>best.v)) best={v,b,g}; }
     if(best) recs.push({label:T(label),v:fmt(best.v),p:S.players[best.b.player],g:best.g}); };
-  single('H','recH'); single('HR','recHR'); single('RBI','recRBI'); single('R','recR'); single('rating','recRat',v=>v.toFixed(1)); single('PO','recPO');
+  single('H','recH'); single('HR','recHR'); single('RBI','recRBI'); single('R','recR'); single('rating','recRat',v=>v.toFixed(2)); single('PO','recPO');
   const season=[];
   const st=ps.map(p=>({p,v:maxStreak(p)})).sort((a,b)=>b.v-a.v)[0]; if(st&&st.v>=2) season.push({label:T('recStreak'),v:T('games_')(st.v),p:st.p});
   const mh=ps.map(p=>({p,v:p.log.filter(x=>x.b.H>=2).length})).sort((a,b)=>b.v-a.v)[0]; if(mh&&mh.v) season.push({label:T('recMulti'),v:mh.v,p:mh.p});
@@ -419,7 +419,7 @@ async function drawGameCard(g){
   // игрок матча и лучшие
   const box=(g.box||[]).filter(b=>b.rating!=null&&S.players[b.player]).sort((a,b)=>b.rating-a.rating||b.RBI-a.RBI);
   const line=b=>{ const a=[`${b.H}/${b.AB}`]; if(b.HR) a.push(`${b.HR} HR`); if(b.RBI) a.push(`${b.RBI} RBI`); if(b.R) a.push(`${b.R} R`); if(b.BB) a.push(`${b.BB} BB`); return a.join(' · '); };
-  const badge=(v,X,Y,w,h,fs)=>{ x.fillStyle=rFillCanvas(x,v,X,Y,w,h); roundRect(x,X,Y,w,h,h*.22); x.fill(); x.fillStyle='#fff'; x.textAlign='center'; x.font=F(900,fs,1); x.fillText(v.toFixed(1),X+w/2,Y+h/2+fs*.35); };
+  const badge=(v,X,Y,w,h,fs)=>{ x.fillStyle=rFillCanvas(x,v,X,Y,w,h); roundRect(x,X,Y,w,h,h*.22); x.fill(); x.fillStyle='#fff'; x.textAlign='center'; x.font=F(900,fs*.8,1); x.fillText(v.toFixed(2),X+w/2,Y+h/2+fs*.28); };
   const face=async(p,cx,cy,r,ring)=>{ const img=await loadImg(p.photo);
     x.save(); x.beginPath(); x.arc(cx,cy,r,0,Math.PI*2); x.closePath(); x.fillStyle='#14233a'; x.fill(); x.clip();
     if(img) x.drawImage(img,cx-r,cy-r,r*2,r*2); else { x.fillStyle='#EF9F27'; x.font=F(900,r*.9,1); x.textAlign='center'; x.fillText(String(p.number),cx,cy+r*.32); }
@@ -472,8 +472,8 @@ async function drawCard(p){
   // рейтинг и статистика
   const t=p.t;
   if(t.G){
-    const rv=Math.round(t.RAT*10)/10, rc=getComputedStyle(document.documentElement).getPropertyValue('--r-'+rclass(rv)).trim()||'#2fae66';
-    x.fillStyle=rFillCanvas(x,rv,cx-120,1030,240,110); roundRect(x,cx-120,1030,240,110,22); x.fill(); x.fillStyle='#fff'; x.font=F(900,74,1); x.fillText(rv.toFixed(1),cx,1112);
+    const rv=Math.round(t.RAT*100)/100, rc=getComputedStyle(document.documentElement).getPropertyValue('--r-'+rclass(rv)).trim()||'#2fae66';
+    x.fillStyle=rFillCanvas(x,rv,cx-120,1030,240,110); roundRect(x,cx-120,1030,240,110,22); x.fill(); x.fillStyle='#fff'; x.font=F(900,74,1); x.fillText(rv.toFixed(2),cx,1112);
     const st=[[T('G'),t.G],['AVG',avg3(t.AVG)],['OPS',avg3(t.OPS)],['HR',t.HR],['RBI',t.RBI]], w=W/st.length;
     st.forEach(([k,v],i)=>{ x.fillStyle='#ffffff'; x.font=F(900,48); x.fillText(String(v),w*i+w/2,1225); x.fillStyle='#8fa0b8'; x.font=F(700,24); x.fillText(String(k).toUpperCase(),w*i+w/2,1262); });
   } else {
