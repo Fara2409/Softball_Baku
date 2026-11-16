@@ -20,7 +20,7 @@
   function block(){
     if(!G.items||!G.items.length) return '';
     const card=(x,i)=>`<button type="button" class="nw-card gl-card${x.special?' gl-'+esc(x.special):''}" onclick="glOpen(${i})">
-      <span class="nw-img gl-img">${x.special==='az40'?`<i class="gl-bg" style="background-image:url('${esc(x.thumb)}')"></i><img class="gl-emb" src="img/az-baseball-40.webp" alt="40">`:''}${x.type==='video'
+      <span class="nw-img gl-img">${x.special==='az40'?`<i class="gl-bg" style="background-image:url('${esc(x.thumb)}')"></i>`:''}${x.type==='video'
         ?`<video src="${esc(x.src)}" poster="${esc(x.thumb||'')}" muted playsinline preload="none"></video><b class="gl-play">${PLAY}</b>`
         :`<img src="${esc(x.thumb||x.src)}" alt="${ttl(x)}" loading="lazy">`}</span>
       <span class="nw-body">${x.special==='az40'?'<i class="gl-flag"><b></b><b></b><b></b></i>':''}<span class="nw-t">${ttl(x)}</span><span class="nw-when">${x.sub?esc(x.sub[LANG]||x.sub.ru)+' · ':''}${dt(x)}</span></span></button>`;
@@ -89,7 +89,7 @@
     const sec=document.querySelector('.gallery-sec'); if(sec&&sec._glPause) sec._glPause();
     const n=G.items.length, d=document.createElement('div'); d.className='gl-box';
     d.innerHTML=`<div class="gl-stage">${x.type==='video'?`<video src="${esc(x.src)}" poster="${esc(x.thumb||'')}" controls autoplay playsinline></video>`:`<img src="${esc(x.src)}" alt="${ttl(x)}">`}
-      <div class="gl-cap">${x.special==='az40'?'<img class="gl-cap-emb" src="img/az-baseball-40.webp" alt="">':''}<b>${ttl(x)}</b>${x.sub?' · '+esc(x.sub[LANG]||x.sub.ru):''}${dt(x)?' · '+dt(x):''} <span>${i+1} / ${n}</span></div></div>
+      <div class="gl-cap"><b>${ttl(x)}</b>${x.sub?' · '+esc(x.sub[LANG]||x.sub.ru):''}${dt(x)?' · '+dt(x):''} <span>${i+1} / ${n}</span></div></div>
       <button type="button" class="gl-x" aria-label="${T('glClose')}">×</button>
       ${n>1?`<button type="button" class="gl-nav gl-l" aria-label="‹"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="gl-nav gl-r" aria-label="›"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>`:''}`;
     const close=()=>{ d.remove(); document.removeEventListener('keydown',key); document.body.style.overflow=''; const sec=document.querySelector('.gallery-sec'); if(sec&&sec._glResume&&!document.querySelector('.gl-box')) setTimeout(()=>sec._glResume(),0); };
