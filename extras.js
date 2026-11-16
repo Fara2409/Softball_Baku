@@ -169,8 +169,9 @@ const _route=route; route=function(){
   const isHome=!['player','game','games'].includes(page)&&!FR[page];
   if(!isHome||!S.league) return;
   const f=feedBlock(); if(!f) return;
-  const pod=document.querySelector('#app .podium');
+  // 16.11.2026: лента событий — после таблицы рейтинга (раньше была сразу после лидеров)
+  const lb=document.querySelector('#app #lb'), anchor=(lb&&lb.closest('.tablewrap'))||document.querySelector('#app .podium');
   const box=document.createElement('div'); box.className='feed-sec'; box.innerHTML=f;
-  if(pod) pod.after(box); else app().appendChild(box);
+  if(anchor) anchor.after(box); else app().appendChild(box);
 };
 })();
