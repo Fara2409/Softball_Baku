@@ -1,0 +1,11 @@
+/* Ограничения для гостей (16.11.2026) */
+body.gate-locked #live-pill,body.gate-locked #cl-livecard{display:none!important}
+.gate-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:28px 18px;margin-top:14px}
+.gate-card .gate-ic{font-size:30px;line-height:1}
+.gate-card b{font-size:17px}.gate-card p{margin:0;max-width:520px;color:var(--muted)}
+.gate-card .btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.gate-card .muted{font-size:12.5px}
+.gate-head{display:flex;align-items:center;gap:14px;padding:6px 0}
+.gate-head h1{margin:0;font-size:24px;line-height:1.1}
+.gate-head .av{width:64px;height:64px;flex:0 0 64px}
+.gate-head .rt{margin-left:auto}
