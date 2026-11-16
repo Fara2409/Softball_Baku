@@ -21,7 +21,7 @@
     if(!G.items||!G.items.length) return '';
     const card=(x,i)=>`<button type="button" class="nw-card gl-card" onclick="glOpen(${i})">
       <span class="nw-img gl-img">${x.type==='video'
-        ?`<video src="${esc(x.src)}" poster="${esc(x.thumb||'')}" muted loop playsinline preload="none"></video><b class="gl-play">${PLAY}</b>`
+        ?`<video src="${esc(x.src)}" poster="${esc(x.thumb||'')}" muted playsinline preload="none"></video><b class="gl-play">${PLAY}</b>`
         :`<img src="${esc(x.thumb||x.src)}" alt="${ttl(x)}" loading="lazy">`}</span>
       <span class="nw-body"><span class="nw-t">${ttl(x)}</span><span class="nw-when">${dt(x)}</span></span></button>`;
     return `<div class="section-title nw-head"><h2>${T('glTitle')}</h2><span class="hint">${T('glHint')}</span></div>
@@ -56,25 +56,34 @@
     window.addEventListener('resize',()=>{ if(tr.classList.contains('nw-run')) freeze(); });
     play(0);
   }
-  // видео в карточках крутятся без звука, только когда видны
+  // видео в карточках — по очереди, без звука: одно закончилось — начинается следующее, после последнего снова первое.
+  // Пока галерея не видна на экране (или открыт просмотр на весь экран) — пауза.
   function watchVideos(box){
-    const vids=box.querySelectorAll('.gl-card video'); if(!vids.length) return;
-    if(!('IntersectionObserver' in window)){ vids.forEach(v=>{ v.preload='metadata'; v.play().catch(()=>{}); }); return; }
-    const io=new IntersectionObserver(es=>es.forEach(e=>{ const v=e.target;
-      if(e.isIntersecting&&!document.hidden){ if(v.preload==='none') v.preload='metadata'; v.play().catch(()=>{}); } else v.pause(); }),{threshold:.35});
-    vids.forEach(v=>io.observe(v));
+    const vids=[...box.querySelectorAll('.gl-card video')]; if(!vids.length) return;
+    let cur=0, seen=true;
+    const busy=()=>!seen||document.hidden||document.querySelector('.gl-box');
+    const play=i=>{ cur=(i+vids.length)%vids.length;
+      vids.forEach((v,k)=>{ const on=k===cur; v.closest('.gl-card').classList.toggle('gl-on',on); if(!on&&!v.paused) v.pause(); });
+      const v=vids[cur]; if(busy()) return; if(v.preload==='none') v.preload='auto'; v.play().catch(()=>{}); };
+    vids.forEach((v,k)=>v.addEventListener('ended',()=>{ v.currentTime=0; play(k+1); }));
+    box._glResume=()=>play(cur); box._glPause=()=>vids.forEach(v=>v.pause());
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(es=>es.forEach(e=>{ seen=e.isIntersecting; seen?play(cur):box._glPause(); }),{threshold:.2}).observe(box);
+    }
+    document.addEventListener('visibilitychange',()=>{ document.hidden?box._glPause():play(cur); });
+    play(0);
   }
   // просмотр на весь экран
   window.glOpen=i=>{
     const x=G.items&&G.items[i]; if(!x) return;
     const row=document.querySelector('.gl-wrap .nw-row'); if(row&&row._freeze) row._freeze();
-    document.querySelectorAll('.gl-card video').forEach(v=>v.pause());
+    const sec=document.querySelector('.gallery-sec'); if(sec&&sec._glPause) sec._glPause();
     const n=G.items.length, d=document.createElement('div'); d.className='gl-box';
     d.innerHTML=`<div class="gl-stage">${x.type==='video'?`<video src="${esc(x.src)}" poster="${esc(x.thumb||'')}" controls autoplay playsinline></video>`:`<img src="${esc(x.src)}" alt="${ttl(x)}">`}
       <div class="gl-cap"><b>${ttl(x)}</b> · ${dt(x)} <span>${i+1} / ${n}</span></div></div>
       <button type="button" class="gl-x" aria-label="${T('glClose')}">×</button>
       ${n>1?`<button type="button" class="gl-nav gl-l" aria-label="‹"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="gl-nav gl-r" aria-label="›"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>`:''}`;
-    const close=()=>{ d.remove(); document.removeEventListener('keydown',key); document.body.style.overflow=''; };
+    const close=()=>{ d.remove(); document.removeEventListener('keydown',key); document.body.style.overflow=''; const sec=document.querySelector('.gallery-sec'); if(sec&&sec._glResume&&!document.querySelector('.gl-box')) setTimeout(()=>sec._glResume(),0); };
     const go=k=>{ close(); glOpen((i+k+n)%n); };
     const key=e=>{ if(e.key==='Escape') close(); else if(e.key==='ArrowRight') go(1); else if(e.key==='ArrowLeft') go(-1); };
     d.addEventListener('click',e=>{ if(e.target===d||e.target.classList.contains('gl-stage')) close(); });

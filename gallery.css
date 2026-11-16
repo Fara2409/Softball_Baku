@@ -14,3 +14,4 @@
 .gl-nav svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .gl-l{left:14px}.gl-r{right:14px}
 @media(max-width:640px){.gl-nav{width:38px;height:38px}.gl-l{left:6px}.gl-r{right:6px}.gl-stage img,.gl-stage video{max-height:72vh}}
+.gl-card.gl-on .gl-play{background:var(--amber,#1F5FBF)}
