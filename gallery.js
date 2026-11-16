@@ -34,35 +34,44 @@
     if(w.classList.contains('nw-anim')){ w.querySelector('.nw-prev').hidden=false; w.querySelector('.nw-next').hidden=false; w.classList.remove('at-start','at-end'); return; }
     w.querySelector('.nw-prev').hidden=row.scrollLeft<=4; w.querySelector('.nw-next').hidden=row.scrollLeft>=max;
     w.classList.toggle('at-start',row.scrollLeft<=4); w.classList.toggle('at-end',row.scrollLeft>=max); };
-  // автопрокрутка — та же схема, что была у новостей (см. news.js): медленно к концу, пауза, плавно назад
-  const SPEED=18, GO=.78, START=.03;
-  function auto(row){
+  // Движение карусели вместе с видео (16.11.2026): пока играет видео i, лента плавно едет от карточки i к карточке i+1
+  // и приходит к ней ровно к концу ролика; после последнего — плавный возврат к первому видео.
+  // Двигаем transform у .nw-track (видеокарта, без «дрожания» на iPhone). Касание / колёсико / стрелки — лента
+  // переходит на обычную прокрутку рукой, через 8 с без касаний плавно возвращается к играющему видео.
+  function follow(box,row){
+    const tr=row.querySelector('.nw-track'); if(!tr||!box._glState) return;
     if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const tr=row.querySelector('.nw-track'); if(!tr) return;
-    let dist=0, dur=0, idle=0;
-    const measure=()=>{ dist=Math.max(0,tr.scrollWidth-row.clientWidth); dur=dist/SPEED/GO; };
-    const play=pos=>{ measure(); if(dist<20){ tr.classList.remove('nw-run'); row.parentNode.classList.remove('nw-anim'); glArrows(row); return; }
-      const t=START+Math.min(1,Math.max(0,pos/dist))*GO;
-      tr.style.setProperty('--nw-dist',`-${dist}px`); tr.style.setProperty('--nw-dur',`${dur.toFixed(1)}s`);
-      tr.style.animationDelay=`-${(t*dur).toFixed(2)}s`;
-      row.scrollLeft=0; tr.classList.remove('nw-run'); void tr.offsetWidth; tr.classList.add('nw-run');
-      row.parentNode.classList.add('nw-anim'); glArrows(row); };
-    const freeze=()=>{ clearTimeout(idle); idle=setTimeout(()=>{ if(!document.querySelector('.gl-box')) play(row.scrollLeft); },8000);
-      if(!tr.classList.contains('nw-run')) return;
-      const m=new DOMMatrixReadOnly(getComputedStyle(tr).transform), x=-m.m41;
-      tr.classList.remove('nw-run'); row.parentNode.classList.remove('nw-anim'); row.scrollLeft=x; glArrows(row); };
+    const cards=[...tr.children], st=box._glState;
+    let manual=false, idle=0, raf=0, x=0, lastCur=-1;
+    const maxX=()=>Math.max(0,tr.scrollWidth-row.clientWidth);
+    const pos=el=>Math.min(maxX(),Math.max(0,el.offsetLeft+el.offsetWidth/2-row.clientWidth/2));
+    const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+    const glide=(ms)=>{ tr.style.transition=`transform ${ms}ms cubic-bezier(.45,0,.25,1)`; clearTimeout(glide.t); glide.t=setTimeout(()=>tr.style.transition='',ms+30); };
+    const target=()=>{ const v=st.vids[st.cur], card=v.closest('.gl-card'), nx=st.vids[st.cur+1];
+      const a=pos(card), b=nx?pos(nx.closest('.gl-card')):a, p=(v.duration>0)?Math.min(1,v.currentTime/v.duration):0;
+      return a+(b-a)*ease(p); };
+    const frame=()=>{ raf=requestAnimationFrame(frame); if(manual||!box.isConnected){ if(!box.isConnected) cancelAnimationFrame(raf); return; }
+      if(st.cur!==lastCur){ if(lastCur>=0&&st.cur<lastCur) glide(1400); lastCur=st.cur; }
+      if(maxX()<20){ tr.style.transform=''; return; }
+      x=target(); tr.style.transform=`translate3d(${-x.toFixed(2)}px,0,0)`; };
+    const auto=()=>{ manual=false; row.parentNode.classList.add('nw-anim');
+      const s=row.scrollLeft; tr.style.transition=''; tr.style.transform=`translate3d(${-s}px,0,0)`; row.scrollLeft=0; void tr.offsetWidth;
+      glide(1100); lastCur=st.cur; glArrows(row); };
+    const freeze=()=>{ clearTimeout(idle); idle=setTimeout(auto,8000); if(manual) return; manual=true;
+      const m=new DOMMatrixReadOnly(getComputedStyle(tr).transform), cx=-m.m41;
+      tr.style.transition=''; tr.style.transform=''; row.parentNode.classList.remove('nw-anim'); row.scrollLeft=cx; glArrows(row); };
     row._freeze=freeze;
     ['touchstart','wheel','pointerdown'].forEach(ev=>row.addEventListener(ev,freeze,{passive:true}));
-    window.addEventListener('resize',()=>{ if(tr.classList.contains('nw-run')) freeze(); });
-    play(0);
+    window.addEventListener('resize',()=>{ if(!manual){ tr.style.transition=''; } });
+    row.parentNode.classList.add('nw-anim'); glArrows(row); frame();
   }
   // видео в карточках — по очереди, без звука: одно закончилось — начинается следующее, после последнего снова первое.
   // Пока галерея не видна на экране (или открыт просмотр на весь экран) — пауза.
   function watchVideos(box){
     const vids=[...box.querySelectorAll('.gl-card video')]; if(!vids.length) return;
-    let cur=0, seen=true;
+    let cur=0, seen=true; const st={vids,cur:0}; box._glState=st;
     const busy=()=>!seen||document.hidden||document.querySelector('.gl-box');
-    const play=i=>{ cur=(i+vids.length)%vids.length;
+    const play=i=>{ cur=(i+vids.length)%vids.length; st.cur=cur;
       vids.forEach((v,k)=>{ const on=k===cur; v.closest('.gl-card').classList.toggle('gl-on',on); if(!on&&!v.paused) v.pause(); });
       const v=vids[cur]; if(busy()) return; if(v.preload==='none') v.preload='auto'; v.play().catch(()=>{}); };
     vids.forEach((v,k)=>v.addEventListener('ended',()=>{ v.currentTime=0; play(k+1); }));
@@ -100,8 +109,9 @@
     let box=a.querySelector('.gallery-sec'); const h=block(); if(!h){ if(box) box.remove(); return; }
     if(!box){ box=document.createElement('div'); box.className='gallery-sec'; a.prepend(box); }
     box.innerHTML=h;
-    const row=box.querySelector('.nw-row'); if(row){ requestAnimationFrame(()=>glArrows(row)); auto(row); }
+    const row=box.querySelector('.nw-row');
     watchVideos(box);
+    if(row){ requestAnimationFrame(()=>glArrows(row)); follow(box,row); }
   }
   const _route=route; route=function(){ _route(); if(isHome()){ load(); draw(); } };
 })();
