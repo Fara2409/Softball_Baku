@@ -71,7 +71,7 @@
   const TITLE_IC={roster:'users',leaders:'medal',leadersOff:'medal',table:'chart',byGame:'chart',allGames:'list',games:'cal',
     cNext:'cal',cPlays:'list',cLiveBox:'chart',cComments:'chat',cRequests:'users',cSchedule:'cal',cLiveAdmin:'live',cUsers:'users',
     bgTitle:'star',rcAwards:'trophy',rcGame:'star',rcSeason:'cal',rcBadges:'star',chTitle:'users',hlTitle:'play',hlGame:'play',pbT:'list',
-    fdTitle:'pulse',spTitle:'field',wxTitle2:'sun',wxTitle:'sun',nwTitle:'news'};
+    fdTitle:'pulse',spTitle:'field',wxTitle2:'sun',wxTitle:'sun',nwTitle:'news',glTitle:'play'};
   function titleIcon(txt){
     const L=I18N[LANG]||{};
     for(const [k,ic] of Object.entries(TITLE_IC)){

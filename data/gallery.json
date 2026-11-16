@@ -1,0 +1,70 @@
+{
+ "items": [
+  {
+   "type": "photo",
+   "src": "gallery/team-1.jpg",
+   "thumb": "gallery/team-1-sm.jpg",
+   "title": {
+    "ru": "Наша команда",
+    "az": "Komandamız",
+    "en": "Our team"
+   },
+   "date": ""
+  },
+  {
+   "type": "video",
+   "src": "gallery/v1.mp4",
+   "thumb": "gallery/v1.jpg",
+   "title": {
+    "ru": "Игра 15.11.2026",
+    "az": "Oyun 15.11.2026",
+    "en": "Game 15.11.2026"
+   },
+   "date": "2026-11-15"
+  },
+  {
+   "type": "video",
+   "src": "gallery/v2.mp4",
+   "thumb": "gallery/v2.jpg",
+   "title": {
+    "ru": "Игра 15.11.2026",
+    "az": "Oyun 15.11.2026",
+    "en": "Game 15.11.2026"
+   },
+   "date": "2026-11-15"
+  },
+  {
+   "type": "video",
+   "src": "gallery/v3.mp4",
+   "thumb": "gallery/v3.jpg",
+   "title": {
+    "ru": "Игра 15.11.2026",
+    "az": "Oyun 15.11.2026",
+    "en": "Game 15.11.2026"
+   },
+   "date": "2026-11-15"
+  },
+  {
+   "type": "video",
+   "src": "gallery/v4.mp4",
+   "thumb": "gallery/v4.jpg",
+   "title": {
+    "ru": "Игра 15.11.2026",
+    "az": "Oyun 15.11.2026",
+    "en": "Game 15.11.2026"
+   },
+   "date": "2026-11-15"
+  },
+  {
+   "type": "video",
+   "src": "gallery/v5.mp4",
+   "thumb": "gallery/v5.jpg",
+   "title": {
+    "ru": "Игра 15.11.2026",
+    "az": "Oyun 15.11.2026",
+    "en": "Game 15.11.2026"
+   },
+   "date": "2026-11-15"
+  }
+ ]
+}
