@@ -668,7 +668,11 @@
    "bt": "f",
    "f": [
     "rasim"
-   ]
+   ],
+   "po": [
+    "rasim"
+   ],
+   "fpo": "rasim"
   },
   {
    "n": 2,
@@ -734,7 +738,8 @@
    "bt": "g",
    "sc": [
     "emilien"
-   ]
+   ],
+   "rbi": 1
   },
   {
    "n": 6,
@@ -752,7 +757,8 @@
    "bt": "l",
    "sc": [
     "sergey-molchanov"
-   ]
+   ],
+   "rbi": 1
   },
   {
    "n": 7,
@@ -770,7 +776,8 @@
    "bt": "l",
    "sc": [
     "danylo-shapovalov"
-   ]
+   ],
+   "rbi": 1
   },
   {
    "n": 8,
@@ -813,7 +820,8 @@
    ],
    "sc": [
     "rashid"
-   ]
+   ],
+   "rbi": 1
   },
   {
    "n": 10,
@@ -829,7 +837,9 @@
    "t": 118,
    "sc": [
     "hikmat"
-   ]
+   ],
+   "rbi": 1,
+   "pbb": "rasim"
   },
   {
    "n": 11,
@@ -845,7 +855,9 @@
    "t": 130,
    "sc": [
     "alim"
-   ]
+   ],
+   "rbi": 1,
+   "pbb": "rasim"
   },
   {
    "n": 12,
@@ -865,7 +877,18 @@
     "mammad-aliyev",
     "vidadi"
    ],
-   "dp": 1
+   "dp": 1,
+   "po": [
+    "vidadi",
+    "mammad-aliyev"
+   ],
+   "a": [
+    "mammad-aliyev"
+   ],
+   "fpo": "mammad-aliyev",
+   "ofb": {
+    "mammad-aliyev": 3
+   }
   },
   {
    "n": 13,
@@ -883,7 +906,11 @@
    "bt": "f",
    "f": [
     "danylo-shapovalov"
-   ]
+   ],
+   "po": [
+    "danylo-shapovalov"
+   ],
+   "fpo": "danylo-shapovalov"
   },
   {
    "n": 14,
@@ -917,6 +944,12 @@
    "f": [
     "rashid",
     "rasul-4"
+   ],
+   "po": [
+    "rasul-4"
+   ],
+   "a": [
+    "rashid"
    ]
   },
   {
@@ -957,7 +990,8 @@
    "sc": [
     "farhad-eyvazov"
    ],
-   "note": "ошибка броска Эмильена: +1 база бегунам"
+   "note": "ошибка броска Эмильена: +1 база бегунам",
+   "rbi": 1
   },
   {
    "n": 18,
@@ -976,6 +1010,12 @@
    "f": [
     "sergey-antipov",
     "hikmat"
+   ],
+   "po": [
+    "hikmat"
+   ],
+   "a": [
+    "sergey-antipov"
    ]
   },
   {
@@ -989,7 +1029,8 @@
     7,
     1
    ],
-   "t": 243
+   "t": 243,
+   "pbb": "rasim"
   },
   {
    "n": 20,
@@ -1007,7 +1048,11 @@
    "bt": "f",
    "f": [
     "rasul-21"
-   ]
+   ],
+   "po": [
+    "rasul-21"
+   ],
+   "fpo": "rasul-21"
   },
   {
    "n": 21,
@@ -1025,7 +1070,11 @@
    "bt": "l",
    "f": [
     "ilgar"
-   ]
+   ],
+   "po": [
+    "ilgar"
+   ],
+   "fpo": "ilgar"
   },
   {
    "n": 22,
@@ -1058,7 +1107,11 @@
    "bt": "f",
    "f": [
     "parviz-ismayilov"
-   ]
+   ],
+   "po": [
+    "parviz-ismayilov"
+   ],
+   "fpo": "parviz-ismayilov"
   },
   {
    "n": 24,
@@ -1095,6 +1148,12 @@
    "f": [
     "sergey-molchanov",
     "rasul-4"
+   ],
+   "po": [
+    "rasul-4"
+   ],
+   "a": [
+    "sergey-molchanov"
    ]
   },
   {
@@ -1108,7 +1167,8 @@
     7,
     1
    ],
-   "t": 318
+   "t": 318,
+   "pk": "sergey-antipov"
   },
   {
    "n": 27,
@@ -1158,6 +1218,12 @@
    "f": [
     "rasul-4",
     "hikmat"
+   ],
+   "po": [
+    "hikmat"
+   ],
+   "a": [
+    "rasul-4"
    ]
   },
   {
@@ -1177,7 +1243,13 @@
     "vidadi",
     "mushfig-ibrahimov"
    ],
-   "note": "нет в видео"
+   "note": "нет в видео",
+   "po": [
+    "mushfig-ibrahimov"
+   ],
+   "a": [
+    "vidadi"
+   ]
   },
   {
    "n": 31,
@@ -1190,7 +1262,8 @@
     7,
     1
    ],
-   "t": 354
+   "t": 354,
+   "pbb": "rasim"
   },
   {
    "n": 32,
@@ -1208,7 +1281,11 @@
    "bt": "f",
    "f": [
     "vidadi"
-   ]
+   ],
+   "po": [
+    "vidadi"
+   ],
+   "fpo": "vidadi"
   },
   {
    "n": 33,
@@ -1240,7 +1317,8 @@
     7,
     1
    ],
-   "t": 392
+   "t": 392,
+   "pbb": "rasim"
   },
   {
    "n": 35,
@@ -1256,7 +1334,9 @@
    "t": 399,
    "sc": [
     "alim"
-   ]
+   ],
+   "rbi": 1,
+   "pbb": "rasim"
   },
   {
    "n": 36,
@@ -1269,7 +1349,8 @@
     8,
     1
    ],
-   "t": 407
+   "t": 407,
+   "pk": "rasim"
   },
   {
    "n": 37,
@@ -1323,7 +1404,11 @@
    "bt": "f",
    "f": [
     "rasul-4"
-   ]
+   ],
+   "po": [
+    "rasul-4"
+   ],
+   "fpo": "rasul-4"
   },
   {
    "n": 40,
@@ -1358,7 +1443,8 @@
     8,
     2
    ],
-   "t": 467
+   "t": 467,
+   "pbb": "sergey-antipov"
   },
   {
    "n": 42,
@@ -1376,7 +1462,8 @@
    "bt": "l",
    "sc": [
     "rasul-21"
-   ]
+   ],
+   "rbi": 1
   },
   {
    "n": 43,
@@ -1392,7 +1479,9 @@
    "t": 487,
    "sc": [
     "rasim"
-   ]
+   ],
+   "rbi": 1,
+   "pbb": "sergey-antipov"
   },
   {
    "n": 44,
@@ -1414,7 +1503,14 @@
    ],
    "sc": [
     "mushfig-ibrahimov"
-   ]
+   ],
+   "po": [
+    "rashid"
+   ],
+   "a": [
+    "sergey-molchanov"
+   ],
+   "rbi": 1
   },
   {
    "n": 45,
@@ -1433,6 +1529,12 @@
    "f": [
     "sergey-antipov",
     "rashid"
+   ],
+   "po": [
+    "rashid"
+   ],
+   "a": [
+    "sergey-antipov"
    ]
   },
   {
@@ -1467,6 +1569,12 @@
    "f": [
     "ilgar",
     "parviz-ismayilov"
+   ],
+   "po": [
+    "parviz-ismayilov"
+   ],
+   "a": [
+    "ilgar"
    ]
   },
   {
@@ -1486,6 +1594,12 @@
    "f": [
     "ilgar",
     "parviz-ismayilov"
+   ],
+   "po": [
+    "parviz-ismayilov"
+   ],
+   "a": [
+    "ilgar"
    ]
   },
   {
@@ -1519,7 +1633,11 @@
    "bt": "f",
    "f": [
     "parviz-ismayilov"
-   ]
+   ],
+   "po": [
+    "parviz-ismayilov"
+   ],
+   "fpo": "parviz-ismayilov"
   },
   {
    "n": 51,
@@ -1537,6 +1655,9 @@
    "bt": "g",
    "e": [
     "sergey-molchanov"
+   ],
+   "eb": [
+    2
    ]
   },
   {
@@ -1577,7 +1698,8 @@
    "sc": [
     "ramiz-ismayilov",
     "farhad-eyvazov"
-   ]
+   ],
+   "rbi": 2
   },
   {
    "n": 54,
@@ -1595,7 +1717,8 @@
    "bt": "g",
    "sc": [
     "rasul-21"
-   ]
+   ],
+   "rbi": 1
   },
   {
    "n": 55,
@@ -1629,6 +1752,12 @@
    "f": [
     "sergey-antipov",
     "rashid"
+   ],
+   "po": [
+    "rashid"
+   ],
+   "a": [
+    "sergey-antipov"
    ]
   },
   {
@@ -1648,6 +1777,12 @@
    "f": [
     "sergey-molchanov",
     "rasul-4"
+   ],
+   "po": [
+    "rasul-4"
+   ],
+   "a": [
+    "sergey-molchanov"
    ]
   },
   {
@@ -1667,6 +1802,12 @@
    "f": [
     "sergey-antipov",
     "hikmat"
+   ],
+   "po": [
+    "hikmat"
+   ],
+   "a": [
+    "sergey-antipov"
    ]
   },
   {
@@ -1685,7 +1826,11 @@
    "f": [
     "rasul-21"
    ],
-   "note": "нет в видео"
+   "note": "нет в видео",
+   "po": [
+    "rasul-21"
+   ],
+   "fpo": "rasul-21"
   },
   {
    "n": 60,
@@ -1704,6 +1849,12 @@
    "f": [
     "parviz-ismayilov",
     "mushfig-ibrahimov"
+   ],
+   "po": [
+    "mushfig-ibrahimov"
+   ],
+   "a": [
+    "parviz-ismayilov"
    ]
   },
   {
@@ -1717,7 +1868,8 @@
     8,
     8
    ],
-   "t": 675
+   "t": 675,
+   "pk": "rasim"
   },
   {
    "n": 62,
@@ -1736,6 +1888,12 @@
    "f": [
     "sergey-molchanov",
     "hikmat"
+   ],
+   "po": [
+    "hikmat"
+   ],
+   "a": [
+    "sergey-molchanov"
    ]
   },
   {
@@ -1784,7 +1942,11 @@
    "bt": "g",
    "f": [
     "rashid"
-   ]
+   ],
+   "po": [
+    "rashid"
+   ],
+   "fpo": "rashid"
   },
   {
    "n": 66,
@@ -1802,7 +1964,11 @@
    "bt": "f",
    "f": [
     "sergey-antipov"
-   ]
+   ],
+   "po": [
+    "sergey-antipov"
+   ],
+   "fpo": "sergey-antipov"
   },
   {
    "n": 67,
@@ -1821,6 +1987,12 @@
    "f": [
     "vidadi",
     "mushfig-ibrahimov"
+   ],
+   "po": [
+    "mushfig-ibrahimov"
+   ],
+   "a": [
+    "vidadi"
    ]
   },
   {
@@ -1869,7 +2041,11 @@
    "bt": "f",
    "f": [
     "vidadi"
-   ]
+   ],
+   "po": [
+    "vidadi"
+   ],
+   "fpo": "vidadi"
   },
   {
    "n": 71,
@@ -1882,7 +2058,8 @@
     8,
     8
    ],
-   "t": 778
+   "t": 778,
+   "pbb": "rasim"
   },
   {
    "n": 72,
@@ -1900,7 +2077,11 @@
    "bt": "l",
    "f": [
     "parviz-ismayilov"
-   ]
+   ],
+   "po": [
+    "parviz-ismayilov"
+   ],
+   "fpo": "parviz-ismayilov"
   },
   {
    "n": 73,
@@ -1952,7 +2133,14 @@
    ],
    "sc": [
     "vidadi"
-   ]
+   ],
+   "po": [
+    "rasul-4"
+   ],
+   "a": [
+    "sergey-molchanov"
+   ],
+   "rbi": 1
   },
   {
    "n": 76,
@@ -1971,6 +2159,12 @@
    "f": [
     "rashid",
     "rasul-4"
+   ],
+   "po": [
+    "rasul-4"
+   ],
+   "a": [
+    "rashid"
    ]
   },
   {
@@ -2008,7 +2202,11 @@
    "bt": "f",
    "f": [
     "rashid"
-   ]
+   ],
+   "po": [
+    "rashid"
+   ],
+   "fpo": "rashid"
   },
   {
    "n": 79,
@@ -2050,7 +2248,13 @@
    "sc": [
     "rashid"
    ],
-   "note": "Мушфиг бросил на 3-ю мимо, Рашид дома"
+   "note": "Мушфиг бросил на 3-ю мимо, Рашид дома",
+   "po": [
+    "mushfig-ibrahimov"
+   ],
+   "a": [
+    "rasim"
+   ]
   },
   {
    "n": 81,
@@ -2069,6 +2273,12 @@
    "f": [
     "rasim",
     "mushfig-ibrahimov"
+   ],
+   "po": [
+    "mushfig-ibrahimov"
+   ],
+   "a": [
+    "rasim"
    ]
   },
   {
@@ -2087,7 +2297,11 @@
    "bt": "g",
    "f": [
     "mushfig-ibrahimov"
-   ]
+   ],
+   "po": [
+    "mushfig-ibrahimov"
+   ],
+   "fpo": "mushfig-ibrahimov"
   },
   {
    "n": 83,
@@ -2122,7 +2336,15 @@
     "rashid",
     "hikmat"
    ],
-   "dp": 1
+   "dp": 1,
+   "po": [
+    "hikmat",
+    "rashid"
+   ],
+   "a": [
+    "rashid"
+   ],
+   "fpo": "rashid"
   },
   {
    "n": 85,
@@ -2145,7 +2367,13 @@
    "e": [
     "rashid"
    ],
-   "note": "потом выбит на 2-й"
+   "note": "потом выбит на 2-й",
+   "po": [
+    "rasul-4"
+   ],
+   "a": [
+    "hikmat"
+   ]
   }
  ]
 }

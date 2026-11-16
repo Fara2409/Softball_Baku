@@ -264,7 +264,7 @@ function player(id){
     <div class="section-title"><h2>${T('allGames')}</h2></div><div class="card tablewrap"><table class="lb"><thead><tr><th class="l">${T('date')}</th><th class="l">${T('team')}</th><th class="l">${T('pos')}</th><th>${T('rating')}</th><th title="${T('rOff')}">${T('rOffS')}</th><th title="${T('rDef')}">${T('rDefS')}</th><th>AB</th><th>H</th><th>2B</th><th>3B</th><th>HR</th><th>R</th><th>RBI</th><th>BB</th><th>K</th><th>PO</th><th>A</th><th>E</th><th class="l">${T('result')}</th></tr></thead><tbody>`;
   for(const {game:g,b} of [...p.log].reverse()){
     const tm=g.teams[b.team], res=g.winner===b.team?`<b style="color:var(--r-good)">${T('win')}</b>`:g.winner?`<b style="color:var(--r-low)">${T('loss')}</b>`:T('tie');
-    h+=`<tr onclick="location.hash='#game-${g.id}'"><td class="l">${fmtDate(g.date)}</td><td class="l"><span class="chip" style="background:${tm.color}22;color:${tm.color}">${tm.name}</span></td><td class="l">${b.pos}</td><td>${rt(b.rating)}</td><td>${pts(b.rOff)}</td><td>${pts(b.rDef)}</td><td>${b.AB}</td><td>${b.H}</td><td>${b['2B']}</td><td>${b['3B']}</td><td>${b.HR}</td><td>${b.R}</td><td>${b.RBI}</td><td>${b.BB}</td><td>${b.K}</td><td>${b.PO}</td><td>${b.A}</td><td>${b.E}</td><td class="l">${res} ${g.score[b.team]}:${g.score[b.team==='A'?'B':'A']}</td></tr>`;
+    h+=`<tr onclick="location.hash='#game-${g.id}'"><td class="l">${fmtDate(g.date)}</td><td class="l"><span class="chip" style="background:${tm.color}22;color:${tm.color}">${tm.name}</span></td><td class="l">${b.pos}</td><td><button type="button" class="rt-btn" title="${T('rbOpen')}" onclick="event.stopPropagation();rbOpen('${g.id}','${p.id}')">${rt(b.rating)}</button></td><td>${pts(b.rOff)}</td><td>${pts(b.rDef)}</td><td>${b.AB}</td><td>${b.H}</td><td>${b['2B']}</td><td>${b['3B']}</td><td>${b.HR}</td><td>${b.R}</td><td>${b.RBI}</td><td>${b.BB}</td><td>${b.K}</td><td>${b.PO}</td><td>${b.A}</td><td>${b.E}</td><td class="l">${res} ${g.score[b.team]}:${g.score[b.team==='A'?'B':'A']}</td></tr>`;
   }
   app().innerHTML=h+'</tbody></table></div>'+ex.bottom;
 }
@@ -297,7 +297,7 @@ function gameBox(g,k){
   if(gSortKey) rows.sort((x,y)=>gSortDir*(((x.b[gSortKey]||0)-(y.b[gSortKey]||0)))||(y.b.rating-x.b.rating)||(x.i-y.i));
   let h=`<table class="lb"><thead><tr><th class="l">${T('player')}</th><th class="l">${T('pos')}</th>${GCOLS.map(([c,n])=>`<th data-gk="${c}" class="${c===gSortKey?'sorted':''}" style="cursor:pointer">${n?n():c}${c===gSortKey?(gSortDir<0?' ↓':' ↑'):''}</th>`).join('')}</tr></thead><tbody>`;
   for(const {b} of rows){const p=S.players[b.player];
-    h+=`<tr onclick="location.hash='#player-${p.id}'"><td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}${g.mvp===b?` <span class="chip main">${T('mvp')}</span>`:''}${rkBadge(p)}</div><div class="no">#${p.number}</div></div></div></td><td class="l">${b.pos}</td><td>${rt(b.rating)}</td>${GCOLS.slice(1).map(([c])=>`<td>${b[c]||0}</td>`).join('')}</tr>`;}
+    h+=`<tr onclick="location.hash='#player-${p.id}'"><td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}${g.mvp===b?` <span class="chip main">${T('mvp')}</span>`:''}${rkBadge(p)}</div><div class="no">#${p.number}</div></div></div></td><td class="l">${b.pos}</td><td><button type="button" class="rt-btn" title="${T('rbOpen')}" onclick="event.stopPropagation();rbOpen('${g.id}','${p.id}')">${rt(b.rating)}</button></td>${GCOLS.slice(1).map(([c])=>`<td>${b[c]||0}</td>`).join('')}</tr>`;}
   return h+'</tbody></table>';
 }
 function bindGameBox(g){

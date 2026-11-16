@@ -1,0 +1,22 @@
+/* Разбор рейтинга по эпизодам (16.11.2026) */
+.rt-btn{background:none;border:0;padding:0;cursor:pointer;font:inherit;border-radius:999px}
+.rt-btn:hover .rt,.rt-btn:focus-visible .rt{box-shadow:0 0 0 3px color-mix(in srgb,var(--amber) 30%,transparent)}
+.rb-m{position:fixed;inset:0;z-index:80;background:rgba(6,12,22,.55);display:flex;align-items:center;justify-content:center;padding:14px}
+.rb-box{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:16px;width:min(760px,100%);max-height:88vh;overflow:auto;padding:16px 16px 12px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.rb-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px}
+.rb-who{display:flex;gap:10px;align-items:center}.rb-who b{font-size:17px}.rb-who .muted{font-size:12.5px}
+.rb-x{position:static!important;flex:0 0 auto}
+.rb-spark{width:100%;height:70px;display:block;margin:2px 0 8px}
+.rb-spark .rb-line{fill:none;stroke:var(--amber);stroke-width:2;vector-effect:non-scaling-stroke}
+.rb-spark .rb-dot{fill:var(--amber)}.rb-spark .rb-base{stroke:var(--line);stroke-dasharray:4 4;vector-effect:non-scaling-stroke}
+.rb-list{display:flex;flex-direction:column}
+.rb-inn{font-size:11.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);padding:10px 2px 4px;border-top:1px solid var(--line);margin-top:4px}
+.rb-row{display:grid;grid-template-columns:auto 1fr auto 52px;gap:10px;align-items:center;padding:7px 2px;font-size:13.5px}
+.rb-row+.rb-row{border-top:1px dashed color-mix(in srgb,var(--line) 70%,transparent)}
+.rb-start,.rb-end{grid-template-columns:1fr auto 52px}
+.rb-end{font-weight:700;border-top:1px solid var(--line)!important;margin-top:4px;padding-top:10px}
+.rb-ep i{font-style:normal;font-size:12px}
+.rb-d{text-align:right;font-weight:700}.rb-cur{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.rb-noplay{opacity:.35;min-width:58px;text-align:center}
+.rb-hint{font-size:12px;margin-top:8px}
+@media(max-width:560px){.rb-row{grid-template-columns:auto 1fr 46px;}.rb-row .rb-d{display:none}.rb-start,.rb-end{grid-template-columns:1fr 46px}.rb-box{padding:12px}}
