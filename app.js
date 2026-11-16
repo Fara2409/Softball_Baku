@@ -261,7 +261,7 @@ function player(id){
   h+=ex.top;
   if(!has){ app().innerHTML=h+`<div class="card empty">${T('noStats')}</div>`+ex.bottom; return; }
   h+=`<div class="section-title"><h2>${T('byGame')}</h2><span class="hint">${T('dashed')}</span></div><div class="card chart">${chart(p)}</div>
-    <div class="section-title"><h2>${T('allGames')}</h2></div><div class="card tablewrap"><table class="lb"><thead><tr><th class="l">${T('date')}</th><th class="l">${T('team')}</th><th class="l">${T('pos')}</th><th>${T('rating')}</th><th title="${T('rOff')}">${T('rOffS')}</th><th title="${T('rDef')}">${T('rDefS')}</th><th>AB</th><th>H</th><th>2B</th><th>3B</th><th>HR</th><th>R</th><th>RBI</th><th>BB</th><th>K</th><th>PO</th><th>A</th><th>E</th><th class="l">${T('result')}</th></tr></thead><tbody>`;
+    <div class="section-title"><h2>${T('allGames')}</h2><span class="hint">${window.rbOpen?T('rbTapHint'):''}</span></div><div class="card tablewrap"><table class="lb"><thead><tr><th class="l">${T('date')}</th><th class="l">${T('team')}</th><th class="l">${T('pos')}</th><th>${T('rating')}</th><th title="${T('rOff')}">${T('rOffS')}</th><th title="${T('rDef')}">${T('rDefS')}</th><th>AB</th><th>H</th><th>2B</th><th>3B</th><th>HR</th><th>R</th><th>RBI</th><th>BB</th><th>K</th><th>PO</th><th>A</th><th>E</th><th class="l">${T('result')}</th></tr></thead><tbody>`;
   for(const {game:g,b} of [...p.log].reverse()){
     const tm=g.teams[b.team], res=g.winner===b.team?`<b style="color:var(--r-good)">${T('win')}</b>`:g.winner?`<b style="color:var(--r-low)">${T('loss')}</b>`:T('tie');
     h+=`<tr onclick="location.hash='#game-${g.id}'"><td class="l">${fmtDate(g.date)}</td><td class="l"><span class="chip" style="background:${tm.color}22;color:${tm.color}">${tm.name}</span></td><td class="l">${b.pos}</td><td><button type="button" class="rt-btn" title="${T('rbOpen')}" onclick="event.stopPropagation();rbOpen('${g.id}','${p.id}')">${rt(b.rating)}</button></td><td>${pts(b.rOff)}</td><td>${pts(b.rDef)}</td><td>${b.AB}</td><td>${b.H}</td><td>${b['2B']}</td><td>${b['3B']}</td><td>${b.HR}</td><td>${b.R}</td><td>${b.RBI}</td><td>${b.BB}</td><td>${b.K}</td><td>${b.PO}</td><td>${b.A}</td><td>${b.E}</td><td class="l">${res} ${g.score[b.team]}:${g.score[b.team==='A'?'B':'A']}</td></tr>`;
@@ -283,7 +283,7 @@ function game(id){
     <div class="btns">${g.video?`<a class="btn yt" href="${g.video}" target="_blank" rel="noopener">▶ ${T('youtube')}</a>`:''}${window.shareGame?`<button class="btn" onclick="shareGame('${g.id}')">🖼 ${T('shGame')}</button>`:''}</div></div>`;
   if(window.gamePlays) h+=gamePlays(g);
   for(const k of ['A','B']){
-    h+=`<div class="section-title"><h2 style="color:${g.teams[k].color}">${g.teams[k].name}</h2><span class="hint">${g.winner===k?T('winL'):g.winner?T('lossL'):T('tieL')} · ${g.score[k]} ${T('runs')}</span></div>
+    h+=`<div class="section-title"><h2 style="color:${g.teams[k].color}">${g.teams[k].name}</h2><span class="hint">${g.winner===k?T('winL'):g.winner?T('lossL'):T('tieL')} · ${g.score[k]} ${T('runs')}${k==='A'&&window.rbOpen&&g.plays?` · ${T('rbTapHint')}`:''}</span></div>
     <div class="card tablewrap" id="gbox-${k}">${gameBox(g,k)}</div>`;
   }
   if(window.gameHighlights) h+=gameHighlights(g);

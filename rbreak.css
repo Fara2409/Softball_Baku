@@ -20,3 +20,5 @@
 .rb-noplay{opacity:.35;min-width:58px;text-align:center}
 .rb-hint{font-size:12px;margin-top:8px}
 @media(max-width:560px){.rb-row{grid-template-columns:auto 1fr 46px;}.rb-row .rb-d{display:none}.rb-start,.rb-end{grid-template-columns:1fr 46px}.rb-box{padding:12px}}
+.rt-btn{display:inline-flex;align-items:center;gap:2px}
+.rt-btn::after{content:"›";font-weight:800;font-size:15px;color:var(--amber);line-height:1}
