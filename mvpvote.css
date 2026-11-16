@@ -1,0 +1,33 @@
+/* Голосование «Игрок матча» (16.11.2026) */
+.mv-sec{margin-top:14px}
+.mv-card{padding:16px}
+.mv-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.mv-date{font-weight:700;margin-top:4px}.mv-date a{color:inherit}
+.mv-note{margin:12px 0 8px;font-size:14px}
+.mv-sub{margin:12px 0 6px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted)}
+.mv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.mv-c{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--text);font:inherit;font-size:13.5px;text-align:left;cursor:pointer;position:relative}
+.mv-c .av{width:34px;height:34px;flex:0 0 34px;font-size:12px}
+.mv-c:hover{border-color:var(--amber)}
+.mv-c.on{border-color:var(--amber);background:var(--tint,rgba(31,95,191,.12));box-shadow:0 0 0 2px color-mix(in srgb,var(--amber) 35%,transparent)}
+.mv-c em{position:absolute;right:8px;top:-8px;font-style:normal;font-size:10.5px;font-weight:700;background:var(--amber);color:#fff;border-radius:999px;padding:1px 7px}
+.mv-c.busy{opacity:.55;pointer-events:none}
+.mv-res{display:flex;flex-direction:column;gap:6px}
+.mv-r{display:grid;grid-template-columns:34px minmax(0,1.3fr) 1fr auto;gap:10px;align-items:center;color:inherit;text-decoration:none;padding:4px 0}
+.mv-r .av{width:34px;height:34px;font-size:12px}
+.mv-rn{font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis}
+.mv-bar{height:8px;border-radius:9px;background:var(--panel2);overflow:hidden}.mv-bar i{display:block;height:100%;background:var(--amber);border-radius:9px}
+.mv-r.win .mv-bar i{background:#D4A017}
+.mv-r b{font-size:12.5px;white-space:nowrap}
+.mv-admin{padding:14px}.mv-arow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.mv-arow input{margin-left:6px}.mv-qs{display:flex;flex-wrap:wrap;gap:6px}
+.mv-alab{margin:12px 0 8px;font-size:13px}
+.mv-checks{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px;margin-bottom:12px}
+.mv-ck{display:flex;align-items:center;gap:8px;padding:6px 8px;border:1px solid var(--line);border-radius:10px;cursor:pointer;font-size:13px}
+.mv-ck input{margin:0}.mv-ck .av{width:28px;height:28px;font-size:11px}
+.mv-ck.on{border-color:var(--amber);background:var(--tint,rgba(31,95,191,.1))}
+.mv-list{margin-top:10px;padding:8px 14px}
+.mv-li{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:8px 0}.mv-li+.mv-li{border-top:1px solid var(--line)}
+.mv-li-b{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.btn.danger{color:#B3261E}
+@media(max-width:560px){.mv-grid{grid-template-columns:1fr 1fr}.mv-r{grid-template-columns:30px 1fr auto}.mv-r .mv-bar{display:none}.mv-checks{grid-template-columns:1fr 1fr}}

@@ -6,11 +6,11 @@
    (в plays для этого есть поля po, a, fpo, rbi, pk, pbb, ofb — см. tools/enrich_plays.py). */
 (function(){
   Object.assign(I18N.ru,{rbTitle:'Разбор рейтинга',rbStart:'Старт',rbPos:'Бонус за позицию',rbTotal:'Итог за игру',rbHint:'нажмите ▶, чтобы посмотреть эпизод',
-    rbBat:'на бите',rbRun:'ран',rbRBI:'RBI',rbFPO:'сам сделал аут',rbFPO2:'ловля при бегуне на 2-й',rbFPO3:'ловля при бегуне на 3-й',rbA:'передача на аут',rbPO:'принял бросок',rbE:'ошибка',rbE2:'ошибка (2 базы)',rbE3:'ошибка (3+ базы)',rbPK:'страйк-аут на подаче',rbPBB:'уок на подаче',rbOut:'аут на бите',rbNoPlays:'Для этой игры нет подробного протокола.',rbClamp:'рейтинг ограничен шкалой 3–10',rbOpen:'Разбор по эпизодам',rbTapHint:'нажмите на рейтинг — разбор по эпизодам'});
+    rbBat:'на бите',rbRun:'ран',rbRBI:'RBI',rbFPO:'сам сделал аут',rbFPO2:'ловля при бегуне на 2-й',rbFPO3:'ловля при бегуне на 3-й',rbA:'передача на аут',rbPO:'принял бросок',rbE:'ошибка',rbE2:'ошибка (2 базы)',rbE3:'ошибка (3+ базы)',rbPK:'страйк-аут на подаче',rbPBB:'уок на подаче',rbOut:'аут на бите',rbNoPlays:'Для этой игры нет подробного протокола.',rbClamp:'рейтинг ограничен шкалой 3–10',rbOpen:'Разбор по эпизодам',rbLock:'Полный разбор — для вошедших',rbLockTxt:'Войдите или зарегистрируйтесь, чтобы увидеть все эпизоды и итог.',rbLockBtn:'Войти',rbTapHint:'нажмите на рейтинг — разбор по эпизодам'});
   Object.assign(I18N.az,{rbTitle:'Reytinqin təhlili',rbStart:'Başlanğıc',rbPos:'Mövqe bonusu',rbTotal:'Oyun üzrə yekun',rbHint:'epizoda baxmaq üçün ▶ basın',
-    rbBat:'vuruşda',rbRun:'qaçış',rbRBI:'RBI',rbFPO:'özü aut etdi',rbFPO2:'2-ci bazada qaçışçı ilə tutma',rbFPO3:'3-cü bazada qaçışçı ilə tutma',rbA:'auta ötürmə',rbPO:'ötürməni qəbul etdi',rbE:'səhv',rbE2:'səhv (2 baza)',rbE3:'səhv (3+ baza)',rbPK:'atışda strayk-aut',rbPBB:'atışda uok',rbOut:'vuruşda aut',rbNoPlays:'Bu oyun üçün ətraflı protokol yoxdur.',rbClamp:'reytinq 3–10 şkalası ilə məhdudlaşır',rbOpen:'Epizodlar üzrə təhlil',rbTapHint:'epizodlar üzrə təhlil üçün reytinqə basın'});
+    rbBat:'vuruşda',rbRun:'qaçış',rbRBI:'RBI',rbFPO:'özü aut etdi',rbFPO2:'2-ci bazada qaçışçı ilə tutma',rbFPO3:'3-cü bazada qaçışçı ilə tutma',rbA:'auta ötürmə',rbPO:'ötürməni qəbul etdi',rbE:'səhv',rbE2:'səhv (2 baza)',rbE3:'səhv (3+ baza)',rbPK:'atışda strayk-aut',rbPBB:'atışda uok',rbOut:'vuruşda aut',rbNoPlays:'Bu oyun üçün ətraflı protokol yoxdur.',rbClamp:'reytinq 3–10 şkalası ilə məhdudlaşır',rbOpen:'Epizodlar üzrə təhlil',rbLock:'Tam təhlil — daxil olanlar üçün',rbLockTxt:'Bütün epizodları və yekunu görmək üçün daxil olun və ya qeydiyyatdan keçin.',rbLockBtn:'Daxil ol',rbTapHint:'epizodlar üzrə təhlil üçün reytinqə basın'});
   Object.assign(I18N.en,{rbTitle:'Rating breakdown',rbStart:'Start',rbPos:'Position bonus',rbTotal:'Game total',rbHint:'tap ▶ to watch the play',
-    rbBat:'at bat',rbRun:'run scored',rbRBI:'RBI',rbFPO:'unassisted out',rbFPO2:'catch, runner on 2nd',rbFPO3:'catch, runner on 3rd',rbA:'assist',rbPO:'caught the throw',rbE:'error',rbE2:'error (2 bases)',rbE3:'error (3+ bases)',rbPK:'strikeout pitching',rbPBB:'walk allowed',rbOut:'out at bat',rbNoPlays:'No detailed play-by-play for this game.',rbClamp:'rating is capped to the 3–10 scale',rbOpen:'Play-by-play breakdown',rbTapHint:'tap a rating for the play-by-play breakdown'});
+    rbBat:'at bat',rbRun:'run scored',rbRBI:'RBI',rbFPO:'unassisted out',rbFPO2:'catch, runner on 2nd',rbFPO3:'catch, runner on 3rd',rbA:'assist',rbPO:'caught the throw',rbE:'error',rbE2:'error (2 bases)',rbE3:'error (3+ bases)',rbPK:'strikeout pitching',rbPBB:'walk allowed',rbOut:'out at bat',rbNoPlays:'No detailed play-by-play for this game.',rbClamp:'rating is capped to the 3–10 scale',rbOpen:'Play-by-play breakdown',rbLock:'Full breakdown is for members',rbLockTxt:'Log in or sign up to see every play and the total.',rbLockBtn:'Log in',rbTapHint:'tap a rating for the play-by-play breakdown'});
   const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const HIT=['1B','2B','3B','HR'];
   function items(g,pid,b){
@@ -62,6 +62,13 @@
       }
       const fin=b.rating, clamp=Math.abs(Math.min(10,Math.max(3,cur))-cur)>0.001;
       rows+=`<div class="rb-row rb-end"><span class="rb-ep">${T('rbTotal')}${clamp?` <span class="muted">(${T('rbClamp')})</span>`:''}</span><span class="rb-d">${sg(cur-BASE)}</span><span class="rb-cur">${rt(fin)}</span></div>`;
+      const cx=window.CL&&CL.ctx?CL.ctx().C:null, locked=cx&&cx.ok&&!cx.user;  // гостю — первые 3 эпизода, остальное под «замком» (16.11.2026)
+      if(locked){
+        const tmp=document.createElement('div'); tmp.innerHTML=rows; const all=[...tmp.children]; let shown=0, cut=all.length;
+        for(let k=0;k<all.length;k++){ if(all[k].classList.contains('rb-row')&&!all[k].classList.contains('rb-start')&&!all[k].classList.contains('rb-end')&&all[k].querySelector('.pb-play')){ shown++; if(shown>3){ cut=k; break; } } }
+        const vis=all.slice(0,cut).map(e=>e.outerHTML).join(''), rest=all.slice(cut,cut+4).map(e=>e.outerHTML).join('');
+        body=`${spark(vals.slice(0,Math.min(vals.length,(posB?5:4))))}<div class="rb-list hls">${vis}</div>${cut<all.length?`<div class="rb-lock"><div class="rb-blur" aria-hidden="true">${rest}</div><div class="rb-lock-c"><b>🔒 ${T('rbLock')}</b><span>${T('rbLockTxt')}</span><button class="btn pri" onclick="document.querySelector('.rb-m').remove();CL.auth('login')">${T('rbLockBtn')}</button></div></div>`:''}`;
+      } else
       body=`${spark(vals)}<div class="rb-list hls">${rows}</div><div class="rb-hint muted">${T('rbHint')}</div>`;
     }
     const tm=g.teams[b.team];

@@ -239,6 +239,66 @@ begin
     order by coalesce(s.seen_at, u.last_sign_in_at, u.created_at) desc;
 end $$;
 
+-- ---------- 6d. Голосование «Игрок матча» среди игроков (16.11.2026) ----------
+-- Админ создаёт голосование на дату игры и отмечает, кто был на игре (attendees — id игроков из players.json).
+-- Голосуют только игроки (role player/admin с привязкой к игроку), которые были на игре; за себя нельзя;
+-- один голос на игру, пока голосование открыто — голос можно поменять. Итоги видны после закрытия (админу — сразу).
+create table if not exists public.mvp_polls (
+  game_id    text primary key,                       -- дата игры ГГГГ-ММ-ДД (как id игры на сайте)
+  attendees  text[] not null default '{}',
+  status     text not null default 'open' check (status in ('open','closed')),
+  created_at timestamptz not null default now(),
+  closed_at  timestamptz
+);
+create table if not exists public.mvp_votes (
+  game_id      text not null references public.mvp_polls(game_id) on delete cascade,
+  voter        uuid not null default auth.uid() references auth.users(id) on delete cascade,
+  voter_player text not null,
+  candidate    text not null,
+  created_at   timestamptz not null default now(),
+  primary key (game_id, voter)
+);
+alter table public.mvp_polls enable row level security;
+alter table public.mvp_votes enable row level security;
+drop policy if exists mvp_polls_read on public.mvp_polls;
+create policy mvp_polls_read on public.mvp_polls for select using (true);
+drop policy if exists mvp_polls_admin on public.mvp_polls;
+create policy mvp_polls_admin on public.mvp_polls for all using (public.is_admin()) with check (public.is_admin());
+drop policy if exists mvp_votes_own on public.mvp_votes;
+create policy mvp_votes_own on public.mvp_votes for select using (voter = auth.uid() or public.is_admin());
+-- голоса пишутся только через функцию с проверками (прямой insert запрещён — политики на insert нет)
+create or replace function public.cast_mvp_vote(p_game text, p_candidate text) returns void
+language plpgsql security definer set search_path = public as $$
+declare me text; pl public.mvp_polls;
+begin
+  select player_id into me from public.profiles where id = auth.uid() and role in ('player','admin');
+  if me is null then raise exception 'mvp_not_player'; end if;
+  select * into pl from public.mvp_polls where game_id = p_game;
+  if pl.game_id is null or pl.status <> 'open' then raise exception 'mvp_closed'; end if;
+  if not (me = any(pl.attendees)) then raise exception 'mvp_not_attendee'; end if;
+  if not (p_candidate = any(pl.attendees)) then raise exception 'mvp_bad_candidate'; end if;
+  if p_candidate = me then raise exception 'mvp_self'; end if;
+  insert into public.mvp_votes(game_id, voter, voter_player, candidate) values (p_game, auth.uid(), me, p_candidate)
+  on conflict (game_id, voter) do update set candidate = excluded.candidate, created_at = now();
+end $$;
+-- итоги: всем — после закрытия, админу — всегда; total — сколько всего голосов
+create or replace function public.mvp_results(p_game text) returns table(candidate text, votes int)
+language sql stable security definer set search_path = public as $$
+  select v.candidate, count(*)::int from public.mvp_votes v join public.mvp_polls p on p.game_id = v.game_id
+  where v.game_id = p_game and (p.status = 'closed' or public.is_admin())
+  group by v.candidate order by 2 desc, 1
+$$;
+create or replace function public.mvp_count(p_game text) returns int
+language sql stable security definer set search_path = public as $$
+  select count(*)::int from public.mvp_votes where game_id = p_game
+$$;
+grant select on public.mvp_polls to anon, authenticated;
+grant insert, update, delete on public.mvp_polls to authenticated;
+grant select on public.mvp_votes to authenticated;
+revoke execute on function public.cast_mvp_vote(text, text) from public, anon;
+grant execute on function public.cast_mvp_vote(text, text) to authenticated;
+grant execute on function public.mvp_results(text), public.mvp_count(text) to anon, authenticated;
+
 -- ---------- 7. Доступ сайта к таблицам ----------
 -- С 30.05.2026 Supabase в новых проектах не открывает таблицы автоматически —
 -- выдаём права явно. Что именно разрешено каждому — решают политики RLS выше.

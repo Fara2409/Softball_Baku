@@ -817,7 +817,8 @@ const NAV={n:-1}; window.addEventListener('hashchange',()=>{ NAV.n++; }); NAV.n=
 
 /* ---------- Подключение к сайту ---------- */
 window.CL={back:fb=>{ if(NAV.n>0) history.back(); else location.hash=fb; },oldBrowser:()=>openModal(sheetHead(T('cLogin'))+`<p class="cl-p">${T('cOldBrowser')}</p>`),redraw:()=>drawWidgets(),events:()=>C.events||[],isAdmin,canDecide:()=>C.ready&&canRsvp(),auth,google,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,rsvp,toTeams,sendComment,delComment,saveName,request,changePass,
-  approve,reject,setRole,setPlayer,resetPass,setEmail,copy,addEvent,evStatus,delEvent,endLive,delLive};
+  approve,reject,setRole,setPlayer,resetPass,setEmail,copy,addEvent,evStatus,delEvent,endLive,delLive,
+  ctx:()=>({C,role,isAdmin,canRsvp,fail,openModal,closeModal,sheetHead})};  // для mvpvote.js и rbreak.js (16.11.2026)
 const TEAMS_PAGE=(window.FEATURE_ROUTES||{}).teams||(()=>home());
 Object.assign(window.FEATURE_ROUTES=window.FEATURE_ROUTES||{},{live:livePage,me:mePage,admin:adminPage,teams:teamsGate});
 applyGates();
