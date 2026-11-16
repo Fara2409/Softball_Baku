@@ -2,7 +2,31 @@
  "items": [
   {
    "source": "MLB",
-   "title": "Where Brewers' bullpen stands after trade for Ryan Walker",
+   "title": "Reviewing the top free-agent relievers in a deep class",
+   "link": "https://www.mlb.com/news/reviewing-the-top-mlb-free-agent-relief-pitchers",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/ayts0gcp682hlv9qdnyn",
+   "date": "2026-11-16T03:27:47Z"
+  },
+  {
+   "source": "MLB",
+   "title": "These 7 free-agent reunions would make perfect sense",
+   "link": "https://www.mlb.com/news/mlb-potential-free-agent-reunions-for-2027",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/kivh4ne7v0sldoiecprl",
+   "date": "2026-11-16T03:23:55Z"
+  },
+  {
+   "source": "MLB",
+   "title": "Here is 1 trade candidate for all 30 teams",
+   "link": "https://www.mlb.com/news/trade-candidates-for-every-team-2026-27-offseason",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/xy5l0tfrlvvfba4nnmwk",
+   "date": "2026-11-16T02:14:25Z"
+  },
+  {
+   "source": "MLB",
+   "title": "Brewers add reliever Ryan Walker in trade with Giants",
    "link": "https://www.mlb.com/news/ryan-walker-traded-to-brewers-from-giants",
    "summary": "",
    "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/n3j8ygt5mssmwr2heyzv",
@@ -57,30 +81,6 @@
    "date": "2026-11-15T16:08:53Z"
   },
   {
-   "source": "MLB",
-   "title": "Hot Stove rumors: Padres, Marte, young bats in trade talks, Dodgers",
-   "link": "https://www.mlb.com/news/mlb-rumors-and-2026-27-free-agent-news-november-14",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/v1793572812/mlb/hfvlgzwjcstzhu8ekuge",
-   "date": "2026-11-15T16:05:00Z"
-  },
-  {
-   "source": "MLB",
-   "title": "How to shake off a disappointing 2026? Fix 'atrocious' defense",
-   "link": "https://www.mlb.com/news/how-the-mariners-can-fix-defensive-issues-in-2027",
-   "summary": "Mariners need internal improvement, external additions to patch 30th-ranked unit",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/ojxu8ripakfspcvdkqut",
-   "date": "2026-11-15T15:25:00Z"
-  },
-  {
-   "source": "MLB",
-   "title": "5 ways the Blue Jays can (internally) improve on offense in 2027",
-   "link": "https://www.mlb.com/news/how-blue-jays-can-improve-on-offense-in-2027",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/v1794721488/mlb/u3zbz2d4oznxodwdvco2",
-   "date": "2026-11-15T14:31:15Z"
-  },
-  {
    "source": "CBS",
    "title": "What's next for Red Sox after Jake Bauers deal? Plus more intel from the MLB GM Meetings",
    "link": "https://www.cbssports.com/mlb/news/whats-next-for-red-sox-jake-bauers-mlb-gm-meetings/",
@@ -97,5 +97,5 @@
    "date": "2026-11-14T17:57:50Z"
   }
  ],
- "updated": "2026-11-16T02:10:29Z"
+ "updated": "2026-11-16T09:46:22Z"
 }
