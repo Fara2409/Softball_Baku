@@ -2,6 +2,30 @@
  "items": [
   {
    "source": "MLB",
+   "title": "5 intriguing under-the-radar free agents",
+   "link": "https://www.mlb.com/news/intriguing-under-the-radar-free-agents-2026-27",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/ey7uuhn6lf4plmzmkuof",
+   "date": "2026-11-17T03:00:08Z"
+  },
+  {
+   "source": "MLB",
+   "title": "Would this free agent and ballpark be the perfect match?",
+   "link": "https://www.mlb.com/news/luis-arraez-at-coors-field",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/rfectbgygaq6fp5xf1rp",
+   "date": "2026-11-17T03:00:00Z"
+  },
+  {
+   "source": "MLB",
+   "title": "Hot Stove rumors: Bohm, Yanks, Mets, Arozarena, Megill",
+   "link": "https://www.mlb.com/news/mlb-rumors-and-2026-27-free-agent-news-november-16",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/xbxr79rleghjrnlvkglu",
+   "date": "2026-11-16T22:06:04Z"
+  },
+  {
+   "source": "MLB",
    "title": "Young, Nationals finalize 4-year extension",
    "link": "https://www.mlb.com/news/jacob-young-contract-extension-nationals",
    "summary": "",
@@ -15,6 +39,14 @@
    "summary": "Here are the latest news and rumors from the MLB hot stove on Monday, Nov. 16",
    "image": "https://sportshub.cbsistatic.com/i/2026/11/16/6f45d020-ff78-468f-b215-608e486e5e42/rogers-getty.png",
    "date": "2026-11-16T19:18:29Z"
+  },
+  {
+   "source": "MLB",
+   "title": "A look at the next 5 Hall of Fame ballots",
+   "link": "https://www.mlb.com/news/future-baseball-hall-of-fame-ballots-preview",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/v1794853825/mlb/aczew1uyfdnhe8ifc89r",
+   "date": "2026-11-16T18:30:00Z"
   },
   {
    "source": "CBS",
@@ -49,38 +81,6 @@
    "date": "2026-11-16T17:12:00Z"
   },
   {
-   "source": "MLB",
-   "title": "6 players trending toward Hall of Fame elections",
-   "link": "https://www.mlb.com/news/players-trending-up-toward-hall-of-fame-election-in-2027",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/o9yzmjpw4imbjppfxrvr",
-   "date": "2026-11-16T17:11:00Z"
-  },
-  {
-   "source": "MLB",
-   "title": "Every first-ballot inductee in Hall of Fame history",
-   "link": "https://www.mlb.com/news/first-ballot-mlb-hall-of-famers-c300943350",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/odxg4jcfwxc93xh0czxd",
-   "date": "2026-11-16T17:09:00Z"
-  },
-  {
-   "source": "MLB",
-   "title": "2015 Cy Young winner Arrieta lands on first Hall of Fame ballot",
-   "link": "https://www.mlb.com/news/jake-arrieta-on-hall-of-fame-ballot-for-first-time",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/xwmzo8yofmwkphnzmsko",
-   "date": "2026-11-16T17:08:32Z"
-  },
-  {
-   "source": "MLB",
-   "title": "Posey, Lester headline 14 newcomers to Hall of Fame ballot",
-   "link": "https://www.mlb.com/news/2027-hall-of-fame-ballot-debuts",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/dr1yikrsghjyw0wj3rpg",
-   "date": "2026-11-16T17:06:35Z"
-  },
-  {
    "source": "CBS",
    "title": "10 most interesting MLB non-tender decisions, including a Red Sox staple and a former Rookie of the Year",
    "link": "https://www.cbssports.com/mlb/news/mlb-non-tender-deadline-candidates-jarren-duran-ronel-blanco-luis-gil-ernie-clement/",
@@ -97,5 +97,5 @@
    "date": "2026-11-15T21:27:37Z"
   }
  ],
- "updated": "2026-11-16T20:30:07Z"
+ "updated": "2026-11-17T04:29:44Z"
 }
