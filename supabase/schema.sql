@@ -299,6 +299,25 @@ revoke execute on function public.cast_mvp_vote(text, text) from public, anon;
 grant execute on function public.cast_mvp_vote(text, text) to authenticated;
 grant execute on function public.mvp_results(text), public.mvp_count(text) to anon, authenticated;
 
+-- ---------- 6e. Админ: удалить аккаунт (18.11.2026) ----------
+-- Нужно, когда человек сначала зарегистрировался по почте, а потом вошёл через Google — остаётся лишний старый аккаунт.
+-- Удаляется пользователь в auth.users; вместе с ним (on delete cascade) — профиль, отметки «буду», комментарии,
+-- голоса и отметка «был на сайте»; в расписании created_by станет пустым. Себя и админов удалить нельзя.
+create or replace function public.admin_delete_user(target uuid)
+returns void
+language plpgsql security definer set search_path = '' as $$
+declare r text;
+begin
+  if not public.is_admin() then raise exception 'Только для админа'; end if;
+  if target = auth.uid() then raise exception 'Нельзя удалить свой аккаунт'; end if;
+  select p.role into r from public.profiles p where p.id = target;
+  if r = 'admin' then raise exception 'Нельзя удалить админа — сначала смените роль'; end if;
+  delete from auth.users where auth.users.id = target;
+  if not found then raise exception 'Пользователь не найден'; end if;
+end $$;
+revoke execute on function public.admin_delete_user(uuid) from public, anon;
+grant execute on function public.admin_delete_user(uuid) to authenticated;
+
 -- ---------- 7. Доступ сайта к таблицам ----------
 -- С 30.05.2026 Supabase в новых проектах не открывает таблицы автоматически —
 -- выдаём права явно. Что именно разрешено каждому — решают политики RLS выше.

@@ -33,7 +33,7 @@ Object.assign(I18N.ru,{
   cCancelled:'Отменена',cNoEvents:'⏳ Ждём подтверждения следующей игры',cAwait:'Ждём подтверждения игры',cAwaitAdm:'Назначить игру',cToTeams:'Разделить пришедших на команды',
   cAdminTitle:'Панель админа',cRequests:'Заявки игроков',cNoRequests:'Новых заявок нет',cApprove:'Подтвердить',cReject:'Отклонить',cWants:'хочет быть',
   cMailNo:d=>`Почты на домене «${d}» не существует — проверьте адрес.`,cMailMean:s=>`Может быть, вы имели в виду ${s}?`,cMailFix:'Исправить',cMailKeep:'Нет, адрес верный',cMailBtn:'Почта',cMailQ:n=>`Новая почта для ${n}:`,cMailDone:'Почта изменена. Теперь вход по новому адресу (пароль прежний).',cMailNeedSQL:'Сначала обновите базу: запустите supabase/schema.sql в Supabase → SQL Editor.',
-  cUsers:'Пользователи',cPlayerL:'Игрок',cReset:'Сбросить пароль',cResetQ:n=>`Задать ${n} новый временный пароль?`,cTempPass:'Временный пароль',
+  cUsers:'Пользователи',cDel:'Удалить',cDelUQ:(n,e)=>`Удалить аккаунт ${n} (${e})?\n\nВместе с ним удалятся его отметки «буду», комментарии и голоса. Игрок из состава и статистика останутся. Отменить нельзя.`,cDelDone:'Аккаунт удалён',cDelNeedSQL:'Сначала выполните в Supabase SQL для удаления аккаунтов (раздел 6e)',cDelNoAdm:'Админа удалить нельзя — сначала смените роль',cPlayerL:'Игрок',cReset:'Сбросить пароль',cResetQ:n=>`Задать ${n} новый временный пароль?`,cTempPass:'Временный пароль',
   cTempHint:'Отправьте этот пароль человеку. После входа пусть поменяет его в профиле.',cCopy:'Скопировать',cSendWA:'Отправить в WhatsApp',
   cWAtext:(e,p)=>`Softball Baku: ваш временный пароль для входа на сайт\n${SITE}\nПочта: ${e}\nПароль: ${p}\nПосле входа поменяйте его в профиле.`,
   cSchedule:'Расписание игр',cAddEvent:'Добавить игру',cDate:'Дата',cTime:'Время',cPlace:'Место',cNote:'Примечание',cNotePh:'например: берём свои перчатки',
@@ -65,7 +65,7 @@ Object.assign(I18N.az,{
   cCancelled:'Ləğv edildi',cNoEvents:'⏳ Növbəti oyunun təsdiqi gözlənilir',cAwait:'Oyunun təsdiqi gözlənilir',cAwaitAdm:'Oyun təyin et',cToTeams:'Gələnləri komandalara böl',
   cAdminTitle:'Admin paneli',cRequests:'Oyunçu sorğuları',cNoRequests:'Yeni sorğu yoxdur',cApprove:'Təsdiq et',cReject:'Rədd et',cWants:'olmaq istəyir',
   cMailNo:d=>`«${d}» domenində e-poçt yoxdur — ünvanı yoxlayın.`,cMailMean:s=>`Bəlkə ${s} nəzərdə tutursunuz?`,cMailFix:'Düzəlt',cMailKeep:'Xeyr, ünvan düzgündür',cMailBtn:'E-poçt',cMailQ:n=>`${n} üçün yeni e-poçt:`,cMailDone:'E-poçt dəyişdirildi. İndi giriş yeni ünvanla (şifrə əvvəlki).',cMailNeedSQL:'Əvvəlcə bazanı yeniləyin: supabase/schema.sql faylını Supabase → SQL Editor-da işə salın.',
-  cUsers:'İstifadəçilər',cPlayerL:'Oyunçu',cReset:'Şifrəni sıfırla',cResetQ:n=>`${n} üçün yeni müvəqqəti şifrə yaradılsın?`,cTempPass:'Müvəqqəti şifrə',
+  cUsers:'İstifadəçilər',cDel:'Sil',cDelUQ:(n,e)=>`${n} (${e}) hesabı silinsin?\n\nOnunla birlikdə «gələcəyəm» qeydləri, şərhləri və səsləri silinəcək. Heyətdəki oyunçu və statistika qalacaq. Geri qaytarmaq olmaz.`,cDelDone:'Hesab silindi',cDelNeedSQL:'Əvvəlcə Supabase-də hesabların silinməsi üçün SQL-i icra edin (bölmə 6e)',cDelNoAdm:'Admini silmək olmaz — əvvəlcə rolu dəyişin',cPlayerL:'Oyunçu',cReset:'Şifrəni sıfırla',cResetQ:n=>`${n} üçün yeni müvəqqəti şifrə yaradılsın?`,cTempPass:'Müvəqqəti şifrə',
   cTempHint:'Bu şifrəni həmin şəxsə göndərin. Daxil olandan sonra onu profilində dəyişsin.',cCopy:'Kopyala',cSendWA:'WhatsApp-da göndər',
   cWAtext:(e,p)=>`Softball Baku: sayta giriş üçün müvəqqəti şifrəniz\n${SITE}\nE-poçt: ${e}\nŞifrə: ${p}\nDaxil olandan sonra şifrəni profilinizdə dəyişin.`,
   cSchedule:'Oyun cədvəli',cAddEvent:'Oyun əlavə et',cDate:'Tarix',cTime:'Saat',cPlace:'Yer',cNote:'Qeyd',cNotePh:'məsələn: əlcəklərinizi götürün',
@@ -97,7 +97,7 @@ Object.assign(I18N.en,{
   cCancelled:'Cancelled',cNoEvents:'⏳ Awaiting confirmation of the next game',cAwait:'Awaiting game confirmation',cAwaitAdm:'Schedule a game',cToTeams:'Split those coming into teams',
   cAdminTitle:'Admin panel',cRequests:'Player requests',cNoRequests:'No new requests',cApprove:'Approve',cReject:'Reject',cWants:'wants to be',
   cMailNo:d=>`There is no email on the domain “${d}” — check the address.`,cMailMean:s=>`Did you mean ${s}?`,cMailFix:'Fix it',cMailKeep:'No, it is correct',cMailBtn:'Email',cMailQ:n=>`New email for ${n}:`,cMailDone:'Email changed. Log in with the new address (same password).',cMailNeedSQL:'Update the database first: run supabase/schema.sql in Supabase → SQL Editor.',
-  cUsers:'Users',cPlayerL:'Player',cReset:'Reset password',cResetQ:n=>`Set a new temporary password for ${n}?`,cTempPass:'Temporary password',
+  cUsers:'Users',cDel:'Delete',cDelUQ:(n,e)=>`Delete the account ${n} (${e})?\n\nTheir RSVPs, comments and votes will be deleted too. The roster player and stats stay. This cannot be undone.`,cDelDone:'Account deleted',cDelNeedSQL:'First run the account-deletion SQL in Supabase (section 6e)',cDelNoAdm:'Admins can’t be deleted — change the role first',cPlayerL:'Player',cReset:'Reset password',cResetQ:n=>`Set a new temporary password for ${n}?`,cTempPass:'Temporary password',
   cTempHint:'Send this password to the person. After logging in they should change it in their profile.',cCopy:'Copy',cSendWA:'Send via WhatsApp',
   cWAtext:(e,p)=>`Softball Baku: your temporary password for the site\n${SITE}\nEmail: ${e}\nPassword: ${p}\nPlease change it in your profile after logging in.`,
   cSchedule:'Game schedule',cAddEvent:'Add game',cDate:'Date',cTime:'Time',cPlace:'Place',cNote:'Note',cNotePh:'e.g. bring your own gloves',
@@ -746,7 +746,7 @@ function drawAdminUsers(){
     return `<div class="adm-user">${personAv(pr,'s')}<div class="adm-u-t"><b>${esc(u.display_name||'—')}${self?` <span class="muted">(${T('cYou')})</span>`:''}</b><span class="muted">${esc(u.email||'')} · ${T('cLastSeen')}: ${u.last_sign_in_at?whenShort(u.last_sign_in_at):T('cNever')}${u.last_seen_at?` · <b class="adm-seen ${now-seenT(u)<864e5?'fresh':''}">${T('cSeen')}: ${whenShort(u.last_seen_at)}</b>${u.visits?` · ${T('cVisits')(u.visits)}`:''}`:''}</span></div>
       <div class="adm-u-c"><select onchange="CL.setRole('${esc(u.id)}',this.value)" ${self?'disabled':''}>${['guest','player','admin'].map(r=>`<option value="${r}" ${u.role===r?'selected':''}>${T('cRole_'+r)}</option>`).join('')}</select>
         <select onchange="CL.setPlayer('${esc(u.id)}',this.value)"><option value="">${T('cPlayerL')}: —</option>${sortedPlayers().map(p=>`<option value="${esc(p.id)}" ${u.player_id===p.id?'selected':''}>#${p.number} ${esc(pname(p))}</option>`).join('')}</select>
-        <button class="btn sm" onclick="CL.resetPass('${esc(u.id)}')">🔑 ${T('cReset')}</button><button class="btn sm" onclick="CL.setEmail('${esc(u.id)}')">✉️ ${T('cMailBtn')}</button></div></div>`; }).join('')+'</div>';
+        <button class="btn sm" onclick="CL.resetPass('${esc(u.id)}')">🔑 ${T('cReset')}</button><button class="btn sm" onclick="CL.setEmail('${esc(u.id)}')">✉️ ${T('cMailBtn')}</button>${self||u.role==='admin'?'':`<button class="btn sm danger" onclick="CL.delUser('${esc(u.id)}')">🗑 ${T('cDel')}</button>`}</div></div>`; }).join('')+'</div>';
 }
 async function admUpdate(uid,patch){
   const {error}=await C.sb.from('profiles').update(patch).eq('id',uid);
@@ -776,6 +776,14 @@ async function setEmail(uid){
   const {error}=await C.sb.rpc('admin_set_email',{target:uid,new_email:e});
   if(error){ if(/admin_set_email|function|schema cache/i.test(error.message||'')) toast(T('cMailNeedSQL')); else fail(error); return; }
   u.email=e; toast(T("cMailDone")); drawAdminUsers();
+}
+async function delUser(uid){
+  const u=ADM.users.find(x=>x.id===uid); if(!u) return;
+  if(u.role==='admin'){ toast(T('cDelNoAdm')); return; }
+  if(!confirm(T('cDelUQ')(u.display_name||'—',u.email||''))) return;
+  const {error}=await C.sb.rpc('admin_delete_user',{target:uid});
+  if(error){ if(/admin_delete_user|function|schema cache/i.test(error.message||'')) toast(T('cDelNeedSQL')); else fail(error); return; }
+  toast(T('cDelDone')); delete C.profiles[uid]; C.profAt=0; await admLoadUsers();
 }
 function copy(t){ (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast(T('tmCopied'))).catch(()=>prompt('',t)); }
 async function addEvent(ev){
@@ -817,7 +825,7 @@ const NAV={n:-1}; window.addEventListener('hashchange',()=>{ NAV.n++; }); NAV.n=
 
 /* ---------- Подключение к сайту ---------- */
 window.CL={back:fb=>{ if(NAV.n>0) history.back(); else location.hash=fb; },oldBrowser:()=>openModal(sheetHead(T('cLogin'))+`<p class="cl-p">${T('cOldBrowser')}</p>`),redraw:()=>drawWidgets(),events:()=>C.events||[],isAdmin,canDecide:()=>C.ready&&canRsvp(),auth,google,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,rsvp,toTeams,sendComment,delComment,saveName,request,changePass,
-  approve,reject,setRole,setPlayer,resetPass,setEmail,copy,addEvent,evStatus,delEvent,endLive,delLive,
+  approve,reject,setRole,setPlayer,resetPass,setEmail,delUser,copy,addEvent,evStatus,delEvent,endLive,delLive,
   ctx:()=>({C,role,isAdmin,canRsvp,fail,openModal,closeModal,sheetHead})};  // для mvpvote.js и rbreak.js (16.11.2026)
 const TEAMS_PAGE=(window.FEATURE_ROUTES||{}).teams||(()=>home());
 Object.assign(window.FEATURE_ROUTES=window.FEATURE_ROUTES||{},{live:livePage,me:mePage,admin:adminPage,teams:teamsGate});
