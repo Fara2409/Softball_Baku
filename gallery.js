@@ -3,9 +3,9 @@
    Карусель как у новостей: стрелки + медленная автопрокрутка (CSS transform). Видео в карточке — без звука,
    крутятся, только пока карточка на экране. Нажатие — просмотр на весь экран (видео со звуком). */
 (function(){
-  Object.assign(I18N.ru,{glTitle:'Галерея',glHint:'фото и видео команды',glClose:'Закрыть'});
-  Object.assign(I18N.az,{glTitle:'Qalereya',glHint:'komandanın foto və videoları',glClose:'Bağla'});
-  Object.assign(I18N.en,{glTitle:'Gallery',glHint:'team photos and videos',glClose:'Close'});
+  Object.assign(I18N.ru,{bdTitle:n=>`С днём рождения, ${n}!`,bdWish:'Команда Softball Baku поздравляет! Здоровья, удачи и побольше хоум-ранов ⚾',bdToday:'Сегодня день рождения',glTitle:'Галерея',glHint:'фото и видео команды',glClose:'Закрыть'});
+  Object.assign(I18N.az,{bdTitle:n=>`Ad günün mübarək, ${n}!`,bdWish:'Softball Baku komandası təbrik edir! Cansağlığı, uğurlar və daha çox hom-ran ⚾',bdToday:'Bu gün ad günüdür',glTitle:'Qalereya',glHint:'komandanın foto və videoları',glClose:'Bağla'});
+  Object.assign(I18N.en,{bdTitle:n=>`Happy birthday, ${n}!`,bdWish:'Softball Baku wishes you health, luck and lots of home runs ⚾',bdToday:'Birthday today',glTitle:'Gallery',glHint:'team photos and videos',glClose:'Close'});
   const G={items:null};
   const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const ttl=x=>esc((x.title&&(x.title[LANG]||x.title.ru))||'');
@@ -17,6 +17,20 @@
     }).catch(()=>{G.items=[];G.loading=false;});
   }
   const PLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg>';
+  // Поздравление с днём рождения (19.11.2026): в players.json поле birthday "ММ-ДД" (без года).
+  // В этот день по времени Баку карточка встаёт в галерею сразу после фото «Наша команда».
+  function bdays(){
+    const today=new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Baku'}).slice(5);  // ММ-ДД
+    return Object.values(S.players||{}).filter(p=>p.birthday===today);
+  }
+  const CONF='🎉🎂🎈⚾🎊';
+  function bdCard(p){
+    const ph=p.photo?`<img class="bd-ph" src="${esc(p.photo)}" alt="">`:`<span class="bd-ph bd-num">${esc(p.number)}</span>`;
+    return `<a class="nw-card gl-card gl-bday" href="#player-${esc(p.id)}"><span class="nw-img gl-img bd-img">
+      ${[...Array(14)].map((_,k)=>`<i class="bd-c" style="--x:${(k*37)%100}%;--d:${(k%7)*0.45}s;--r:${(k*53)%360}deg;--h:${(k*47)%360}"></i>`).join('')}
+      <span class="bd-ring">${ph}</span><span class="bd-emo">🎂</span></span>
+      <span class="nw-body"><span class="bd-kicker">${T('bdToday')}</span><span class="nw-t">${T('bdTitle')(esc(pname(p)))} 🎉</span><span class="nw-when">${T('bdWish')}</span></span></a>`;
+  }
   function block(){
     if(!G.items||!G.items.length) return '';
     const card=(x,i)=>`<button type="button" class="nw-card gl-card${x.special?' gl-'+esc(x.special):''}" onclick="glOpen(${i})">
@@ -26,7 +40,7 @@
       <span class="nw-body">${x.special==='az40'?'<i class="gl-flag"><b></b><b></b><b></b></i>':''}<span class="nw-t">${ttl(x)}</span><span class="nw-when">${x.sub?esc(x.sub[LANG]||x.sub.ru)+' · ':''}${dt(x)}</span></span></button>`;
     return `<div class="section-title nw-head"><h2>${T('glTitle')}</h2><span class="hint">${T('glHint')}</span></div>
       <div class="nw-wrap gl-wrap"><button type="button" class="nw-arr nw-prev" aria-label="‹" onclick="glScroll(this,-1)" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <div class="nw-row" onscroll="glArrows(this)"><div class="nw-track">${G.items.map(card).join('')}</div></div>
+      <div class="nw-row" onscroll="glArrows(this)"><div class="nw-track">${G.items.map((x,i)=>card(x,i)+(i===0?bdays().map(bdCard).join(''):'')).join('')}</div></div>
       <button type="button" class="nw-arr nw-next" aria-label="›" onclick="glScroll(this,1)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>`;
   }
   window.glScroll=(btn,dir)=>{ const row=btn.parentNode.querySelector('.nw-row'); if(row._freeze) row._freeze(); row.scrollBy({left:dir*Math.max(260,row.clientWidth*0.85),behavior:'smooth'}); };

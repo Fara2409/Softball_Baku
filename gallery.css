@@ -26,3 +26,18 @@
 .gl-flag b{flex:1}.gl-flag b:nth-child(1){background:#00B5E2}.gl-flag b:nth-child(2){background:#EF3340}.gl-flag b:nth-child(3){background:#509E2F}
 .gl-az40 .nw-t{font-weight:800}
 .gl-cap-emb{width:34px;height:auto;vertical-align:middle;margin-right:8px}
+/* Поздравление с днём рождения (19.11.2026) */
+.gl-bday{text-decoration:none;color:inherit;position:relative;box-shadow:0 8px 26px rgba(214,61,120,.22)}
+.gl-bday::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:3px;background:linear-gradient(135deg,#FF5DA2,#FFB238,#4CC9F0,#7B61FF);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;z-index:3}
+.bd-img{background:radial-gradient(circle at 30% 20%,#FFD36E 0,#FF7AA8 45%,#7B61FF 100%)!important;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.bd-ring{position:relative;z-index:2;width:46%;aspect-ratio:1;border-radius:50%;padding:5px;background:#fff;box-shadow:0 6px 22px rgba(0,0,0,.25);animation:bdPop 2.6s ease-in-out infinite}
+.gl-img .bd-ph{position:static!important;width:100%!important;height:100%!important;border-radius:50%;object-fit:cover;display:block}
+.bd-num{display:grid!important;place-items:center;background:#10233F;color:#fff;font:800 34px/1 var(--disp,'Roboto Condensed',sans-serif)}
+.bd-emo{position:absolute;z-index:2;right:16%;bottom:12%;font-size:30px;animation:bdTilt 2s ease-in-out infinite}
+.bd-c{position:absolute;top:-12px;left:var(--x);width:8px;height:12px;border-radius:2px;background:hsl(var(--h) 90% 60%);transform:rotate(var(--r));animation:bdFall 3.2s linear var(--d) infinite;opacity:.95}
+@keyframes bdFall{to{transform:translateY(240px) rotate(calc(var(--r) + 540deg))}}
+@keyframes bdPop{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes bdTilt{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+.bd-kicker{display:block;font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:#D63D78;margin-bottom:4px}
+.gl-bday .nw-t{font-weight:800}
+@media (prefers-reduced-motion:reduce){.bd-c,.bd-ring,.bd-emo{animation:none}}
