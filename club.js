@@ -25,7 +25,7 @@ Object.assign(I18N.ru,{
   cErrTaken:'Этот игрок уже привязан к другому аккаунту',cErrPerm:'Нет прав на это действие',cErrGeneric:'Ошибка',
   cConfirmNeeded:'Аккаунт создан, но сайт требует подтверждение почты. Напишите админу.',cHello:n=>`Здравствуйте, ${n}!`,cReqSent:'Заявка игрока отправлена админу',
   cRole_guest:'Гость',cRole_player:'Игрок',cRole_admin:'Админ',cProfile:'Профиль',cLogout:'Выйти',cAdmin:'Админка',
-  cSave:'Сохранить',cSaved:'Сохранено',cLinked:'Вы подтверждены как игрок',cPending:p=>`Заявка отправлена: ${p}. Ждёт подтверждения админа.`,
+  cSave:'Сохранить',cSaved:'Сохранено',cBday:'Дата рождения',cBdayHint:'День и месяц, год не нужен. В этот день на сайте появится поздравление.',cBdayAsk:'Когда у вас день рождения?',cBdayAskTxt:'Укажите день и месяц — в этот день команда поздравит вас на сайте 🎉',cLater:'Позже',cErrBday:'Укажите день и месяц рождения',cDay:'День',cMonth:'Месяц',cMonths:['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'],cLinked:'Вы подтверждены как игрок',cPending:p=>`Заявка отправлена: ${p}. Ждёт подтверждения админа.`,
   cRequest:'Я игрок команды',cSendReq:'Отправить заявку',cCancelReq:'Отменить заявку',cChangePass:'Сменить пароль',cNewPass:'Новый пароль',cPassChanged:'Пароль изменён',
   cNotLogged:'Вы не вошли',cNotLoggedTxt:'Войдите или зарегистрируйтесь, чтобы писать комментарии и отмечаться на игры.',
   cNext:'Ближайшие игры',cNextOne:'Следующая игра',cYes:'Буду',cNo:'Не буду',cMaybe:'Может быть',cComing:'будут',
@@ -57,7 +57,7 @@ Object.assign(I18N.az,{
   cErrTaken:'Bu oyunçu artıq başqa hesaba bağlıdır',cErrPerm:'Bunun üçün icazəniz yoxdur',cErrGeneric:'Xəta',
   cConfirmNeeded:'Hesab yaradıldı, amma sayt e-poçt təsdiqi tələb edir. Adminə yazın.',cHello:n=>`Salam, ${n}!`,cReqSent:'Oyunçu sorğusu adminə göndərildi',
   cRole_guest:'Qonaq',cRole_player:'Oyunçu',cRole_admin:'Admin',cProfile:'Profil',cLogout:'Çıxış',cAdmin:'Admin paneli',
-  cSave:'Yadda saxla',cSaved:'Yadda saxlanıldı',cLinked:'Siz oyunçu kimi təsdiqlənmisiniz',cPending:p=>`Sorğu göndərilib: ${p}. Admin təsdiqini gözləyir.`,
+  cSave:'Yadda saxla',cSaved:'Yadda saxlanıldı',cBday:'Doğum tarixi',cBdayHint:'Gün və ay, il lazım deyil. Həmin gün saytda təbrik görünəcək.',cBdayAsk:'Ad gününüz nə vaxtdır?',cBdayAskTxt:'Gün və ayı qeyd edin — həmin gün komanda sizi saytda təbrik edəcək 🎉',cLater:'Sonra',cErrBday:'Doğum günü və ayını qeyd edin',cDay:'Gün',cMonth:'Ay',cMonths:['yanvar','fevral','mart','aprel','may','iyun','iyul','avqust','sentyabr','oktyabr','noyabr','dekabr'],cLinked:'Siz oyunçu kimi təsdiqlənmisiniz',cPending:p=>`Sorğu göndərilib: ${p}. Admin təsdiqini gözləyir.`,
   cRequest:'Mən komandanın oyunçusuyam',cSendReq:'Sorğu göndər',cCancelReq:'Sorğunu ləğv et',cChangePass:'Şifrəni dəyiş',cNewPass:'Yeni şifrə',cPassChanged:'Şifrə dəyişdirildi',
   cNotLogged:'Daxil olmamısınız',cNotLoggedTxt:'Şərh yazmaq və oyunlara qeyd olunmaq üçün daxil olun və ya qeydiyyatdan keçin.',
   cNext:'Növbəti oyunlar',cNextOne:'Növbəti oyun',cYes:'Gələcəyəm',cNo:'Gəlməyəcəyəm',cMaybe:'Bəlkə',cComing:'gəlir',
@@ -89,7 +89,7 @@ Object.assign(I18N.en,{
   cErrTaken:'This player is already linked to another account',cErrPerm:"You don't have permission for this",cErrGeneric:'Error',
   cConfirmNeeded:'Account created, but the site requires email confirmation. Message the admin.',cHello:n=>`Hi, ${n}!`,cReqSent:'Player request sent to the admin',
   cRole_guest:'Guest',cRole_player:'Player',cRole_admin:'Admin',cProfile:'Profile',cLogout:'Log out',cAdmin:'Admin',
-  cSave:'Save',cSaved:'Saved',cLinked:'You are confirmed as a player',cPending:p=>`Request sent: ${p}. Waiting for admin approval.`,
+  cSave:'Save',cSaved:'Saved',cBday:'Birthday',cBdayHint:'Day and month, no year needed. On that day the site will congratulate you.',cBdayAsk:'When is your birthday?',cBdayAskTxt:'Add the day and month — the team will congratulate you on the site 🎉',cLater:'Later',cErrBday:'Choose the day and month of your birthday',cDay:'Day',cMonth:'Month',cMonths:['January','February','March','April','May','June','July','August','September','October','November','December'],cLinked:'You are confirmed as a player',cPending:p=>`Request sent: ${p}. Waiting for admin approval.`,
   cRequest:"I'm on the team",cSendReq:'Send request',cCancelReq:'Cancel request',cChangePass:'Change password',cNewPass:'New password',cPassChanged:'Password changed',
   cNotLogged:'You are not logged in',cNotLoggedTxt:'Log in or sign up to comment and respond to games.',
   cNext:'Upcoming games',cNextOne:'Next game',cYes:"I'm in",cNo:"Can't make it",cMaybe:'Maybe',cComing:'coming',
@@ -305,6 +305,7 @@ function auth(mode){
       <label>${T('cEmail')}<input name="email" type="email" autocomplete="email" inputmode="email" required></label>
       <label><span>${T('cPass')} <span class="muted">· ${T('cPassHint')}</span></span><input name="pass" type="password" autocomplete="new-password" minlength="6" required></label>
       <label>${T('cPass2')}<input name="pass2" type="password" autocomplete="new-password" minlength="6" required></label>
+      <label>${T('cBday')}${bdaySel('')}<span class="cl-hint">${T('cBdayHint')}</span></label>
       <label>${T('cIAm')}<select name="player">${playerOptions('')}</select><span class="cl-hint">${T('cIAmHint')}</span></label>
       <div class="cl-err" id="cl-err"></div><button class="btn pri big" type="submit">${T('cSignup')}</button></form>${guest}`;
   } else {
@@ -402,10 +403,11 @@ async function doSignup(ev){
   if(!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)){ formErr(T('cErrEmail')); return false; }
   if(pass.length<6){ formErr(T('cErrShort')); return false; }
   if(pass!==f.pass2.value){ formErr(T('cErrMismatch')); return false; }
+  const bday=bdayVal(f); if(!bday){ formErr(T('cErrBday')); return false; }
   formBusy(f,true); formErr('');
   if(!(await checkMail(f,email))){ formBusy(f,false); return false; }
   try{
-    const {data,error}=await C.sb.auth.signUp({email,password:pass,options:{data:{display_name:name,requested_player_id:pid||null}}});
+    const {data,error}=await C.sb.auth.signUp({email,password:pass,options:{data:{display_name:name,requested_player_id:pid||null,birthday:bday}}});
     if(error) throw error;
     if(!data.session){ formErr(T('cConfirmNeeded')); formBusy(f,false); return false; }
     closeModal(); await onSession(data.session,true);
@@ -422,15 +424,43 @@ async function logout(){
 async function onSession(session,force){
   const uid=session&&session.user?session.user.id:null, changed=uid!==(C.user?C.user.id:null);
   C.user=session?session.user:null;
-  if(changed||force){ if(C.user){ await loadProfile(); loadProfiles(true).then(renderAcct); } else C.profile=null; }
+  if(changed||force){ if(C.user){ await loadProfile(); await loadBday(); loadProfiles(true).then(renderAcct); } else { C.profile=null; C.bday=undefined; } }
   const wasFirst=!C.ready; C.ready=true; renderAcct();
   if(force||(changed&&(C.user||!wasFirst))||(wasFirst&&['me','admin','teams'].includes(C.page))) rerender();
-  maybeWelcome();
+  maybeWelcome(); setTimeout(maybeAskBday,1200);
 }
 function maybeWelcome(){
   if(C.welcomed||!C.ready||C.user||!siteLoaded()||S.demo||C.page==='live'||$id('cl-modal')) return;
   if(lsGet('sb.welcomed',false)){ C.welcomed=true; return; }
   C.welcomed=true; lsSet('sb.welcomed',true); auth('welcome');
+}
+/* ---------- День рождения (19.11.2026): таблица birthdays (ММ-ДД, без года), см. schema.sql 6f ---------- */
+function bdaySel(md){
+  const [m,d]=(md||'').split('-');
+  return `<span class="bd-sel"><select name="bd_d" aria-label="${T('cDay')}"><option value="">${T('cDay')}</option>${[...Array(31)].map((_,i)=>{const v=String(i+1).padStart(2,'0');return `<option value="${v}" ${v===d?'selected':''}>${i+1}</option>`;}).join('')}</select>
+    <select name="bd_m" aria-label="${T('cMonth')}"><option value="">${T('cMonth')}</option>${T('cMonths').map((n,i)=>{const v=String(i+1).padStart(2,'0');return `<option value="${v}" ${v===m?'selected':''}>${n}</option>`;}).join('')}</select></span>`;
+}
+function bdayVal(f){ const d=f.bd_d&&f.bd_d.value, m=f.bd_m&&f.bd_m.value; if(!d||!m) return null;
+  const max=[31,29,31,30,31,30,31,31,30,31,30,31][+m-1]; return +d<=max?`${m}-${d}`:null; }
+async function loadBday(){
+  C.bday=undefined; if(!C.user) return;
+  const {data,error}=await C.sb.from('birthdays').select('md').eq('user_id',C.user.id).maybeSingle();
+  C.bday=error?'?':(data?data.md:null);   // '?' — таблицы ещё нет (SQL не выполнен): не спрашиваем
+}
+async function saveBday(ev){
+  ev.preventDefault(); const f=ev.target, md=bdayVal(f);
+  if(!md){ toast(T('cErrBday')); return false; }
+  const {error}=await C.sb.from('birthdays').upsert({user_id:C.user.id,md,updated_at:new Date().toISOString()});
+  if(error){ fail(error); return false; }
+  C.bday=md; toast(T('cSaved')); if($id('cl-modal')&&f.closest('#cl-modal')) closeModal(); if(C.page==='me') mePage();
+  if(window.glBdayRefresh) glBdayRefresh();
+  return false;
+}
+function maybeAskBday(){
+  if(!C.user||C.bday!==null||$id('cl-modal')||S.demo||C.page==='live') return;
+  try{ if(sessionStorage.getItem('sb.bdAsked')) return; sessionStorage.setItem('sb.bdAsked','1'); }catch(e){}
+  openModal(sheetHead(T('cBdayAsk'))+`<p class="cl-p">${T('cBdayAskTxt')}</p><form class="cl-form" onsubmit="return CL.saveBday(event)">${bdaySel('')}<span class="cl-hint">${T('cBdayHint')}</span>
+    <div class="cl-btns"><button class="btn pri" type="submit">${T('cSave')}</button><button class="btn" type="button" onclick="CL.close()">${T('cLater')}</button></div></form>`);
 }
 const siteLoaded=()=>!!S.league&&Object.values(S.players||{}).length>0&&Object.values(S.players).every(p=>p.t);
 function rerender(){ if(typeof route==='function'&&siteLoaded()){ const y=scrollY; route(); scrollTo(0,y); } }
@@ -643,6 +673,7 @@ function mePage(){
   let h=`<div class="card me-head">${personAv(pr,'xl')}<div><span class="eyebrow">${T('cProfile')}</span><h1>${esc(personName(pr))}</h1><div class="me-sub">${roleBadge(pr.role)}<span class="muted">${esc(C.user.email||'')}</span></div></div></div>
     <div class="me-grid">
     <div class="card me-card"><h3>${T('cName')}</h3><form class="cl-row" onsubmit="return CL.saveName(event)"><input name="name" maxlength="40" value="${esc(pr.display_name||'')}" required><button class="btn sm" type="submit">${T('cSave')}</button></form></div>
+    ${C.bday!=='?'?`<div class="card me-card"><h3>${T('cBday')}</h3><form class="cl-row" onsubmit="return CL.saveBday(event)">${bdaySel(C.bday||'')}<button class="btn sm" type="submit">${T('cSave')}</button></form><span class="cl-hint">${T('cBdayHint')}</span></div>`:''}
     <div class="card me-card"><h3>${T('cPlayerL')}</h3>`;
   if(p) h+=`<a class="me-pl" href="#player-${esc(p.id)}">${av(p,'m')}<div><b>${esc(pname(p))}</b><span>#${p.number} · ${T('cLinked')}</span></div></a>`;
   else if(req) h+=`<p class="cl-p">${T('cPending')(`#${req.number} ${esc(pname(req))}`)}</p><button class="btn sm" onclick="CL.request(null)">${T('cCancelReq')}</button>`;
@@ -825,7 +856,7 @@ const NAV={n:-1}; window.addEventListener('hashchange',()=>{ NAV.n++; }); NAV.n=
 
 /* ---------- Подключение к сайту ---------- */
 window.CL={back:fb=>{ if(NAV.n>0) history.back(); else location.hash=fb; },oldBrowser:()=>openModal(sheetHead(T('cLogin'))+`<p class="cl-p">${T('cOldBrowser')}</p>`),redraw:()=>drawWidgets(),events:()=>C.events||[],isAdmin,canDecide:()=>C.ready&&canRsvp(),auth,google,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,rsvp,toTeams,sendComment,delComment,saveName,request,changePass,
-  approve,reject,setRole,setPlayer,resetPass,setEmail,delUser,copy,addEvent,evStatus,delEvent,endLive,delLive,
+  saveBday,approve,reject,setRole,setPlayer,resetPass,setEmail,delUser,copy,addEvent,evStatus,delEvent,endLive,delLive,
   ctx:()=>({C,role,isAdmin,canRsvp,fail,openModal,closeModal,sheetHead})};  // для mvpvote.js и rbreak.js (16.11.2026)
 const TEAMS_PAGE=(window.FEATURE_ROUTES||{}).teams||(()=>home());
 Object.assign(window.FEATURE_ROUTES=window.FEATURE_ROUTES||{},{live:livePage,me:mePage,admin:adminPage,teams:teamsGate});

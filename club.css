@@ -290,3 +290,6 @@ table.lb.lv-bx{min-width:0}
 .adm-seen{font-weight:700;color:var(--text)}
 .adm-seen.fresh{color:#5FD08E}
 .adm-seen-sum{margin:-4px 0 10px;font-size:13px}
+/* Дата рождения: два списка в строку (19.11.2026) */
+.bd-sel{display:flex;gap:8px;width:100%}.bd-sel select{flex:1;min-width:0}
+.cl-row .bd-sel{flex:1}

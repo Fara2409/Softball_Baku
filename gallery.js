@@ -21,16 +21,29 @@
   // В этот день по времени Баку карточка встаёт в галерею сразу после фото «Наша команда».
   function bdays(){
     const today=new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Baku'}).slice(5);  // ММ-ДД
-    return Object.values(S.players||{}).filter(p=>p.birthday===today);
+    const out=Object.values(S.players||{}).filter(p=>p.birthday===today), have=new Set(out.map(p=>p.id));
+    // из аккаунтов (birthdays_on): игроки — с фото из состава; остальные — по имени
+    if(G.bd&&G.bd.md===today) for(const r of G.bd.list){ if(r.player_id&&S.players[r.player_id]){ if(!have.has(r.player_id)){ out.push(S.players[r.player_id]); have.add(r.player_id); } }
+      else if(r.display_name&&!out.some(x=>x.fan&&x.name===r.display_name)) out.push({fan:true,name:r.display_name,id:''}); }
+    return out;
   }
   const CONF='🎉🎂🎈⚾🎊';
   function bdCard(p){
-    const ph=p.photo?`<img class="bd-ph" src="${esc(p.photo)}" alt="">`:`<span class="bd-ph bd-num">${esc(p.number)}</span>`;
-    return `<a class="nw-card gl-card gl-bday" href="#player-${esc(p.id)}"><span class="nw-img gl-img bd-img">
+    const nmx=p.fan?esc(p.name):esc(pname(p));
+    const ph=p.photo?`<img class="bd-ph" src="${esc(p.photo)}" alt="">`:`<span class="bd-ph bd-num">${p.fan?esc((p.name||'?').trim()[0]||'?').toUpperCase():esc(p.number)}</span>`;
+    return `<a class="nw-card gl-card gl-bday" ${p.fan?'':`href="#player-${esc(p.id)}"`}><span class="nw-img gl-img bd-img">
       ${[...Array(14)].map((_,k)=>`<i class="bd-c" style="--x:${(k*37)%100}%;--d:${(k%7)*0.45}s;--r:${(k*53)%360}deg;--h:${(k*47)%360}"></i>`).join('')}
       <span class="bd-ring">${ph}</span><span class="bd-emo">🎂</span></span>
-      <span class="nw-body"><span class="bd-kicker">${T('bdToday')}</span><span class="nw-t">${T('bdTitle')(esc(pname(p)))} 🎉</span><span class="nw-when">${T('bdWish')}</span></span></a>`;
+      <span class="nw-body"><span class="bd-kicker">${T('bdToday')}</span><span class="nw-t">${T('bdTitle')(nmx)} 🎉</span><span class="nw-when">${T('bdWish')}</span></span></a>`;
   }
+  function fetchBd(){
+    const c=window.CL&&CL.ctx?CL.ctx().C:null; if(!c||!c.ok||!c.sb) return false;
+    const md=new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Baku'}).slice(5);
+    if(G.bd&&G.bd.md===md) return true; G.bd={md,list:[]};
+    c.sb.rpc('birthdays_on',{p_md:md}).then(r=>{ if(!r.error&&Array.isArray(r.data)&&r.data.length){ G.bd.list=r.data; draw(); } });
+    return true;
+  }
+  window.glBdayRefresh=()=>{ G.bd=null; fetchBd(); };
   function block(){
     if(!G.items||!G.items.length) return '';
     const card=(x,i)=>`<button type="button" class="nw-card gl-card${x.special?' gl-'+esc(x.special):''}" onclick="glOpen(${i})">
@@ -119,6 +132,7 @@
   };
   function isHome(){ const h=(location.hash||'').slice(1), page=h.split('-')[0], FR=window.FEATURE_ROUTES||{}; return !page||page==='rating'||(!['player','game','games'].includes(page)&&!FR[page]); }
   function draw(){
+    if(!fetchBd()) setTimeout(()=>{ if(fetchBd()) draw(); },1500);
     const a=document.getElementById('app'); if(!a||!isHome()||!S.league) return;
     let box=a.querySelector('.gallery-sec'); const h=block(); if(!h){ if(box) box.remove(); return; }
     if(!box){ box=document.createElement('div'); box.className='gallery-sec'; a.prepend(box); }

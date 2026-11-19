@@ -318,6 +318,48 @@ end $$;
 revoke execute on function public.admin_delete_user(uuid) from public, anon;
 grant execute on function public.admin_delete_user(uuid) to authenticated;
 
+-- ---------- 6f. Дни рождения (19.11.2026) ----------
+-- Каждый пользователь указывает день и месяц рождения (без года): при регистрации, при первом входе через Google или в профиле.
+-- Даты не читаются публично: сайт спрашивает только «у кого день рождения сегодня» — функция birthdays_on.
+create table if not exists public.birthdays (
+  user_id    uuid primary key default auth.uid() references auth.users(id) on delete cascade,
+  md         text not null check (md ~ '^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$'),  -- ММ-ДД
+  updated_at timestamptz not null default now()
+);
+alter table public.birthdays enable row level security;
+drop policy if exists birthdays_own_read on public.birthdays;
+create policy birthdays_own_read on public.birthdays for select using (user_id = auth.uid() or public.is_admin());
+drop policy if exists birthdays_own_ins on public.birthdays;
+create policy birthdays_own_ins on public.birthdays for insert with check (user_id = auth.uid());
+drop policy if exists birthdays_own_upd on public.birthdays;
+create policy birthdays_own_upd on public.birthdays for update using (user_id = auth.uid()) with check (user_id = auth.uid());
+drop policy if exists birthdays_own_del on public.birthdays;
+create policy birthdays_own_del on public.birthdays for delete using (user_id = auth.uid() or public.is_admin());
+create or replace function public.birthdays_on(p_md text) returns table(player_id text, display_name text)
+language sql stable security definer set search_path = public as $$
+  select p.player_id, p.display_name from public.birthdays b join public.profiles p on p.id = b.user_id where b.md = p_md
+$$;
+grant select, insert, update, delete on public.birthdays to authenticated;
+grant execute on function public.birthdays_on(text) to anon, authenticated;
+-- регистрация по почте: дата из формы приходит в raw_user_meta_data.birthday — сохраняем сразу
+create or replace function public.handle_new_user() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  insert into public.profiles (id, display_name, requested_player_id)
+  values (
+    new.id,
+    coalesce(nullif(new.raw_user_meta_data->>'display_name',''),
+             nullif(new.raw_user_meta_data->>'full_name',''),
+             split_part(coalesce(new.email,''),'@',1)),
+    nullif(new.raw_user_meta_data->>'requested_player_id','')
+  )
+  on conflict (id) do nothing;
+  if coalesce(new.raw_user_meta_data->>'birthday','') ~ '^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$' then
+    insert into public.birthdays (user_id, md) values (new.id, new.raw_user_meta_data->>'birthday') on conflict (user_id) do nothing;
+  end if;
+  return new;
+end $$;
+
 -- ---------- 7. Доступ сайта к таблицам ----------
 -- С 30.05.2026 Supabase в новых проектах не открывает таблицы автоматически —
 -- выдаём права явно. Что именно разрешено каждому — решают политики RLS выше.
