@@ -360,6 +360,74 @@ begin
   return new;
 end $$;
 
+-- ---------- 6g. Голосование за составы (20.11.2026) ----------
+-- Админ предлагает варианты деления на составы (options — массив вариантов: {"A":[[id,поз],...],"B":[...],"sa":bool,"sb":bool})
+-- и отмечает игроков, которые голосуют (voters — id игроков из players.json). Один голос на человека, голос можно менять.
+-- Как только за вариант больше половины голосующих — он побеждает, голосование закрывается само.
+-- Админ может закрыть вручную, утвердив любой вариант (например, при ничьей).
+create table if not exists public.lineup_polls (
+  id         bigint generated always as identity primary key,
+  game_date  date not null,
+  title      text,
+  options    jsonb not null check (jsonb_typeof(options) = 'array' and jsonb_array_length(options) between 2 and 6),
+  voters     text[] not null default '{}',
+  status     text not null default 'open' check (status in ('open','closed')),
+  winner     int,
+  created_at timestamptz not null default now(),
+  closed_at  timestamptz
+);
+create table if not exists public.lineup_votes (
+  poll_id      bigint not null references public.lineup_polls(id) on delete cascade,
+  voter        uuid not null default auth.uid() references auth.users(id) on delete cascade,
+  voter_player text not null,
+  choice       int not null,
+  created_at   timestamptz not null default now(),
+  primary key (poll_id, voter)
+);
+alter table public.lineup_polls enable row level security;
+alter table public.lineup_votes enable row level security;
+drop policy if exists lineup_polls_read on public.lineup_polls;
+create policy lineup_polls_read on public.lineup_polls for select using (true);
+drop policy if exists lineup_polls_admin on public.lineup_polls;
+create policy lineup_polls_admin on public.lineup_polls for all using (public.is_admin()) with check (public.is_admin());
+drop policy if exists lineup_votes_own on public.lineup_votes;
+create policy lineup_votes_own on public.lineup_votes for select using (voter = auth.uid() or public.is_admin());
+-- голос — только через функцию с проверками; при большинстве (> половины голосующих) голосование закрывается само
+create or replace function public.cast_lineup_vote(p_poll bigint, p_choice int) returns json
+language plpgsql security definer set search_path = public as $$
+declare me text; pl public.lineup_polls; n int;
+begin
+  select player_id into me from public.profiles where id = auth.uid() and role in ('player','admin');
+  if me is null then raise exception 'lp_not_player'; end if;
+  select * into pl from public.lineup_polls where id = p_poll for update;
+  if pl.id is null or pl.status <> 'open' then raise exception 'lp_closed'; end if;
+  if not (me = any(pl.voters)) then raise exception 'lp_not_voter'; end if;
+  if p_choice is null or p_choice < 0 or p_choice >= jsonb_array_length(pl.options) then raise exception 'lp_bad_choice'; end if;
+  insert into public.lineup_votes(poll_id, voter, voter_player, choice) values (p_poll, auth.uid(), me, p_choice)
+  on conflict (poll_id, voter) do update set choice = excluded.choice, created_at = now();
+  select count(*) into n from public.lineup_votes where poll_id = p_poll and choice = p_choice;
+  if n * 2 > coalesce(array_length(pl.voters, 1), 0) then
+    update public.lineup_polls set status = 'closed', winner = p_choice, closed_at = now() where id = p_poll;
+    return json_build_object('closed', true, 'winner', p_choice);
+  end if;
+  return json_build_object('closed', false);
+end $$;
+-- сколько голосов за каждый вариант (видно всем) и кто уже проголосовал (без того, за что)
+create or replace function public.lineup_counts(p_poll bigint) returns table(choice int, votes int)
+language sql stable security definer set search_path = public as $$
+  select v.choice, count(*)::int from public.lineup_votes v where v.poll_id = p_poll group by v.choice order by 1
+$$;
+create or replace function public.lineup_voted(p_poll bigint) returns setof text
+language sql stable security definer set search_path = public as $$
+  select v.voter_player from public.lineup_votes v where v.poll_id = p_poll order by v.created_at
+$$;
+grant select on public.lineup_polls to anon, authenticated;
+grant insert, update, delete on public.lineup_polls to authenticated;
+grant select on public.lineup_votes to authenticated;
+revoke execute on function public.cast_lineup_vote(bigint, int) from public, anon;
+grant execute on function public.cast_lineup_vote(bigint, int) to authenticated;
+grant execute on function public.lineup_counts(bigint), public.lineup_voted(bigint) to anon, authenticated;
+
 -- ---------- 7. Доступ сайта к таблицам ----------
 -- С 30.05.2026 Supabase в новых проектах не открывает таблицы автоматически —
 -- выдаём права явно. Что именно разрешено каждому — решают политики RLS выше.
