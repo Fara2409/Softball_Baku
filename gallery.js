@@ -48,14 +48,18 @@
   const pl=(n,k)=>{ if(LANG==='az') return k==='pl'?'oyunçu':'oyun'; if(LANG==='en') return (k==='pl'?'player':'game')+(n===1?'':'s');
     const f=k==='pl'?['игрок','игрока','игроков']:['игра','игры','игр'], a=n%100, b=n%10;
     return f[a>10&&a<20?2:b===1?0:b>=2&&b<=4?1:2]; };
+  window.glToRating=()=>{ const tw=document.querySelector('#app .tablewrap'); if(!tw) return false;
+    const t=(tw.previousElementSibling&&tw.previousElementSibling.classList.contains('section-title'))?tw.previousElementSibling:tw;
+    let off=8; document.querySelectorAll('.top, header').forEach(h=>{ const cs=getComputedStyle(h); if(cs.position==='sticky'||cs.position==='fixed') off=Math.max(off,h.getBoundingClientRect().bottom+8); });
+    scrollTo({top:t.getBoundingClientRect().top+scrollY-off,behavior:'smooth'}); return false; };
   function hero(){
     const i=(G.items||[]).findIndex(x=>x.hero); if(i<0) return '';
     const x=G.items[i], np=Object.keys(S.players||{}).length, ng=(S.games||[]).length;
-    return `<section class="gl-hero"><img src="${esc(x.src)}" srcset="${esc(x.thumb||x.src)} 800w, ${esc(x.src)} 1600w" sizes="(max-width:700px) 100vw, 1200px" alt="${ttl(x)}" fetchpriority="high">
+    return `<section class="gl-hero"><img src="${esc(x.src)}" srcset="${esc(x.thumb||x.src)} 800w, ${esc(x.src)} 1600w" sizes="(max-width:700px) 100vw, 1200px" alt="${ttl(x)}" fetchpriority="high" onclick="glOpen(${i})">
       <div class="hr-shade"></div>
       <div class="hr-txt"><span class="hr-kick">${T('hrKick')}</span><h1>${T('hrTitle')}</h1><p>${T('hrSub')}</p>
         <div class="hr-stats"><span><b>${np}</b> ${pl(np,'pl')}</span><span><b>${ng}</b> ${pl(ng,'gm')}</span><span><b>2</b> ${LANG==='ru'?'команды':LANG==='az'?'komanda':'teams'}</span></div>
-        <div class="hr-btns"><a class="hr-btn pri" href="#rating" onclick="event.preventDefault();const t=document.querySelector('.gallery-sec');t&&t.nextElementSibling&&t.nextElementSibling.scrollIntoView({behavior:'smooth'})">${T('hrRt')} ↓</a><button type="button" class="hr-btn" onclick="glOpen(${i})">${T('hrPh')}</button></div></div></section>`;
+        <div class="hr-btns"><a class="hr-btn pri" href="#rating" onclick="return glToRating()">${T('hrRt')} ↓</a><button type="button" class="hr-btn" onclick="glOpen(${i})">${T('hrPh')}</button></div></div></section>`;
   }
   function block(){
     if(!G.items||!G.items.length) return '';
