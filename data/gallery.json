@@ -10,7 +10,11 @@
     "en": "Our team"
    },
    "date": "",
-   "hero": true
+   "hero": true,
+   "webp": [
+    "gallery/team-1-800.webp",
+    "gallery/team-1-1200.webp"
+   ]
   },
   {
    "type": "video",
@@ -28,7 +32,8 @@
     "en": "1986 – 2026"
    },
    "date": "2026-11-15",
-   "small": "gallery/az40-sm.mp4"
+   "small": "gallery/az40-sm.mp4",
+   "poster": "gallery/az40.webp"
   },
   {
    "type": "video",
@@ -40,7 +45,8 @@
     "en": "Game 15.11.2026"
    },
    "date": "2026-11-15",
-   "small": "gallery/v1-sm.mp4"
+   "small": "gallery/v1-sm.mp4",
+   "poster": "gallery/v1.webp"
   },
   {
    "type": "video",
@@ -52,7 +58,8 @@
     "en": "Game 15.11.2026"
    },
    "date": "2026-11-15",
-   "small": "gallery/v2-sm.mp4"
+   "small": "gallery/v2-sm.mp4",
+   "poster": "gallery/v2.webp"
   },
   {
    "type": "video",
@@ -64,7 +71,8 @@
     "en": "Game 15.11.2026"
    },
    "date": "2026-11-15",
-   "small": "gallery/v3-sm.mp4"
+   "small": "gallery/v3-sm.mp4",
+   "poster": "gallery/v3.webp"
   },
   {
    "type": "video",
@@ -76,7 +84,8 @@
     "en": "Game 15.11.2026"
    },
    "date": "2026-11-15",
-   "small": "gallery/v4-sm.mp4"
+   "small": "gallery/v4-sm.mp4",
+   "poster": "gallery/v4.webp"
   },
   {
    "type": "video",
@@ -88,7 +97,8 @@
     "en": "Game 15.11.2026"
    },
    "date": "2026-11-15",
-   "small": "gallery/v5-sm.mp4"
+   "small": "gallery/v5-sm.mp4",
+   "poster": "gallery/v5.webp"
   }
  ]
 }

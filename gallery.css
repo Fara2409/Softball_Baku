@@ -75,3 +75,9 @@ html.theme-dark .bd-kicker{color:#E3C35A}
 
 /* стрелки галереи — по центру карточек (20.11.2026) */
 .gl-wrap .nw-arr{top:50%;margin-top:-22px}
+
+/* место под галерею, пока грузится gallery.json — чтобы страница не прыгала (20.11.2026) */
+.gl-skel{height:280px;border-radius:16px;background:linear-gradient(90deg,var(--panel2),var(--panel),var(--panel2));background-size:200% 100%;animation:glSk 1.4s linear infinite;margin-bottom:24px}
+@keyframes glSk{to{background-position:-200% 0}}
+@media (max-width:480px){.gl-skel{height:278px}}
+.gl-hero>img{background:#10233F}

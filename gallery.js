@@ -52,20 +52,22 @@
     const t=(tw.previousElementSibling&&tw.previousElementSibling.classList.contains('section-title'))?tw.previousElementSibling:tw;
     let off=8; document.querySelectorAll('.top, header').forEach(h=>{ const cs=getComputedStyle(h); if(cs.position==='sticky'||cs.position==='fixed') off=Math.max(off,h.getBoundingClientRect().bottom+8); });
     scrollTo({top:t.getBoundingClientRect().top+scrollY-off,behavior:'smooth'}); return false; };
+  // фото команды — встроено, чтобы рисовать сразу, не дожидаясь gallery.json (страница не «прыгает» при загрузке)
+  const HERO={hero:true,type:'photo',src:'gallery/team-1.jpg',webp:['gallery/team-1-800.webp','gallery/team-1-1200.webp'],title:{ru:'Наша команда',az:'Komandamız',en:'Our team'}};
   function hero(){
-    const i=(G.items||[]).findIndex(x=>x.hero); if(i<0) return '';
-    const x=G.items[i], np=Object.keys(S.players||{}).length, ng=(S.games||[]).length;
-    return `<section class="gl-hero"><img src="${esc(x.src)}" srcset="${esc(x.thumb||x.src)} 800w, ${esc(x.src)} 1600w" sizes="(max-width:700px) 100vw, 1200px" alt="${ttl(x)}" fetchpriority="high" onclick="glOpen(${i})">
+    let i=(G.items||[]).findIndex(x=>x.hero); if(i<0&&G.items) return '';
+    const x=i<0?HERO:G.items[i], np=Object.keys(S.players||{}).length, ng=(S.games||[]).length;
+    return `<section class="gl-hero"><img src="${esc(x.webp?x.webp[0]:x.src)}" srcset="${x.webp?`${esc(x.webp[0])} 800w, ${esc(x.webp[1])} 1200w`:`${esc(x.thumb||x.src)} 800w, ${esc(x.src)} 1600w`}" sizes="(max-width:700px) 100vw, 1200px" width="1200" height="900" alt="${ttl(x)}" fetchpriority="high" onclick="glOpen(${Math.max(0,i)})">
       <div class="hr-shade"></div>
       <div class="hr-txt"><span class="hr-kick">${T('hrKick')}</span><h1>${T('hrTitle')}</h1><p>${T('hrSub')}</p>
         <div class="hr-stats"><span><b>${np}</b> ${pl(np,'pl')}</span><span><b>${ng}</b> ${pl(ng,'gm')}</span><span><b>2</b> ${LANG==='ru'?'команды':LANG==='az'?'komanda':'teams'}</span></div>
-        <div class="hr-btns"><a class="hr-btn pri" href="#rating" onclick="return glToRating()">${T('hrRt')} ↓</a><button type="button" class="hr-btn" onclick="glOpen(${i})">${T('hrPh')}</button></div></div></section>`;
+        <div class="hr-btns"><a class="hr-btn pri" href="#rating" onclick="return glToRating()">${T('hrRt')} ↓</a><button type="button" class="hr-btn" onclick="glOpen(${Math.max(0,i)})">${T('hrPh')}</button></div></div></section>`;
   }
   function block(){
     if(!G.items||!G.items.length) return '';
     const card=(x,i)=>`<button type="button" class="nw-card gl-card${x.special?' gl-'+esc(x.special):''}" onclick="glOpen(${i})">
       <span class="nw-img gl-img">${x.type==='video'
-        ?`<video src="${esc(x.small||x.src)}" poster="${esc(x.thumb||'')}" muted playsinline preload="none"></video><b class="gl-play">${PLAY}</b>`
+        ?`<video src="${esc(x.small||x.src)}" poster="${esc(x.poster||x.thumb||'')}" muted playsinline preload="none"></video><b class="gl-play">${PLAY}</b>`
         :`<img src="${esc(x.thumb||x.src)}" alt="${ttl(x)}" loading="lazy">`}</span>
       <span class="nw-body">${x.special==='az40'?'<i class="gl-flag"><b></b><b></b><b></b></i>':''}<span class="nw-t">${ttl(x)}</span><span class="nw-when">${x.sub?esc(x.sub[LANG]||x.sub.ru)+' · ':''}${dt(x)}</span></span></button>`;
     return `<div class="section-title nw-head"><h2>${T('glTitle')}</h2><span class="hint">${T('glHint')}</span></div>
@@ -116,7 +118,8 @@
   function watchVideos(box){
     const vids=[...box.querySelectorAll('.gl-card video')]; if(!vids.length) return;
     let cur=0, seen=true; const st={vids,cur:0}; box._glState=st;
-    const busy=()=>!seen||document.hidden||document.querySelector('.gl-box');
+    const cn=navigator.connection||{}, lite=cn.saveData||/(^|-)2g$/.test(cn.effectiveType||'');
+    const busy=()=>!G.ready||lite||!seen||document.hidden||document.querySelector('.gl-box');
     const play=i=>{ cur=(i+vids.length)%vids.length; st.cur=cur;
       vids.forEach((v,k)=>{ const on=k===cur; v.closest('.gl-card').classList.toggle('gl-on',on); if(!on&&!v.paused) v.pause(); });
       const v=vids[cur]; st.on=!busy(); if(!st.on) return; if(v.preload==='none') v.preload='auto'; v.play().catch(()=>{}); st.kick&&st.kick(); };
@@ -126,6 +129,8 @@
       new IntersectionObserver(es=>es.forEach(e=>{ seen=e.isIntersecting; seen?play(cur):box._glPause(); }),{threshold:.2}).observe(box);
     }
     if(!G.vis){ G.vis=1; document.addEventListener('visibilitychange',()=>{ const b=document.querySelector('.gallery-sec'); if(!b||!b._glPause) return; document.hidden?b._glPause():b._glResume(); }); }
+    if(!G.ready&&!G.wait){ G.wait=1; const go=()=>setTimeout(()=>{ G.ready=1; const b=document.querySelector('.gallery-sec'); b&&b._glResume&&b._glResume(); },2500);
+      document.readyState==='complete'?go():addEventListener('load',go,{once:true}); }
     play(0);
   }
   // просмотр на весь экран
@@ -154,14 +159,15 @@
   function draw(){
     if(!fetchBd()) setTimeout(()=>{ if(fetchBd()) draw(); },1500);
     const a=document.getElementById('app'); if(!a||!isHome()||!S.league) return;
-    let box=a.querySelector('.gallery-sec'); const h=block(); if(!h){ if(box) box.remove(); return; }
+    let box=a.querySelector('.gallery-sec'); const h=G.items?block():`<div class="gl-skel"></div>`; if(!h){ if(box) box.remove(); return; }
     if(!box){ box=document.createElement('div'); box.className='gallery-sec'; a.prepend(box); }
     box.innerHTML=h;
     let hb=a.querySelector('.gl-hero-box'); const hh=hero();
     if(hh){ if(!hb){ hb=document.createElement('div'); hb.className='gl-hero-box'; a.prepend(hb); } if(hb.dataset.l!==LANG+np()){ hb.innerHTML=hh; hb.dataset.l=LANG+np(); } } else if(hb) hb.remove();
-    const row=box.querySelector('.nw-row');
+    const row=box.querySelector('.nw-row'); if(!row) return;
     watchVideos(box);
     if(row){ requestAnimationFrame(()=>glArrows(row)); follow(box,row); }
   }
+  load();
   const _route=route; route=function(){ _route(); if(isHome()){ load(); draw(); } };
 })();
