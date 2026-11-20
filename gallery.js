@@ -3,9 +3,9 @@
    Карусель как у новостей: стрелки + медленная автопрокрутка (CSS transform). Видео в карточке — без звука,
    крутятся, только пока карточка на экране. Нажатие — просмотр на весь экран (видео со звуком). */
 (function(){
-  Object.assign(I18N.ru,{bdTitle:n=>`С днём рождения, ${n}!`,bdWish:'Команда Softball Baku поздравляет! Здоровья, удачи и побольше хоум-ранов ⚾',bdToday:'Сегодня день рождения',glTitle:'Галерея',glHint:'фото и видео команды',glClose:'Закрыть'});
-  Object.assign(I18N.az,{bdTitle:n=>`Ad günün mübarək, ${n}!`,bdWish:'Softball Baku komandası təbrik edir! Cansağlığı, uğurlar və daha çox hom-ran ⚾',bdToday:'Bu gün ad günüdür',glTitle:'Qalereya',glHint:'komandanın foto və videoları',glClose:'Bağla'});
-  Object.assign(I18N.en,{bdTitle:n=>`Happy birthday, ${n}!`,bdWish:'Softball Baku wishes you health, luck and lots of home runs ⚾',bdToday:'Birthday today',glTitle:'Gallery',glHint:'team photos and videos',glClose:'Close'});
+  Object.assign(I18N.ru,{bdTitle:n=>`С днём рождения, ${n}!`,bdWish:'Команда Softball Baku поздравляет! Здоровья, удачи и побольше хоум-ранов ⚾',bdToday:'Сегодня день рождения',glTitle:'Галерея',glHint:'фото и видео команды',glClose:'Закрыть',hrKick:'Любительский софтбол · Баку',hrTitle:'Наша команда',hrSub:'Две команды — Bina Warriors и Gilavar Baku — и одна большая семья. Играем в Амирджане, Баку.',hrPl:'игроков',hrGm:'игр',hrRt:'Рейтинг игроков',hrPh:'Фото целиком'});
+  Object.assign(I18N.az,{bdTitle:n=>`Ad günün mübarək, ${n}!`,bdWish:'Softball Baku komandası təbrik edir! Cansağlığı, uğurlar və daha çox hom-ran ⚾',bdToday:'Bu gün ad günüdür',glTitle:'Qalereya',glHint:'komandanın foto və videoları',glClose:'Bağla',hrKick:'Həvəskar softbol · Bakı',hrTitle:'Komandamız',hrSub:'İki komanda — Bina Warriors və Gilavar Baku — və bir böyük ailə. Əmircanda, Bakıda oynayırıq.',hrPl:'oyunçu',hrGm:'oyun',hrRt:'Oyunçu reytinqi',hrPh:'Tam foto'});
+  Object.assign(I18N.en,{bdTitle:n=>`Happy birthday, ${n}!`,bdWish:'Softball Baku wishes you health, luck and lots of home runs ⚾',bdToday:'Birthday today',glTitle:'Gallery',glHint:'team photos and videos',glClose:'Close',hrKick:'Amateur softball · Baku',hrTitle:'Our team',hrSub:'Two teams — Bina Warriors and Gilavar Baku — and one big family. We play in Əmircan, Baku.',hrPl:'players',hrGm:'games',hrRt:'Player rating',hrPh:'Full photo'});
   const G={items:null};
   const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const ttl=x=>esc((x.title&&(x.title[LANG]||x.title.ru))||'');
@@ -44,6 +44,19 @@
     return true;
   }
   window.glBdayRefresh=()=>{ G.bd=null; fetchBd(); };
+  // Большое фото команды в самом верху главной (20.11.2026): элемент gallery.json с "hero":true
+  const pl=(n,k)=>{ if(LANG==='az') return k==='pl'?'oyunçu':'oyun'; if(LANG==='en') return (k==='pl'?'player':'game')+(n===1?'':'s');
+    const f=k==='pl'?['игрок','игрока','игроков']:['игра','игры','игр'], a=n%100, b=n%10;
+    return f[a>10&&a<20?2:b===1?0:b>=2&&b<=4?1:2]; };
+  function hero(){
+    const i=(G.items||[]).findIndex(x=>x.hero); if(i<0) return '';
+    const x=G.items[i], np=Object.keys(S.players||{}).length, ng=(S.games||[]).length;
+    return `<section class="gl-hero"><img src="${esc(x.src)}" srcset="${esc(x.thumb||x.src)} 800w, ${esc(x.src)} 1600w" sizes="(max-width:700px) 100vw, 1200px" alt="${ttl(x)}" fetchpriority="high">
+      <div class="hr-shade"></div>
+      <div class="hr-txt"><span class="hr-kick">${T('hrKick')}</span><h1>${T('hrTitle')}</h1><p>${T('hrSub')}</p>
+        <div class="hr-stats"><span><b>${np}</b> ${pl(np,'pl')}</span><span><b>${ng}</b> ${pl(ng,'gm')}</span><span><b>2</b> ${LANG==='ru'?'команды':LANG==='az'?'komanda':'teams'}</span></div>
+        <div class="hr-btns"><a class="hr-btn pri" href="#rating" onclick="event.preventDefault();const t=document.querySelector('.gallery-sec');t&&t.nextElementSibling&&t.nextElementSibling.scrollIntoView({behavior:'smooth'})">${T('hrRt')} ↓</a><button type="button" class="hr-btn" onclick="glOpen(${i})">${T('hrPh')}</button></div></div></section>`;
+  }
   function block(){
     if(!G.items||!G.items.length) return '';
     const card=(x,i)=>`<button type="button" class="nw-card gl-card${x.special?' gl-'+esc(x.special):''}" onclick="glOpen(${i})">
@@ -53,7 +66,7 @@
       <span class="nw-body">${x.special==='az40'?'<i class="gl-flag"><b></b><b></b><b></b></i>':''}<span class="nw-t">${ttl(x)}</span><span class="nw-when">${x.sub?esc(x.sub[LANG]||x.sub.ru)+' · ':''}${dt(x)}</span></span></button>`;
     return `<div class="section-title nw-head"><h2>${T('glTitle')}</h2><span class="hint">${T('glHint')}</span></div>
       <div class="nw-wrap gl-wrap"><button type="button" class="nw-arr nw-prev" aria-label="‹" onclick="glScroll(this,-1)" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <div class="nw-row" onscroll="glArrows(this)"><div class="nw-track">${G.items.map((x,i)=>card(x,i)+(i===0?bdays().map(bdCard).join(''):'')).join('')}</div></div>
+      <div class="nw-row" onscroll="glArrows(this)"><div class="nw-track">${bdays().map(bdCard).join('')}${G.items.map((x,i)=>x.hero?'':card(x,i)).join('')}</div></div>
       <button type="button" class="nw-arr nw-next" aria-label="›" onclick="glScroll(this,1)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>`;
   }
   window.glScroll=(btn,dir)=>{ const row=btn.parentNode.querySelector('.nw-row'); if(row._freeze) row._freeze(); row.scrollBy({left:dir*Math.max(260,row.clientWidth*0.85),behavior:'smooth'}); };
@@ -130,6 +143,7 @@
     d.addEventListener('touchend',e=>{ if(sx==null) return; const dx=e.changedTouches[0].clientX-sx; sx=null; if(Math.abs(dx)>60&&n>1&&!(e.target.tagName==='VIDEO'&&Math.abs(dx)<120)) go(dx<0?1:-1); },{passive:true});
     document.addEventListener('keydown',key); document.body.style.overflow='hidden'; document.body.appendChild(d);
   };
+  const np=()=>Object.keys(S.players||{}).length+'/'+(S.games||[]).length;
   function isHome(){ const h=(location.hash||'').slice(1), page=h.split('-')[0], FR=window.FEATURE_ROUTES||{}; return !page||page==='rating'||(!['player','game','games'].includes(page)&&!FR[page]); }
   function draw(){
     if(!fetchBd()) setTimeout(()=>{ if(fetchBd()) draw(); },1500);
@@ -137,6 +151,8 @@
     let box=a.querySelector('.gallery-sec'); const h=block(); if(!h){ if(box) box.remove(); return; }
     if(!box){ box=document.createElement('div'); box.className='gallery-sec'; a.prepend(box); }
     box.innerHTML=h;
+    let hb=a.querySelector('.gl-hero-box'); const hh=hero();
+    if(hh){ if(!hb){ hb=document.createElement('div'); hb.className='gl-hero-box'; a.prepend(hb); } if(hb.dataset.l!==LANG+np()){ hb.innerHTML=hh; hb.dataset.l=LANG+np(); } } else if(hb) hb.remove();
     const row=box.querySelector('.nw-row');
     watchVideos(box);
     if(row){ requestAnimationFrame(()=>glArrows(row)); follow(box,row); }

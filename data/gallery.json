@@ -9,7 +9,8 @@
     "az": "Komandamız",
     "en": "Our team"
    },
-   "date": ""
+   "date": "",
+   "hero": true
   },
   {
    "type": "video",
