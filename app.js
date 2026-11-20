@@ -90,7 +90,9 @@ const fromDate=d=>{const dt=new Date(d+'T12:00:00'); return LANG==='az'?`${dt.ge
 const first=p=>p['first_'+LANG]||p.first, last=p=>p['last_'+LANG]||p.last||'';
 const pname=p=>`${first(p)} ${last(p)}`.trim();
 const initials=p=>(first(p)[0]+(last(p)[0]||'')).toUpperCase();
-const av=(p,size='s')=>`<span class="av ${size} ${p.photo?'':'nophoto'}">${p.photo?`<img src="${p.photo}" alt="${pname(p)}" loading="lazy">`:p.number}</span>`;
+// маленькие аватарки — уменьшенные копии из players/sm/ (192 px, ~8 КБ вместо ~70 КБ); если копии нет — берём полное фото
+const avSrc=(ph,size)=>size==='xl'||!/^players\/[^/]+$/.test(ph.split('?')[0])?ph:ph.replace(/^players\//,'players/sm/');
+const av=(p,size='s')=>`<span class="av ${size} ${p.photo?'':'nophoto'}">${p.photo?`<img src="${avSrc(p.photo,size)}" alt="${pname(p)}" loading="lazy" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='${p.photo}'}">`:p.number}</span>`;
 const S={players:{},games:[]};
 /* Новичок (players.json: "rookie": true) — до ROOKIE_GAMES сыгранных игр (за всё время). Статистика и рейтинг считаются как у всех. */
 const ROOKIE_GAMES=3;

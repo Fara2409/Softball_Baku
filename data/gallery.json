@@ -27,7 +27,8 @@
     "az": "1986 – 2026",
     "en": "1986 – 2026"
    },
-   "date": "2026-11-15"
+   "date": "2026-11-15",
+   "small": "gallery/az40-sm.mp4"
   },
   {
    "type": "video",
@@ -38,7 +39,8 @@
     "az": "Oyun 15.11.2026",
     "en": "Game 15.11.2026"
    },
-   "date": "2026-11-15"
+   "date": "2026-11-15",
+   "small": "gallery/v1-sm.mp4"
   },
   {
    "type": "video",
@@ -49,7 +51,8 @@
     "az": "Oyun 15.11.2026",
     "en": "Game 15.11.2026"
    },
-   "date": "2026-11-15"
+   "date": "2026-11-15",
+   "small": "gallery/v2-sm.mp4"
   },
   {
    "type": "video",
@@ -60,7 +63,8 @@
     "az": "Oyun 15.11.2026",
     "en": "Game 15.11.2026"
    },
-   "date": "2026-11-15"
+   "date": "2026-11-15",
+   "small": "gallery/v3-sm.mp4"
   },
   {
    "type": "video",
@@ -71,7 +75,8 @@
     "az": "Oyun 15.11.2026",
     "en": "Game 15.11.2026"
    },
-   "date": "2026-11-15"
+   "date": "2026-11-15",
+   "small": "gallery/v4-sm.mp4"
   },
   {
    "type": "video",
@@ -82,7 +87,8 @@
     "az": "Oyun 15.11.2026",
     "en": "Game 15.11.2026"
    },
-   "date": "2026-11-15"
+   "date": "2026-11-15",
+   "small": "gallery/v5-sm.mp4"
   }
  ]
 }

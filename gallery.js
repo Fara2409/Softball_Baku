@@ -65,7 +65,7 @@
     if(!G.items||!G.items.length) return '';
     const card=(x,i)=>`<button type="button" class="nw-card gl-card${x.special?' gl-'+esc(x.special):''}" onclick="glOpen(${i})">
       <span class="nw-img gl-img">${x.type==='video'
-        ?`<video src="${esc(x.src)}" poster="${esc(x.thumb||'')}" muted playsinline preload="none"></video><b class="gl-play">${PLAY}</b>`
+        ?`<video src="${esc(x.small||x.src)}" poster="${esc(x.thumb||'')}" muted playsinline preload="none"></video><b class="gl-play">${PLAY}</b>`
         :`<img src="${esc(x.thumb||x.src)}" alt="${ttl(x)}" loading="lazy">`}</span>
       <span class="nw-body">${x.special==='az40'?'<i class="gl-flag"><b></b><b></b><b></b></i>':''}<span class="nw-t">${ttl(x)}</span><span class="nw-when">${x.sub?esc(x.sub[LANG]||x.sub.ru)+' · ':''}${dt(x)}</span></span></button>`;
     return `<div class="section-title nw-head"><h2>${T('glTitle')}</h2><span class="hint">${T('glHint')}</span></div>
@@ -94,17 +94,19 @@
     const target=()=>{ const v=st.vids[st.cur], card=v.closest('.gl-card'), nx=st.vids[st.cur+1];
       const a=pos(card), b=nx?pos(nx.closest('.gl-card')):a, p=(v.duration>0)?Math.min(1,v.currentTime/v.duration):0;
       return a+(b-a)*ease(p); };
-    const frame=()=>{ raf=requestAnimationFrame(frame); if(manual||!box.isConnected){ if(!box.isConnected) cancelAnimationFrame(raf); return; }
+    // кадр анимации только пока галерея на экране и идёт видео — иначе цикл останавливается (не грузит телефон)
+    const live=()=>box.isConnected&&!manual&&st.on&&!document.hidden;
+    const frame=()=>{ if(!live()){ raf=0; return; } raf=requestAnimationFrame(frame);
       if(st.cur!==lastCur){ if(lastCur>=0&&st.cur<lastCur) glide(1400); lastCur=st.cur; }
       if(maxX()<20){ tr.style.transform=''; return; }
       x=target(); tr.style.transform=`translate3d(${-x.toFixed(2)}px,0,0)`; };
-    const auto=()=>{ manual=false; row.parentNode.classList.add('nw-anim');
+    const auto=()=>{ manual=false; row.parentNode.classList.add('nw-anim'); setTimeout(()=>st.kick&&st.kick(),0);
       const s=row.scrollLeft; tr.style.transition=''; tr.style.transform=`translate3d(${-s}px,0,0)`; row.scrollLeft=0; void tr.offsetWidth;
       glide(1100); lastCur=st.cur; glArrows(row); };
     const freeze=()=>{ clearTimeout(idle); idle=setTimeout(auto,8000); if(manual) return; manual=true;
       const m=new DOMMatrixReadOnly(getComputedStyle(tr).transform), cx=-m.m41;
       tr.style.transition=''; tr.style.transform=''; row.parentNode.classList.remove('nw-anim'); row.scrollLeft=cx; glArrows(row); };
-    row._freeze=freeze;
+    row._freeze=freeze; st.kick=()=>{ if(!raf&&live()) raf=requestAnimationFrame(frame); };
     ['touchstart','wheel','pointerdown'].forEach(ev=>row.addEventListener(ev,freeze,{passive:true}));
     window.addEventListener('resize',()=>{ if(!manual){ tr.style.transition=''; } });
     row.parentNode.classList.add('nw-anim'); glArrows(row); frame();
@@ -117,13 +119,13 @@
     const busy=()=>!seen||document.hidden||document.querySelector('.gl-box');
     const play=i=>{ cur=(i+vids.length)%vids.length; st.cur=cur;
       vids.forEach((v,k)=>{ const on=k===cur; v.closest('.gl-card').classList.toggle('gl-on',on); if(!on&&!v.paused) v.pause(); });
-      const v=vids[cur]; if(busy()) return; if(v.preload==='none') v.preload='auto'; v.play().catch(()=>{}); };
+      const v=vids[cur]; st.on=!busy(); if(!st.on) return; if(v.preload==='none') v.preload='auto'; v.play().catch(()=>{}); st.kick&&st.kick(); };
     vids.forEach((v,k)=>v.addEventListener('ended',()=>{ v.currentTime=0; play(k+1); }));
-    box._glResume=()=>play(cur); box._glPause=()=>vids.forEach(v=>v.pause());
+    box._glResume=()=>play(cur); box._glPause=()=>{ st.on=false; vids.forEach(v=>v.pause()); };
     if('IntersectionObserver' in window){
       new IntersectionObserver(es=>es.forEach(e=>{ seen=e.isIntersecting; seen?play(cur):box._glPause(); }),{threshold:.2}).observe(box);
     }
-    document.addEventListener('visibilitychange',()=>{ document.hidden?box._glPause():play(cur); });
+    if(!G.vis){ G.vis=1; document.addEventListener('visibilitychange',()=>{ const b=document.querySelector('.gallery-sec'); if(!b||!b._glPause) return; document.hidden?b._glPause():b._glResume(); }); }
     play(0);
   }
   // просмотр на весь экран
