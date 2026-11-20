@@ -45,31 +45,30 @@ html.theme-dark .bd-kicker{color:#E3C35A}
 .gl-bday .nw-t{font-weight:800}
 @media (prefers-reduced-motion:reduce){.bd-c,.bd-ring,.bd-emo{animation:none}}
 
-/* Фото команды на главной (20.11.2026): сверху фото целиком (видно всех), под ним — надпись */
+/* Фото команды на главной (20.11.2026) */
 .gl-hero-box{margin:-8px 0 26px}
-.gl-hero{position:relative;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;background:linear-gradient(180deg,#10233F,#0b1626);box-shadow:0 14px 40px rgba(10,22,40,.25)}
-.gl-hero>img{display:block;width:100%;height:auto;aspect-ratio:2/1;object-fit:cover;object-position:50% 74%;cursor:zoom-in}
-.hr-shade{display:none}
-.hr-txt{padding:26px 34px 28px;color:#fff;display:grid;grid-template-columns:1fr auto;grid-template-areas:"k k" "h s" "p b";column-gap:28px;align-items:end;border-top:3px solid #C9A227}
-.hr-kick{grid-area:k;display:block;font-size:12px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:#E3C35A;margin-bottom:6px}
-.gl-hero h1{grid-area:h;margin:0 0 8px;font:900 clamp(30px,4.4vw,52px)/1 var(--disp,'Roboto Condensed',sans-serif);text-transform:uppercase;letter-spacing:.5px;color:#fff}
-.gl-hero p{grid-area:p;margin:0;font-size:15px;line-height:1.5;color:rgba(255,255,255,.85);max-width:560px}
-.hr-stats{grid-area:s;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin-bottom:10px}
-.hr-stats span{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:6px 12px;font-size:13px;color:rgba(255,255,255,.9)}
+.gl-hero{position:relative;border-radius:20px;overflow:hidden;min-height:440px;display:flex;align-items:flex-end;background:#10233F;box-shadow:0 14px 40px rgba(10,22,40,.25);isolation:isolate}
+.gl-hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 62%;z-index:-2;animation:hrZoom 18s ease-out both}
+.hr-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(8,18,34,.86) 0,rgba(8,18,34,.55) 38%,rgba(8,18,34,0) 70%),linear-gradient(0deg,rgba(8,18,34,.75) 0,rgba(8,18,34,0) 45%)}
+.hr-txt{padding:34px 38px;max-width:560px;color:#fff}
+.hr-kick{display:inline-block;font-size:12px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:#E3C35A;margin-bottom:8px}
+.gl-hero h1{margin:0 0 10px;font:900 clamp(34px,5.2vw,58px)/1 var(--disp,'Roboto Condensed',sans-serif);text-transform:uppercase;letter-spacing:.5px;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.35)}
+.gl-hero p{margin:0 0 16px;font-size:15px;line-height:1.5;color:rgba(255,255,255,.88)}
+.hr-stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.hr-stats span{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:999px;padding:6px 12px;font-size:13px;color:rgba(255,255,255,.9)}
 .hr-stats b{color:#fff;font-size:15px;margin-right:2px}
-.hr-btns{grid-area:b;display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.hr-btns{display:flex;gap:10px;flex-wrap:wrap}
 .hr-btn{appearance:none;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.08);color:#fff;font-family:inherit;font-size:14px;font-weight:700;line-height:1;white-space:nowrap;padding:12px 18px;border-radius:12px;cursor:pointer;text-decoration:none}
 .hr-btn:hover{background:rgba(255,255,255,.18)}
 .hr-btn.pri{background:#1F5FBF;border-color:#1F5FBF}.hr-btn.pri:hover{background:#2A6FD6}
-@media (max-width:860px){
-  .hr-txt{grid-template-columns:1fr;grid-template-areas:"k" "h" "p" "s" "b";padding:18px 18px 20px}
-  .hr-stats{justify-content:flex-start;margin:14px 0}
-  .hr-btns{justify-content:stretch}
-}
+@keyframes hrZoom{from{transform:scale(1.08)}to{transform:scale(1)}}
 @media (max-width:700px){
   .gl-hero-box{margin:-4px -4px 20px}
-  .gl-hero{border-radius:16px}
-  .gl-hero>img{aspect-ratio:16/11;object-position:50% 72%}
+  .gl-hero{min-height:0;aspect-ratio:auto;flex-direction:column;align-items:stretch;border-radius:16px}
+  .gl-hero>img{position:relative;height:auto;aspect-ratio:16/11;object-position:50% 72%;z-index:0;animation:none}
+  .hr-shade{display:none}
+  .hr-txt{padding:18px 18px 20px;max-width:none;background:linear-gradient(180deg,#10233F,#0b1626)}
   .gl-hero p{font-size:14px}
   .hr-btn{flex:1;text-align:center;padding:12px 8px;font-size:13.5px}
 }
+@media (prefers-reduced-motion:reduce){.gl-hero>img{animation:none}}
