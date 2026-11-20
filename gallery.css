@@ -52,7 +52,7 @@ html.theme-dark .bd-kicker{color:#E3C35A}
 .hr-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(8,18,34,.86) 0,rgba(8,18,34,.55) 38%,rgba(8,18,34,0) 70%),linear-gradient(0deg,rgba(8,18,34,.75) 0,rgba(8,18,34,0) 45%)}
 .hr-txt{padding:34px 38px;max-width:560px;color:#fff}
 .hr-kick{display:inline-block;font-size:12px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:#E3C35A;margin-bottom:8px}
-.gl-hero h1{margin:0 0 10px;font:900 clamp(34px,5.2vw,58px)/1 var(--disp,'Roboto Condensed',sans-serif);text-transform:uppercase;letter-spacing:.5px;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.35)}
+.gl-hero h1{margin:0 0 10px;font:normal 900 clamp(34px,5.2vw,58px)/1 'Roboto Condensed','Onest',system-ui,sans-serif;text-transform:uppercase;letter-spacing:.5px;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.35)}
 .gl-hero p{margin:0 0 16px;font-size:15px;line-height:1.5;color:rgba(255,255,255,.88)}
 .hr-stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
 .hr-stats span{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:999px;padding:6px 12px;font-size:13px;color:rgba(255,255,255,.9)}
@@ -72,3 +72,6 @@ html.theme-dark .bd-kicker{color:#E3C35A}
   .hr-btn{flex:1;text-align:center;padding:12px 8px;font-size:13.5px}
 }
 @media (prefers-reduced-motion:reduce){.gl-hero>img{animation:none}}
+
+/* стрелки галереи — по центру карточек (20.11.2026) */
+.gl-wrap .nw-arr{top:50%;margin-top:-22px}
