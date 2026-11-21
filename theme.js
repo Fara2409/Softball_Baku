@@ -186,3 +186,26 @@
 
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
 })();
+
+/* Автообновление (21.11.2026): приложение с домашнего экрана iPhone держит старую страницу в кеше.
+   При запуске и при возврате в приложение (не чаще раза в 5 минут) сверяем версии файлов (?v=) с сайтом;
+   если на сайте новее — обновляем кеш страницы и перезагружаем один раз. */
+(function(){
+  const vers=html=>[...html.matchAll(/\b([\w-]+\.(?:js|css))\?v=(\d+)/g)].map(m=>m[1]+m[2]).sort().join(',');
+  let last=0;
+  async function check(){
+    if(Date.now()-last<5*60e3||!navigator.onLine) return; last=Date.now();
+    try{
+      const url=location.pathname.replace(/[^/]*$/,'')+'index.html';
+      const r=await fetch(url,{cache:'no-cache'}); if(!r.ok) return;
+      const fresh=vers(await r.text()), cur=vers(document.documentElement.outerHTML);
+      if(!fresh||fresh===cur) return;
+      const k='sb.upd.'+fresh.length+'.'+fresh.slice(-40); if(sessionStorage.getItem(k)) return; sessionStorage.setItem(k,'1');
+      await fetch(url,{cache:'reload'}).catch(()=>{}); await fetch(location.pathname,{cache:'reload'}).catch(()=>{});
+      if(document.querySelector('.modal.open,#cl-modal input:focus')) return;
+      location.reload();
+    }catch(e){}
+  }
+  addEventListener('load',()=>setTimeout(check,1500));
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) check(); });
+})();
