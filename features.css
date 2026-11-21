@@ -206,3 +206,17 @@ nav a{white-space:nowrap}
   .top nav a{flex:1 1 auto;text-align:center;padding:7px 5px;font-size:13.5px;letter-spacing:-.1px}
 }
 @media (max-width:380px){ .top nav a{padding:7px 3px;font-size:12.5px} }
+/* Составы на телефоне: карточки игроков не вылезают за экран (21.11.2026) */
+.tm-grid>*{min-width:0}
+@media (max-width:820px){
+  .tm-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tm-check{right:-4px}
+}
+@media (max-width:480px){
+  .tm-p{gap:7px;padding:8px 8px}
+  .tm-p .av{width:30px;height:30px;font-size:12px;flex:none}
+  .tm-n b{font-size:13px}.tm-n span{font-size:11px}
+  .tm-p .lv{gap:2px}.tm-p .lv button{width:20px;height:22px;font-size:12px;padding:0}
+  .tm-s{font-size:12px}
+}
+html{overflow-x:clip}
