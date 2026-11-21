@@ -115,7 +115,7 @@
   };
   const tico=n=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${TI[n]}</svg>`;
   Object.assign(I18N.ru,{tbHome:'Главная',tbGames:'Игры',tbTeams:'Составы',tbRecords:'Рекорды',tbRules:'Правила',tbMe:'Профиль',tbIn:'Войти'});
-  Object.assign(I18N.az,{tbHome:'Əsas',tbGames:'Oyunlar',tbTeams:'Komandalar',tbRecords:'Rekordlar',tbRules:'Qaydalar',tbMe:'Profil',tbIn:'Daxil ol'});
+  Object.assign(I18N.az,{tbHome:'Əsas',tbGames:'Oyunlar',tbTeams:'Heyət',tbRecords:'Rekordlar',tbRules:'Qaydalar',tbMe:'Profil',tbIn:'Daxil ol'});
   Object.assign(I18N.en,{tbHome:'Home',tbGames:'Games',tbTeams:'Teams',tbRecords:'Records',tbRules:'Rules',tbMe:'Profile',tbIn:'Log in'});
   const appMode=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true||/[?&]app=1/.test(location.search);
   function section(){
@@ -138,9 +138,9 @@
     const tabs=[['home','#rating','tbHome'],['games','#games','tbGames']];
     if(player) tabs.push(['teams','#teams','tbTeams']);
     tabs.push(['records','#records','tbRecords']);
-    if(!player) tabs.push(['rules','#rules','tbRules']);
+    tabs.push(['rules','#rules','tbRules']);   // «Правила» видны всем, и игрокам тоже (21.11.2026)
     const cur=section();
-    bar.style.gridTemplateColumns=`repeat(${tabs.length+1},minmax(0,1fr))`;
+    bar.style.gridTemplateColumns=`repeat(${tabs.length+1},minmax(0,1fr))`; bar.classList.toggle('t6',tabs.length+1>5);
     bar.innerHTML=tabs.map(([k,href,t])=>`<a href="${href}" class="${cur===k?'on':''}"${cur===k?' aria-current="page"':''}>${tico(k)}<span>${T(t)}</span></a>`).join('')+
       (logged?`<a href="#me" class="${cur==='me'?'on':''}">${tico('me')}<span>${T('tbMe')}</span></a>`
              :`<button type="button" onclick="${failed?'CL.oldBrowser()':"CL.auth('login')"}">${tico('me')}<span>${T('tbIn')}</span></button>`);

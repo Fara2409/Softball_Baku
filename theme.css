@@ -143,6 +143,8 @@ html[lang="az"] .section-title h2{letter-spacing:0}
   .tabbar span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
   .tabbar .on{color:var(--amber);background:#1A2A42}
   html.app-mode .ia-bar{display:none}
+  .tabbar.t6 a,.tabbar.t6 button{font-size:10px;padding:4px 0}
+  .tabbar.t6 svg{width:20px;height:20px}
 }
 @media (max-width:820px){ html.app-mode .acct-in{display:none} }
 /* логотип в шапке — снова бело-красный мяч (11.11.2026) */
