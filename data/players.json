@@ -268,6 +268,20 @@
    "photo": null
   },
   {
+   "id": "sabir-talibov",
+   "first": "Sabir",
+   "last": "Talibov",
+   "first_ru": "Сабир",
+   "last_ru": "Талыбов",
+   "first_az": "Sabir",
+   "last_az": "Talıbov",
+   "number": 88,
+   "positions": [
+    "P"
+   ],
+   "photo": null
+  },
+  {
    "id": "bahram-jamilov",
    "first": "Bahram",
    "last": "Jamilov",
