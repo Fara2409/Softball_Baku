@@ -81,7 +81,7 @@ body .stip{background:#10233F;color:#FFFFFF}
 
 /* нижние вкладки */
 @media (max-width:820px){
-  html.app-mode .tabbar{background:rgba(255,255,255,.96);border-color:var(--line);box-shadow:0 10px 30px rgba(16,35,63,.18)}
+  html.tab-mode .tabbar{background:rgba(255,255,255,.96);border-color:var(--line);box-shadow:0 10px 30px rgba(16,35,63,.18)}
   .tabbar .on{background:var(--tint)}
 }
 
@@ -144,3 +144,15 @@ body .ia-head img{box-shadow:0 6px 18px rgba(16,35,63,.25)}
 .eq-strip .r.t{stroke-width:1.2}
 .eq-strip .r.f{fill:#C8463C;stroke:none}
 @media (max-width:480px){ .eq-strip{gap:22px} .eq-strip svg.eq{width:20px;height:20px} }
+
+/* меню «Все разделы» — светлая тема */
+html:not(.theme-dark) .mn-sheet{background:#fff;color:#10233F}
+html:not(.theme-dark) .mn-grab{background:#D5DEEA}
+html:not(.theme-dark) .mn-x{background:#EEF3FA}
+html:not(.theme-dark) .mn-it{background:#F4F7FC;border-color:#E2E9F3}
+html:not(.theme-dark) .mn-it.on{background:#E6EEFB;border-color:#1F5FBF}
+html:not(.theme-dark) .mn-tx small,html:not(.theme-dark) .mn-lang span{color:#5B6B82}
+html:not(.theme-dark) .mn-foot{border-color:#E2E9F3}
+html:not(.theme-dark) .mn-lang button,html:not(.theme-dark) .mn-thm{background:#F4F7FC;border-color:#E2E9F3}
+html:not(.theme-dark) .mn-lang button.on{background:#1F5FBF;color:#fff}
+html:not(.theme-dark) .tabbar .tb-menu.on{background:#E6EEFB}

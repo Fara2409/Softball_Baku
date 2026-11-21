@@ -111,12 +111,19 @@
     teams:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c.6-3.6 3-5.5 6-5.5s5.4 1.9 6 5.5"/><circle cx="17" cy="9" r="2.6"/><path d="M16.5 14.6c2.6.2 4.1 2 4.5 5"/>',
     records:'<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8"/>',
     rules:'<path d="M5 4h9a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h9"/>',
-    me:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.2 4-6.4 8-6.4s7 2.2 8 6.4"/>'
+    me:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.2 4-6.4 8-6.4s7 2.2 8 6.4"/>',
+    menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',
+    live:'<circle cx="12" cy="12" r="2.5"/><path d="M7.8 7.8a6 6 0 0 0 0 8.4M16.2 7.8a6 6 0 0 1 0 8.4M5 5a10 10 0 0 0 0 14M19 5a10 10 0 0 1 0 14"/>',
+    admin:'<path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/>',
+    close:'<path d="M6 6l12 12M18 6L6 18"/>'
   };
   const tico=n=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${TI[n]}</svg>`;
   Object.assign(I18N.ru,{tbHome:'Главная',tbGames:'Игры',tbTeams:'Составы',tbRecords:'Рекорды',tbRules:'Правила',tbMe:'Профиль',tbIn:'Войти'});
   Object.assign(I18N.az,{tbHome:'Əsas',tbGames:'Oyunlar',tbTeams:'Heyət',tbRecords:'Rekordlar',tbRules:'Qaydalar',tbMe:'Profil',tbIn:'Daxil ol'});
   Object.assign(I18N.en,{tbHome:'Home',tbGames:'Games',tbTeams:'Teams',tbRecords:'Records',tbRules:'Rules',tbMe:'Profile',tbIn:'Log in'});
+  Object.assign(I18N.ru,{tbMenu:'Меню',mnTitle:'Все разделы',mnHome:'Рейтинг',mnHomeD:'таблица, лидеры, галерея',mnGames:'Игры',mnGamesD:'результаты и протоколы',mnTeams:'Составы',mnTeamsD:'деление на команды, голосование',mnRecords:'Рекорды',mnRecordsD:'лучшие показатели',mnRules:'Правила',mnRulesD:'как играем и считаем рейтинг',mnLive:'Прямой эфир',mnLiveD:'счёт идущей игры',mnMe:'Мой профиль',mnMeD:'аккаунт, дата рождения',mnIn:'Войти',mnInD:'или зарегистрироваться',mnAdmin:'Админ',mnAdminD:'управление сайтом',mnLang:'Язык',mnTheme:'Тема'});
+  Object.assign(I18N.az,{tbMenu:'Menyu',mnTitle:'Bütün bölmələr',mnHome:'Reytinq',mnHomeD:'cədvəl, liderlər, qalereya',mnGames:'Oyunlar',mnGamesD:'nəticələr və protokollar',mnTeams:'Komandalar',mnTeamsD:'heyətlərə bölgü, səsvermə',mnRecords:'Rekordlar',mnRecordsD:'ən yaxşı göstəricilər',mnRules:'Qaydalar',mnRulesD:'necə oynayırıq və reytinq',mnLive:'Canlı',mnLiveD:'gedən oyunun hesabı',mnMe:'Profilim',mnMeD:'hesab, doğum tarixi',mnIn:'Daxil ol',mnInD:'və ya qeydiyyat',mnAdmin:'Admin',mnAdminD:'saytın idarəsi',mnLang:'Dil',mnTheme:'Mövzu'});
+  Object.assign(I18N.en,{tbMenu:'Menu',mnTitle:'All sections',mnHome:'Rating',mnHomeD:'table, leaders, gallery',mnGames:'Games',mnGamesD:'results and box scores',mnTeams:'Teams',mnTeamsD:'team split, voting',mnRecords:'Records',mnRecordsD:'best performances',mnRules:'Rules',mnRulesD:'how we play and rate',mnLive:'Live',mnLiveD:'score of the game in progress',mnMe:'My profile',mnMeD:'account, birthday',mnIn:'Log in',mnInD:'or sign up',mnAdmin:'Admin',mnAdminD:'site management',mnLang:'Language',mnTheme:'Theme'});
   const appMode=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true||/[?&]app=1/.test(location.search);
   function section(){
     const h=location.hash||'#rating';
@@ -127,31 +134,57 @@
     if(/^#(me|admin)/.test(h)) return 'me';
     return 'home';
   }
+  // нижнее меню — в приложении и на любом телефоне (21.11.2026); последняя вкладка «Меню» открывает все разделы
+  const tabMode=()=>appMode()||matchMedia('(max-width:820px)').matches;
   function drawTabs(){
-    if(!appMode()) return;
-    document.documentElement.classList.add('app-mode');
+    const de=document.documentElement;
+    if(!tabMode()){ de.classList.remove('tab-mode'); return; }
+    if(appMode()) de.classList.add('app-mode');
+    de.classList.add('tab-mode');
     let bar=document.getElementById('tabbar');
     if(!bar){ bar=document.createElement('nav'); bar.id='tabbar'; bar.className='tabbar'; bar.setAttribute('aria-label','Menu'); document.body.appendChild(bar); }
     const player=!!(window.CL&&CL.canDecide&&CL.canDecide());
     const logged=!!document.querySelector('#acct .acct-me');
     const failed=!!document.querySelector('#acct .acct-off');
-    const tabs=[['home','#rating','tbHome'],['games','#games','tbGames']];
-    if(player) tabs.push(['teams','#teams','tbTeams']);
-    tabs.push(['records','#records','tbRecords']);
-    tabs.push(['rules','#rules','tbRules']);   // «Правила» видны всем, и игрокам тоже (21.11.2026)
-    const cur=section();
-    bar.style.gridTemplateColumns=`repeat(${tabs.length+1},minmax(0,1fr))`; bar.classList.toggle('t6',tabs.length+1>5);
+    const tabs=[['home','#rating','tbHome'],['games','#games','tbGames'],player?['teams','#teams','tbTeams']:['rules','#rules','tbRules'],['records','#records','tbRecords']];
+    const cur=section(), inMenu=!tabs.some(t=>t[0]===cur)&&cur!=='home';
+    bar.style.gridTemplateColumns='repeat(5,minmax(0,1fr))'; bar.classList.remove('t6');
     bar.innerHTML=tabs.map(([k,href,t])=>`<a href="${href}" class="${cur===k?'on':''}"${cur===k?' aria-current="page"':''}>${tico(k)}<span>${T(t)}</span></a>`).join('')+
-      (logged?`<a href="#me" class="${cur==='me'?'on':''}">${tico('me')}<span>${T('tbMe')}</span></a>`
-             :`<button type="button" onclick="${failed?'CL.oldBrowser()':"CL.auth('login')"}">${tico('me')}<span>${T('tbIn')}</span></button>`);
+      `<button type="button" class="tb-menu${inMenu||document.getElementById('sb-menu')?' on':''}" onclick="sbMenu()" aria-haspopup="dialog">${tico('menu')}<span>${T('tbMenu')}</span></button>`;
+    const m=document.getElementById('sb-menu'); if(m) fillMenu(m);
   }
+  function fillMenu(m){
+    const player=!!(window.CL&&CL.canDecide&&CL.canDecide()), logged=!!document.querySelector('#acct .acct-me'), failed=!!document.querySelector('#acct .acct-off');
+    const adm=!!(window.CL&&CL.ctx&&(()=>{ try{ return CL.ctx().isAdmin(); }catch(e){ return false; } })());
+    const cur=section();
+    const it=(k,href,t,d,on)=>`<a class="mn-it${on?' on':''}" href="${href}" onclick="sbMenu(false)"><span class="mn-ic">${tico(k)}</span><span class="mn-tx"><b>${T(t)}</b><small>${T(d)}</small></span></a>`;
+    const rows=[it('home','#rating','mnHome','mnHomeD',cur==='home'),it('games','#games','mnGames','mnGamesD',cur==='games'),
+      player?it('teams','#teams','mnTeams','mnTeamsD',cur==='teams'):'',it('records','#records','mnRecords','mnRecordsD',cur==='records'),
+      it('rules','#rules','mnRules','mnRulesD',cur==='rules'),it('live','#live','mnLive','mnLiveD',/^#live/.test(location.hash)),
+      logged?it('me','#me','mnMe','mnMeD',/^#me/.test(location.hash)):`<button class="mn-it" type="button" onclick="sbMenu(false);${failed?'CL.oldBrowser()':"CL.auth('login')"}"><span class="mn-ic">${tico('me')}</span><span class="mn-tx"><b>${T('mnIn')}</b><small>${T('mnInD')}</small></span></button>`,
+      adm?it('admin','#admin','mnAdmin','mnAdminD',/^#admin/.test(location.hash)):''].join('');
+    const dk=document.documentElement.classList.contains('theme-dark');
+    m.innerHTML=`<div class="mn-back" onclick="sbMenu(false)"></div><div class="mn-sheet" role="dialog" aria-modal="true" aria-label="${T('mnTitle')}">
+      <div class="mn-grab"></div><div class="mn-head"><b>${T('mnTitle')}</b><button type="button" class="mn-x" onclick="sbMenu(false)" aria-label="✕">${tico('close')}</button></div>
+      <div class="mn-list">${rows}</div>
+      <div class="mn-foot"><div class="mn-lang"><span>${T('mnLang')}</span>${['az','ru','en'].map(l=>`<button type="button" class="${LANG===l?'on':''}" onclick="setLang('${l}');sbMenu(true)">${l.toUpperCase()}</button>`).join('')}</div>
+        <button type="button" class="mn-thm" onclick="sbTheme();sbMenu(true)">${dk?'☀️':'🌙'} ${T(dk?'thmToLight':'thmToDark')}</button></div></div>`;
+  }
+  window.sbMenu=function(open){
+    let m=document.getElementById('sb-menu');
+    if(open===undefined) open=!m;
+    if(!open){ if(m){ m.classList.remove('show'); setTimeout(()=>{ m.remove(); drawTabs(); },180); document.documentElement.classList.remove('mn-open'); } return; }
+    if(!m){ m=document.createElement('div'); m.id='sb-menu'; document.body.appendChild(m); requestAnimationFrame(()=>m.classList.add('show')); }
+    document.documentElement.classList.add('mn-open'); fillMenu(m); drawTabs();
+  };
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&document.getElementById('sb-menu')) sbMenu(false); });
   window.drawTabs=drawTabs;
   function init(){
     strip();
     const appEl=document.getElementById('app'); if(appEl) new MutationObserver(decLater).observe(appEl,{childList:true,subtree:true}); decLater();
-    if(!appMode()) return;
     drawTabs();
-    window.addEventListener('hashchange',drawTabs);
+    window.addEventListener('hashchange',()=>{ const m=document.getElementById('sb-menu'); if(m) m.remove(), document.documentElement.classList.remove('mn-open'); drawTabs(); });
+    matchMedia('(max-width:820px)').addEventListener?.('change',drawTabs);
     const acct=document.getElementById('acct');
     if(acct) new MutationObserver(()=>drawTabs()).observe(acct,{childList:true});
     if(typeof window.chrome==='function'){ const oc=window.chrome; window.chrome=function(){ const r=oc.apply(this,arguments); drawTabs(); return r; }; }
