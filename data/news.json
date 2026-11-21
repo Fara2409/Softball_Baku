@@ -2,6 +2,30 @@
  "items": [
   {
    "source": "MLB",
+   "title": "Skubal changed after entering Dodgers pitching lab — here’s how",
+   "link": "https://www.mlb.com/news/tarik-skubal-changes-after-dodgers-trade",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/v1795226564/mlb/klrh4htud16zs1nc3ybk",
+   "date": "2026-11-21T03:11:00Z"
+  },
+  {
+   "source": "MLB",
+   "title": "Two free-agent outfielders, identical stat lines. Which one will teams covet more?",
+   "link": "https://www.mlb.com/news/randy-arozarena-vs-seiya-suzuki-free-agent-breakdown",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/l3esjcplgn0e51hncxl7",
+   "date": "2026-11-21T03:00:00Z"
+  },
+  {
+   "source": "MLB",
+   "title": "Giants agree to 1-year deal with Doval, trade Koss to Rays for Minor League RHP",
+   "link": "https://www.mlb.com/news/camilo-doval-giants-contract-christian-koss-traded-to-rays",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/vdweyfvliez3pciz5toy",
+   "date": "2026-11-21T02:59:52Z"
+  },
+  {
+   "source": "MLB",
    "title": "Dodgers acquire INF Royce Lewis from Twins",
    "link": "https://www.mlb.com/news/royce-lewis-dodgers-twins-trade",
    "summary": "",
@@ -15,14 +39,6 @@
    "summary": "",
    "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/gymltuquctgq7j7w42rb",
    "date": "2026-11-21T01:40:00Z"
-  },
-  {
-   "source": "MLB",
-   "title": "Twins shuffle roster, non-tender Ober, Larnach, Wallner",
-   "link": "https://www.mlb.com/news/twins-non-tender-bailey-ober",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/qgtkbd4b7wboh48zbi0b",
-   "date": "2026-11-21T01:22:00Z"
   },
   {
    "source": "MLB",
@@ -57,28 +73,12 @@
    "date": "2026-11-21T00:09:41Z"
   },
   {
-   "source": "MLB",
-   "title": "Padres agree to three-year extension with slugger Sheets",
-   "link": "https://www.mlb.com/news/gavin-sheets-padres-contract-extension",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/w9rtzjymrzmvycoabppc",
-   "date": "2026-11-20T23:51:00Z"
-  },
-  {
    "source": "CBS",
    "title": "MLB rumors: Yankees moves heating up, plus latest on Tarik Skubal, Mets, Padres, Red Sox, more",
    "link": "https://www.cbssports.com/mlb/news/mlb-rumors-yankees-moves-heating-up-tarik-skubal-padres-mets/",
    "summary": "Here are the latest news and rumors in the MLB offseason on Friday, Nov. 20",
    "image": "https://sportshub.cbsistatic.com/i/2026/11/20/0ba07691-fe2d-44df-83bf-6c6d68eee54c/tarik-skubal-getty.png",
    "date": "2026-11-20T23:34:22Z"
-  },
-  {
-   "source": "MLB",
-   "title": "Yankees non-tender former Rookie of the Year Gil, reliever Cruz",
-   "link": "https://www.mlb.com/news/yankees-non-tender-decisions-2026",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/f1huirfvxl6hds6hkhuz",
-   "date": "2026-11-20T23:31:00Z"
   },
   {
    "source": "CBS",
@@ -97,5 +97,5 @@
    "date": "2026-11-20T23:19:08Z"
   }
  ],
- "updated": "2026-11-21T03:13:49Z"
+ "updated": "2026-11-21T12:41:08Z"
 }
