@@ -1,6 +1,6 @@
 import json
 W={'1B':.2,'2B':.4,'3B':.6,'HR':.8,'BB':.15,'ROE':.15,'FC':.1,'R':.1,'RBI':.15,'OUT':-.25,'K':-.35,'FPO':.2,'A':.13,'RPO':.07,'PK':.2,'PBB':-.1,'E':-.2,'E2':-.25,'E3':-.3,'OFPO':.2,'OFF2':.25,'OFF3':.3,'OFA':.2,'OFPOS':.15,'CPOS':.15}
-OF={'LF','CF','RF','LCF','RCF'}
+OF={'LF','CF','RF','LCF','RCF','SF'}
 def boxparts(b):
     g=lambda k:b.get(k,0); roe,fc=g('ROE'),g('FC'); outs=max(0,g('AB')-g('H')-g('K')-roe-fc)
     off=sum(W[k]*g(k) for k in ['1B','2B','3B','HR','BB'])+W['ROE']*roe+W['FC']*fc+W['R']*g('R')+W['RBI']*g('RBI')+W['OUT']*outs+W['K']*g('K')
@@ -28,7 +28,7 @@ def plays_parts(g,pid):
         if x.get('pk')==pid: s+=W['PK']
         if x.get('pbb')==pid: s+=W['PBB']
     return s
-for gid in ['2026-11-01','2026-11-15']:
+for gid in ['2026-11-01','2026-11-15','2026-11-22']:
     g=json.load(open(f'data/games/{gid}.json'))
     bad=[(b['player'],round(boxparts(b),2),round(plays_parts(g,b['player']),2)) for b in g['box'] if abs(boxparts(b)-plays_parts(g,b['player']))>0.001]
     print(gid,'mismatch',bad)

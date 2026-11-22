@@ -1,0 +1,2873 @@
+{
+ "id": "2026-11-22",
+ "date": "2026-11-22",
+ "venue": "Amirajan, Baku",
+ "video": "https://youtu.be/7jd6m162WDU",
+ "teams": {
+  "A": {
+   "name": "Gilavar Baku",
+   "color": "#1f6fc0"
+  },
+  "B": {
+   "name": "Bina Warriors",
+   "color": "#D85A30"
+  }
+ },
+ "linescore": {
+  "A": [
+   2,
+   0,
+   4,
+   7,
+   0,
+   2,
+   0,
+   0
+  ],
+  "B": [
+   0,
+   1,
+   3,
+   0,
+   3,
+   1,
+   2,
+   1
+  ]
+ },
+ "score": {
+  "A": 15,
+  "B": 11
+ },
+ "box": [
+  {
+   "player": "rashid",
+   "team": "A",
+   "pos": "LF",
+   "PA": 5,
+   "AB": 4,
+   "H": 1,
+   "1B": 1,
+   "2B": 0,
+   "3B": 0,
+   "HR": 0,
+   "BB": 1,
+   "K": 0,
+   "R": 2,
+   "RBI": 0,
+   "ROE": 1,
+   "FC": 0,
+   "SAC": 0,
+   "PO": 2,
+   "FPO": 2,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 0,
+   "E": 0,
+   "E2": 0,
+   "E3": 0,
+   "OFF2": 1,
+   "OFF3": 0
+  },
+  {
+   "player": "sergey-molchanov",
+   "team": "A",
+   "pos": "SS",
+   "PA": 5,
+   "AB": 5,
+   "H": 2,
+   "1B": 1,
+   "2B": 1,
+   "3B": 0,
+   "HR": 0,
+   "BB": 0,
+   "K": 0,
+   "R": 2,
+   "RBI": 1,
+   "ROE": 0,
+   "FC": 0,
+   "SAC": 0,
+   "PO": 4,
+   "FPO": 2,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 6,
+   "E": 0,
+   "E2": 0,
+   "E3": 0,
+   "OFF2": 0,
+   "OFF3": 0
+  },
+  {
+   "player": "sergey-antipov",
+   "team": "A",
+   "pos": "P",
+   "PA": 4,
+   "AB": 4,
+   "H": 2,
+   "1B": 2,
+   "2B": 0,
+   "3B": 0,
+   "HR": 0,
+   "BB": 0,
+   "K": 0,
+   "R": 2,
+   "RBI": 1,
+   "ROE": 2,
+   "FC": 0,
+   "SAC": 0,
+   "PO": 1,
+   "FPO": 1,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 3,
+   "A": 3,
+   "E": 0,
+   "E2": 0,
+   "E3": 0,
+   "OFF2": 0,
+   "OFF3": 0
+  },
+  {
+   "player": "rasul-21",
+   "team": "A",
+   "pos": "CF",
+   "PA": 4,
+   "AB": 3,
+   "H": 3,
+   "1B": 2,
+   "2B": 0,
+   "3B": 0,
+   "HR": 1,
+   "BB": 0,
+   "K": 0,
+   "R": 3,
+   "RBI": 6,
+   "ROE": 0,
+   "FC": 0,
+   "SAC": 1,
+   "PO": 2,
+   "FPO": 2,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 0,
+   "E": 1,
+   "E2": 1,
+   "E3": 0,
+   "OFF2": 1,
+   "OFF3": 1
+  },
+  {
+   "player": "farhad-eyvazov",
+   "team": "A",
+   "pos": "SF",
+   "PA": 4,
+   "AB": 2,
+   "H": 2,
+   "1B": 1,
+   "2B": 1,
+   "3B": 0,
+   "HR": 0,
+   "BB": 2,
+   "K": 0,
+   "R": 3,
+   "RBI": 2,
+   "ROE": 0,
+   "FC": 0,
+   "SAC": 0,
+   "PO": 3,
+   "FPO": 1,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 1,
+   "E": 0,
+   "E2": 0,
+   "E3": 0,
+   "OFF2": 0,
+   "OFF3": 1
+  },
+  {
+   "player": "parviz-ismayilov",
+   "team": "A",
+   "pos": "2B",
+   "PA": 4,
+   "AB": 4,
+   "H": 2,
+   "1B": 2,
+   "2B": 0,
+   "3B": 0,
+   "HR": 0,
+   "BB": 0,
+   "K": 0,
+   "R": 1,
+   "RBI": 2,
+   "ROE": 1,
+   "FC": 1,
+   "SAC": 0,
+   "PO": 2,
+   "FPO": 0,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 2,
+   "E": 4,
+   "E2": 3,
+   "E3": 0,
+   "OFF2": 0,
+   "OFF3": 0
+  },
+  {
+   "player": "fakhri-eyvazov",
+   "team": "A",
+   "pos": "C",
+   "PA": 4,
+   "AB": 4,
+   "H": 1,
+   "1B": 0,
+   "2B": 1,
+   "3B": 0,
+   "HR": 0,
+   "BB": 0,
+   "K": 0,
+   "R": 0,
+   "RBI": 1,
+   "ROE": 0,
+   "FC": 0,
+   "SAC": 0,
+   "PO": 0,
+   "FPO": 0,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 0,
+   "E": 0,
+   "E2": 0,
+   "E3": 0,
+   "OFF2": 0,
+   "OFF3": 0
+  },
+  {
+   "player": "ramiz-ismayilov",
+   "team": "A",
+   "pos": "3B",
+   "PA": 4,
+   "AB": 4,
+   "H": 2,
+   "1B": 2,
+   "2B": 0,
+   "3B": 0,
+   "HR": 0,
+   "BB": 0,
+   "K": 0,
+   "R": 0,
+   "RBI": 0,
+   "ROE": 0,
+   "FC": 0,
+   "SAC": 0,
+   "PO": 4,
+   "FPO": 2,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 1,
+   "E": 1,
+   "E2": 0,
+   "E3": 0,
+   "OFF2": 0,
+   "OFF3": 0
+  },
+  {
+   "player": "ilham",
+   "team": "A",
+   "pos": "RCF",
+   "PA": 4,
+   "AB": 4,
+   "H": 1,
+   "1B": 1,
+   "2B": 0,
+   "3B": 0,
+   "HR": 0,
+   "BB": 0,
+   "K": 0,
+   "R": 0,
+   "RBI": 0,
+   "ROE": 0,
+   "FC": 0,
+   "SAC": 0,
+   "PO": 0,
+   "FPO": 0,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 0,
+   "E": 0,
+   "E2": 0,
+   "E3": 0,
+   "OFF2": 0,
+   "OFF3": 0
+  },
+  {
+   "player": "hikmat",
+   "team": "A",
+   "pos": "1B",
+   "PA": 4,
+   "AB": 4,
+   "H": 1,
+   "1B": 1,
+   "2B": 0,
+   "3B": 0,
+   "HR": 0,
+   "BB": 0,
+   "K": 0,
+   "R": 0,
+   "RBI": 0,
+   "ROE": 1,
+   "FC": 1,
+   "SAC": 0,
+   "PO": 5,
+   "FPO": 0,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 0,
+   "E": 1,
+   "E2": 0,
+   "E3": 0,
+   "OFF2": 0,
+   "OFF3": 0
+  },
+  {
+   "player": "mammad-aliyev",
+   "team": "A",
+   "pos": "RF",
+   "PA": 4,
+   "AB": 2,
+   "H": 0,
+   "1B": 0,
+   "2B": 0,
+   "3B": 0,
+   "HR": 0,
+   "BB": 2,
+   "K": 1,
+   "R": 1,
+   "RBI": 0,
+   "ROE": 0,
+   "FC": 0,
+   "SAC": 0,
+   "PO": 1,
+   "FPO": 1,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 0,
+   "E": 0,
+   "E2": 0,
+   "E3": 0,
+   "OFF2": 1,
+   "OFF3": 0
+  },
+  {
+   "player": "kesha",
+   "team": "A",
+   "pos": "SF",
+   "PA": 4,
+   "AB": 4,
+   "H": 2,
+   "1B": 2,
+   "2B": 0,
+   "3B": 0,
+   "HR": 0,
+   "BB": 0,
+   "K": 1,
+   "R": 1,
+   "RBI": 0,
+   "ROE": 0,
+   "FC": 1,
+   "SAC": 0,
+   "PO": 0,
+   "FPO": 0,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 0,
+   "E": 1,
+   "E2": 0,
+   "E3": 0,
+   "OFF2": 0,
+   "OFF3": 0
+  },
+  {
+   "player": "danylo-shapovalov",
+   "team": "B",
+   "pos": "LF",
+   "PA": 5,
+   "AB": 5,
+   "H": 1,
+   "1B": 1,
+   "2B": 0,
+   "3B": 0,
+   "HR": 0,
+   "BB": 0,
+   "K": 0,
+   "R": 1,
+   "RBI": 0,
+   "ROE": 1,
+   "FC": 0,
+   "SAC": 0,
+   "PO": 3,
+   "FPO": 3,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 0,
+   "E": 0,
+   "E2": 0,
+   "E3": 0,
+   "OFF2": 1,
+   "OFF3": 0
+  },
+  {
+   "player": "emilien",
+   "team": "B",
+   "pos": "CF",
+   "PA": 4,
+   "AB": 4,
+   "H": 3,
+   "1B": 3,
+   "2B": 0,
+   "3B": 0,
+   "HR": 0,
+   "BB": 0,
+   "K": 0,
+   "R": 3,
+   "RBI": 0,
+   "ROE": 0,
+   "FC": 1,
+   "SAC": 0,
+   "PO": 1,
+   "FPO": 1,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 0,
+   "E": 0,
+   "E2": 0,
+   "E3": 0,
+   "OFF2": 0,
+   "OFF3": 1
+  },
+  {
+   "player": "ilgar",
+   "team": "B",
+   "pos": "LF",
+   "PA": 4,
+   "AB": 4,
+   "H": 1,
+   "1B": 1,
+   "2B": 0,
+   "3B": 0,
+   "HR": 0,
+   "BB": 0,
+   "K": 0,
+   "R": 2,
+   "RBI": 0,
+   "ROE": 1,
+   "FC": 0,
+   "SAC": 0,
+   "PO": 1,
+   "FPO": 1,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 0,
+   "E": 1,
+   "E2": 0,
+   "E3": 0,
+   "OFF2": 0,
+   "OFF3": 1
+  },
+  {
+   "player": "vidadi",
+   "team": "B",
+   "pos": "SS",
+   "PA": 4,
+   "AB": 4,
+   "H": 4,
+   "1B": 4,
+   "2B": 0,
+   "3B": 0,
+   "HR": 0,
+   "BB": 0,
+   "K": 0,
+   "R": 1,
+   "RBI": 4,
+   "ROE": 0,
+   "FC": 0,
+   "SAC": 0,
+   "PO": 2,
+   "FPO": 2,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 5,
+   "E": 2,
+   "E2": 1,
+   "E3": 0,
+   "OFF2": 0,
+   "OFF3": 0
+  },
+  {
+   "player": "emil",
+   "team": "B",
+   "pos": "RF",
+   "PA": 4,
+   "AB": 3,
+   "H": 0,
+   "1B": 0,
+   "2B": 0,
+   "3B": 0,
+   "HR": 0,
+   "BB": 1,
+   "K": 0,
+   "R": 0,
+   "RBI": 1,
+   "ROE": 2,
+   "FC": 0,
+   "SAC": 0,
+   "PO": 2,
+   "FPO": 2,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 2,
+   "E": 1,
+   "E2": 1,
+   "E3": 0,
+   "OFF2": 1,
+   "OFF3": 0
+  },
+  {
+   "player": "sabir-talibov",
+   "team": "B",
+   "pos": "2B",
+   "PA": 4,
+   "AB": 4,
+   "H": 0,
+   "1B": 0,
+   "2B": 0,
+   "3B": 0,
+   "HR": 0,
+   "BB": 0,
+   "K": 0,
+   "R": 0,
+   "RBI": 1,
+   "ROE": 0,
+   "FC": 2,
+   "SAC": 0,
+   "PO": 1,
+   "FPO": 1,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 0,
+   "E": 1,
+   "E2": 0,
+   "E3": 0,
+   "OFF2": 0,
+   "OFF3": 0
+  },
+  {
+   "player": "alim",
+   "team": "B",
+   "pos": "3B",
+   "PA": 4,
+   "AB": 4,
+   "H": 1,
+   "1B": 1,
+   "2B": 0,
+   "3B": 0,
+   "HR": 0,
+   "BB": 0,
+   "K": 0,
+   "R": 0,
+   "RBI": 0,
+   "ROE": 0,
+   "FC": 1,
+   "SAC": 0,
+   "PO": 3,
+   "FPO": 1,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 1,
+   "E": 2,
+   "E2": 1,
+   "E3": 0,
+   "OFF2": 0,
+   "OFF3": 0
+  },
+  {
+   "player": "rasim",
+   "team": "B",
+   "pos": "P",
+   "PA": 4,
+   "AB": 4,
+   "H": 2,
+   "1B": 1,
+   "2B": 1,
+   "3B": 0,
+   "HR": 0,
+   "BB": 0,
+   "K": 0,
+   "R": 3,
+   "RBI": 0,
+   "ROE": 0,
+   "FC": 1,
+   "SAC": 0,
+   "PO": 0,
+   "FPO": 0,
+   "KPO": 0,
+   "PK": 2,
+   "PBB": 5,
+   "A": 1,
+   "E": 0,
+   "E2": 0,
+   "E3": 0,
+   "OFF2": 0,
+   "OFF3": 0
+  },
+  {
+   "player": "mushfig-ibrahimov",
+   "team": "B",
+   "pos": "1B",
+   "PA": 4,
+   "AB": 4,
+   "H": 2,
+   "1B": 2,
+   "2B": 0,
+   "3B": 0,
+   "HR": 0,
+   "BB": 0,
+   "K": 0,
+   "R": 0,
+   "RBI": 0,
+   "ROE": 2,
+   "FC": 0,
+   "SAC": 0,
+   "PO": 5,
+   "FPO": 0,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 0,
+   "E": 1,
+   "E2": 0,
+   "E3": 0,
+   "OFF2": 0,
+   "OFF3": 0
+  },
+  {
+   "player": "bahram-jamilov",
+   "team": "B",
+   "pos": "RCF",
+   "PA": 4,
+   "AB": 4,
+   "H": 1,
+   "1B": 1,
+   "2B": 0,
+   "3B": 0,
+   "HR": 0,
+   "BB": 0,
+   "K": 0,
+   "R": 0,
+   "RBI": 1,
+   "ROE": 0,
+   "FC": 3,
+   "SAC": 0,
+   "PO": 0,
+   "FPO": 0,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 0,
+   "E": 0,
+   "E2": 0,
+   "E3": 0,
+   "OFF2": 0,
+   "OFF3": 0
+  },
+  {
+   "player": "sediyar-aliyev",
+   "team": "B",
+   "pos": "C",
+   "PA": 4,
+   "AB": 2,
+   "H": 0,
+   "1B": 0,
+   "2B": 0,
+   "3B": 0,
+   "HR": 0,
+   "BB": 2,
+   "K": 0,
+   "R": 0,
+   "RBI": 0,
+   "ROE": 0,
+   "FC": 1,
+   "SAC": 0,
+   "PO": 0,
+   "FPO": 0,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 0,
+   "E": 0,
+   "E2": 0,
+   "E3": 0,
+   "OFF2": 0,
+   "OFF3": 0
+  },
+  {
+   "player": "rasul-4",
+   "team": "B",
+   "pos": "LCF",
+   "PA": 4,
+   "AB": 3,
+   "H": 0,
+   "1B": 0,
+   "2B": 0,
+   "3B": 0,
+   "HR": 0,
+   "BB": 0,
+   "K": 0,
+   "R": 1,
+   "RBI": 1,
+   "ROE": 1,
+   "FC": 1,
+   "SAC": 1,
+   "PO": 4,
+   "FPO": 2,
+   "KPO": 0,
+   "PK": 0,
+   "PBB": 0,
+   "A": 0,
+   "E": 0,
+   "E2": 0,
+   "E3": 0,
+   "OFF2": 1,
+   "OFF3": 0
+  }
+ ],
+ "note": "Протокол по видео (диктовка 22.11.2026). Gilavar 15:11, 8 иннингов. Gilavar бьёт первым.",
+ "highlights": [
+  {
+   "player": "rasul-21",
+   "t": 301,
+   "type": "HR"
+  },
+  {
+   "player": "fakhri-eyvazov",
+   "t": 355,
+   "type": "2B"
+  },
+  {
+   "player": "emil",
+   "t": 437,
+   "type": "play"
+  },
+  {
+   "player": "sergey-molchanov",
+   "t": 799,
+   "type": "2B"
+  },
+  {
+   "player": "rasim",
+   "t": 893,
+   "type": "2B"
+  },
+  {
+   "player": "emil",
+   "t": 979,
+   "type": "DP"
+  },
+  {
+   "player": "danylo-shapovalov",
+   "t": 1109,
+   "type": "DP"
+  }
+ ],
+ "plays": [
+  {
+   "n": 1,
+   "i": 1,
+   "h": "T",
+   "b": "rashid",
+   "r": "ROE",
+   "o": 0,
+   "s": [
+    0,
+    0
+   ],
+   "t": 1,
+   "d": "1B",
+   "bt": "g",
+   "e": [
+    "mushfig-ibrahimov"
+   ]
+  },
+  {
+   "n": 2,
+   "i": 1,
+   "h": "T",
+   "b": "sergey-molchanov",
+   "r": "FO",
+   "o": 1,
+   "s": [
+    0,
+    0
+   ],
+   "t": 16,
+   "d": "LF",
+   "bt": "f",
+   "f": [
+    "danylo-shapovalov"
+   ],
+   "note": "Рашид на 2-ю после ловли",
+   "po": [
+    "danylo-shapovalov"
+   ],
+   "fpo": "danylo-shapovalov"
+  },
+  {
+   "n": 3,
+   "i": 1,
+   "h": "T",
+   "b": "sergey-antipov",
+   "r": "ROE",
+   "o": 1,
+   "s": [
+    0,
+    0
+   ],
+   "t": 31,
+   "d": "2B",
+   "bt": "g",
+   "e": [
+    "sabir-talibov"
+   ]
+  },
+  {
+   "n": 4,
+   "i": 1,
+   "h": "T",
+   "b": "rasul-21",
+   "r": "1B",
+   "o": 2,
+   "s": [
+    1,
+    0
+   ],
+   "t": 44,
+   "d": "RCF",
+   "bt": "f",
+   "f": [
+    "emil",
+    "rasul-4"
+   ],
+   "sc": [
+    "rashid"
+   ],
+   "note": "Антипов аут на 2-й (Эмиль → Расул Шукюров)",
+   "po": [
+    "rasul-4"
+   ],
+   "a": [
+    "emil"
+   ],
+   "rbi": 1
+  },
+  {
+   "n": 5,
+   "i": 1,
+   "h": "T",
+   "b": "farhad-eyvazov",
+   "r": "BB",
+   "o": 2,
+   "s": [
+    1,
+    0
+   ],
+   "t": 58,
+   "pbb": "rasim"
+  },
+  {
+   "n": 6,
+   "i": 1,
+   "h": "T",
+   "b": "parviz-ismayilov",
+   "r": "1B",
+   "o": 2,
+   "s": [
+    2,
+    0
+   ],
+   "t": 68,
+   "d": "RCF",
+   "bt": "l",
+   "sc": [
+    "rasul-21"
+   ],
+   "rbi": 1
+  },
+  {
+   "n": 7,
+   "i": 1,
+   "h": "T",
+   "b": "fakhri-eyvazov",
+   "r": "FO",
+   "o": 3,
+   "s": [
+    2,
+    0
+   ],
+   "t": 82,
+   "d": "RCF",
+   "bt": "f",
+   "f": [
+    "rasul-4"
+   ],
+   "po": [
+    "rasul-4"
+   ],
+   "fpo": "rasul-4",
+   "ofb": {
+    "rasul-4": 2
+   }
+  },
+  {
+   "n": 8,
+   "i": 1,
+   "h": "B",
+   "b": "danylo-shapovalov",
+   "r": "FO",
+   "o": 1,
+   "s": [
+    2,
+    0
+   ],
+   "t": 90,
+   "d": "LF",
+   "bt": "f",
+   "f": [
+    "rashid"
+   ],
+   "po": [
+    "rashid"
+   ],
+   "fpo": "rashid"
+  },
+  {
+   "n": 9,
+   "i": 1,
+   "h": "B",
+   "b": "emilien",
+   "r": "1B",
+   "o": 1,
+   "s": [
+    2,
+    0
+   ],
+   "t": 99,
+   "d": "C",
+   "bt": "g",
+   "note": "как бант"
+  },
+  {
+   "n": 10,
+   "i": 1,
+   "h": "B",
+   "b": "ilgar",
+   "r": "FO",
+   "o": 2,
+   "s": [
+    2,
+    0
+   ],
+   "t": 107,
+   "d": "SS",
+   "bt": "l",
+   "f": [
+    "sergey-molchanov"
+   ],
+   "po": [
+    "sergey-molchanov"
+   ],
+   "fpo": "sergey-molchanov"
+  },
+  {
+   "n": 11,
+   "i": 1,
+   "h": "B",
+   "b": "vidadi",
+   "r": "1B",
+   "o": 2,
+   "s": [
+    2,
+    0
+   ],
+   "t": 115,
+   "d": "2B",
+   "bt": "g"
+  },
+  {
+   "n": 12,
+   "i": 1,
+   "h": "B",
+   "b": "emil",
+   "r": "ROE",
+   "o": 2,
+   "s": [
+    2,
+    0
+   ],
+   "t": 128,
+   "d": "3B",
+   "bt": "g",
+   "e": [
+    "ramiz-ismayilov"
+   ]
+  },
+  {
+   "n": 13,
+   "i": 1,
+   "h": "B",
+   "b": "sabir-talibov",
+   "r": "FO",
+   "o": 3,
+   "s": [
+    2,
+    0
+   ],
+   "t": 141,
+   "d": "LCF",
+   "bt": "f",
+   "f": [
+    "rasul-21"
+   ],
+   "po": [
+    "rasul-21"
+   ],
+   "fpo": "rasul-21",
+   "ofb": {
+    "rasul-21": 3
+   }
+  },
+  {
+   "n": 14,
+   "i": 2,
+   "h": "T",
+   "b": "ramiz-ismayilov",
+   "r": "1B",
+   "o": 0,
+   "s": [
+    2,
+    0
+   ],
+   "t": 151,
+   "d": "SS",
+   "bt": "g"
+  },
+  {
+   "n": 15,
+   "i": 2,
+   "h": "T",
+   "b": "ilham",
+   "r": "FO",
+   "o": 1,
+   "s": [
+    2,
+    0
+   ],
+   "t": 163,
+   "d": "2B",
+   "bt": "l",
+   "f": [
+    "sabir-talibov"
+   ],
+   "po": [
+    "sabir-talibov"
+   ],
+   "fpo": "sabir-talibov"
+  },
+  {
+   "n": 16,
+   "i": 2,
+   "h": "T",
+   "b": "hikmat",
+   "r": "ROE",
+   "o": 1,
+   "s": [
+    2,
+    0
+   ],
+   "t": 177,
+   "d": "RF",
+   "bt": "f",
+   "e": [
+    "emil"
+   ],
+   "eb": [
+    2
+   ],
+   "note": "Рамиз с 1-й на 3-ю"
+  },
+  {
+   "n": 17,
+   "i": 2,
+   "h": "T",
+   "b": "mammad-aliyev",
+   "r": "K",
+   "o": 2,
+   "s": [
+    2,
+    0
+   ],
+   "t": 193,
+   "pk": "rasim"
+  },
+  {
+   "n": 18,
+   "i": 2,
+   "h": "T",
+   "b": "kesha",
+   "r": "K",
+   "o": 3,
+   "s": [
+    2,
+    0
+   ],
+   "t": 202,
+   "pk": "rasim"
+  },
+  {
+   "n": 19,
+   "i": 2,
+   "h": "B",
+   "b": "alim",
+   "r": "1B",
+   "o": 0,
+   "s": [
+    2,
+    0
+   ],
+   "t": 208,
+   "d": "SS",
+   "bt": "g"
+  },
+  {
+   "n": 20,
+   "i": 2,
+   "h": "B",
+   "b": "rasim",
+   "r": "FC",
+   "o": 1,
+   "s": [
+    2,
+    0
+   ],
+   "t": 219,
+   "d": "2B",
+   "bt": "g",
+   "f": [
+    "farhad-eyvazov",
+    "sergey-molchanov"
+   ],
+   "po": [
+    "sergey-molchanov"
+   ],
+   "a": [
+    "farhad-eyvazov"
+   ]
+  },
+  {
+   "n": 21,
+   "i": 2,
+   "h": "B",
+   "b": "mushfig-ibrahimov",
+   "r": "ROE",
+   "o": 1,
+   "s": [
+    2,
+    0
+   ],
+   "t": 228,
+   "d": "SS",
+   "bt": "g",
+   "f": [
+    "sergey-molchanov"
+   ],
+   "e": [
+    "parviz-ismayilov"
+   ],
+   "eb": [
+    2
+   ],
+   "note": "точный пас Молчанова, Пярвиз не поймал; Расим на 3-ю"
+  },
+  {
+   "n": 22,
+   "i": 2,
+   "h": "B",
+   "b": "bahram-jamilov",
+   "r": "FC",
+   "o": 2,
+   "s": [
+    2,
+    1
+   ],
+   "t": 243,
+   "d": "SS",
+   "bt": "g",
+   "f": [
+    "sergey-molchanov",
+    "parviz-ismayilov"
+   ],
+   "sc": [
+    "rasim"
+   ],
+   "po": [
+    "parviz-ismayilov"
+   ],
+   "a": [
+    "sergey-molchanov"
+   ],
+   "rbi": 1
+  },
+  {
+   "n": 23,
+   "i": 2,
+   "h": "B",
+   "b": "sediyar-aliyev",
+   "r": "BB",
+   "o": 2,
+   "s": [
+    2,
+    1
+   ],
+   "t": 254,
+   "pbb": "sergey-antipov"
+  },
+  {
+   "n": 24,
+   "i": 2,
+   "h": "B",
+   "b": "rasul-4",
+   "r": "FC",
+   "o": 3,
+   "s": [
+    2,
+    1
+   ],
+   "t": 261,
+   "d": "SS",
+   "bt": "g",
+   "f": [
+    "sergey-molchanov",
+    "ramiz-ismayilov"
+   ],
+   "po": [
+    "ramiz-ismayilov"
+   ],
+   "a": [
+    "sergey-molchanov"
+   ]
+  },
+  {
+   "n": 25,
+   "i": 3,
+   "h": "T",
+   "b": "rashid",
+   "r": "FO",
+   "o": 1,
+   "s": [
+    2,
+    1
+   ],
+   "t": 271,
+   "d": "LCF",
+   "bt": "f",
+   "f": [
+    "rasul-4"
+   ],
+   "po": [
+    "rasul-4"
+   ],
+   "fpo": "rasul-4"
+  },
+  {
+   "n": 26,
+   "i": 3,
+   "h": "T",
+   "b": "sergey-molchanov",
+   "r": "FO",
+   "o": 2,
+   "s": [
+    2,
+    1
+   ],
+   "t": 282,
+   "d": "LF",
+   "bt": "f",
+   "f": [
+    "danylo-shapovalov"
+   ],
+   "po": [
+    "danylo-shapovalov"
+   ],
+   "fpo": "danylo-shapovalov"
+  },
+  {
+   "n": 27,
+   "i": 3,
+   "h": "T",
+   "b": "sergey-antipov",
+   "r": "1B",
+   "o": 2,
+   "s": [
+    2,
+    1
+   ],
+   "t": 291,
+   "d": "RCF",
+   "bt": "g"
+  },
+  {
+   "n": 28,
+   "i": 3,
+   "h": "T",
+   "b": "rasul-21",
+   "r": "HR",
+   "o": 2,
+   "s": [
+    4,
+    1
+   ],
+   "t": 301,
+   "d": "LCF",
+   "bt": "f",
+   "sc": [
+    "sergey-antipov",
+    "rasul-21"
+   ],
+   "rbi": 2
+  },
+  {
+   "n": 29,
+   "i": 3,
+   "h": "T",
+   "b": "farhad-eyvazov",
+   "r": "1B",
+   "o": 2,
+   "s": [
+    4,
+    1
+   ],
+   "t": 318,
+   "d": "3B",
+   "bt": "g",
+   "e": [
+    "ilgar"
+   ],
+   "note": "Ильгар бросил мимо 1-й, Фархад на 2-ю"
+  },
+  {
+   "n": 30,
+   "i": 3,
+   "h": "T",
+   "b": "parviz-ismayilov",
+   "r": "1B",
+   "o": 2,
+   "s": [
+    5,
+    1
+   ],
+   "t": 334,
+   "d": "LF",
+   "bt": "f",
+   "sc": [
+    "farhad-eyvazov"
+   ],
+   "rbi": 1
+  },
+  {
+   "n": 31,
+   "i": 3,
+   "h": "T",
+   "b": "fakhri-eyvazov",
+   "r": "2B",
+   "o": 2,
+   "s": [
+    6,
+    1
+   ],
+   "t": 355,
+   "d": "RCF",
+   "bt": "f",
+   "sc": [
+    "parviz-ismayilov"
+   ],
+   "rbi": 1
+  },
+  {
+   "n": 32,
+   "i": 3,
+   "h": "T",
+   "b": "ramiz-ismayilov",
+   "r": "FO",
+   "o": 3,
+   "s": [
+    6,
+    1
+   ],
+   "t": 371,
+   "d": "RF",
+   "bt": "f",
+   "f": [
+    "emil"
+   ],
+   "po": [
+    "emil"
+   ],
+   "fpo": "emil",
+   "ofb": {
+    "emil": 2
+   }
+  },
+  {
+   "n": 33,
+   "i": 3,
+   "h": "B",
+   "b": "danylo-shapovalov",
+   "r": "ROE",
+   "o": 0,
+   "s": [
+    6,
+    1
+   ],
+   "t": 383,
+   "d": "SS",
+   "bt": "g",
+   "f": [
+    "sergey-molchanov"
+   ],
+   "e": [
+    "hikmat"
+   ],
+   "note": "точный пас Молчанова, Хикмят не поймал"
+  },
+  {
+   "n": 34,
+   "i": 3,
+   "h": "B",
+   "b": "emilien",
+   "r": "FC",
+   "o": 1,
+   "s": [
+    6,
+    1
+   ],
+   "t": 392,
+   "d": "P",
+   "bt": "l",
+   "f": [
+    "sergey-antipov",
+    "sergey-molchanov"
+   ],
+   "po": [
+    "sergey-molchanov"
+   ],
+   "a": [
+    "sergey-antipov"
+   ]
+  },
+  {
+   "n": 35,
+   "i": 3,
+   "h": "B",
+   "b": "ilgar",
+   "r": "ROE",
+   "o": 1,
+   "s": [
+    6,
+    1
+   ],
+   "t": 402,
+   "d": "SS",
+   "bt": "g",
+   "f": [
+    "sergey-molchanov"
+   ],
+   "e": [
+    "parviz-ismayilov"
+   ],
+   "note": "точный пас Молчанова, Пярвиз не поймал"
+  },
+  {
+   "n": 36,
+   "i": 3,
+   "h": "B",
+   "b": "vidadi",
+   "r": "1B",
+   "o": 1,
+   "s": [
+    6,
+    3
+   ],
+   "t": 419,
+   "d": "SS",
+   "bt": "g",
+   "e": [
+    "rasul-21"
+   ],
+   "eb": [
+    2
+   ],
+   "sc": [
+    "emilien",
+    "ilgar"
+   ],
+   "note": "ошибка Расула Алиева: Ильгар дома, Видади на 3-й",
+   "rbi": 1
+  },
+  {
+   "n": 37,
+   "i": 3,
+   "h": "B",
+   "b": "emil",
+   "r": "GO",
+   "o": 2,
+   "s": [
+    6,
+    4
+   ],
+   "t": 437,
+   "d": "3B",
+   "bt": "g",
+   "f": [
+    "ramiz-ismayilov",
+    "hikmat"
+   ],
+   "sc": [
+    "vidadi"
+   ],
+   "note": "спорный момент — OUT",
+   "po": [
+    "hikmat"
+   ],
+   "a": [
+    "ramiz-ismayilov"
+   ],
+   "rbi": 1
+  },
+  {
+   "n": 38,
+   "i": 3,
+   "h": "B",
+   "b": "sabir-talibov",
+   "r": "GO",
+   "o": 3,
+   "s": [
+    6,
+    4
+   ],
+   "t": 453,
+   "d": "P",
+   "bt": "g",
+   "f": [
+    "sergey-antipov",
+    "hikmat"
+   ],
+   "po": [
+    "hikmat"
+   ],
+   "a": [
+    "sergey-antipov"
+   ]
+  },
+  {
+   "n": 39,
+   "i": 4,
+   "h": "T",
+   "b": "ilham",
+   "r": "FO",
+   "o": 1,
+   "s": [
+    6,
+    4
+   ],
+   "t": 463,
+   "d": "SS",
+   "bt": "f",
+   "f": [
+    "vidadi"
+   ],
+   "po": [
+    "vidadi"
+   ],
+   "fpo": "vidadi"
+  },
+  {
+   "n": 40,
+   "i": 4,
+   "h": "T",
+   "b": "hikmat",
+   "r": "1B",
+   "o": 1,
+   "s": [
+    6,
+    4
+   ],
+   "t": 473,
+   "d": "SS",
+   "bt": "g"
+  },
+  {
+   "n": 41,
+   "i": 4,
+   "h": "T",
+   "b": "mammad-aliyev",
+   "r": "BB",
+   "o": 1,
+   "s": [
+    6,
+    4
+   ],
+   "t": 484,
+   "pbb": "rasim"
+  },
+  {
+   "n": 42,
+   "i": 4,
+   "h": "T",
+   "b": "kesha",
+   "r": "FC",
+   "o": 2,
+   "s": [
+    6,
+    4
+   ],
+   "t": 492,
+   "d": "P",
+   "bt": "g",
+   "f": [
+    "rasim",
+    "alim"
+   ],
+   "po": [
+    "alim"
+   ],
+   "a": [
+    "rasim"
+   ]
+  },
+  {
+   "n": 43,
+   "i": 4,
+   "h": "T",
+   "b": "rashid",
+   "r": "1B",
+   "o": 2,
+   "s": [
+    6,
+    4
+   ],
+   "t": 501,
+   "d": "SS",
+   "bt": "g"
+  },
+  {
+   "n": 44,
+   "i": 4,
+   "h": "T",
+   "b": "sergey-molchanov",
+   "r": "1B",
+   "o": 2,
+   "s": [
+    7,
+    4
+   ],
+   "t": 512,
+   "d": "LF",
+   "bt": "l",
+   "sc": [
+    "mammad-aliyev"
+   ],
+   "rbi": 1
+  },
+  {
+   "n": 45,
+   "i": 4,
+   "h": "T",
+   "b": "sergey-antipov",
+   "r": "1B",
+   "o": 2,
+   "s": [
+    8,
+    4
+   ],
+   "t": 523,
+   "d": "3B",
+   "bt": "g",
+   "sc": [
+    "kesha"
+   ],
+   "rbi": 1
+  },
+  {
+   "n": 46,
+   "i": 4,
+   "h": "T",
+   "b": "rasul-21",
+   "r": "1B",
+   "o": 2,
+   "s": [
+    10,
+    4
+   ],
+   "t": 544,
+   "d": "SS",
+   "bt": "f",
+   "sc": [
+    "rashid",
+    "sergey-molchanov"
+   ],
+   "note": "на броске домой Антипов на 3-ю, Расул на 2-ю",
+   "rbi": 2
+  },
+  {
+   "n": 47,
+   "i": 4,
+   "h": "T",
+   "b": "farhad-eyvazov",
+   "r": "2B",
+   "o": 2,
+   "s": [
+    12,
+    4
+   ],
+   "t": 563,
+   "d": "LCF",
+   "bt": "f",
+   "e": [
+    "vidadi"
+   ],
+   "sc": [
+    "sergey-antipov",
+    "rasul-21"
+   ],
+   "note": "ошибка Видади при броске домой, Фархад на 3-ю",
+   "rbi": 2
+  },
+  {
+   "n": 48,
+   "i": 4,
+   "h": "T",
+   "b": "parviz-ismayilov",
+   "r": "ROE",
+   "o": 2,
+   "s": [
+    13,
+    4
+   ],
+   "t": 579,
+   "d": "3B",
+   "bt": "g",
+   "e": [
+    "alim"
+   ],
+   "sc": [
+    "farhad-eyvazov"
+   ]
+  },
+  {
+   "n": 49,
+   "i": 4,
+   "h": "T",
+   "b": "fakhri-eyvazov",
+   "r": "GO",
+   "o": 3,
+   "s": [
+    13,
+    4
+   ],
+   "t": 590,
+   "d": "2B",
+   "bt": "g",
+   "f": [
+    "vidadi",
+    "mushfig-ibrahimov"
+   ],
+   "po": [
+    "mushfig-ibrahimov"
+   ],
+   "a": [
+    "vidadi"
+   ]
+  },
+  {
+   "n": 50,
+   "i": 4,
+   "h": "B",
+   "b": "alim",
+   "r": "GO",
+   "o": 1,
+   "s": [
+    13,
+    4
+   ],
+   "t": 598,
+   "d": "2B",
+   "bt": "g",
+   "f": [
+    "parviz-ismayilov",
+    "hikmat"
+   ],
+   "po": [
+    "hikmat"
+   ],
+   "a": [
+    "parviz-ismayilov"
+   ]
+  },
+  {
+   "n": 51,
+   "i": 4,
+   "h": "B",
+   "b": "rasim",
+   "r": "FO",
+   "o": 2,
+   "s": [
+    13,
+    4
+   ],
+   "t": 607,
+   "d": "P",
+   "bt": "f",
+   "f": [
+    "sergey-antipov"
+   ],
+   "po": [
+    "sergey-antipov"
+   ],
+   "fpo": "sergey-antipov"
+  },
+  {
+   "n": 52,
+   "i": 4,
+   "h": "B",
+   "b": "mushfig-ibrahimov",
+   "r": "1B",
+   "o": 2,
+   "s": [
+    13,
+    4
+   ],
+   "t": 615,
+   "d": "2B",
+   "bt": "g"
+  },
+  {
+   "n": 53,
+   "i": 4,
+   "h": "B",
+   "b": "bahram-jamilov",
+   "r": "FC",
+   "o": 3,
+   "s": [
+    13,
+    4
+   ],
+   "t": 626,
+   "d": "SS",
+   "bt": "g",
+   "f": [
+    "sergey-molchanov",
+    "parviz-ismayilov"
+   ],
+   "po": [
+    "parviz-ismayilov"
+   ],
+   "a": [
+    "sergey-molchanov"
+   ]
+  },
+  {
+   "n": 54,
+   "i": 5,
+   "h": "T",
+   "b": "ramiz-ismayilov",
+   "r": "GO",
+   "o": 1,
+   "s": [
+    13,
+    4
+   ],
+   "t": 634,
+   "d": "SS",
+   "bt": "g",
+   "f": [
+    "vidadi",
+    "mushfig-ibrahimov"
+   ],
+   "po": [
+    "mushfig-ibrahimov"
+   ],
+   "a": [
+    "vidadi"
+   ]
+  },
+  {
+   "n": 55,
+   "i": 5,
+   "h": "T",
+   "b": "ilham",
+   "r": "1B",
+   "o": 1,
+   "s": [
+    13,
+    4
+   ],
+   "t": 644,
+   "d": "2B",
+   "bt": "g"
+  },
+  {
+   "n": 56,
+   "i": 5,
+   "h": "T",
+   "b": "hikmat",
+   "r": "FC",
+   "o": 2,
+   "s": [
+    13,
+    4
+   ],
+   "t": 655,
+   "d": "2B",
+   "bt": "g",
+   "f": [
+    "vidadi",
+    "alim"
+   ],
+   "po": [
+    "alim"
+   ],
+   "a": [
+    "vidadi"
+   ]
+  },
+  {
+   "n": 57,
+   "i": 5,
+   "h": "T",
+   "b": "mammad-aliyev",
+   "r": "BB",
+   "o": 2,
+   "s": [
+    13,
+    4
+   ],
+   "t": 667,
+   "pbb": "rasim"
+  },
+  {
+   "n": 58,
+   "i": 5,
+   "h": "T",
+   "b": "kesha",
+   "r": "1B",
+   "o": 2,
+   "s": [
+    13,
+    4
+   ],
+   "t": 673,
+   "d": "2B",
+   "bt": "g"
+  },
+  {
+   "n": 59,
+   "i": 5,
+   "h": "T",
+   "b": "rashid",
+   "r": "FO",
+   "o": 3,
+   "s": [
+    13,
+    4
+   ],
+   "t": 684,
+   "d": "CF",
+   "bt": "f",
+   "f": [
+    "emilien"
+   ],
+   "po": [
+    "emilien"
+   ],
+   "fpo": "emilien",
+   "ofb": {
+    "emilien": 3
+   }
+  },
+  {
+   "n": 60,
+   "i": 5,
+   "h": "B",
+   "b": "sediyar-aliyev",
+   "r": "GO",
+   "o": 1,
+   "s": [
+    13,
+    4
+   ],
+   "t": 696,
+   "d": "P",
+   "bt": "g",
+   "f": [
+    "sergey-antipov",
+    "hikmat"
+   ],
+   "po": [
+    "hikmat"
+   ],
+   "a": [
+    "sergey-antipov"
+   ]
+  },
+  {
+   "n": 61,
+   "i": 5,
+   "h": "B",
+   "b": "rasul-4",
+   "r": "ROE",
+   "o": 1,
+   "s": [
+    13,
+    4
+   ],
+   "t": 706,
+   "d": "RCF",
+   "bt": "f",
+   "e": [
+    "kesha"
+   ]
+  },
+  {
+   "n": 62,
+   "i": 5,
+   "h": "B",
+   "b": "danylo-shapovalov",
+   "r": "FO",
+   "o": 2,
+   "s": [
+    13,
+    4
+   ],
+   "t": 720,
+   "d": "SS",
+   "bt": "l",
+   "f": [
+    "sergey-molchanov"
+   ],
+   "po": [
+    "sergey-molchanov"
+   ],
+   "fpo": "sergey-molchanov"
+  },
+  {
+   "n": 63,
+   "i": 5,
+   "h": "B",
+   "b": "emilien",
+   "r": "1B",
+   "o": 2,
+   "s": [
+    13,
+    4
+   ],
+   "t": 729,
+   "d": "2B",
+   "bt": "g"
+  },
+  {
+   "n": 64,
+   "i": 5,
+   "h": "B",
+   "b": "ilgar",
+   "r": "1B",
+   "o": 2,
+   "s": [
+    13,
+    4
+   ],
+   "t": 744,
+   "d": "2B",
+   "bt": "g"
+  },
+  {
+   "n": 65,
+   "i": 5,
+   "h": "B",
+   "b": "vidadi",
+   "r": "1B",
+   "o": 2,
+   "s": [
+    13,
+    6
+   ],
+   "t": 757,
+   "d": "SS",
+   "bt": "g",
+   "sc": [
+    "rasul-4",
+    "emilien"
+   ],
+   "rbi": 2
+  },
+  {
+   "n": 66,
+   "i": 5,
+   "h": "B",
+   "b": "emil",
+   "r": "ROE",
+   "o": 2,
+   "s": [
+    13,
+    7
+   ],
+   "t": 773,
+   "d": "SS",
+   "bt": "g",
+   "f": [
+    "sergey-molchanov"
+   ],
+   "e": [
+    "parviz-ismayilov"
+   ],
+   "eb": [
+    2
+   ],
+   "sc": [
+    "ilgar"
+   ],
+   "note": "точный пас Молчанова, Пярвиз не поймал; Ильгар дома"
+  },
+  {
+   "n": 67,
+   "i": 5,
+   "h": "B",
+   "b": "sabir-talibov",
+   "r": "FC",
+   "o": 3,
+   "s": [
+    13,
+    7
+   ],
+   "t": 788,
+   "d": "3B",
+   "bt": "g",
+   "f": [
+    "ramiz-ismayilov"
+   ],
+   "po": [
+    "ramiz-ismayilov"
+   ],
+   "fpo": "ramiz-ismayilov"
+  },
+  {
+   "n": 68,
+   "i": 6,
+   "h": "T",
+   "b": "sergey-molchanov",
+   "r": "2B",
+   "o": 0,
+   "s": [
+    13,
+    7
+   ],
+   "t": 799,
+   "d": "LCF",
+   "bt": "l"
+  },
+  {
+   "n": 69,
+   "i": 6,
+   "h": "T",
+   "b": "sergey-antipov",
+   "r": "ROE",
+   "o": 0,
+   "s": [
+    13,
+    7
+   ],
+   "t": 814,
+   "d": "SS",
+   "bt": "g",
+   "e": [
+    "vidadi"
+   ],
+   "eb": [
+    2
+   ],
+   "note": "одна ошибка Видади (ловля и бросок), Антипов на 2-й"
+  },
+  {
+   "n": 70,
+   "i": 6,
+   "h": "T",
+   "b": "rasul-21",
+   "r": "SAC",
+   "o": 1,
+   "s": [
+    14,
+    7
+   ],
+   "t": 831,
+   "d": "LF",
+   "bt": "f",
+   "f": [
+    "ilgar"
+   ],
+   "sc": [
+    "sergey-molchanov"
+   ],
+   "po": [
+    "ilgar"
+   ],
+   "fpo": "ilgar",
+   "rbi": 1,
+   "ofb": {
+    "ilgar": 3
+   }
+  },
+  {
+   "n": 71,
+   "i": 6,
+   "h": "T",
+   "b": "farhad-eyvazov",
+   "r": "BB",
+   "o": 1,
+   "s": [
+    14,
+    7
+   ],
+   "t": 847,
+   "pbb": "rasim"
+  },
+  {
+   "n": 72,
+   "i": 6,
+   "h": "T",
+   "b": "parviz-ismayilov",
+   "r": "FC",
+   "o": 2,
+   "s": [
+    15,
+    7
+   ],
+   "t": 858,
+   "d": "3B",
+   "bt": "g",
+   "f": [
+    "alim"
+   ],
+   "e": [
+    "alim"
+   ],
+   "eb": [
+    2
+   ],
+   "sc": [
+    "farhad-eyvazov"
+   ],
+   "note": "Алим осалил Антипова, потом бросил мимо 2-й; Фархад дома",
+   "po": [
+    "alim"
+   ],
+   "fpo": "alim"
+  },
+  {
+   "n": 73,
+   "i": 6,
+   "h": "T",
+   "b": "fakhri-eyvazov",
+   "r": "GO",
+   "o": 3,
+   "s": [
+    15,
+    7
+   ],
+   "t": 874,
+   "d": "2B",
+   "bt": "g",
+   "f": [
+    "vidadi",
+    "mushfig-ibrahimov"
+   ],
+   "po": [
+    "mushfig-ibrahimov"
+   ],
+   "a": [
+    "vidadi"
+   ]
+  },
+  {
+   "n": 74,
+   "i": 6,
+   "h": "B",
+   "b": "alim",
+   "r": "GO",
+   "o": 1,
+   "s": [
+    15,
+    7
+   ],
+   "t": 884,
+   "d": "2B",
+   "bt": "g",
+   "f": [
+    "parviz-ismayilov",
+    "hikmat"
+   ],
+   "po": [
+    "hikmat"
+   ],
+   "a": [
+    "parviz-ismayilov"
+   ]
+  },
+  {
+   "n": 75,
+   "i": 6,
+   "h": "B",
+   "b": "rasim",
+   "r": "2B",
+   "o": 1,
+   "s": [
+    15,
+    7
+   ],
+   "t": 893,
+   "d": "RF",
+   "bt": "f"
+  },
+  {
+   "n": 76,
+   "i": 6,
+   "h": "B",
+   "b": "mushfig-ibrahimov",
+   "r": "ROE",
+   "o": 1,
+   "s": [
+    15,
+    8
+   ],
+   "t": 908,
+   "d": "2B",
+   "bt": "g",
+   "e": [
+    "parviz-ismayilov"
+   ],
+   "eb": [
+    2
+   ],
+   "sc": [
+    "rasim"
+   ]
+  },
+  {
+   "n": 77,
+   "i": 6,
+   "h": "B",
+   "b": "bahram-jamilov",
+   "r": "1B",
+   "o": 1,
+   "s": [
+    15,
+    8
+   ],
+   "t": 922,
+   "d": "C",
+   "bt": "g"
+  },
+  {
+   "n": 78,
+   "i": 6,
+   "h": "B",
+   "b": "sediyar-aliyev",
+   "r": "FC",
+   "o": 2,
+   "s": [
+    15,
+    8
+   ],
+   "t": 932,
+   "d": "SS",
+   "bt": "g",
+   "f": [
+    "sergey-molchanov",
+    "ramiz-ismayilov"
+   ],
+   "po": [
+    "ramiz-ismayilov"
+   ],
+   "a": [
+    "sergey-molchanov"
+   ]
+  },
+  {
+   "n": 79,
+   "i": 6,
+   "h": "B",
+   "b": "rasul-4",
+   "r": "FO",
+   "o": 3,
+   "s": [
+    15,
+    8
+   ],
+   "t": 941,
+   "d": "RF",
+   "bt": "f",
+   "f": [
+    "mammad-aliyev"
+   ],
+   "po": [
+    "mammad-aliyev"
+   ],
+   "fpo": "mammad-aliyev",
+   "ofb": {
+    "mammad-aliyev": 2
+   }
+  },
+  {
+   "n": 80,
+   "i": 7,
+   "h": "T",
+   "b": "ramiz-ismayilov",
+   "r": "1B",
+   "o": 0,
+   "s": [
+    15,
+    8
+   ],
+   "t": 951,
+   "d": "2B",
+   "bt": "g"
+  },
+  {
+   "n": 81,
+   "i": 7,
+   "h": "T",
+   "b": "ilham",
+   "r": "FO",
+   "o": 1,
+   "s": [
+    15,
+    8
+   ],
+   "t": 963,
+   "d": "SS",
+   "bt": "f",
+   "f": [
+    "vidadi"
+   ],
+   "po": [
+    "vidadi"
+   ],
+   "fpo": "vidadi"
+  },
+  {
+   "n": 82,
+   "i": 7,
+   "h": "T",
+   "b": "hikmat",
+   "r": "FO",
+   "o": 3,
+   "s": [
+    15,
+    8
+   ],
+   "t": 979,
+   "d": "RF",
+   "bt": "f",
+   "f": [
+    "emil",
+    "mushfig-ibrahimov"
+   ],
+   "dp": 1,
+   "note": "Рамиз ушёл с базы раньше — аут на 1-й",
+   "po": [
+    "mushfig-ibrahimov",
+    "emil"
+   ],
+   "a": [
+    "emil"
+   ],
+   "fpo": "emil"
+  },
+  {
+   "n": 83,
+   "i": 7,
+   "h": "B",
+   "b": "danylo-shapovalov",
+   "r": "1B",
+   "o": 0,
+   "s": [
+    15,
+    8
+   ],
+   "t": 995,
+   "d": "C",
+   "bt": "g"
+  },
+  {
+   "n": 84,
+   "i": 7,
+   "h": "B",
+   "b": "emilien",
+   "r": "1B",
+   "o": 0,
+   "s": [
+    15,
+    8
+   ],
+   "t": 1006,
+   "d": "2B",
+   "bt": "g"
+  },
+  {
+   "n": 85,
+   "i": 7,
+   "h": "B",
+   "b": "ilgar",
+   "r": "FO",
+   "o": 1,
+   "s": [
+    15,
+    8
+   ],
+   "t": 1016,
+   "d": "CF",
+   "bt": "f",
+   "f": [
+    "rasul-21"
+   ],
+   "po": [
+    "rasul-21"
+   ],
+   "fpo": "rasul-21",
+   "ofb": {
+    "rasul-21": 2
+   }
+  },
+  {
+   "n": 86,
+   "i": 7,
+   "h": "B",
+   "b": "vidadi",
+   "r": "1B",
+   "o": 1,
+   "s": [
+    15,
+    9
+   ],
+   "t": 1026,
+   "d": "2B",
+   "bt": "f",
+   "sc": [
+    "danylo-shapovalov"
+   ],
+   "rbi": 1
+  },
+  {
+   "n": 87,
+   "i": 7,
+   "h": "B",
+   "b": "emil",
+   "r": "BB",
+   "o": 1,
+   "s": [
+    15,
+    9
+   ],
+   "t": 1042,
+   "pbb": "sergey-antipov"
+  },
+  {
+   "n": 88,
+   "i": 7,
+   "h": "B",
+   "b": "sabir-talibov",
+   "r": "FC",
+   "o": 2,
+   "s": [
+    15,
+    10
+   ],
+   "t": 1051,
+   "d": "3B",
+   "bt": "g",
+   "f": [
+    "ramiz-ismayilov"
+   ],
+   "sc": [
+    "emilien"
+   ],
+   "po": [
+    "ramiz-ismayilov"
+   ],
+   "fpo": "ramiz-ismayilov",
+   "rbi": 1
+  },
+  {
+   "n": 89,
+   "i": 7,
+   "h": "B",
+   "b": "alim",
+   "r": "FC",
+   "o": 3,
+   "s": [
+    15,
+    10
+   ],
+   "t": 1060,
+   "d": "SS",
+   "bt": "g",
+   "f": [
+    "sergey-molchanov",
+    "farhad-eyvazov"
+   ],
+   "po": [
+    "farhad-eyvazov"
+   ],
+   "a": [
+    "sergey-molchanov"
+   ]
+  },
+  {
+   "n": 90,
+   "i": 8,
+   "h": "T",
+   "b": "mammad-aliyev",
+   "r": "GO",
+   "o": 1,
+   "s": [
+    15,
+    10
+   ],
+   "t": 1068,
+   "d": "3B",
+   "bt": "g",
+   "f": [
+    "alim",
+    "mushfig-ibrahimov"
+   ],
+   "po": [
+    "mushfig-ibrahimov"
+   ],
+   "a": [
+    "alim"
+   ]
+  },
+  {
+   "n": 91,
+   "i": 8,
+   "h": "T",
+   "b": "kesha",
+   "r": "1B",
+   "o": 1,
+   "s": [
+    15,
+    10
+   ],
+   "t": 1081,
+   "d": "C",
+   "bt": "g"
+  },
+  {
+   "n": 92,
+   "i": 8,
+   "h": "T",
+   "b": "rashid",
+   "r": "BB",
+   "o": 1,
+   "s": [
+    15,
+    10
+   ],
+   "t": 1093,
+   "pbb": "rasim"
+  },
+  {
+   "n": 93,
+   "i": 8,
+   "h": "T",
+   "b": "sergey-molchanov",
+   "r": "FO",
+   "o": 3,
+   "s": [
+    15,
+    10
+   ],
+   "t": 1109,
+   "d": "LCF",
+   "bt": "f",
+   "f": [
+    "danylo-shapovalov",
+    "vidadi",
+    "rasul-4"
+   ],
+   "dp": 1,
+   "note": "Кеша ушёл со 2-й раньше — аут на 2-й",
+   "po": [
+    "rasul-4",
+    "danylo-shapovalov"
+   ],
+   "a": [
+    "vidadi"
+   ],
+   "fpo": "danylo-shapovalov",
+   "ofb": {
+    "danylo-shapovalov": 2
+   }
+  },
+  {
+   "n": 94,
+   "i": 8,
+   "h": "B",
+   "b": "rasim",
+   "r": "1B",
+   "o": 0,
+   "s": [
+    15,
+    10
+   ],
+   "t": 1124,
+   "d": "1B",
+   "bt": "g"
+  },
+  {
+   "n": 95,
+   "i": 8,
+   "h": "B",
+   "b": "mushfig-ibrahimov",
+   "r": "1B",
+   "o": 0,
+   "s": [
+    15,
+    10
+   ],
+   "t": 1136,
+   "d": "2B",
+   "bt": "f"
+  },
+  {
+   "n": 96,
+   "i": 8,
+   "h": "B",
+   "b": "bahram-jamilov",
+   "r": "FC",
+   "o": 1,
+   "s": [
+    15,
+    10
+   ],
+   "t": 1146,
+   "d": "SS",
+   "bt": "g",
+   "f": [
+    "sergey-molchanov",
+    "farhad-eyvazov"
+   ],
+   "po": [
+    "farhad-eyvazov"
+   ],
+   "a": [
+    "sergey-molchanov"
+   ]
+  },
+  {
+   "n": 97,
+   "i": 8,
+   "h": "B",
+   "b": "sediyar-aliyev",
+   "r": "BB",
+   "o": 1,
+   "s": [
+    15,
+    10
+   ],
+   "t": 1161,
+   "pbb": "sergey-antipov"
+  },
+  {
+   "n": 98,
+   "i": 8,
+   "h": "B",
+   "b": "rasul-4",
+   "r": "SAC",
+   "o": 2,
+   "s": [
+    15,
+    11
+   ],
+   "t": 1168,
+   "d": "2B",
+   "bt": "f",
+   "f": [
+    "farhad-eyvazov"
+   ],
+   "sc": [
+    "rasim"
+   ],
+   "po": [
+    "farhad-eyvazov"
+   ],
+   "fpo": "farhad-eyvazov",
+   "rbi": 1,
+   "ofb": {
+    "farhad-eyvazov": 3
+   }
+  },
+  {
+   "n": 99,
+   "i": 8,
+   "h": "B",
+   "b": "danylo-shapovalov",
+   "r": "FO",
+   "o": 3,
+   "s": [
+    15,
+    11
+   ],
+   "t": 1179,
+   "d": "LF",
+   "bt": "f",
+   "f": [
+    "rashid"
+   ],
+   "po": [
+    "rashid"
+   ],
+   "fpo": "rashid",
+   "ofb": {
+    "rashid": 2
+   }
+  }
+ ]
+}
