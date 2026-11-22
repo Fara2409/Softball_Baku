@@ -169,6 +169,20 @@
    "photo": null
   },
   {
+   "id": "emil",
+   "first": "Emil",
+   "last": "",
+   "first_ru": "Эмиль",
+   "last_ru": "",
+   "first_az": "Emil",
+   "last_az": "",
+   "number": 2,
+   "positions": [
+    "RF"
+   ],
+   "photo": null
+  },
+  {
    "id": "ilgar",
    "first": "Ilgar",
    "last": "",
