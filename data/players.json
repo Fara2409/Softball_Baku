@@ -115,11 +115,11 @@
   {
    "id": "hikmat",
    "first": "Hikmat",
-   "last": "",
+   "last": "Akhundov",
    "first_ru": "Хикмят",
-   "last_ru": "",
+   "last_ru": "Ахундов",
    "first_az": "Hikmət",
-   "last_az": "",
+   "last_az": "Axundov",
    "number": 3,
    "positions": [
     "1B"
@@ -171,11 +171,11 @@
   {
    "id": "emil",
    "first": "Emil",
-   "last": "",
+   "last": "Huseynov",
    "first_ru": "Эмиль",
-   "last_ru": "",
+   "last_ru": "Гусейнов",
    "first_az": "Emil",
-   "last_az": "",
+   "last_az": "Hüseynov",
    "number": 2,
    "positions": [
     "RF"
@@ -185,11 +185,11 @@
   {
    "id": "ilgar",
    "first": "Ilgar",
-   "last": "",
+   "last": "Huseynov",
    "first_ru": "Ильгар",
-   "last_ru": "",
+   "last_ru": "Гусейнов",
    "first_az": "İlqar",
-   "last_az": "",
+   "last_az": "Hüseynov",
    "number": 17,
    "positions": [
     "LF"
@@ -199,11 +199,11 @@
   {
    "id": "rasim",
    "first": "Rasim",
-   "last": "",
+   "last": "Akbarov",
    "first_ru": "Расим",
-   "last_ru": "",
+   "last_ru": "Акбаров",
    "first_az": "Rasim",
-   "last_az": "",
+   "last_az": "Əkbərov",
    "number": 19,
    "positions": [
     "P"
@@ -242,11 +242,11 @@
   {
    "id": "ilham",
    "first": "Ilham",
-   "last": "",
+   "last": "Musayev",
    "first_ru": "Ильхам",
-   "last_ru": "",
+   "last_ru": "Мусаев",
    "first_az": "İlham",
-   "last_az": "",
+   "last_az": "Musayev",
    "number": 9,
    "positions": [
     "RF"
