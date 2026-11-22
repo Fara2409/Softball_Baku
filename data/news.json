@@ -2,11 +2,35 @@
  "items": [
   {
    "source": "MLB",
+   "title": "Want the nastiest pitches? Sign these free agents",
+   "link": "https://www.mlb.com/news/the-best-pitches-on-the-2026-27-free-agent-market",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/wr1wgvtd566sr8aejidl",
+   "date": "2026-11-22T02:41:07Z"
+  },
+  {
+   "source": "MLB",
+   "title": "Which version of these top free agents will their next teams be getting?",
+   "link": "https://www.mlb.com/news/mlb-free-agents-in-2026-2027-class-who-are-toughest-to-project",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/fs0u2fbw0oyvujcwu9qc",
+   "date": "2026-11-22T02:40:48Z"
+  },
+  {
+   "source": "MLB",
    "title": "Skubal changed after entering Dodgers pitching lab — here’s how",
    "link": "https://www.mlb.com/news/tarik-skubal-changes-after-dodgers-trade",
    "summary": "",
    "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/v1795226564/mlb/klrh4htud16zs1nc3ybk",
    "date": "2026-11-22T01:04:00Z"
+  },
+  {
+   "source": "MLB",
+   "title": "These 3 pitches hold the key for free agent Trevor Rogers",
+   "link": "https://www.mlb.com/news/trevor-rogers-keys-to-success-in-2027",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/zskzt72o0qmpsdq5b7wn",
+   "date": "2026-11-22T01:03:59Z"
   },
   {
    "source": "MLB",
@@ -49,36 +73,12 @@
    "date": "2026-11-21T20:01:10Z"
   },
   {
-   "source": "MLB",
-   "title": "Ewing agrees to 8-year, $95 million extension with Mets (source)",
-   "link": "https://www.mlb.com/news/a-j-ewing-contract-extension-mets",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/nkpdwqsioqswd8nggdzp",
-   "date": "2026-11-21T19:08:00Z"
-  },
-  {
-   "source": "MLB",
-   "title": "Gardner’s inclusion on HOF ballot reflective of legacy as an essential Yankee",
-   "link": "https://www.mlb.com/news/brett-gardner-yankees-2027-national-baseball-hall-of-fame-ballot",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/snptwn1xcusatbb1qwya",
-   "date": "2026-11-21T19:00:26Z"
-  },
-  {
    "source": "CBS",
    "title": "A.J. Ewing, Mets agree to eight-year, $95 million extension after standout rookie season, per reports",
    "link": "https://www.cbssports.com/mlb/news/a-j-ewing-new-york-mets-contract-extension/",
    "summary": "Ewing cracked the top 10 in the National League Rookie of the Year voting last season",
    "image": "https://sportshub.cbsistatic.com/i/2026/11/21/4d75792e-73c8-41f2-8c27-b525c567a910/ewing-mets-getty.png",
    "date": "2026-11-21T18:38:18Z"
-  },
-  {
-   "source": "MLB",
-   "title": "Ohtani, Alvarez and Contreras lead 2026 All-World Team",
-   "link": "https://www.mlb.com/news/2026-mlb-all-world-team",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/dhoxig1t2px1l976u8dm",
-   "date": "2026-11-21T16:14:17Z"
   },
   {
    "source": "CBS",
@@ -97,5 +97,5 @@
    "date": "2026-11-20T23:34:22Z"
   }
  ],
- "updated": "2026-11-22T02:14:45Z"
+ "updated": "2026-11-22T09:52:18Z"
 }
