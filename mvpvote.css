@@ -31,3 +31,13 @@
 .mv-li-b{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
 .btn.danger{color:#B3261E}
 @media(max-width:560px){.mv-grid{grid-template-columns:1fr 1fr}.mv-r{grid-template-columns:30px 1fr auto}.mv-r .mv-bar{display:none}.mv-checks{grid-template-columns:1fr 1fr}}
+
+/* открытое голосование (22.11.2026) */
+.mv-by{display:flex;flex-wrap:wrap;gap:5px;margin:-2px 0 8px 44px}
+.mv-bv{display:inline-flex;align-items:center;gap:4px;padding:2px 8px 2px 2px;border-radius:999px;border:1px solid var(--line);font-size:12px}
+.mv-bv .av{width:20px;height:20px;font-size:9px}
+.mv-who{margin-top:10px}.mv-who summary{cursor:pointer;font-weight:700;font-size:14px}
+.mv-wl{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.mv-w{display:grid;grid-template-columns:26px minmax(0,1fr) 16px 26px minmax(0,1fr);gap:6px;align-items:center;font-size:13px}
+.mv-w .av{width:26px;height:26px;font-size:10px}.mv-w span,.mv-w b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mv-w i{color:var(--muted);font-style:normal}
+@media(max-width:560px){.mv-by{margin-left:40px}}

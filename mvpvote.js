@@ -13,12 +13,12 @@
     mvNoVotes:'Голосов не было',mvAdmin:'Голосование «Игрок матча»',mvAdmHint:'Отметьте, кто был на игре, — только они смогут голосовать (за себя нельзя).',
     mvDate:'Дата игры',mvAtt:'Были на игре',mvAll:'все',mvNone:'никого',mvFrom:'Взять из «буду»',mvFromBox:'Взять из протокола',mvSave:'Сохранить и открыть голосование',mvSaved:'Голосование открыто',
     mvClose:'Закрыть голосование',mvReopen:'Открыть снова',mvDel:'Удалить',mvDelQ:'Удалить голосование вместе с голосами?',mvEdit:'Изменить',mvStOpen:'идёт',mvStClosed:'закрыто',mvNoPolls:'Голосований пока нет',
-    mvNeed2:'Отметьте хотя бы двух игроков',mvAdmLive:'админу итоги видны сразу',
+    mvNeed2:'Отметьте хотя бы двух игроков',mvAdmLive:'админу итоги видны сразу',mvLive:'голосование открытое',mvWho:'Кто за кого',
     mvE:{mvp_not_player:'Голосуют только игроки команды',mvp_closed:'Голосование уже закрыто',mvp_not_attendee:'Голосуют только те, кто был на игре',mvp_bad_candidate:'Этого игрока не было на игре',mvp_self:'За себя голосовать нельзя'}});
   Object.assign(I18N.az,{mvTitle:'Oyunun ən yaxşısı — oyunçuların səsi',mvSub:'oyunda olanlar səs verir · özünə səs vermək olmaz',mvVoted:(n,m)=>`${m} nəfərdən ${n} səs verdi`,
     mvLogin:'Səs vermək üçün daxil olun',mvNotAtt:'Yalnız bu oyunda olan oyunçular səs verir.',mvNotPlayer:'Yalnız komanda oyunçuları səs verir. Profildə hesabınızı heyətdəki adınıza bağlayın.',
     mvPick:'Oyunun ən yaxşı oyunçusunu seçin:',mvMine:'sizin səsiniz',mvChange:'Səsvermə açıq olduqca səsi dəyişmək olar.',mvThanks:'Səs qəbul edildi',
-    mvClosed:'Səsvermə bağlanıb',mvRes:'Səsvermənin nəticələri',mvWinner:'Oyunçuların seçimi',mvVotesN:n=>`${n} səs`,
+    mvClosed:'Səsvermə bağlanıb',mvRes:'Səsvermənin nəticələri',mvWinner:'Oyunçuların seçimi',mvVotesN:n=>`${n} səs`,mvLive:'açıq səsvermə',mvWho:'Kim kimə səs verdi',
     mvNoVotes:'Səs verilməyib',mvAdmin:'«Oyunun ən yaxşısı» səsverməsi',mvAdmHint:'Oyunda kimlərin olduğunu qeyd edin — yalnız onlar səs verə biləcək (özünə olmaz).',
     mvDate:'Oyunun tarixi',mvAtt:'Oyunda olanlar',mvAll:'hamısı',mvNone:'heç kim',mvFrom:'«Gələcəyəm»dən götür',mvFromBox:'Protokoldan götür',mvSave:'Yadda saxla və səsverməni aç',mvSaved:'Səsvermə açıldı',
     mvClose:'Səsverməni bağla',mvReopen:'Yenidən aç',mvDel:'Sil',mvDelQ:'Səsvermə səslərlə birlikdə silinsin?',mvEdit:'Dəyiş',mvStOpen:'gedir',mvStClosed:'bağlanıb',mvNoPolls:'Hələ səsvermə yoxdur',
@@ -27,7 +27,7 @@
   Object.assign(I18N.en,{mvTitle:'Player of the game — players’ vote',mvSub:'only those who played can vote · no voting for yourself',mvVoted:(n,m)=>`${n} of ${m} voted`,
     mvLogin:'Log in to vote',mvNotAtt:'Only players who were at this game can vote.',mvNotPlayer:'Only team players can vote. Link your account to yourself in the roster in your profile.',
     mvPick:'Pick the best player of the game:',mvMine:'your vote',mvChange:'You can change your vote while voting is open.',mvThanks:'Vote saved',
-    mvClosed:'Voting closed',mvRes:'Voting results',mvWinner:'Players’ choice',mvVotesN:n=>`${n} vote${n===1?'':'s'}`,
+    mvClosed:'Voting closed',mvRes:'Voting results',mvWinner:'Players’ choice',mvVotesN:n=>`${n} vote${n===1?'':'s'}`,mvLive:'open ballot',mvWho:'Who voted for whom',
     mvNoVotes:'No votes',mvAdmin:'“Player of the game” vote',mvAdmHint:'Mark who was at the game — only they can vote (not for themselves).',
     mvDate:'Game date',mvAtt:'At the game',mvAll:'all',mvNone:'none',mvFrom:'Take from “going”',mvFromBox:'Take from the box score',mvSave:'Save and open voting',mvSaved:'Voting is open',
     mvClose:'Close voting',mvReopen:'Reopen',mvDel:'Delete',mvDelQ:'Delete this vote together with all votes?',mvEdit:'Edit',mvStOpen:'open',mvStClosed:'closed',mvNoPolls:'No votes yet',
@@ -52,6 +52,7 @@
       await Promise.all(M.polls.map(async p=>{
         const a=await c.sb.rpc('mvp_count',{p_game:p.game_id}); M.count[p.game_id]=a.data||0;
         const r=await c.sb.rpc('mvp_results',{p_game:p.game_id}); M.res[p.game_id]=r.data||[];
+        const b=await c.sb.rpc('mvp_ballots',{p_game:p.game_id}); M.bal=M.bal||{}; M.bal[p.game_id]=b.error?null:(b.data||[]);
       }));
       M.mine={};
       if(c.user){ const v=await c.sb.from('mvp_votes').select('game_id,candidate,voter').eq('voter',c.user.id); (v.data||[]).forEach(x=>M.mine[x.game_id]=x.candidate); }
@@ -66,11 +67,16 @@
     let h=`<div class="card mv-card" data-mv="${esc(p.game_id)}"><div class="mv-head"><div><span class="eyebrow">🏆 ${T('mvTitle')}</span>
       <div class="mv-date">${g?`<a href="#game-${esc(p.game_id)}">${fmtDate(p.game_id)}</a>`:fmtDate(p.game_id)} · ${p.status==='open'?T('mvVoted')(n,att.length):T('mvClosed')}</div></div>
       ${adm?`<div class="mv-adm">${p.status==='open'?`<button class="btn sm" onclick="MV.status('${esc(p.game_id)}','closed')">${T('mvClose')}</button>`:`<button class="btn sm" onclick="MV.status('${esc(p.game_id)}','open')">${T('mvReopen')}</button>`}</div>`:''}</div>`;
-    const res=M.res[p.game_id]||[];
-    if(p.status==='closed'||(adm&&res.length)){
+    let res=M.res[p.game_id]||[];
+    const bal=(M.bal||{})[p.game_id];   // открытое голосование: видно, кто за кого (SQL 6h)
+    if(bal&&bal.length){ const cn={}; bal.forEach(x=>cn[x.candidate]=(cn[x.candidate]||0)+1); res=Object.entries(cn).map(([candidate,votes])=>({candidate,votes})).sort((a,b)=>b.votes-a.votes); }
+    if(p.status==='closed'||(adm&&res.length)||(bal&&res.length)){
       const tot=res.reduce((s,r)=>s+r.votes,0), top=res.length?res[0].votes:0;
-      h+=`<div class="mv-sub">${p.status==='closed'?T('mvRes'):`${T('mvRes')} · ${T('mvAdmLive')}`}</div>`;
-      h+=res.length?`<div class="mv-res">${res.slice(0,6).map(r=>`<a class="mv-r${r.votes===top?' win':''}" href="#player-${esc(r.candidate)}">${avatar(r.candidate)}<span class="mv-rn">${esc(nm(r.candidate))}${r.votes===top&&p.status==='closed'?` <span class="chip main">${T('mvWinner')}</span>`:''}</span><span class="mv-bar"><i style="width:${tot?Math.round(r.votes/tot*100):0}%"></i></span><b>${T('mvVotesN')(r.votes)}</b></a>`).join('')}</div>`:`<div class="muted">${T('mvNoVotes')}</div>`;
+      h+=`<div class="mv-sub">${p.status==='closed'?T('mvRes'):bal?`${T('mvRes')} · ${T('mvLive')}`:`${T('mvRes')} · ${T('mvAdmLive')}`}</div>`;
+      h+=res.length?`<div class="mv-res">${res.slice(0,bal?20:6).map(r=>`<a class="mv-r${r.votes===top?' win':''}" href="#player-${esc(r.candidate)}">${avatar(r.candidate)}<span class="mv-rn">${esc(nm(r.candidate))}${r.votes===top&&p.status==='closed'?` <span class="chip main">${T('mvWinner')}</span>`:''}</span><span class="mv-bar"><i style="width:${tot?Math.round(r.votes/tot*100):0}%"></i></span><b>${T('mvVotesN')(r.votes)}</b></a>`+(bal?`<div class="mv-by">${bal.filter(x=>x.candidate===r.candidate).map(x=>`<span class="mv-bv" title="${esc(nm(x.voter_player))}">${avatar(x.voter_player)}<span>${esc(S.players[x.voter_player]?first(S.players[x.voter_player]):x.voter_player)}</span></span>`).join('')}</div>`:'')).join('')}</div>`:`<div class="muted">${T('mvNoVotes')}</div>`;
+    }
+    if(bal&&bal.length){
+      h+=`<details class="mv-who"><summary>${T('mvWho')} (${bal.length})</summary><div class="mv-wl">${bal.map(x=>`<div class="mv-w">${avatar(x.voter_player)}<span>${esc(nm(x.voter_player))}</span><i>→</i>${avatar(x.candidate)}<b>${esc(nm(x.candidate))}</b></div>`).join('')}</div></details>`;
     }
     if(p.status==='open'){
       if(!c.user) h+=`<p class="mv-note">${T('mvSub')}</p><button class="btn pri" onclick="CL.auth('login')">${T('mvLogin')}</button>`;

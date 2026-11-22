@@ -428,6 +428,17 @@ revoke execute on function public.cast_lineup_vote(bigint, int) from public, ano
 grant execute on function public.cast_lineup_vote(bigint, int) to authenticated;
 grant execute on function public.lineup_counts(bigint), public.lineup_voted(bigint) to anon, authenticated;
 
+-- ---------- 6h. Открытое голосование (22.11.2026): все видят, кто за кого проголосовал ----------
+create or replace function public.mvp_ballots(p_game text) returns table(voter_player text, candidate text)
+language sql stable security definer set search_path = public as $$
+  select v.voter_player, v.candidate from public.mvp_votes v where v.game_id = p_game order by v.created_at
+$$;
+create or replace function public.lineup_ballots(p_poll bigint) returns table(voter_player text, choice int)
+language sql stable security definer set search_path = public as $$
+  select v.voter_player, v.choice from public.lineup_votes v where v.poll_id = p_poll order by v.created_at
+$$;
+grant execute on function public.mvp_ballots(text), public.lineup_ballots(bigint) to anon, authenticated;
+
 -- ---------- 7. Доступ сайта к таблицам ----------
 -- С 30.05.2026 Supabase в новых проектах не открывает таблицы автоматически —
 -- выдаём права явно. Что именно разрешено каждому — решают политики RLS выше.

@@ -52,3 +52,7 @@
 .lp-mv{margin-left:auto;flex:none;border:1px solid var(--line);background:var(--panel2);border-radius:6px;width:26px;height:24px;cursor:pointer;color:var(--text);font-size:14px;line-height:1}
 .lp-mv:hover{background:var(--amber);color:#fff}
 @media (max-width:520px){ .lp-draft .lp-teams{grid-template-columns:1fr} .lp-draft .lp-r .av{display:inline-flex} }
+
+/* открытое голосование (22.11.2026) */
+.lp-by{display:flex;flex-wrap:wrap;gap:5px}
+.lp-to{font-style:normal;font-weight:800;color:var(--amber);margin-left:2px}

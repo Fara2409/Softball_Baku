@@ -12,7 +12,7 @@
     lpVote:'Голосую за этот',lpMine:'ваш голос',lpLogin:'Войти, чтобы проголосовать',lpNotVoter:'Голосуют только игроки, которых отметил админ.',
     lpNotPlayer:'Голосуют только игроки команды. Привяжите аккаунт к себе в составе (профиль).',lpRule:'Побеждает вариант, за который больше половины голосующих. Голос можно поменять.',
     lpThanks:'Голос принят',lpWon:'Составы определены',lpWinner:'выбран',lpClosed:'Голосование закрыто',lpVotesN:n=>`${n} ${n%10===1&&n%100!==11?'голос':(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20))?'голоса':'голосов'}`,
-    lpWho:'Голосуют',lpAvg:'сила',
+    lpWho:'Голосуют',lpOpenB:'Голосование открытое: видно, кто за какой вариант.',lpAvg:'сила',
     lpAdd:'В голосование',lpAdded:n=>`Вариант добавлен в голосование (вариантов: ${n})`,lpDraft:'Новое голосование за составы',lpDraftHint:'Нажимайте «В голосование» под нужными вариантами деления — они появятся здесь. Позицию можно поменять, стрелкой ⇄ — перевести игрока в другую команду. Нужно минимум 2 варианта.',
     lpDate:'Дата игры',lpVoters:'Кто голосует',lpFromPresent:'кто на игре',lpAll:'все',lpNone:'никого',lpOpen:'Открыть голосование',lpOpened:'Голосование открыто',
     lpNeed2:'Добавьте хотя бы 2 варианта',lpNeedV:'Отметьте хотя бы двух голосующих',lpRm:'Убрать',lpClear:'Очистить',
@@ -23,7 +23,7 @@
     lpVote:'Buna səs verirəm',lpMine:'sizin səsiniz',lpLogin:'Səs vermək üçün daxil olun',lpNotVoter:'Yalnız adminin qeyd etdiyi oyunçular səs verir.',
     lpNotPlayer:'Yalnız komanda oyunçuları səs verir. Profildə hesabınızı heyətdəki adınıza bağlayın.',lpRule:'Səs verənlərin yarıdan çoxunun seçdiyi variant qalib gəlir. Səsi dəyişmək olar.',
     lpThanks:'Səs qəbul edildi',lpWon:'Heyətlər müəyyən olundu',lpWinner:'seçildi',lpClosed:'Səsvermə bağlanıb',lpVotesN:n=>`${n} səs`,
-    lpWho:'Səs verənlər',lpAvg:'güc',
+    lpWho:'Səs verənlər',lpOpenB:'Səsvermə açıqdır: kimin hansı varianta səs verdiyi görünür.',lpAvg:'güc',
     lpAdd:'Səsverməyə',lpAdded:n=>`Variant səsverməyə əlavə olundu (variant: ${n})`,lpDraft:'Heyətlər üçün yeni səsvermə',lpDraftHint:'Lazımi bölgü variantlarının altında «Səsverməyə» düyməsini basın — onlar burada görünəcək. Mövqeyi dəyişmək, ⇄ oxu ilə oyunçunu digər komandaya keçirmək olar. Ən azı 2 variant lazımdır.',
     lpDate:'Oyunun tarixi',lpVoters:'Kim səs verir',lpFromPresent:'oyunda olanlar',lpAll:'hamısı',lpNone:'heç kim',lpOpen:'Səsverməni aç',lpOpened:'Səsvermə açıldı',
     lpNeed2:'Ən azı 2 variant əlavə edin',lpNeedV:'Ən azı iki səs verən qeyd edin',lpRm:'Çıxar',lpClear:'Təmizlə',
@@ -34,7 +34,7 @@
     lpVote:'Vote for this one',lpMine:'your vote',lpLogin:'Log in to vote',lpNotVoter:'Only players marked by the admin can vote.',
     lpNotPlayer:'Only team players can vote. Link your account to yourself in the roster (profile).',lpRule:'The option backed by more than half of the voters wins. You can change your vote.',
     lpThanks:'Vote saved',lpWon:'Teams are set',lpWinner:'chosen',lpClosed:'Voting closed',lpVotesN:n=>`${n} vote${n===1?'':'s'}`,
-    lpWho:'Voters',lpAvg:'strength',
+    lpWho:'Voters',lpOpenB:'Open ballot: everyone sees who voted for which option.',lpAvg:'strength',
     lpAdd:'Add to vote',lpAdded:n=>`Option added to the vote (options: ${n})`,lpDraft:'New team split vote',lpDraftHint:'Press “Add to vote” under the splits you like — they will appear here. You can change positions and move a player to the other team with ⇄. At least 2 options are needed.',
     lpDate:'Game date',lpVoters:'Who votes',lpFromPresent:'present',lpAll:'all',lpNone:'none',lpOpen:'Open voting',lpOpened:'Voting is open',
     lpNeed2:'Add at least 2 options',lpNeedV:'Mark at least two voters',lpRm:'Remove',lpClear:'Clear',
@@ -65,6 +65,7 @@
       await Promise.all(L.polls.map(async p=>{
         const a=await c.sb.rpc('lineup_counts',{p_poll:p.id}); L.cnt[p.id]=a.data||[];
         const b=await c.sb.rpc('lineup_voted',{p_poll:p.id}); L.voted[p.id]=(b.data||[]).map(x=>typeof x==='string'?x:(x.lineup_voted||x.voter_player));
+        const q=await c.sb.rpc('lineup_ballots',{p_poll:p.id}); L.bal=L.bal||{}; L.bal[p.id]=q.error?null:(q.data||[]);
       }));
       L.mine={};
       if(c.user){ const v=await c.sb.from('lineup_votes').select('poll_id,choice,voter').eq('voter',c.user.id); (v.data||[]).forEach(x=>L.mine[x.poll_id]=x.choice); }
@@ -84,16 +85,16 @@
   function card(p,full){
     const c=X().C, adm=X().isAdmin(), mine=me(), voters=p.voters||[], voted=L.voted[p.id]||[], my=L.mine[p.id];
     const cnt={}; (L.cnt[p.id]||[]).forEach(r=>cnt[r.choice]=r.votes);
-    const open=p.status==='open', canVote=open&&c.user&&mine&&voters.includes(mine);
+    const bal=(L.bal||{})[p.id], open=p.status==='open', canVote=open&&c.user&&mine&&voters.includes(mine);
     let h=`<div class="card lp-card" id="lp-${p.id}"><div class="lp-head"><div><span class="eyebrow">🗳 ${T('lpTitle')}</span>
       <div class="lp-date">${fmtDate(p.game_date)} · ${open?T('lpVoted')(voted.length,voters.length):`<b class="lp-won">✓ ${T('lpWon')}</b>`}</div></div>
       <div class="lp-hb"><button class="btn sm" onclick="LP.share(${p.id})">🔗 ${T('lpShare')}</button>
       ${adm?(open?'':`<button class="btn sm" onclick="LP.reopen(${p.id})">${T('lpReopen')}</button>`)+`<button class="btn sm danger" onclick="LP.del(${p.id})">${T('lpDel')}</button>`:''}</div></div>`;
-    if(open) h+=`<p class="lp-note">${T('lpRule')}</p>`;
+    if(open) h+=`<p class="lp-note">${T('lpRule')}${bal?' '+T('lpOpenB'):''}</p>`;
     h+=`<div class="lp-opts">${(p.options||[]).map((o,i)=>{ const n=cnt[i]||0, win=!open&&p.winner===i, pct=voters.length?Math.round(n/voters.length*100):0;
       if(!open&&!win&&!full) return '';
       return `<div class="lp-opt${win?' win':''}${my===i?' mine':''}${!open&&!win?' lose':''}"><div class="lp-oh"><b>${T('lpOpt')(i+1)}</b>${win?`<span class="lp-badge">✓ ${T('lpWinner')}</span>`:''}${my===i?`<span class="lp-my">${T('lpMine')}</span>`:''}
-        <span class="lp-cnt">${T('lpVotesN')(n)}</span></div><div class="lp-bar"><i style="width:${pct}%"></i></div>${optHtml(o)}
+        <span class="lp-cnt">${T('lpVotesN')(n)}</span></div><div class="lp-bar"><i style="width:${pct}%"></i></div>${bal?`<div class="lp-by">${bal.filter(x=>x.choice===i).map(x=>{ const pl=S.players[x.voter_player]; return `<span class="lp-v ok">${pl?av(pl):''}<span>${esc(pl?first(pl):x.voter_player)}</span></span>`; }).join('')||`<span class="muted small">—</span>`}</div>`:''}${optHtml(o)}
         ${canVote?`<button class="btn ${my===i?'':'pri'} lp-vb" ${my===i?'disabled':''} onclick="LP.vote(${p.id},${i},this)">${my===i?'✓ '+T('lpMine'):T('lpVote')}</button>`:''}
         ${adm&&open?`<button class="btn sm lp-ab" onclick="LP.approve(${p.id},${i})">${T('lpApprove')}</button>`:''}
         ${adm&&win?`<button class="btn sm pri lp-ab" onclick="LP.scorer(${p.id})">▶ ${T('lpScorer')}</button>`:''}</div>`; }).join('')}</div>`;
@@ -101,7 +102,7 @@
       if(!c.user) h+=`<button class="btn pri" onclick="CL.auth('login')">${T('lpLogin')}</button>`;
       else if(!mine) h+=`<p class="lp-note">${T('lpNotPlayer')}</p>`;
       else if(!voters.includes(mine)) h+=`<p class="lp-note">${T('lpNotVoter')}</p>`;
-      h+=`<div class="lp-who"><span class="muted small">${T('lpWho')}:</span>${voters.map(id=>{ const pl=S.players[id]; return `<span class="lp-v${voted.includes(id)?' ok':''}" title="${esc(pl?pname(pl):id)}">${pl?av(pl):''}<span>${esc(pl?first(pl):id)}</span></span>`; }).join('')}</div>`;
+      h+=`<div class="lp-who"><span class="muted small">${T('lpWho')}:</span>${voters.map(id=>{ const pl=S.players[id]; return `<span class="lp-v${voted.includes(id)?' ok':''}" title="${esc(pl?pname(pl):id)}">${pl?av(pl):''}<span>${esc(pl?first(pl):id)}</span>${bal&&bal.find(x=>x.voter_player===id)?`<em class="lp-to">→ ${bal.find(x=>x.voter_player===id).choice+1}</em>`:''}</span>`; }).join('')}</div>`;
     }
     return h+'</div>';
   }
