@@ -29,9 +29,9 @@ const I18N={
     roster:'Roster',openProfile:'View profile',title:'Stats',tagline:'Amateur softball in Baku. Player ratings, stats and a video of every game.',site:'Site',watch:'Watch',where:'Where we play',lastVideo:'Latest game on YouTube',channel:'Our YouTube channel',place:'Amirajan, Baku, Azerbaijan',seasonPill:d=>`Season ${d.season} · from ${d.start}`,language:'Language',firstGame:'First game',videoSoon:'Video coming soon',final:'Final',notFound:'Not found',loadErr:'Could not load data',footer:'ratings are calculated automatically after every game',mvp:'MVP',city:'Baku'}
 };
 const POS_NAMES={
-  ru:{P:'Питчер',C:'Кэтчер','1B':'1-я база','2B':'2-я база','3B':'3-я база',SS:'Шортстоп',LF:'Левый аутфилд',LCF:'Левый центр',CF:'Центральный аутфилд',RCF:'Правый центр',RF:'Правый аутфилд'},
-  az:{P:'Pitçer',C:'Ketçer','1B':'1-ci baza','2B':'2-ci baza','3B':'3-cü baza',SS:'Şortstop',LF:'Sol autfild',LCF:'Sol-mərkəz autfild',CF:'Mərkəzi autfild',RCF:'Sağ-mərkəz autfild',RF:'Sağ autfild'},
-  en:{P:'Pitcher',C:'Catcher','1B':'First base','2B':'Second base','3B':'Third base',SS:'Shortstop',LF:'Left field',LCF:'Left-center field',CF:'Center field',RCF:'Right-center field',RF:'Right field'}
+  ru:{P:'Питчер',C:'Кэтчер','1B':'1-я база','2B':'2-я база','3B':'3-я база',SS:'Шортстоп',LF:'Левый аутфилд',LCF:'Левый центр',CF:'Центральный аутфилд',SF:'Шорт-филдер (между полем и квадратом)',RCF:'Правый центр',RF:'Правый аутфилд'},
+  az:{P:'Pitçer',C:'Ketçer','1B':'1-ci baza','2B':'2-ci baza','3B':'3-cü baza',SS:'Şortstop',LF:'Sol autfild',LCF:'Sol-mərkəz autfild',CF:'Mərkəzi autfild',SF:'Şort-filder (autfild ilə kvadrat arası)',RCF:'Sağ-mərkəz autfild',RF:'Sağ autfild'},
+  en:{P:'Pitcher',C:'Catcher','1B':'First base','2B':'Second base','3B':'Third base',SS:'Shortstop',LF:'Left field',LCF:'Left-center field',CF:'Center field',SF:'Short fielder',RCF:'Right-center field',RF:'Right field'}
 };
 const LOCALE={ru:'ru-RU',az:'az-Latn-AZ',en:'en-GB'};
 function plural(l,n){ if(l==='en') return n===1?'game':'games'; if(l==='az') return 'oyun';
@@ -60,7 +60,7 @@ function ballSVG(){ const i='b'+(++_ballN);
 const BASE=6.0;
 const W={'1B':.2,'2B':.4,'3B':.6,HR:.8,BB:.15,ROE:.15,FC:.1,R:.1,RBI:.15,OUT:-.25,K:-.35,
   FPO:.2,A:.13,RPO:.07,PK:.2,PBB:-.1,E:-.2,E2:-.25,E3:-.3,OFPO:.2,OFF2:.25,OFF3:.3,OFA:.2,OFPOS:.15,CPOS:.15}; // CPOS: бонус кэтчеру за позицию +0.15 за игру (16.11.2026); // 16.11.2026 баланс аутфилда: филдер (LF/CF/RF/LCF/RCF) — флай-аут по самому дальнему бегуну: пусто или 1-я база +0.2, 2-я +0.25 (OFF2 в box), 3-я +0.3 (OFF3), передача на аут +0.2, бонус за позицию +0.15 за игру; // 13.11.2026: ошибка по числу баз, отданных самому дальнему бегуну: 1 база −0.2, 2 базы −0.25, 3+ базы −0.3 (E2/E3 в box; остальные E — по 1 базе) // 12.11.2026: R .1, RBI .15 (меньше зависимость от команды), FPO .2, A .13, принятый бросок .07 (защита весомее) // E −0.2 с 09.11.2026 (было −0.4) // бонуса за победу нет (убран 07.11.2026)
-const OF_POS=new Set(['LF','CF','RF','LCF','RCF']);
+const OF_POS=new Set(['LF','CF','RF','LCF','RCF','SF']);   // SF — между полем и квадратом, считается полевым (22.11.2026)
 // Вклад в нападение и защиту (очки сверх BASE), без округления
 function ratingParts(b){
   const roe=b.ROE||0, fc=b.FC||0, outs=Math.max(0,b.AB-b.H-b.K-roe-fc);  /* FC (выбор полевого) — не аут: +0.1 (решение 15.11.2026); в AVG/OBP — AB без хита, как в MLB */

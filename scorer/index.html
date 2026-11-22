@@ -132,10 +132,10 @@ body.dragmode{cursor:grabbing}
 'use strict';
 /* ===== константы ===== */
 const KEY='sbScorer.v1', PKEY='sbScorer.players';
-const POS=['P','C','1B','2B','3B','SS','LF','LCF','CF','RCF','RF','EH'];
-const FPOS=['P','C','1B','2B','3B','SS','LF','LCF','CF','RCF','RF'];
-const PN={P:'P',C:'C','1B':'1B','2B':'2B','3B':'3B',SS:'SS',LF:'LF',LCF:'LCF',CF:'CF',RCF:'RCF',RF:'RF'}; // в описаниях пишем позиции буквами: SS-1B
-const FXY={CF:[50,8],LCF:[31,13],RCF:[69,13],LF:[12,29],RF:[88,29],SS:[33,42],'2B':[67,42],P:[50,62],'3B':[18,62],'1B':[82,62],C:[50,89]};
+const POS=['P','C','1B','2B','3B','SS','LF','LCF','CF','RCF','RF','SF','EH'];
+const FPOS=['P','C','1B','2B','3B','SS','LF','LCF','CF','RCF','RF','SF'];
+const PN={P:'P',C:'C','1B':'1B','2B':'2B','3B':'3B',SS:'SS',LF:'LF',LCF:'LCF',CF:'CF',RCF:'RCF',RF:'RF',SF:'SF'}; // в описаниях пишем позиции буквами: SS-1B
+const FXY={CF:[50,8],LCF:[31,13],RCF:[69,13],LF:[12,29],RF:[88,29],SF:[50,30],SS:[33,42],'2B':[67,42],P:[50,62],'3B':[18,62],'1B':[82,62],C:[50,89]};
 const HITS={'1B':1,'2B':2,'3B':3,HR:4};
 const RES={'1B':'Сингл','2B':'Дабл','3B':'Трипл',HR:'Хоум-ран',BB:'BB',K:'Страйк-аут',GO:'Аут по земле',FO:'Аут в воздухе',FC:'Выбор полевого',E:'Ошибка защиты',SAC:'Сакрифайс'};
 const BASE={1:'1-я',2:'2-я',3:'3-я',4:'дом'};
@@ -218,7 +218,7 @@ function move(g,adv){
 // Сменный кэтчер в команде без него статистику защиты не получает (решение 07.11.2026).
 const realC=id=>(P[id]?.positions||[]).includes('C');
 function defAt(g,pos){const id=atPos(g,pos);return id&&(pos!=='C'||realC(id))?id:null}
-const OFP=new Set(['LF','LCF','CF','RCF','RF']);
+const OFP=new Set(['LF','LCF','CF','RCF','RF','SF']);
 function credit(g,seq,outs){
  seq=seq||[];if(!seq.length||!outs)return;
  const ids=seq.map(p=>defAt(g,p)),last=ids[ids.length-1],f=fld(g);
@@ -322,7 +322,7 @@ function ballM(e,cb){
  const hasCF=!!atPos(G,'CF');
  let h=`<h3>Куда и как полетел мяч?</h3><p class="muted small">Сначала тип удара, потом зона, куда ушёл мяч (не обязательно, кто ловил). Для карты ударов на сайте.</p>
   <div class="bt-row">${Object.entries(BT).map(([t,l])=>`<button class="bt-b ${t===bt?'sel':''}" data-t="${t}" onclick="_bt('${t}')">${l}</button>`).join('')}</div><div class="field">`;
- for(const p of FPOS){if(p==='CF'?!hasCF:(p==='LCF'||p==='RCF')&&hasCF)continue;const [x,y]=FXY[p];
+ for(const p of FPOS){if(p==='SF'&&!atPos(G,'SF'))continue;if(p==='CF'?!hasCF:(p==='LCF'||p==='RCF')&&hasCF)continue;const [x,y]=FXY[p];
   h+=`<button class="fp ${p===dir?'sel':''}" style="left:${x}%;top:${y}%" onclick="_bz('${p}')"><b>${p}</b><span>${p===dir?'по умолч.':''}</span></button>`}
  h+=`</div><div class="acts"><button onclick="_bk(true)">Пропустить</button>${dir?`<button class="pri" onclick="_bk(false)">Готово (${PN[dir]})</button>`:''}</div>`;
  modal(h);
@@ -346,7 +346,7 @@ function fieldM(mode,cb){
  const draw=()=>{
   let h=`<h3>${mode==='E'?'Кто ошибся?':mode==='one'?'Кто поймал мяч?':mode==='dir'?'Куда ушёл мяч?':'Кто разыграл? Нажимайте по порядку'}</h3>${mode==='dir'?'<p class="muted small">Зона, куда улетел мяч, — для карты ударов. Не уверены — «Пропустить».</p>':''}<div class="field">`;
   const hasCF=!!atPos(G,'CF');
-  for(const p of FPOS){const id=atPos(G,p);if(!id&&(p==='CF'?!hasCF:(p==='LCF'||p==='RCF')&&hasCF))continue;const [x,y]=FXY[p];
+  for(const p of FPOS){const id=atPos(G,p);if(!id&&p==='SF')continue;if(!id&&(p==='CF'?!hasCF:(p==='LCF'||p==='RCF')&&hasCF))continue;const [x,y]=FXY[p];
    h+=`<button class="fp ${seq.includes(p)?'sel':''}" data-p="${p}" style="left:${x}%;top:${y}%" ${id||mode==='dir'?'':'disabled'} onclick="_fp('${p}')"><b>${p}</b><span>${id?esc(name(id)):'—'}</span></button>`}
   h+=`</div>`;
   if(mode==='seq')h+=`<div class="seq" id="fseq"></div>

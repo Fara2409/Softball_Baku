@@ -74,7 +74,7 @@
   }
 
   // один вариант: две команды в колонку
-  const POSL=['P','C','SS','1B','2B','3B','LF','LCF','CF','RCF','RF','EH'];
+  const POSL=['P','C','SS','1B','2B','3B','LF','LCF','CF','RCF','RF','SF','EH'];
   function optHtml(o,ei){ const ed=ei!=null;
     return `<div class="lp-teams">${['A','B'].map((k,ti)=>{ const d=TD()[ti], rows=o[k]||[], sub=ed?false:o[ti?'sb':'sa'];
       const avg=rows.length?rows.reduce((s,[id])=>s+str(id),0)/rows.length:0;
