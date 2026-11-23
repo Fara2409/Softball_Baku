@@ -341,7 +341,7 @@ const fmtT=s=>`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
 function ytAt(url,t){ const id=ytId(url); return id?`https://youtu.be/${id}?t=${Math.floor(t)}`:url; }
 /* Клипы «скачать момент» (23.11.2026): каждый эпизод — отдельный mp4 в Cloudflare R2 (index.json: clips_base; у игры g.clips=true).
    Файл: <clips_base>/<id>/<id>_NNN.mp4, NNN — номер розыгрыша n. Нарезка — tools/make_clips.py → .bat на компьютере. */
-window.clipUrl=(g,n)=>S.clips&&g&&g.clips&&n?`${S.clips}/${g.id}/${g.id}_${String(n).padStart(3,'0')}.mp4`:'';
+window.clipUrl=(g,n)=>S.clips&&g&&g.clips&&n?`${S.clips}/${g.id}/${g.id}_${String(n).padStart(3,'0')}${g.clips>1?'_v'+g.clips:''}.mp4`:'';   // g.clips=2 — клипы с начала эпизода (23.11.2026)
 const clipOfT=(g,t,pid)=>{ const x=(g.plays||[]).find(x=>x.t===t&&(!pid||x.b===pid||x.fpo===pid))||(g.plays||[]).find(x=>x.t===t); return x?clipUrl(g,x.n):''; };
 window.clipA=(url)=>url?`<a class="pb-dl" href="${url}" download title="${T('hlDl')}" aria-label="${T('hlDl')}" onclick="event.stopPropagation()">⬇</a>`:'';
 function hlRow(h,g,showPlayer){

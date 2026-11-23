@@ -155,7 +155,7 @@ for t,plays in H:
         o=x['o'] if x['o'] is not None else (1 if r in('GO','FO','K','SAC','FC') else 0)
         outs+=o
         tt=(x['t']+OFF) if x['t'] is not None else last_t+1
-        y={'n':n,'i':inn[t],'h':'T' if t=='A' else 'B','b':b,'r':r,'o':outs,'s':[score['A'],score['B']],'t':int(max(last_t+1,tt-15))}
+        y={'n':n,'i':inn[t],'h':'T' if t=='A' else 'B','b':b,'r':r,'o':outs,'s':[score['A'],score['B']],'t':int(last_t) if last_t and tt-last_t<45 else int(max(0,tt-15))}  # с начала эпизода (конец предыдущего), чтобы был виден удар (23.11.2026)
         if x['t'] is None: y['t']=None
         if x['d']: y['d']=x['d']
         if x['bt']: y['bt']=x['bt']

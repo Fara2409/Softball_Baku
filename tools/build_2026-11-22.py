@@ -185,7 +185,7 @@ for t,plays in H:
             far=max(bases)
             if far>=2: ofb=far; box[x['fpo']]['OFF3' if far==3 else 'OFF2']+=1
         tt=x['t']+OFF
-        y={'n':n,'i':inn[t],'h':'T' if t=='A' else 'B','b':b,'r':r,'o':outs,'s':[score['A'],score['B']],'t':int(max(last_t+1,tt-15))}
+        y={'n':n,'i':inn[t],'h':'T' if t=='A' else 'B','b':b,'r':r,'o':outs,'s':[score['A'],score['B']],'t':int(last_t) if last_t and tt-last_t<45 else int(max(0,tt-15))}  # с начала эпизода (конец предыдущего), чтобы был виден удар (23.11.2026)
         if x['d']: y['d']=x['d']
         if x['bt']: y['bt']=x['bt']
         fl=list(dict.fromkeys(([x['fpo']] if x['fpo'] else [])+x['f']))
