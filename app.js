@@ -4,7 +4,7 @@
 /* ---------- Языки ---------- */
 const I18N={
   ru:{rating:'Рейтинг',games:'Игры',players:'Игроки',lastGame:'Последняя игра',potg:'Игрок матча',leaders:'Лидеры сезона',perSeason:y=>`Сезон ${y}`,perOff:y=>`Межсезонье ${y}`,leadersOff:y=>`Лидеры межсезонья ${y}`,offChip:'межсезонье',seasonNoGames:'Сезон ещё не начался — статистика тестовых игр во вкладке «Межсезонье».',avgPerGame:'средний рейтинг за игру',
-    table:'Рейтинг игроков',qualHint:n=>`в рейтинге — от ${n} ${plural('ru',n)} · нажмите на столбец для сортировки`,player:'Игрок',position:'Позиция',pos:'Поз.',
+    table:'Рейтинг игроков',fewG:(g,n)=>`мало игр: ${g} из ${n}`,podWait:n=>`Подиум появится, когда кто-то сыграет ${n} ${plural('ru',n)}.`,qualHint:n=>`в рейтинге — от ${n} ${plural('ru',n)} · нажмите на столбец для сортировки`,player:'Игрок',position:'Позиция',pos:'Поз.',
     youtube:'Смотреть на YouTube',boxscore:'Протокол игры',season:'Сезон',avgRating:'Средний рейтинг',rOff:'Нападение',rDef:'Защита',rOffS:'Нап.',rDefS:'Защ.',rSplit:b=>`старт ${b} + очки за нападение и защиту в среднем за игру`,noRating:'Рейтинг появится после первой игры',
     G:'Игры',W:'Победы',WL:'В-П',R:'Раны',PO:'Ауты в защите',byGame:'Рейтинг по играм',dashed:'пунктир — среднее за сезон',avgLbl:'среднее',allGames:'Все игры',
     date:'Дата',team:'Команда',result:'Итог',win:'Победа',loss:'Поражение',tie:'Ничья',winL:'победа',lossL:'поражение',tieL:'ничья',runs:'ран',
@@ -12,7 +12,7 @@ const I18N={
     noGames:'Игр пока нет. Первая игра сезона появится здесь.',noStats:'Статистика появится после первой игры сезона.',mainPos:'основная позиция',rookie:'Новичок',rookieHint:(n,k)=>`Новичок: станет игроком после ${k} игр · сыграно ${n} из ${k}`,
     roster:'Состав',openProfile:'Открыть профиль',title:'Статистика',tagline:'Любительский софтбол в Баку. Рейтинг игроков, статистика и ролики каждой игры.',site:'Сайт',watch:'Смотреть',where:'Где играем',lastVideo:'Последняя игра на YouTube',channel:'Наш YouTube-канал',place:'Амирджан, Баку, Азербайджан',seasonPill:d=>`Сезон ${d.season} · старт ${d.start}`,language:'Язык',firstGame:'Первая игра',videoSoon:'Видео скоро',final:'Итог',notFound:'Не найдено',loadErr:'Не удалось загрузить данные',footer:'рейтинг считается автоматически после каждой игры',mvp:'MVP',city:'Баку'},
   az:{rating:'Reytinq',games:'Oyunlar',players:'Oyunçular',lastGame:'Son oyun',potg:'Oyunun ən yaxşısı',leaders:'Mövsümün liderləri',perSeason:y=>`${y} mövsümü`,perOff:y=>`Mövsümlərarası ${y}`,leadersOff:y=>`Mövsümlərarası liderlər ${y}`,offChip:'mövsümlərarası',seasonNoGames:'Mövsüm hələ başlamayıb — sınaq oyunlarının statistikası «Mövsümlərarası» bölməsindədir.',avgPerGame:'oyun başına orta reytinq',
-    table:'Oyunçuların reytinqi',qualHint:n=>`reytinqdə — ən azı ${n} oyun · sıralamaq üçün sütuna toxunun`,player:'Oyunçu',position:'Mövqe',pos:'Mövqe',
+    table:'Oyunçuların reytinqi',fewG:(g,n)=>`az oyun: ${g} / ${n}`,podWait:n=>`Kimsə ${n} oyun oynayanda podium görünəcək.`,qualHint:n=>`reytinqdə — ən azı ${n} oyun · sıralamaq üçün sütuna toxunun`,player:'Oyunçu',position:'Mövqe',pos:'Mövqe',
     youtube:'YouTube-da izlə',boxscore:'Oyun protokolu',season:'Mövsüm',avgRating:'Orta reytinq',rOff:'Hücum',rDef:'Müdafiə',rOffS:'Hüc.',rDefS:'Müd.',rSplit:b=>`başlanğıc ${b} + oyun başına orta hücum və müdafiə balları`,noRating:'Reytinq ilk oyundan sonra görünəcək',
     G:'Oyunlar',W:'Qələbələr',WL:'Q-M',R:'Ranlar',PO:'Müdafiədə autlar',byGame:'Oyunlar üzrə reytinq',dashed:'qırıq xətt — mövsüm ortalaması',avgLbl:'orta',allGames:'Bütün oyunlar',
     date:'Tarix',team:'Komanda',result:'Nəticə',win:'Qələbə',loss:'Məğlubiyyət',tie:'Heç-heçə',winL:'qələbə',lossL:'məğlubiyyət',tieL:'heç-heçə',runs:'ran',
@@ -20,7 +20,7 @@ const I18N={
     noGames:'Hələ oyun yoxdur. Mövsümün ilk oyunu burada görünəcək.',noStats:'Statistika mövsümün ilk oyunundan sonra görünəcək.',mainPos:'əsas mövqe',rookie:'Yeni oyunçu',rookieHint:(n,k)=>`Yeni oyunçu: ${k} oyundan sonra əsas heyətə keçəcək · oynanılıb ${n} / ${k}`,
     roster:'Heyət',openProfile:'Profilə bax',title:'Statistika',tagline:'Bakıda həvəskar softbol. Oyunçuların reytinqi, statistika və hər oyunun videosu.',site:'Sayt',watch:'İzlə',where:'Harada oynayırıq',lastVideo:'Son oyun YouTube-da',channel:'YouTube kanalımız',place:'Əmircan, Bakı, Azərbaycan',seasonPill:d=>`${d.season} mövsümü · ${d.start}`,language:'Dil',firstGame:'İlk oyun',videoSoon:'Video tezliklə',final:'Yekun',notFound:'Tapılmadı',loadErr:'Məlumatları yükləmək alınmadı',footer:'reytinq hər oyundan sonra avtomatik hesablanır',mvp:'MVP',city:'Bakı'},
   en:{rating:'Ratings',games:'Games',players:'Players',lastGame:'Last game',potg:'Player of the game',leaders:'Season leaders',perSeason:y=>`Season ${y}`,perOff:y=>`Off-season ${y}`,leadersOff:y=>`Off-season leaders ${y}`,offChip:'off-season',seasonNoGames:'The season hasn’t started yet — test games are under “Off-season”.',avgPerGame:'average rating per game',
-    table:'Player ratings',qualHint:n=>`qualified — ${n}+ ${plural('en',n)} · click a column to sort`,player:'Player',position:'Position',pos:'Pos',
+    table:'Player ratings',fewG:(g,n)=>`few games: ${g} of ${n}`,podWait:n=>`The podium appears once someone has played ${n} ${plural('en',n)}.`,qualHint:n=>`qualified — ${n}+ ${plural('en',n)} · click a column to sort`,player:'Player',position:'Position',pos:'Pos',
     youtube:'Watch on YouTube',boxscore:'Box score',season:'Season',avgRating:'Average rating',rOff:'Offense',rDef:'Defense',rOffS:'Off.',rDefS:'Def.',rSplit:b=>`start ${b} + average offense and defense points per game`,noRating:'Rating appears after the first game',
     G:'Games',W:'Wins',WL:'W-L',R:'Runs',PO:'Putouts',byGame:'Rating by game',dashed:'dashed line — season average',avgLbl:'avg',allGames:'Game log',
     date:'Date',team:'Team',result:'Result',win:'Win',loss:'Loss',tie:'Tie',winL:'win',lossL:'loss',tieL:'tie',runs:'runs',
@@ -96,6 +96,7 @@ const av=(p,size='s')=>`<span class="av ${size} ${p.photo?'':'nophoto'}">${p.pho
 const S={players:{},games:[]};
 /* Новичок (players.json: "rookie": true) — до ROOKIE_GAMES сыгранных игр (за всё время). Статистика и рейтинг считаются как у всех. */
 const ROOKIE_GAMES=3;
+const QUAL_GAMES=3; // столько игр за период нужно, чтобы попасть в рейтинг (место, подиум, награды)
 const isRookie=p=>!!(p&&p.rookie&&(p.logAll||p.log||[]).length<ROOKIE_GAMES);
 const rkBadge=(p,full)=>isRookie(p)?`<span class="rk" title="${T('rookieHint')((p.logAll||[]).length,ROOKIE_GAMES)}">${T('rookie')}${full?'':` ${(p.logAll||[]).length}/${ROOKIE_GAMES}`}</span>`:'';
 
@@ -130,7 +131,7 @@ function periodTabs(){
 function setPeriod(k){ if(S.period===k) return; applyPeriod(k); route(); }
 function applyPeriod(per){
   S.period=per;
-  S.qual=Math.max(1,Math.ceil(S.games.filter(g=>g.stats&&inPer(g)).length*0.4));
+  S.qual=QUAL_GAMES; // в таблицу рейтинга — от 3 сыгранных игр за период (решение пользователя 23.11.2026; раньше 40% игр)
   for(const p of Object.values(S.players)){
     p.log=p.logAll.filter(x=>inPer(x.game));
     const t={G:0,PA:0,AB:0,H:0,'1B':0,'2B':0,'3B':0,HR:0,BB:0,K:0,R:0,RBI:0,ROE:0,SAC:0,PO:0,A:0,E:0,W:0,L:0}, pos={};
@@ -212,6 +213,7 @@ function home(){
   h+=periodTabs();
   if(!ps.length){ app().innerHTML=h+`<div class="card empty">${T('seasonNoGames')}</div>`+seasonBanner(); return; }
   h+=`<div class="section-title"><h2>${S.period==='off'?T('leadersOff')(offYear()):`${T('leaders')} ${S.season}`}</h2><span class="hint">${T('avgPerGame')}</span></div><div class="podium">`;
+  if(!top.length) h+=`<div class="card empty pod-wait">${T('podWait')(S.qual)}</div>`;
   top.forEach((p,i)=>h+=`<a class="card pod pod${i+1}" href="#player-${p.id}"><span class="pod-av">${av(p,'m')}<span class="medal md${i+1}" aria-label="${i+1}">${i+1}</span></span><div><div class="nm">${pname(p)}</div><div class="sub">#${p.number} · ${p.pos[0]?.[0]||''} · ${p.t.G} ${plural(LANG,p.t.G)}</div></div>${rt(p.t.RAT,'lg')}</a>`);
   h+=`</div><div class="section-title"><h2>${T('table')}</h2><span class="hint">${T('qualHint')(S.qual)}</span></div><div class="card tablewrap"><table class="lb" id="lb"></table></div>`;
   app().innerHTML=h; drawLB(ps);
@@ -224,7 +226,7 @@ function drawLB(ps){
   let rank=0;
   for(const p of ps){ const t=p.t; if(t.qual) rank++;
     h+=`<tr data-peek="${p.id}" onclick="location.hash='#player-${p.id}'" style="${t.qual?'':'opacity:.55'}"><td class="l rank">${t.qual?rank:'–'}</td>
-      <td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}${rkBadge(p)}</div><div class="no">#${p.number}</div></div></div></td>
+      <td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}${rkBadge(p)}</div><div class="no">#${p.number}${t.qual?'':` · <span class="few">${T('fewG')(t.G,S.qual)}</span>`}</div></div></div></td>
       <td class="l">${p.pos.slice(0,2).map((x,i)=>`<span class="chip ${i?'':'main'}">${x[0]}</span>`).join(' ')}</td>
       <td>${rt(t.RAT)}</td><td>${pts(t.OFF)}</td><td>${pts(t.DEF)}</td><td>${t.G}</td><td class="wl">${t.W}–${t.L}</td><td>${avg3(t.AVG)}</td><td>${avg3(t.OBP)}</td><td>${avg3(t.OPS)}</td><td>${t.HR}</td><td>${t.RBI}</td><td>${t.R}</td><td>${t.E}</td></tr>`; }
   const el=document.getElementById('lb'); el.innerHTML=h+'</tbody>';
