@@ -175,5 +175,5 @@ G={'id':'2026-11-15','date':'2026-11-15','venue':'Amirajan, Baku','video':'https
    'teams':{'A':{'name':'Gilavar Baku','color':'#1f6fc0'},'B':{'name':'Bina Warriors','color':'#D85A30'}},
    'linescore':line,'score':score,'box':list(box.values()),
    'note':'Протокол по видео и разметке Фархада (15.11.2026). Ничья 9:9 после 7 иннингов. Gilavar бьёт первым.',
-   'highlights':hl,'plays':pbp,'clips':True}
+   'highlights':hl,'plays':pbp,'clips':2}
 json.dump(G,open('data/games/2026-11-15.json','w'),ensure_ascii=False,indent=1)
