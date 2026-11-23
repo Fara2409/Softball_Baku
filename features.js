@@ -553,16 +553,30 @@ document.addEventListener('click',e=>{
 function hlShow(){
   const a=HLP.list[HLP.i], id=a.dataset.yt, t=+a.dataset.t, n=HLP.list.length;
   const src=`https://www.youtube-nocookie.com/embed/${id}?start=${t}&end=${t+HL_LEN}&autoplay=1&rel=0&playsinline=1&modestbranding=1`;
-  let m=document.querySelector('.hlp'); if(!m){ m=document.createElement('div'); m.className='hlp';
-    m.addEventListener('click',e=>{ if(e.target===m||e.target.closest('[data-x]')) hlClose(); }); document.body.appendChild(m); }
-  m.innerHTML=`<div class="hlp-box"><div class="hlp-top"><span class="hl-t">▶ ${fmtT(t)}</span><b>${a.dataset.lbl}</b><span class="hlp-n">${HLP.i+1}/${n}</span><button class="hlp-x" data-x aria-label="×">×</button></div>
+  let m=document.querySelector('.hlp'); if(!m){ m=document.createElement('div'); m.className='hlp full';
+    m.addEventListener('click',e=>{ if(e.target===m||e.target.closest('[data-x]')) hlClose(); }); document.body.appendChild(m);
+    document.documentElement.classList.add('hlp-open'); hlFull(m,true); }
+  m.innerHTML=`<div class="hlp-box"><div class="hlp-top"><span class="hl-t">▶ ${fmtT(t)}</span><b>${a.dataset.lbl}</b><span class="hlp-n">${HLP.i+1}/${n}</span><button class="hlp-fs" onclick="hlFull(document.querySelector('.hlp'))" aria-label="⛶" title="⛶">${m.classList.contains('full')?'⤡':'⛶'}</button><button class="hlp-x" data-x aria-label="×">×</button></div>
     <div class="hlp-v"><iframe src="${src}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="${a.dataset.lbl}"></iframe></div>
     <div class="hlp-nav"><button class="btn" ${HLP.i?'':'disabled'} onclick="hlGo(-1)">‹ ${T('hlPrev')}</button>
       <a class="btn" href="${a.href}" target="_blank" rel="noopener">${T('hlOpen')}</a>${a.dataset.clip?`<a class="btn pri" href="${a.dataset.clip}" download>⬇ ${T('hlDl')}</a>`:''}
       <button class="btn" ${HLP.i<n-1?'':'disabled'} onclick="hlGo(1)">${T('hlNext')} ›</button></div></div>`;
 }
 function hlGo(d){ if(!HLP) return; HLP.i=Math.max(0,Math.min(HLP.list.length-1,HLP.i+d)); hlShow(); }
-function hlClose(){ document.querySelector('.hlp')?.remove(); HLP=null; }
+/* Плеер на весь экран (23.11.2026): при открытии — настоящий полноэкранный режим (Android, компьютер) + попытка повернуть в альбомную;
+   на iPhone полноэкранный режим для страницы недоступен — плеер просто занимает весь экран (класс .full), видео можно развернуть кнопкой YouTube. */
+function hlFull(m,on){
+  if(!m) return; if(on===undefined) on=!m.classList.contains('full');
+  m.classList.toggle('full',on);
+  const fsEl=document.fullscreenElement||document.webkitFullscreenElement;
+  if(on&&!fsEl){ const rq=m.requestFullscreen||m.webkitRequestFullscreen; if(rq){ try{ const p=rq.call(m); p&&p.then&&p.then(()=>{ try{ screen.orientation&&screen.orientation.lock&&screen.orientation.lock('landscape').catch(()=>{}); }catch(e){} }).catch(()=>{}); }catch(e){} } }
+  if(!on&&fsEl){ m.dataset.fsWas=''; try{ (document.exitFullscreen||document.webkitExitFullscreen).call(document); }catch(e){} }
+  const b=m.querySelector('.hlp-fs'); if(b) b.textContent=on?'⤡':'⛶';
+}
+function hlClose(){ const m=document.querySelector('.hlp'); if(m) hlFull(m,false);
+  try{ screen.orientation&&screen.orientation.unlock&&screen.orientation.unlock(); }catch(e){}
+  m?.remove(); document.documentElement.classList.remove('hlp-open'); HLP=null; }
+document.addEventListener('fullscreenchange',()=>{ const m=document.querySelector('.hlp'); if(m&&!document.fullscreenElement&&m.dataset.fsWas) hlClose(); if(m) m.dataset.fsWas=document.fullscreenElement?'1':''; });
 document.addEventListener('keydown',e=>{ if(!HLP) return; if(e.key==='Escape') hlClose(); if(e.key==='ArrowRight') hlGo(1); if(e.key==='ArrowLeft') hlGo(-1); });
 
 /* Подробный протокол: g.plays = [{n,i,h:'T'|'B',b,r,o,s:[A,B],t?,f?:[ids],e?:[ids],sc?:[ids],dp?,note?}]

@@ -225,3 +225,19 @@ html{overflow-x:clip}
 .pb-dl{display:inline-grid;place-items:center;width:28px;height:28px;margin-left:4px;border-radius:8px;border:1px solid var(--line);color:var(--muted);text-decoration:none;font-size:14px;flex:none}
 .pb-dl:hover{color:var(--amber);border-color:var(--amber)}
 .pb-row .pb-dl{width:24px;height:22px;margin:0 0 0 -6px;font-size:12px}
+
+/* плеер на весь экран (23.11.2026) */
+html.hlp-open{overflow:hidden}
+.hlp-fs{background:none;border:0;color:var(--muted);font-size:20px;line-height:1;cursor:pointer;padding:0 4px}
+.hlp.full{padding:0;background:#000}
+.hlp.full .hlp-box{width:100%;height:100%;max-width:none;border:0;border-radius:0;display:flex;flex-direction:column;background:#000;box-shadow:none}
+.hlp.full .hlp-top{background:#000;color:#fff;padding:10px 14px;padding-top:max(10px,env(safe-area-inset-top))}
+.hlp.full .hlp-top b{color:#fff}.hlp.full .hlp-x,.hlp.full .hlp-fs,.hlp.full .hlp-n{color:rgba(255,255,255,.75)}
+.hlp.full .hlp-v{flex:1;aspect-ratio:auto;min-height:0}
+.hlp.full .hlp-nav{background:#000;padding:10px 14px;padding-bottom:max(10px,env(safe-area-inset-bottom))}
+.hlp.full .hlp-nav .btn:not(.pri){background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);color:#fff}
+@media (orientation:landscape) and (max-height:560px){
+  .hlp.full .hlp-top{padding:6px 12px}.hlp.full .hlp-top b{font-size:13px}
+  .hlp.full .hlp-nav{padding:6px 12px;flex-wrap:nowrap}.hlp.full .hlp-nav .btn{padding:7px 10px;font-size:13px;flex:0 1 auto}
+  .hlp.full .hlp-nav a.btn:not(.pri){display:none}
+}
