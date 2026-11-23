@@ -141,7 +141,7 @@ function applyPeriod(per){
     t.AVG=t.H/t.AB; t.OBP=(t.H+t.BB+t.ROE)/(t.AB+t.BB+t.ROE+t.SAC); /* правило лиги (11.11.2026): как в бейсболе (H+BB+HBP)/(AB+BB+HBP+SF), вместо HBP — ROE (ошибка добавляется и в числитель, и в знаменатель сверх AB); SAC — сакрифайс, не входит в AB */ t.SLG=TB/t.AB; t.OPS=t.OBP+t.SLG;
     t.OFF=t.G?p.log.reduce((s,x)=>s+x.b.rOff,0)/t.G:null; t.DEF=t.G?p.log.reduce((s,x)=>s+x.b.rDef,0)/t.G:null;
     t.RAT=t.G?Math.round(p.log.reduce((s,x)=>s+x.b.rating,0)/t.G*100)/100:null;
-    t.qual=t.G>=S.qual; p.t=t;
+    t.qual=p.logAll.length>=S.qual; p.t=t; // место в рейтинге — от 3 игр за всё время (с первой игры 01.11.2026); показатели — по периоду
     p.pos=Object.entries(pos).sort((a,b)=>b[1]-a[1]);
     if(!p.pos.length) p.pos=(p.positions||[]).map(x=>[x,0]);
   }
@@ -226,7 +226,7 @@ function drawLB(ps){
   let rank=0;
   for(const p of ps){ const t=p.t; if(t.qual) rank++;
     h+=`<tr data-peek="${p.id}" onclick="location.hash='#player-${p.id}'" style="${t.qual?'':'opacity:.55'}"><td class="l rank">${t.qual?rank:'–'}</td>
-      <td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}${rkBadge(p)}</div><div class="no">#${p.number}${t.qual?'':` · <span class="few">${T('fewG')(t.G,S.qual)}</span>`}</div></div></div></td>
+      <td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}${rkBadge(p)}</div><div class="no">#${p.number}${t.qual?'':` · <span class="few">${T('fewG')(p.logAll.length,S.qual)}</span>`}</div></div></div></td>
       <td class="l">${p.pos.slice(0,2).map((x,i)=>`<span class="chip ${i?'':'main'}">${x[0]}</span>`).join(' ')}</td>
       <td>${rt(t.RAT)}</td><td>${pts(t.OFF)}</td><td>${pts(t.DEF)}</td><td>${t.G}</td><td class="wl">${t.W}–${t.L}</td><td>${avg3(t.AVG)}</td><td>${avg3(t.OBP)}</td><td>${avg3(t.OPS)}</td><td>${t.HR}</td><td>${t.RBI}</td><td>${t.R}</td><td>${t.E}</td></tr>`; }
   const el=document.getElementById('lb'); el.innerHTML=h+'</tbody>';
