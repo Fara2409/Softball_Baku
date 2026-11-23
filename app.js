@@ -217,7 +217,7 @@ function home(){
   app().innerHTML=h; drawLB(ps);
 }
 function drawLB(ps){
-  const COLS=[['RAT',T('rating')],['G',T('G')],['W',T('WL')],['AVG','AVG'],['OBP','OBP'],['OPS','OPS'],['HR','HR'],['RBI','RBI'],['R','R'],['E','E']];
+  const COLS=[['RAT',T('rating')],['OFF',T('rOffS')],['DEF',T('rDefS')],['G',T('G')],['W',T('WL')],['AVG','AVG'],['OBP','OBP'],['OPS','OPS'],['HR','HR'],['RBI','RBI'],['R','R'],['E','E']];
   const val=(p,k)=>{const v=p.t[k];return v==null||!isFinite(v)?-1:v};
   ps.sort((a,b)=>(b.t.qual-a.t.qual)||sortDir*(val(a,sortKey)-val(b,sortKey))||(b.t.G-a.t.G));
   let h=`<thead><tr><th class="l">#</th><th class="l">${T('player')}</th><th class="l">${T('position')}</th>${COLS.map(([k,n])=>`<th data-k="${k}" class="${k===sortKey?'sorted':''}">${n}${k===sortKey?(sortDir<0?' ↓':' ↑'):''}</th>`).join('')}</tr></thead><tbody>`;
@@ -226,7 +226,7 @@ function drawLB(ps){
     h+=`<tr data-peek="${p.id}" onclick="location.hash='#player-${p.id}'" style="${t.qual?'':'opacity:.55'}"><td class="l rank">${t.qual?rank:'–'}</td>
       <td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}${rkBadge(p)}</div><div class="no">#${p.number}</div></div></div></td>
       <td class="l">${p.pos.slice(0,2).map((x,i)=>`<span class="chip ${i?'':'main'}">${x[0]}</span>`).join(' ')}</td>
-      <td>${rt(t.RAT)}</td><td>${t.G}</td><td class="wl">${t.W}–${t.L}</td><td>${avg3(t.AVG)}</td><td>${avg3(t.OBP)}</td><td>${avg3(t.OPS)}</td><td>${t.HR}</td><td>${t.RBI}</td><td>${t.R}</td><td>${t.E}</td></tr>`; }
+      <td>${rt(t.RAT)}</td><td>${pts(t.OFF)}</td><td>${pts(t.DEF)}</td><td>${t.G}</td><td class="wl">${t.W}–${t.L}</td><td>${avg3(t.AVG)}</td><td>${avg3(t.OBP)}</td><td>${avg3(t.OPS)}</td><td>${t.HR}</td><td>${t.RBI}</td><td>${t.R}</td><td>${t.E}</td></tr>`; }
   const el=document.getElementById('lb'); el.innerHTML=h+'</tbody>';
   el.querySelectorAll('th[data-k]').forEach(th=>th.onclick=()=>{const k=th.dataset.k; if(k===sortKey) sortDir*=-1; else {sortKey=k; sortDir=-1;} drawLB(ps);});
 }

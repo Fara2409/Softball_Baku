@@ -3,11 +3,11 @@
 (function(){
 const EXTRA={
  ru:{RAT:'Рейтинг за игру от 3 до 10: старт 6.0 + очки за биту и защиту. В таблице — среднее по играм.',G:'Сыгранные игры',WL:'Победы — поражения команд, за которые играл',
-   OFF:'Очки за нападение (бита) в этой игре',DEF:'Очки за защиту в этой игре',POS:'Позиция в защите'},
+   OFF:'Очки за нападение (бита). В таблице рейтинга — в среднем за игру, в журнале — за эту игру',DEF:'Очки за защиту. В таблице рейтинга — в среднем за игру, в журнале — за эту игру',POS:'Позиция в защите'},
  az:{RAT:'Oyun üzrə reytinq 3-dən 10-a: başlanğıc 6.0 + vuruş və müdafiə balları. Cədvəldə — oyunlar üzrə orta.',G:'Oynanan oyunlar',WL:'Oynadığı komandaların qələbə — məğlubiyyətləri',
-   OFF:'Bu oyunda hücum (vuruş) balları',DEF:'Bu oyunda müdafiə balları',POS:'Müdafiədə mövqe'},
+   OFF:'Hücum (vuruş) balları. Reytinq cədvəlində — oyun başına orta, jurnalda — bu oyun üçün',DEF:'Müdafiə balları. Reytinq cədvəlində — oyun başına orta, jurnalda — bu oyun üçün',POS:'Müdafiədə mövqe'},
  en:{RAT:'Game rating from 3 to 10: start 6.0 + points for batting and defense. In the table — the average per game.',G:'Games played',WL:'Wins — losses of the teams he played for',
-   OFF:'Offense (batting) points in this game',DEF:'Defense points in this game',POS:'Fielding position'}
+   OFF:'Offense (batting) points. In the rating table — average per game, in the game log — for that game',DEF:'Defense points. In the rating table — average per game, in the game log — for that game',POS:'Fielding position'}
 };
 const L=()=>(typeof LANG!=='undefined'&&EXTRA[LANG])?LANG:'en';
 function dict(){
