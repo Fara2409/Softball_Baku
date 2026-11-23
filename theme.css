@@ -239,3 +239,6 @@ html.mn-open{overflow:hidden}
 .mn-lang button.on{background:#1F5FBF;border-color:#1F5FBF;color:#fff}
 @media (max-width:340px){ .mn-list{grid-template-columns:1fr} }
 @media (prefers-reduced-motion:reduce){ .mn-sheet,.mn-back{transition:none} }
+
+/* футер не прыгает, пока грузится содержимое (23.11.2026) */
+#app{min-height:calc(100vh - 160px)}

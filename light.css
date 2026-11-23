@@ -156,3 +156,7 @@ html:not(.theme-dark) .mn-foot{border-color:#E2E9F3}
 html:not(.theme-dark) .mn-lang button,html:not(.theme-dark) .mn-thm{background:#F4F7FC;border-color:#E2E9F3}
 html:not(.theme-dark) .mn-lang button.on{background:#1F5FBF;color:#fff}
 html:not(.theme-dark) .tabbar .tb-menu.on{background:#E6EEFB}
+
+/* полоса с инвентарём: место под иконки сразу, чтобы страница не сдвигалась (23.11.2026) */
+.eq-strip:empty{min-height:37px}
+@media (max-width:700px){.eq-strip:empty{min-height:35px}}

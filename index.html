@@ -29,7 +29,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://walqgchpwehlaqgizwxj.supabase.co" crossorigin>
 <link rel="dns-prefetch" href="https://api.open-meteo.com">
-<link rel="preload" as="image" href="gallery/team-1-800.webp" imagesrcset="gallery/team-1-800.webp 800w, gallery/team-1-1200.webp 1200w" imagesizes="(max-width:700px) 100vw, 1200px" fetchpriority="high">
+<script>/* фото команды грузим заранее только на главной (23.11.2026) */(function(){var x=(location.hash||'').slice(1).split('-')[0];if(!x||x==='rating'||x==='vote'){var l=document.createElement('link');l.rel='preload';l.as='image';l.href='gallery/team-1-800.webp';l.setAttribute('imagesrcset','gallery/team-1-800.webp 800w, gallery/team-1-1200.webp 1200w');l.setAttribute('imagesizes','(max-width:700px) 100vw, 1200px');l.setAttribute('fetchpriority','high');document.head.appendChild(l);}})();</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800;900&family=Roboto+Condensed:wght@600;700;800;900&display=swap">
 <link rel="stylesheet" href="styles.css?v=202611161141">
 <link rel="stylesheet" href="features.css?v=202611231001">
@@ -42,8 +42,8 @@
 <link rel="stylesheet" href="gate.css?v=202611161810">
 <link rel="stylesheet" href="rbreak.css?v=202611161745">
 <link rel="stylesheet" href="gallery.css?v=202611202300">
-<link rel="stylesheet" href="theme.css?v=202611212040">
-<link rel="stylesheet" id="light-css" href="light.css?v=202611212040">
+<link rel="stylesheet" href="theme.css?v=202611231030">
+<link rel="stylesheet" id="light-css" href="light.css?v=202611231035">
 <script>/* тема: светлая по умолчанию, тёмная — по выбору (sb.theme=dark) */try{if(localStorage.getItem('sb.theme')==='dark'){document.getElementById('light-css').disabled=true;document.documentElement.classList.add('theme-dark');document.querySelector('meta[name=theme-color]').content='#070D18'}}catch(e){}</script>
 </head>
 <body>
