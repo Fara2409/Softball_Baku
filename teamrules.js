@@ -14,7 +14,7 @@
     trPitch:'Питчеры',trPitchD:'подают они; если пришли двое — в разных командах',trApart:'в разных командах',trTogether:'в одной команде',trRookies:'Новичков поровну',
     trAdd:'+ Добавить условие',trKind:'Условие',trKinds:{pitch:'Эти игроки — питчеры',apart:'Двое в разных командах',together:'Двое в одной команде',rookies:'Новичков поровну'},
     trPick:{pitch:'Отметьте питчеров',apart:'Отметьте двух игроков',together:'Отметьте двух игроков',rookies:''},
-    trSave:'Сохранить',trCancel:'Отмена',trDel:'Удалить',trDelQ:'Удалить это условие?',trOff:'выкл',trOn:'вкл',trNone:'Условий пока нет.',
+    trSave:'Сохранить',trCancel:'Отмена',trDel:'Удалить',trDelQ:'Удалить это условие?',trOff:'выключено',trOn:'включено',trNone:'Условий пока нет.',
     trNeed1:'Отметьте хотя бы одного игрока',trNeed2:'Нужно ровно два игрока',trSaved:'Условие добавлено',trDup:'Такое условие уже есть',
     trNeedSQL:'Условия ещё не подключены: нужно один раз выполнить SQL (раздел 6i в supabase/schema.sql).',
     trCheck:'Условия',trBroken:'не удалось выполнить',trNoP:'нет'});
@@ -22,7 +22,7 @@
     trPitch:'Piçerlər',trPitchD:'atış onlardadır; iki nəfər gəlibsə — fərqli komandalarda',trApart:'fərqli komandalarda',trTogether:'eyni komandada',trRookies:'Yeni oyunçular bərabər',
     trAdd:'+ Şərt əlavə et',trKind:'Şərt',trKinds:{pitch:'Bu oyunçular piçerdir',apart:'İkisi fərqli komandalarda',together:'İkisi eyni komandada',rookies:'Yeni oyunçular bərabər'},
     trPick:{pitch:'Piçerləri qeyd edin',apart:'İki oyunçu qeyd edin',together:'İki oyunçu qeyd edin',rookies:''},
-    trSave:'Yadda saxla',trCancel:'Ləğv et',trDel:'Sil',trDelQ:'Bu şərt silinsin?',trOff:'söndürülüb',trOn:'aktiv',trNone:'Hələ şərt yoxdur.',
+    trSave:'Yadda saxla',trCancel:'Ləğv et',trDel:'Sil',trDelQ:'Bu şərt silinsin?',trOff:'söndürülüb',trOn:'aktivdir',trNone:'Hələ şərt yoxdur.',
     trNeed1:'Ən azı bir oyunçu qeyd edin',trNeed2:'Düz iki oyunçu lazımdır',trSaved:'Şərt əlavə olundu',trDup:'Belə şərt artıq var',
     trNeedSQL:'Şərtlər hələ qoşulmayıb: SQL-i bir dəfə icra etmək lazımdır (supabase/schema.sql, 6i bölməsi).',
     trCheck:'Şərtlər',trBroken:'yerinə yetirilmədi',trNoP:'yoxdur'});
@@ -86,11 +86,11 @@
     return esc(r.kind);
   }
   function card(){
-    const adm=X().isAdmin(); if(!adm&&!RULES.length) return '';
+    const adm=X().isAdmin(); if(!adm) return ''; // условия видит только админ
     let h=`<div class="card tr-card"><div class="tr-head"><h3>⚖ ${T('trTitle')}</h3></div><p class="muted small tr-sub">${T('trSub')}</p>`;
     if(adm&&noTable) return h+`<div class="lp-note">${T('trNeedSQL')}</div></div>`;
     h+=RULES.length?`<div class="tr-list">${RULES.map(r=>`<div class="tr-row${r.active===false?' off':''}"><span class="tr-d">${desc(r)}</span>
-      ${adm?`<span class="tr-a"><button class="btn sm" onclick="TRU.toggle(${+r.id})">${r.active===false?T('trOff'):'✓ '+T('trOn')}</button><button class="btn sm danger" title="${T('trDel')}" onclick="TRU.del(${+r.id})">✕</button></span>`:''}</div>`).join('')}</div>`
+      ${adm?`<span class="tr-a"><label class="tr-sw" title="${r.active===false?T('trOff'):T('trOn')}"><input type="checkbox" ${r.active===false?'':'checked'} onchange="TRU.toggle(${+r.id})"><i></i><span>${r.active===false?T('trOff'):T('trOn')}</span></label><button class="btn sm danger" title="${T('trDel')}" onclick="TRU.del(${+r.id})">✕</button></span>`:''}</div>`).join('')}</div>`
       :`<p class="muted tr-none">${T('trNone')}</p>`;
     if(adm) h+=form?formHtml():`<button class="btn sm" onclick="TRU.form()">${T('trAdd')}</button>`;
     return h+'</div>';

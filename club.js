@@ -30,6 +30,7 @@ Object.assign(I18N.ru,{
   cNotLogged:'Вы не вошли',cNotLoggedTxt:'Войдите или зарегистрируйтесь, чтобы писать комментарии и отмечаться на игры.',
   cNext:'Ближайшие игры',cNextOne:'Следующая игра',cYes:'Буду',cNo:'Не буду',cMaybe:'Может быть',cComing:'будут',
   cCountNo:n=>`не будут: ${n}`,cYesL:'Будут',cMaybeL:'Может быть',cNoL:'Не будут',cOnlyPlayers:'Отмечаться могут только игроки',cPlayerLogin:'Вы игрок? Войдите',cWaitApproval:'Ваша заявка игрока ждёт подтверждения админа',
+  cLineups:'Составы на игру',cNoLineups:'Составы ещё не опубликованы. Как только админ разделит команды, они появятся здесь и на главной.',
   cCancelled:'Отменена',cNoEvents:'⏳ Ждём подтверждения следующей игры',cAwait:'Ждём подтверждения игры',cAwaitAdm:'Назначить игру',cToTeams:'Разделить пришедших на команды',
   cAdminTitle:'Панель админа',cRequests:'Заявки игроков',cNoRequests:'Новых заявок нет',cApprove:'Подтвердить',cReject:'Отклонить',cWants:'хочет быть',
   cMailNo:d=>`Почты на домене «${d}» не существует — проверьте адрес.`,cMailMean:s=>`Может быть, вы имели в виду ${s}?`,cMailFix:'Исправить',cMailKeep:'Нет, адрес верный',cMailBtn:'Почта',cMailQ:n=>`Новая почта для ${n}:`,cMailDone:'Почта изменена. Теперь вход по новому адресу (пароль прежний).',cMailNeedSQL:'Сначала обновите базу: запустите supabase/schema.sql в Supabase → SQL Editor.',
@@ -63,6 +64,7 @@ Object.assign(I18N.az,{
   cNotLogged:'Daxil olmamısınız',cNotLoggedTxt:'Şərh yazmaq və oyunlara qeyd olunmaq üçün daxil olun və ya qeydiyyatdan keçin.',
   cNext:'Növbəti oyunlar',cNextOne:'Növbəti oyun',cYes:'Gələcəyəm',cNo:'Gəlməyəcəyəm',cMaybe:'Bəlkə',cComing:'gəlir',
   cCountNo:n=>`gəlmir: ${n}`,cYesL:'Gələcəklər',cMaybeL:'Bəlkə',cNoL:'Gəlməyəcəklər',cOnlyPlayers:'Qeyd olunmaq yalnız oyunçular üçündür',cPlayerLogin:'Oyunçusunuz? Daxil olun',cWaitApproval:'Oyunçu sorğunuz admin təsdiqini gözləyir',
+  cLineups:'Oyun üçün heyətlər',cNoLineups:'Heyətlər hələ dərc olunmayıb. Admin komandaları böləndə burada və ana səhifədə görünəcək.',
   cCancelled:'Ləğv edildi',cNoEvents:'⏳ Növbəti oyunun təsdiqi gözlənilir',cAwait:'Oyunun təsdiqi gözlənilir',cAwaitAdm:'Oyun təyin et',cToTeams:'Gələnləri komandalara böl',
   cAdminTitle:'Admin paneli',cRequests:'Oyunçu sorğuları',cNoRequests:'Yeni sorğu yoxdur',cApprove:'Təsdiq et',cReject:'Rədd et',cWants:'olmaq istəyir',
   cMailNo:d=>`«${d}» domenində e-poçt yoxdur — ünvanı yoxlayın.`,cMailMean:s=>`Bəlkə ${s} nəzərdə tutursunuz?`,cMailFix:'Düzəlt',cMailKeep:'Xeyr, ünvan düzgündür',cMailBtn:'E-poçt',cMailQ:n=>`${n} üçün yeni e-poçt:`,cMailDone:'E-poçt dəyişdirildi. İndi giriş yeni ünvanla (şifrə əvvəlki).',cMailNeedSQL:'Əvvəlcə bazanı yeniləyin: supabase/schema.sql faylını Supabase → SQL Editor-da işə salın.',
@@ -96,6 +98,7 @@ Object.assign(I18N.en,{
   cNotLogged:'You are not logged in',cNotLoggedTxt:'Log in or sign up to comment and respond to games.',
   cNext:'Upcoming games',cNextOne:'Next game',cYes:"I'm in",cNo:"Can't make it",cMaybe:'Maybe',cComing:'coming',
   cCountNo:n=>`out: ${n}`,cYesL:'Coming',cMaybeL:'Maybe',cNoL:'Not coming',cOnlyPlayers:'Only players can respond',cPlayerLogin:'Are you a player? Log in',cWaitApproval:'Your player request is waiting for admin approval',
+  cLineups:'Game lineups',cNoLineups:'Lineups are not published yet. Once the admin splits the teams, they will appear here and on the home page.',
   cCancelled:'Cancelled',cNoEvents:'⏳ Awaiting confirmation of the next game',cAwait:'Awaiting game confirmation',cAwaitAdm:'Schedule a game',cToTeams:'Split those coming into teams',
   cAdminTitle:'Admin panel',cRequests:'Player requests',cNoRequests:'No new requests',cApprove:'Approve',cReject:'Reject',cWants:'wants to be',
   cMailNo:d=>`There is no email on the domain “${d}” — check the address.`,cMailMean:s=>`Did you mean ${s}?`,cMailFix:'Fix it',cMailKeep:'No, it is correct',cMailBtn:'Email',cMailQ:n=>`New email for ${n}:`,cMailDone:'Email changed. Log in with the new address (same password).',cMailNeedSQL:'Update the database first: run supabase/schema.sql in Supabase → SQL Editor.',
@@ -234,7 +237,9 @@ function pendingCount(){ return Object.values(C.profiles).filter(p=>p.requested_
 function applyGates(){ const ok=C.ready&&canRsvp(); document.querySelectorAll('a[href="#teams"]').forEach(a=>{ a.hidden=!ok; }); }
 function teamsGate(id){
   C.page='teams';
-  if(canRsvp()) return TEAMS_PAGE(id);
+  if(isAdmin()) return TEAMS_PAGE(id);   // деление на команды и условия — только админ (23.11.2026)
+  if(canRsvp()){ // игроки видят только опубликованные составы и голосования (lineupvote.js кладёт карточки после .pagehead)
+    app().innerHTML=`<div class="pagehead"><span class="eyebrow">${S.league}</span><h1>${T('cLineups')}</h1></div><div class="card empty tm-nores">${T('cNoLineups')}</div>`; return; }
   if(!C.ready&&!C.failed){ app().innerHTML=`<div class="loading">…</div>`; return; }
   app().innerHTML=`<div class="card empty cl-out"><div class="lv-none-ic">⚖</div><h2>${T('cTeamsOnly')}</h2><p>${T('cTeamsOnlyTxt')}</p>
     <div class="cl-btns">${C.user?`<a class="btn pri" href="#me">${T('cRequest')}</a>`:`<button class="btn pri" onclick="CL.auth('login')">${T('cLogin')}</button><button class="btn" onclick="CL.auth('signup')">${T('cSignup')}</button>`}</div></div>`;
@@ -496,7 +501,7 @@ function evCard(e,compact){
     ${cx?'':`${can?`<div class="rsvp">${b('yes','✓ '+T('cYes'),'y')}${b('maybe','? '+T('cMaybe'),'m')}${b('no','✕ '+T('cNo'),'n')}</div>`:''}
     ${hint?`<div class="ev-hint">${hint}</div>`:''}
     ${whoGroups(yes,maybe,no)}
-    ${yes.length>=4&&canRsvp()?`<button class="btn sm ev-teams" onclick="CL.toTeams(${+e.id})">⚖ ${T('cToTeams')}</button>`:''}`}
+    ${yes.length>=4&&isAdmin()?`<button class="btn sm ev-teams" onclick="CL.toTeams(${+e.id})">⚖ ${T('cToTeams')}</button>`:''}`}
   </div>${badge?'</div>':''}</div>`;
 }
 async function rsvp(eid,status){

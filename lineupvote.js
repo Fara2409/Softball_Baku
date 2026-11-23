@@ -8,7 +8,7 @@
    Данные — Supabase: lineup_polls, lineup_votes, функции cast_lineup_vote / lineup_counts / lineup_voted (schema.sql, 6g). */
 (function(){
   if(!window.CL||!CL.ctx) return;
-  Object.assign(I18N.ru,{lpTitle:'Голосование за составы',lpVoted:(n,m)=>`проголосовали ${n} из ${m}`,lpOpt:n=>`Вариант ${n}`,
+  Object.assign(I18N.ru,{lpTitle:'Голосование за составы',lpPubT:'Составы на игру',lpPub:'Опубликовать составы',lpPubQ:'Дата игры (ГГГГ-ММ-ДД):',lpPubbed:'Составы опубликованы',lpPubSQL:'Чтобы публиковать составы, выполните SQL из раздела 6j (supabase/schema.sql).',lpVoted:(n,m)=>`проголосовали ${n} из ${m}`,lpOpt:n=>`Вариант ${n}`,
     lpVote:'Голосую за этот',lpMine:'ваш голос',lpLogin:'Войти, чтобы проголосовать',lpNotVoter:'Голосуют только игроки, которых отметил админ.',
     lpNotPlayer:'Голосуют только игроки команды. Привяжите аккаунт к себе в составе (профиль).',lpRule:'Побеждает вариант, за который больше половины голосующих. Голос можно поменять.',
     lpThanks:'Голос принят',lpWon:'Составы определены',lpWinner:'выбран',lpClosed:'Голосование закрыто',lpVotesN:n=>`${n} ${n%10===1&&n%100!==11?'голос':(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20))?'голоса':'голосов'}`,
@@ -19,7 +19,7 @@
     lpApprove:'Утвердить этот',lpApproveQ:'Утвердить этот вариант и закрыть голосование?',lpReopen:'Открыть снова',lpDel:'Удалить',lpDelQ:'Удалить голосование вместе с голосами?',
     lpShare:'Ссылка для WhatsApp',lpShareTxt:d=>`🗳 Голосование за составы на ${d}. Голосуйте здесь:`,lpCopied:'Скопировано',lpScorer:'В счётчик',lpNeedSQL:'Голосование ещё не включено: админу нужно выполнить SQL (раздел 6g).',
     lpE:{lp_not_player:'Голосуют только игроки команды',lp_closed:'Голосование уже закрыто',lp_not_voter:'Вы не в списке голосующих',lp_bad_choice:'Такого варианта нет'}});
-  Object.assign(I18N.az,{lpTitle:'Heyətlər üçün səsvermə',lpVoted:(n,m)=>`${m} nəfərdən ${n} səs verdi`,lpOpt:n=>`Variant ${n}`,
+  Object.assign(I18N.az,{lpTitle:'Heyətlər üçün səsvermə',lpPubT:'Oyun üçün heyətlər',lpPub:'Heyətləri dərc et',lpPubQ:'Oyunun tarixi (İİİİ-AA-GG):',lpPubbed:'Heyətlər dərc olundu',lpPubSQL:'Heyətləri dərc etmək üçün 6j bölməsindəki SQL-i icra edin (supabase/schema.sql).',lpVoted:(n,m)=>`${m} nəfərdən ${n} səs verdi`,lpOpt:n=>`Variant ${n}`,
     lpVote:'Buna səs verirəm',lpMine:'sizin səsiniz',lpLogin:'Səs vermək üçün daxil olun',lpNotVoter:'Yalnız adminin qeyd etdiyi oyunçular səs verir.',
     lpNotPlayer:'Yalnız komanda oyunçuları səs verir. Profildə hesabınızı heyətdəki adınıza bağlayın.',lpRule:'Səs verənlərin yarıdan çoxunun seçdiyi variant qalib gəlir. Səsi dəyişmək olar.',
     lpThanks:'Səs qəbul edildi',lpWon:'Heyətlər müəyyən olundu',lpWinner:'seçildi',lpClosed:'Səsvermə bağlanıb',lpVotesN:n=>`${n} səs`,
@@ -30,7 +30,7 @@
     lpApprove:'Bunu təsdiqlə',lpApproveQ:'Bu variant təsdiqlənsin və səsvermə bağlansın?',lpReopen:'Yenidən aç',lpDel:'Sil',lpDelQ:'Səsvermə səslərlə birlikdə silinsin?',
     lpShare:'WhatsApp üçün link',lpShareTxt:d=>`🗳 ${d} oyunu üçün heyətlər səsverməsi. Səs verin:`,lpCopied:'Kopyalandı',lpScorer:'Hesablayıcıya',lpNeedSQL:'Səsvermə hələ qoşulmayıb: admin SQL-i (6g bölməsi) icra etməlidir.',
     lpE:{lp_not_player:'Yalnız komanda oyunçuları səs verir',lp_closed:'Səsvermə artıq bağlanıb',lp_not_voter:'Siz səs verənlərin siyahısında deyilsiniz',lp_bad_choice:'Belə variant yoxdur'}});
-  Object.assign(I18N.en,{lpTitle:'Team split vote',lpVoted:(n,m)=>`${n} of ${m} voted`,lpOpt:n=>`Option ${n}`,
+  Object.assign(I18N.en,{lpTitle:'Team split vote',lpPubT:'Game lineups',lpPub:'Publish lineups',lpPubQ:'Game date (YYYY-MM-DD):',lpPubbed:'Lineups published',lpPubSQL:'To publish lineups, run the SQL from section 6j (supabase/schema.sql).',lpVoted:(n,m)=>`${n} of ${m} voted`,lpOpt:n=>`Option ${n}`,
     lpVote:'Vote for this one',lpMine:'your vote',lpLogin:'Log in to vote',lpNotVoter:'Only players marked by the admin can vote.',
     lpNotPlayer:'Only team players can vote. Link your account to yourself in the roster (profile).',lpRule:'The option backed by more than half of the voters wins. You can change your vote.',
     lpThanks:'Vote saved',lpWon:'Teams are set',lpWinner:'chosen',lpClosed:'Voting closed',lpVotesN:n=>`${n} vote${n===1?'':'s'}`,
@@ -49,6 +49,7 @@
   const setDraft=d=>{ try{ localStorage.setItem(DK,JSON.stringify(d)); }catch(e){} };
   const me=()=>{ const c=X().C; return c.profile&&['player','admin'].includes(c.profile.role)?c.profile.player_id:null; };
   const ymd=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const nextSun=()=>{ const d=new Date(); d.setDate(d.getDate()+((7-d.getDay())%7||7)); return ymd(d); };
   const nextSat=()=>{ const d=new Date(); d.setDate(d.getDate()+((6-d.getDay()+7)%7||7)); return ymd(d); };
   const errMsg=e=>{ const m=(e&&e.message)||''; const k=Object.keys(T('lpE')).find(k=>m.includes(k)); return k?T('lpE')[k]:m; };
   const TD=()=>(typeof TEAM_DEF!=='undefined'?TEAM_DEF:[{name:'Bina Warriors',color:'#D85A30'},{name:'Gilavar Baku',color:'#1f6fc0'}]);
@@ -86,6 +87,9 @@
     const c=X().C, adm=X().isAdmin(), mine=me(), voters=p.voters||[], voted=L.voted[p.id]||[], my=L.mine[p.id];
     const cnt={}; (L.cnt[p.id]||[]).forEach(r=>cnt[r.choice]=r.votes);
     const bal=(L.bal||{})[p.id], open=p.status==='open', canVote=open&&c.user&&mine&&voters.includes(mine);
+    const pub=(p.options||[]).length===1; // опубликованные админом составы без голосования
+    if(pub) return `<div class="card lp-card lp-pub" id="lp-${p.id}"><div class="lp-head"><div><span class="eyebrow">📋 ${T('lpPubT')}</span><div class="lp-date">${fmtDate(p.game_date)}</div></div>
+      <div class="lp-hb"><button class="btn sm" onclick="LP.share(${p.id})">🔗 ${T('lpShare')}</button>${adm?`<button class="btn sm danger" onclick="LP.del(${p.id})">${T('lpDel')}</button>`:''}</div></div>${optHtml(p.options[0])}</div>`;
     let h=`<div class="card lp-card" id="lp-${p.id}"><div class="lp-head"><div><span class="eyebrow">🗳 ${T('lpTitle')}</span>
       <div class="lp-date">${fmtDate(p.game_date)} · ${open?T('lpVoted')(voted.length,voters.length):`<b class="lp-won">✓ ${T('lpWon')}</b>`}</div></div>
       <div class="lp-hb"><button class="btn sm" onclick="LP.share(${p.id})">🔗 ${T('lpShare')}</button>
@@ -137,6 +141,7 @@
       const polls=(L.polls||[]).filter(p=>p.status==='open'||(p.closed_at&&Date.now()-new Date(p.closed_at).getTime()<7*864e5));
       box.innerHTML=polls.map(p=>card(p,true)).join('')+(X().isAdmin()?(L.noTable?`<div class="card lp-note">${T('lpNeedSQL')}</div>`:adminDraft()):'');
       if(box.innerHTML) head.after(box);
+      const nr=document.querySelector('#app .tm-nores'); if(nr) nr.hidden=polls.length>0;
       addBtn();
       if(location.hash.startsWith('#teams-lp')){ const el=box.querySelector('.lp-card'); el&&setTimeout(()=>el.scrollIntoView({block:'start',behavior:'smooth'}),50); }
       return;
@@ -152,7 +157,7 @@
   function addBtn(){
     if(!X().isAdmin()) return; const res=document.querySelector('#tmOut .tm-res'); if(!res||res.querySelector('.lp-add')) return;
     const b=document.createElement('div'); b.className='btns center lp-add';
-    b.innerHTML=`<button class="btn pri" onclick="LP.add()">🗳 ${T('lpAdd')}</button>`; res.appendChild(b);
+    b.innerHTML=`<button class="btn pri" onclick="LP.publish()">📢 ${T('lpPub')}</button><button class="btn" onclick="LP.add()">🗳 ${T('lpAdd')}</button>`; res.appendChild(b);
   }
   async function refresh(force){ await load(force); place(); }
 
@@ -170,13 +175,21 @@
     del:async id=>{ if(!confirm(T('lpDelQ'))) return; const c=X().C; const {error}=await c.sb.from('lineup_polls').delete().eq('id',id);
       if(error){ X().fail(error); return; } await refresh(true); },
     share:async id=>{ const p=(L.polls||[]).find(x=>x.id===id); if(!p) return;
-      const txt=`${T('lpShareTxt')(fmtDate(p.game_date,{day:'numeric',month:'long'}))}\n${location.origin}${location.pathname}#vote`;
+      const dd=fmtDate(p.game_date,{day:'numeric',month:'long'}), txt=(p.options||[]).length===1?`📋 ${T('lpPubT')} · ${dd}\n${location.origin}${location.pathname}#teams`:`${T('lpShareTxt')(dd)}\n${location.origin}${location.pathname}#vote`;
       try{ await navigator.clipboard.writeText(txt); }catch(e){ const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy')}catch(_){} ta.remove(); }
       toast(T('lpCopied')); },
     scorer:id=>{ const p=(L.polls||[]).find(x=>x.id===id); if(!p||p.winner==null) return; const w=winTeams(p), o={v:1};
       ['A','B'].forEach((k,ti)=>{ o[k]={n:TD()[ti].name,c:TD()[ti].color,l:w[k]}; });
       const b64=btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
       location.href=new URL('scorer/#lineup='+b64,location.href.split('#')[0]).href; },
+    // опубликовать текущее деление без голосования: lineup_polls с одним вариантом, сразу закрытое (schema.sql, 6j)
+    publish:async()=>{ if(typeof tmTeams!=='function') return; const t=tmTeams();
+      const ev=(CL.events?CL.events():[]).find(e=>e.status!=='cancelled'&&new Date(e.starts_at)>Date.now()-6*3600e3);
+      const d=prompt(T('lpPubQ'),ev?ymd(new Date(ev.starts_at)):nextSun()); if(!d||!/^\d{4}-\d{2}-\d{2}$/.test(d.trim())) return;
+      const o={A:t[0].map(x=>[x.p.id,x.pos]),B:t[1].map(x=>[x.p.id,x.pos]),sa:!!t[0].subC,sb:!!t[1].subC};
+      const {error}=await X().C.sb.from('lineup_polls').insert({game_date:d.trim(),options:[o],voters:[],status:'closed',winner:0,closed_at:new Date().toISOString()});
+      if(error){ if(/check/i.test(error.message||'')) toast(T('lpPubSQL')); else X().fail(error); return; }
+      toast('✓ '+T('lpPubbed')); await refresh(true); const el=document.querySelector('.lp-card'); el&&el.scrollIntoView({block:'start',behavior:'smooth'}); },
     // черновик (админ)
     add:()=>{ if(typeof tmTeams!=='function') return; const t=tmTeams(), d=draft();
       d.opts.push({A:t[0].map(x=>[x.p.id,x.pos]),B:t[1].map(x=>[x.p.id,x.pos]),sa:!!t[0].subC,sb:!!t[1].subC}); if(d.opts.length>6) d.opts.shift();

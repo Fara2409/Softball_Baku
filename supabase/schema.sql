@@ -369,7 +369,7 @@ create table if not exists public.lineup_polls (
   id         bigint generated always as identity primary key,
   game_date  date not null,
   title      text,
-  options    jsonb not null check (jsonb_typeof(options) = 'array' and jsonb_array_length(options) between 2 and 6),
+  options    jsonb not null check (jsonb_typeof(options) = 'array' and jsonb_array_length(options) between 1 and 6),
   voters     text[] not null default '{}',
   status     text not null default 'open' check (status in ('open','closed')),
   winner     int,
@@ -460,6 +460,13 @@ create policy team_rules_admin on public.team_rules for all using (public.is_adm
 grant select on public.team_rules to anon, authenticated;
 grant insert, update, delete on public.team_rules to authenticated;
 grant usage, select on all sequences in schema public to authenticated;
+
+-- ---------- 6j. Опубликованные составы (23.11.2026) ----------
+-- Админ публикует деление без голосования: запись lineup_polls с ОДНИМ вариантом, сразу closed, winner = 0.
+-- Для этого разрешаем 1 вариант (было 2–6).
+alter table public.lineup_polls drop constraint if exists lineup_polls_options_check;
+alter table public.lineup_polls add constraint lineup_polls_options_check
+  check (jsonb_typeof(options) = 'array' and jsonb_array_length(options) between 1 and 6);
 
 -- ---------- 7. Доступ сайта к таблицам ----------
 -- С 30.05.2026 Supabase в новых проектах не открывает таблицы автоматически —
