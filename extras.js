@@ -109,6 +109,7 @@ function ballsOf(p){
     } }
   return {balls:out,hitsNoDir};
 }
+window.SPRAY={XY,SIDE,HITS,posOf,trajOf}; // для scout.js
 const R_=new Proxy({},{get:(o,k)=>((I18N[LANG]&&I18N[LANG].pbR)||{})[k]});
 window.spReplay=btn=>{ const sv=btn.closest('.spray').querySelector('.sp-svg'); sv.classList.remove('go'); void sv.getBoundingClientRect(); sv.classList.add('go'); };
 function spObserve(){
