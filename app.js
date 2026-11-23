@@ -381,7 +381,7 @@ function footer(){
       ${S.season?`<span class="foot-pill">${T('seasonPill')({season:S.season,start:startTxt})}</span>`:''}
     </div>
     <div class="foot-col"><h4>${T('watch')}</h4>${L.youtube?`<a href="${L.youtube}" target="_blank" rel="noopener"><span class="yt-dot">▶</span>${T('channel')}</a>`:''}${vid?`<a href="${vid}" target="_blank" rel="noopener"><span class="yt-dot">▶</span>${T('lastVideo')}</a>`:(L.youtube?'':`<span class="muted">${T('videoSoon')}</span>`)}</div>
-    <div class="foot-col"><h4>${T('where')}</h4><a class="foot-loc" href="https://maps.google.com/?q=40.4264,49.9836" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>${T('place')}</span></a></div>
+    <div class="foot-col"><h4>${T('where')}</h4>${I18N[LANG].jnNav?`<a class="foot-join" href="#join">⚾ ${T('jnNav')}</a>`:''}<a class="foot-loc" href="https://maps.google.com/?q=40.4264,49.9836" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>${T('place')}</span></a></div>
     <svg class="foot-diamond" viewBox="0 0 200 200" aria-hidden="true">
       <path d="M100 185 L15 100 A120 120 0 0 1 185 100 Z" fill="none" stroke="#C5CFDD" stroke-width="2"/>
       <path d="M100 170 L45 115 L100 60 L155 115 Z" fill="rgba(31,95,191,.06)" stroke="#B9C6DA" stroke-width="2"/>

@@ -314,7 +314,7 @@ function auth(mode){
       <label><span>${T('cPass')} <span class="muted">· ${T('cPassHint')}</span></span><input name="pass" type="password" autocomplete="new-password" minlength="6" required></label>
       <label>${T('cPass2')}<input name="pass2" type="password" autocomplete="new-password" minlength="6" required></label>
       <label>${T('cBday')}${bdaySel('')}<span class="cl-hint">${T('cBdayHint')}</span></label>
-      <label>${T('cIAm')}<select name="player">${playerOptions('')}</select><span class="cl-hint">${T('cIAmHint')}</span></label>
+      <label>${T('cIAm')}<select name="player">${playerOptions('')}</select><span class="cl-hint">${T('cIAmHint')}</span>${I18N[LANG].jnNotListed?`<a class="cl-hint cl-join" href="#join" onclick="CL.close()">${T('jnNotListed')}</a>`:''}</label>
       <div class="cl-err" id="cl-err"></div><button class="btn pri big" type="submit">${T('cSignup')}</button></form>${guest}`;
   } else {
     h=sheetHead(T('cLogin'))+tabs+gOr+`<form class="cl-form" onsubmit="return CL.doLogin(event)" novalidate>
@@ -685,7 +685,7 @@ function mePage(){
     <div class="card me-card"><h3>${T('cPlayerL')}</h3>`;
   if(p) h+=`<a class="me-pl" href="#player-${esc(p.id)}">${av(p,'m')}<div><b>${esc(pname(p))}</b><span>#${p.number} · ${T('cLinked')}</span></div></a>`;
   else if(req) h+=`<p class="cl-p">${T('cPending')(`#${req.number} ${esc(pname(req))}`)}</p><button class="btn sm" onclick="CL.request(null)">${T('cCancelReq')}</button>`;
-  else h+=`<form class="cl-row" onsubmit="return CL.request(this.player.value)"><select name="player">${playerOptions('')}</select><button class="btn sm" type="submit">${T('cSendReq')}</button></form><span class="cl-hint">${T('cIAmHint')}</span>`;
+  else h+=`<form class="cl-row" onsubmit="return CL.request(this.player.value)"><select name="player">${playerOptions('')}</select><button class="btn sm" type="submit">${T('cSendReq')}</button></form><span class="cl-hint">${T('cIAmHint')}</span>${I18N[LANG].jnNotListed?`<a class="cl-hint cl-join" href="#join">${T('jnNotListed')}</a>`:''}`;
   h+=`</div><div class="card me-card"><h3>${T('cChangePass')}</h3><form class="cl-row cl-col" onsubmit="return CL.changePass(event)"><input name="pass" type="password" autocomplete="new-password" minlength="6" placeholder="${T('cNewPass')} · ${T('cPassHint')}" required><input name="pass2" type="password" autocomplete="new-password" minlength="6" placeholder="${T('cPass2')}" required><button class="btn sm" type="submit">${T('cSave')}</button></form></div>
     </div><button class="btn me-out" onclick="CL.logout()">${T('cLogout')}</button>`;
   app().innerHTML=h;

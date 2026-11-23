@@ -468,6 +468,28 @@ alter table public.lineup_polls drop constraint if exists lineup_polls_options_c
 alter table public.lineup_polls add constraint lineup_polls_options_check
   check (jsonb_typeof(options) = 'array' and jsonb_array_length(options) between 1 and 6);
 
+-- ---------- 6k. Заявки новичков «Хочу играть» (23.11.2026, join.js) ----------
+-- Оставить заявку может любой посетитель (без входа); читать, менять и удалять — только админ.
+create table if not exists public.join_requests (
+  id         bigint generated always as identity primary key,
+  name       text not null check (char_length(name) between 2 and 60),
+  phone      text not null check (phone ~ '^[+0-9 ()-]{7,20}$'),
+  age        text check (age in ('teen','adult','dad')),
+  exp        text check (exp in ('none','little','yes')),
+  note       text check (char_length(note) <= 300),
+  lang       text,
+  status     text not null default 'new' check (status in ('new','contacted','added','declined')),
+  created_at timestamptz not null default now()
+);
+alter table public.join_requests enable row level security;
+drop policy if exists join_requests_insert on public.join_requests;
+create policy join_requests_insert on public.join_requests for insert with check (status = 'new');
+drop policy if exists join_requests_admin on public.join_requests;
+create policy join_requests_admin on public.join_requests for all using (public.is_admin()) with check (public.is_admin());
+grant insert on public.join_requests to anon, authenticated;
+grant select, update, delete on public.join_requests to authenticated;
+grant usage, select on all sequences in schema public to anon, authenticated;
+
 -- ---------- 7. Доступ сайта к таблицам ----------
 -- С 30.05.2026 Supabase в новых проектах не открывает таблицы автоматически —
 -- выдаём права явно. Что именно разрешено каждому — решают политики RLS выше.
