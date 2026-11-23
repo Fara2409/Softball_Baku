@@ -92,6 +92,12 @@ function strengthOf(p){ if(p.t&&p.t.G) return {v:p.t.RAT,est:false}; const lv=ls
 function splitTeams(list,rng,needPC){
   // list: [{p,s}] → лучший раздел из случайных стартов + обмены
   const n=list.length, nA=Math.ceil(n/2);
+  // бита и защита отдельно (23.11.2026): средний вклад за игру t.OFF / t.DEF; у кого игр нет — середина пришедших ± половина отличия силы
+  const known=list.filter(x=>x.p.t&&x.p.t.G&&x.p.t.OFF!=null), mean=(a,f)=>a.length?a.reduce((t,x)=>t+f(x),0)/a.length:0;
+  const mO=mean(known,x=>x.p.t.OFF), mD=mean(known,x=>x.p.t.DEF), mS=known.length?mean(known,x=>x.s):6.5;
+  list.forEach(x=>{ const k=x.p.t&&x.p.t.G&&x.p.t.OFF!=null; x.o=k?x.p.t.OFF:mO+(x.s-mS)/2; x.d=k?x.p.t.DEF:mD+(x.s-mS)/2; });
+  // условия админа (teamrules.js): только те, чьи игроки пришли
+  const R=window.TR?TR.applicable(list.map(x=>x.p.id)):[];
   const isP=x=>canPlay(x.p,'P'), isC=x=>canPlay(x.p,'C');
   const cost=(A,B)=>{
     const sa=A.reduce((t,x)=>t+x.s,0)/A.length, sb=B.reduce((t,x)=>t+x.s,0)/B.length;
@@ -101,6 +107,9 @@ function splitTeams(list,rng,needPC){
     // основные позиции: игроки с одной основной позицией делятся поровну между командами
     const cnt={}; for(const x of A){const m=mainPos(x.p); if(m) (cnt[m]=cnt[m]||[0,0])[0]++;} for(const x of B){const m=mainPos(x.p); if(m) (cnt[m]=cnt[m]||[0,0])[1]++;}
     for(const k in cnt){ const [a,b]=cnt[k]; c+=Math.max(0,Math.abs(a-b)-((a+b)%2))*POS_W; }
+    const av=(T,f)=>T.reduce((t,x)=>t+f(x),0)/T.length;
+    c+=(Math.abs(av(A,x=>x.o)-av(B,x=>x.o))+Math.abs(av(A,x=>x.d)-av(B,x=>x.d)))*OD_W;
+    if(R.length) c+=TR.cost(A,B,R);
     return c;
   };
   const sols=[];
@@ -119,6 +128,7 @@ function splitTeams(list,rng,needPC){
   return good;
 }
 const POS_W=0.6; // штраф за неравный раздел игроков одной основной позиции
+const OD_W=6;    // штраф за перевес по бите или по защите (разница средних вкладов за игру)
 const POS_GROUP={P:'B',C:'B','1B':'I','2B':'I','3B':'I',SS:'I',LF:'O',LCF:'O',CF:'O',RCF:'O',RF:'O',SF:'O'};
 function fitScore(p,pos){ // насколько игроку подходит позиция
   if(mainPos(p)===pos) return 10;
@@ -136,12 +146,14 @@ function assignPositions(team){
   const OF=team.length>=(hasC?10:9)?['LF','LCF','RCF','RF']:['CF','LF','RF'];
   const POS=['P','C','SS','1B','2B','3B',...OF].filter(p=>hasC||p!=='C').slice(0,Math.min(hasC?10:9,team.length));
   const n=team.length, M=1<<POS.length, NEG=-1e9;
+  const fp=window.TR?TR.pitcherOf(team):null; // условие «эти игроки — питчеры»: в команде подаёт он
+  const bonus=(i,k)=>!fp||POS[k]!=='P'?0:team[i].p.id===fp?1000:-50;
   let dp=new Array(M).fill(NEG); dp[0]=0; const choice=[];
   for(let i=0;i<n;i++){
     const nd=new Array(M).fill(NEG), ch=new Array(M).fill(-2);
     for(let m=0;m<M;m++){ if(dp[m]===NEG) continue;
       if(dp[m]>nd[m]){nd[m]=dp[m];ch[m]=-1;}                       // запасной (EH)
-      for(let k=0;k<POS.length;k++){ if(m&(1<<k)) continue; const m2=m|(1<<k), v=dp[m]+100+fitScore(team[i].p,POS[k]);
+      for(let k=0;k<POS.length;k++){ if(m&(1<<k)) continue; const m2=m|(1<<k), v=dp[m]+100+fitScore(team[i].p,POS[k])+bonus(i,k);
         if(v>nd[m2]){nd[m2]=v;ch[m2]=k;} } }
     choice.push(ch); dp=nd;
   }
@@ -187,11 +199,13 @@ const TEAM_DEF=[{name:'Bina Warriors',color:'#D85A30'},{name:'Gilavar Baku',colo
 function tmTeams(){ const s=TM.sols[TM.idx]; return [assignPositions(s.A),assignPositions(s.B)]; }
 function tmRender(){
   const teams=tmTeams(), avg=t=>t.reduce((a,x)=>a+x.s,0)/t.length;
+  const avgF=(t,f)=>t.reduce((a,x)=>a+(f(x)||0),0)/t.length, sg=v=>(v>=0?'+':'−')+Math.abs(v).toFixed(2), rkN=t=>t.filter(x=>isRookie(x.p)).length;
   const a=avg(teams[0]), b=avg(teams[1]), bal=Math.max(0,Math.round(100-Math.abs(a-b)/Math.max(a,b)*100*4));
   let h=`<div class="tm-res"><div class="tm-bal"><span>${T('tmBalance')}</span><div class="meter"><i style="width:${bal}%"></i></div><b>${bal}%</b>
     <span class="muted small">${TM.sols.length>1?`${TM.idx+1}/${TM.sols.length}`:''}</span></div><div class="tm-teams">`;
   teams.forEach((t,k)=>{ const d=TEAM_DEF[k];
-    h+=`<div class="card tm-team"><div class="tm-head" style="border-color:${d.color}"><i style="background:${d.color}"></i><b>${d.name}</b><span>${T('tmAvg')} ${avg(t).toFixed(2)} · ${t.length}</span></div>`;
+    h+=`<div class="card tm-team"><div class="tm-head" style="border-color:${d.color}"><i style="background:${d.color}"></i><b>${d.name}</b><span>${T('tmAvg')} ${avg(t).toFixed(2)} · ${t.length}</span></div>
+      <div class="tm-od"><span>${T('rOff')} <b>${sg(avgF(t,x=>x.o))}</b></span><span>${T('rDef')} <b>${sg(avgF(t,x=>x.d))}</b></span>${rkN(t)?`<span>${T('rookie')}: <b>${rkN(t)}</b></span>`:''}</div>`;
     const ci=t[0]&&t[0].pos==='P'?1:0; t.forEach((x,i)=>{ if(t.subC&&i===ci) h+=`<div class="tm-row tm-subc"><span class="chip">C</span><span class="nm muted">${T('tmSubC')}</span></div>`;
       h+=`<div class="tm-row" data-peek="${x.p.id}"><span class="chip ${x.pos==='EH'?'':'main'}">${x.pos}</span>${av(x.p)}<span class="nm">${esc(pname(x.p))}</span><span class="no">#${x.p.number}</span>${rt(Math.round(x.s*100)/100)}</div>`; });
     h+=`</div>`; });

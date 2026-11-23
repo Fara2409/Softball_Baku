@@ -439,6 +439,28 @@ language sql stable security definer set search_path = public as $$
 $$;
 grant execute on function public.mvp_ballots(text), public.lineup_ballots(bigint) to anon, authenticated;
 
+-- ---------- 6i. Условия деления на команды (23.11.2026) ----------
+-- Админ задаёт условия для балансировщика на странице «Составы» (teamrules.js):
+--   pitch    — эти игроки питчеры: если пришли, подают они (двое и больше — в разных командах);
+--   apart    — двое игроков в разных командах;  together — двое в одной команде;
+--   rookies  — новичков поровну (players пустой).
+-- Условие применяется, только если нужные игроки отмечены как пришедшие.
+create table if not exists public.team_rules (
+  id         bigint generated always as identity primary key,
+  kind       text not null check (kind in ('pitch','apart','together','rookies')),
+  players    text[] not null default '{}',
+  active     boolean not null default true,
+  created_at timestamptz not null default now()
+);
+alter table public.team_rules enable row level security;
+drop policy if exists team_rules_read on public.team_rules;
+create policy team_rules_read on public.team_rules for select using (true);
+drop policy if exists team_rules_admin on public.team_rules;
+create policy team_rules_admin on public.team_rules for all using (public.is_admin()) with check (public.is_admin());
+grant select on public.team_rules to anon, authenticated;
+grant insert, update, delete on public.team_rules to authenticated;
+grant usage, select on all sequences in schema public to authenticated;
+
 -- ---------- 7. Доступ сайта к таблицам ----------
 -- С 30.05.2026 Supabase в новых проектах не открывает таблицы автоматически —
 -- выдаём права явно. Что именно разрешено каждому — решают политики RLS выше.
