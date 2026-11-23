@@ -196,7 +196,7 @@ function tmRender(){
       h+=`<div class="tm-row" data-peek="${x.p.id}"><span class="chip ${x.pos==='EH'?'':'main'}">${x.pos}</span>${av(x.p)}<span class="nm">${esc(pname(x.p))}</span><span class="no">#${x.p.number}</span>${rt(Math.round(x.s*100)/100)}</div>`; });
     h+=`</div>`; });
   h+=`</div><div class="btns center"><button class="btn" onclick="tmSplit(false)">↻ ${T('tmAgain')}</button><button class="btn wa" onclick="tmCopy(this)">${T('tmCopy')}</button></div>
-    <div class="btns center"><button class="btn pri" onclick="tmScorer()">▶ ${T('tmScorer')}</button><button class="btn" title="${T('tmScorerLink')}" aria-label="${T('tmScorerLink')}" onclick="tmScorerLink()">🔗</button></div></div>`;
+    ${S.scorer===false?'':`<div class="btns center"><button class="btn pri" onclick="tmScorer()">▶ ${T('tmScorer')}</button><button class="btn" title="${T('tmScorerLink')}" aria-label="${T('tmScorerLink')}" onclick="tmScorerLink()">🔗</button></div>`}</div>`;
   document.getElementById('tmOut').innerHTML=h;
 }
 // составы → счётчик: передаём в ссылке scorer/#lineup=… (работает и на другом телефоне, если переслать ссылку)

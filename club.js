@@ -38,6 +38,7 @@ Object.assign(I18N.ru,{
   cWAtext:(e,p)=>`Softball Baku: ваш временный пароль для входа на сайт\n${SITE}\nПочта: ${e}\nПароль: ${p}\nПосле входа поменяйте его в профиле.`,
   cSchedule:'Расписание игр',cAddEvent:'Добавить игру',cDate:'Дата',cTime:'Время',cPlace:'Место',cNote:'Примечание',cNotePh:'например: берём свои перчатки',
   cCancelEv:'Отменить',cRestoreEv:'Вернуть',cDelete:'Удалить',cDelQ:'Удалить?',cPast:'прошла',cLiveAdmin:'Онлайн-счёт',
+  cScorerOff:'Счётчик игры временно отключён. Вернуть: в data/index.json поставить "scorer": true.',
   cLiveHow:'Откройте на телефоне приложение для записи игры, войдя под аккаунтом админа, — счёт будет транслироваться на сайт автоматически.',
   cOpenScorer:'Открыть запись игры',cEndLive:'Завершить трансляцию',cDelLive:'Удалить',cDelLiveQ:'Удалить этот онлайн-счёт вместе с комментариями? Отменить будет нельзя.',cNoLiveRow:'Трансляций пока не было',cYou:'вы',cLastSeen:'вход',cNever:'не входил',cSeen:'на сайте',cVisits:n=>`визитов: ${n}`,cSeenSum:(d,w,a)=>`Сегодня заходили: ${d} · за 7 дней: ${w} · всего аккаунтов: ${a}`,
   cLive:'Онлайн',cLivePill:'ОНЛАЙН',cNoLive:'Сейчас игра не идёт',cNoLiveTxt:'Когда начнётся игра, счёт появится здесь в реальном времени.',
@@ -70,6 +71,7 @@ Object.assign(I18N.az,{
   cWAtext:(e,p)=>`Softball Baku: sayta giriş üçün müvəqqəti şifrəniz\n${SITE}\nE-poçt: ${e}\nŞifrə: ${p}\nDaxil olandan sonra şifrəni profilinizdə dəyişin.`,
   cSchedule:'Oyun cədvəli',cAddEvent:'Oyun əlavə et',cDate:'Tarix',cTime:'Saat',cPlace:'Yer',cNote:'Qeyd',cNotePh:'məsələn: əlcəklərinizi götürün',
   cCancelEv:'Ləğv et',cRestoreEv:'Bərpa et',cDelete:'Sil',cDelQ:'Silinsin?',cPast:'keçib',cLiveAdmin:'Canlı hesab',
+  cScorerOff:'Oyun hesablayıcısı müvəqqəti söndürülüb. Qaytarmaq üçün: data/index.json faylında "scorer": true.',
   cLiveHow:'Telefonda oyun qeydi tətbiqini admin hesabı ilə açın — hesab sayta avtomatik canlı ötürüləcək.',
   cOpenScorer:'Oyun qeydini aç',cEndLive:'Yayımı bitir',cDelLive:'Sil',cDelLiveQ:'Bu canlı hesab şərhləri ilə birlikdə silinsin? Geri qaytarmaq olmayacaq.',cNoLiveRow:'Hələ canlı yayım olmayıb',cYou:'siz',cLastSeen:'giriş',cNever:'daxil olmayıb',cSeen:'saytda',cVisits:n=>`ziyarət: ${n}`,cSeenSum:(d,w,a)=>`Bu gün girənlər: ${d} · 7 gündə: ${w} · cəmi hesab: ${a}`,
   cLive:'Canlı',cLivePill:'CANLI',cNoLive:'Hazırda oyun getmir',cNoLiveTxt:'Oyun başlayanda hesab burada canlı göstəriləcək.',
@@ -102,6 +104,7 @@ Object.assign(I18N.en,{
   cWAtext:(e,p)=>`Softball Baku: your temporary password for the site\n${SITE}\nEmail: ${e}\nPassword: ${p}\nPlease change it in your profile after logging in.`,
   cSchedule:'Game schedule',cAddEvent:'Add game',cDate:'Date',cTime:'Time',cPlace:'Place',cNote:'Note',cNotePh:'e.g. bring your own gloves',
   cCancelEv:'Cancel',cRestoreEv:'Restore',cDelete:'Delete',cDelQ:'Delete?',cPast:'past',cLiveAdmin:'Live score',
+  cScorerOff:'The game scorer is temporarily turned off. To bring it back, set "scorer": true in data/index.json.',
   cLiveHow:'Open the game scorer on your phone while logged in as admin — the score will stream to the site automatically.',
   cOpenScorer:'Open the scorer',cEndLive:'End broadcast',cDelLive:'Delete',cDelLiveQ:'Delete this live score together with its comments? This cannot be undone.',cNoLiveRow:'No broadcasts yet',cYou:'you',cLastSeen:'login',cNever:'never',cSeen:'on site',cVisits:n=>`visits: ${n}`,cSeenSum:(d,w,a)=>`Visited today: ${d} · last 7 days: ${w} · accounts: ${a}`,
   cLive:'Live',cLivePill:'LIVE',cNoLive:'No game in progress',cNoLiveTxt:'When a game starts, the score will appear here in real time.',
@@ -754,7 +757,8 @@ function drawAdminEvents(){
 }
 function drawAdminLive(){
   const el=$id('adm-live'); if(!el) return; const r=C.live, d=(r&&r.data)||{}, s=d.score||{};
-  el.innerHTML=`<div class="card adm-live"><p class="cl-p">${T('cLiveHow')}</p><div class="cl-btns"><a class="btn" href="scorer/" target="_blank" rel="noopener">📱 ${T('cOpenScorer')}</a>
+  const off=S.scorer===false;
+  el.innerHTML=`<div class="card adm-live"><p class="cl-p">${T(off?'cScorerOff':'cLiveHow')}</p><div class="cl-btns">${off?'':`<a class="btn" href="scorer/" target="_blank" rel="noopener">📱 ${T('cOpenScorer')}</a>`}
     ${r?`<a class="btn" href="#live">${T('cWatchLive')}</a>`:''}</div>
     ${r?`<div class="adm-live-row"><span class="lv-tag ${isLiveNow(r)?'on':''}">${isLiveNow(r)?`<i></i>${T('cLivePill')}`:r.status==='final'?T('cFinal'):T('cPaused')}</span>
       <b>${esc(r.id)}</b><span>${esc(((d.teams||{}).A||{}).name||'A')} ${s.A??0} : ${s.B??0} ${esc(((d.teams||{}).B||{}).name||'B')}</span>

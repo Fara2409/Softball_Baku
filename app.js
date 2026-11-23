@@ -103,7 +103,7 @@ const rkBadge=(p,full)=>isRookie(p)?`<span class="rk" title="${T('rookieHint')((
 async function load(){
   const get=u=>fetch(u,{cache:'no-cache'}).then(r=>{if(!r.ok) throw new Error(u); return r.json();});
   const [idx,pl]=await Promise.all([get('data/index.json'),get('data/players.json')]);
-  Object.assign(S,{clips:idx.clips_base||null,analytics:idx.analytics||{},links:idx.links||{},league:idx.league,season:idx.season,start:idx.season_start,demo:!!(idx.demo||pl.demo)});
+  Object.assign(S,{clips:idx.clips_base||null,analytics:idx.analytics||{},links:idx.links||{},league:idx.league,season:idx.season,start:idx.season_start,demo:!!(idx.demo||pl.demo),scorer:idx.scorer!==false}); // scorer:false в index.json — счётчик временно отключён, кнопки на сайте скрыты
   pl.players.forEach(p=>S.players[p.id]={...p,log:[]});
   if(window.DEMO_MODE&&window.makeDemoGames){ S.demo=true; S.games=makeDemoGames(Object.values(S.players)); }
   else S.games=await Promise.all((idx.games||[]).map(id=>get(`data/games/${id}.json`)));

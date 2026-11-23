@@ -97,7 +97,7 @@
         <span class="lp-cnt">${T('lpVotesN')(n)}</span></div><div class="lp-bar"><i style="width:${pct}%"></i></div>${bal?`<div class="lp-by">${bal.filter(x=>x.choice===i).map(x=>{ const pl=S.players[x.voter_player]; return `<span class="lp-v ok">${pl?av(pl):''}<span>${esc(pl?first(pl):x.voter_player)}</span></span>`; }).join('')||`<span class="muted small">—</span>`}</div>`:''}${optHtml(o)}
         ${canVote?`<button class="btn ${my===i?'':'pri'} lp-vb" ${my===i?'disabled':''} onclick="LP.vote(${p.id},${i},this)">${my===i?'✓ '+T('lpMine'):T('lpVote')}</button>`:''}
         ${adm&&open?`<button class="btn sm lp-ab" onclick="LP.approve(${p.id},${i})">${T('lpApprove')}</button>`:''}
-        ${adm&&win?`<button class="btn sm pri lp-ab" onclick="LP.scorer(${p.id})">▶ ${T('lpScorer')}</button>`:''}</div>`; }).join('')}</div>`;
+        ${adm&&win&&S.scorer!==false?`<button class="btn sm pri lp-ab" onclick="LP.scorer(${p.id})">▶ ${T('lpScorer')}</button>`:''}</div>`; }).join('')}</div>`;
     if(open){
       if(!c.user) h+=`<button class="btn pri" onclick="CL.auth('login')">${T('lpLogin')}</button>`;
       else if(!mine) h+=`<p class="lp-note">${T('lpNotPlayer')}</p>`;
