@@ -19,7 +19,7 @@ Object.assign(I18N.ru,{
   shGame:'Итоги игры картинкой',shGameT:'Итоги игры',shFinal:'Итог игры',shBest:'Лучшие игроки',shBtn:'Поделиться карточкой',shTitle:'Карточка для WhatsApp',shShare:'Отправить',shDownload:'Скачать картинку',shClose:'Закрыть',shSeason:d=>`Сезон ${d.season} стартует ${d.start}`,
   pbT:'Протокол игры',pbAll:'Развернуть всё',pbNone:'Свернуть',pbTop:'верх',pbBot:'низ',pbInn:'иннинг',pbRuns:n=>`${n} ${n===1?'ран':n>=2&&n<=4?'рана':'ранов'}`,pbHits:n=>`${n} ${n===1?'хит':n>=2&&n<=4?'хита':'хитов'}`,pbScored:'забили',pbOut:'аут',pbOuts:'аута',pbDP:'двойной аут',pbErr:'ошибка',pbBases:'базы',pbOutBases:'потом аут на базах',pbSelf:'сам',
   pbR:{'1B':'сингл','2B':'дабл','3B':'трипл',HR:'хоум-ран',BB:'BB',K:'страйк-аут',GO:'аут по земле',FO:'аут в воздухе',SAC:'сакрифайс',FC:'выбор полевого',RUN:'аут бегуна',ADV:'продвижение бегуна',ROE:'на базе по ошибке',E:'на базе по ошибке'},
-  hlPrev:'Предыдущий',hlNext:'Следующий',hlOpen:'Открыть на YouTube',
+  hlPrev:'Предыдущий',hlNext:'Следующий',hlOpen:'Открыть на YouTube',hlDl:'Скачать момент',
   hlTypes:{HR:'Хоум-ран','3B':'Трипл','2B':'Дабл','1B':'Сингл',K:'Страйк-аут',catch:'Поймал флай',DP:'Дабл-плей',SB:'Кража базы',play:'Момент'},
   awMVP:'MVP сезона',awMVPd:'лучший средний рейтинг',awBat:'Лучший отбивающий',awBatd:'самый высокий OPS',awHR:'Король хоум-ранов',awHRd:'больше всего HR',awRBI:'Король RBI',awRBId:'больше всего RBI',
   awGlove:'Золотая перчатка',awGloved:'лучшая игра в защите',awIron:'Железный человек',awIrond:'больше всего игр',awWin:'Победитель',awWind:'лучший процент побед',awSpeed:'Самые быстрые ноги',awSpeedd:'больше всего краж баз',awProg:'Прогресс сезона',awProgd:'рост рейтинга',
@@ -41,7 +41,7 @@ Object.assign(I18N.az,{
   shGame:'Oyunun yekunu şəkil kimi',shGameT:'Oyunun yekunu',shFinal:'Oyunun yekunu',shBest:'Ən yaxşı oyunçular',shBtn:'Kartı paylaş',shTitle:'WhatsApp üçün kart',shShare:'Göndər',shDownload:'Şəkli yüklə',shClose:'Bağla',shSeason:d=>`${d.season} mövsümü ${d.start} başlayır`,
   pbT:'Oyunun protokolu',pbAll:'Hamısını aç',pbNone:'Bağla',pbTop:'yuxarı',pbBot:'aşağı',pbInn:'inninq',pbRuns:n=>`${n} ran`,pbHits:n=>`${n} hit`,pbScored:'evə gəldi',pbOut:'aut',pbOuts:'aut',pbDP:'ikiqat aut',pbErr:'səhv',pbBases:'baza',pbOutBases:'sonra bazalarda aut',pbSelf:'özü',
   pbR:{'1B':'sinql','2B':'dabl','3B':'tripl',HR:'homeran',BB:'BB',K:'strayk-aut',GO:'yerdən aut',FO:'havadan aut',SAC:'sakrifays',FC:'müdafiəçinin seçimi',RUN:'qaçışçı aut',ADV:'qaçışçı irəlilədi',ROE:'səhvlə bazada',E:'səhvlə bazada'},
-  hlPrev:'Əvvəlki',hlNext:'Növbəti',hlOpen:'YouTube-da aç',
+  hlPrev:'Əvvəlki',hlNext:'Növbəti',hlOpen:'YouTube-da aç',hlDl:'Anı yüklə',
   hlTypes:{HR:'Homeran','3B':'Tripl','2B':'Dabl','1B':'Sinql',K:'Strayk-aut',catch:'Flayı tutdu',DP:'Dabl-pley',SB:'Baza oğurluğu',play:'An'},
   awMVP:'Mövsümün MVP-si',awMVPd:'ən yüksək orta reytinq',awBat:'Ən yaxşı vuran',awBatd:'ən yüksək OPS',awHR:'Homeran kralı',awHRd:'ən çox HR',awRBI:'RBI kralı',awRBId:'ən çox RBI',
   awGlove:'Qızıl əlcək',awGloved:'ən yaxşı müdafiə',awIron:'Dəmir adam',awIrond:'ən çox oyun',awWin:'Qalib',awWind:'ən yüksək qələbə faizi',awSpeed:'Ən sürətli ayaqlar',awSpeedd:'ən çox baza oğurluğu',awProg:'Mövsümün irəliləyişi',awProgd:'reytinqin artımı',
@@ -63,7 +63,7 @@ Object.assign(I18N.en,{
   shGame:'Game recap image',shGameT:'Game recap',shFinal:'Final',shBest:'Top players',shBtn:'Share card',shTitle:'Card for WhatsApp',shShare:'Share',shDownload:'Download image',shClose:'Close',shSeason:d=>`Season ${d.season} starts ${d.start}`,
   pbT:'Play-by-play',pbAll:'Expand all',pbNone:'Collapse',pbTop:'top',pbBot:'bottom',pbInn:'inning',pbRuns:n=>`${n} run${n===1?'':'s'}`,pbHits:n=>`${n} hit${n===1?'':'s'}`,pbScored:'scored',pbOut:'out',pbOuts:'outs',pbDP:'double play',pbErr:'error',pbBases:'bases',pbOutBases:'then out on the bases',pbSelf:'unassisted',
   pbR:{'1B':'single','2B':'double','3B':'triple',HR:'home run',BB:'walk',K:'strikeout',GO:'groundout',FO:'flyout',SAC:'sacrifice',FC:'fielder\'s choice',RUN:'runner out',ADV:'runner advanced',ROE:'reached on error',E:'reached on error'},
-  hlPrev:'Previous',hlNext:'Next',hlOpen:'Open on YouTube',
+  hlPrev:'Previous',hlNext:'Next',hlOpen:'Open on YouTube',hlDl:'Download clip',
   hlTypes:{HR:'Home run','3B':'Triple','2B':'Double','1B':'Single',K:'Strikeout',catch:'Fly catch',DP:'Double play',SB:'Stolen base',play:'Moment'},
   awMVP:'Season MVP',awMVPd:'best average rating',awBat:'Best hitter',awBatd:'highest OPS',awHR:'Home run king',awHRd:'most HR',awRBI:'RBI king',awRBId:'most RBI',
   awGlove:'Gold glove',awGloved:'best defense',awIron:'Iron man',awIrond:'most games',awWin:'Winner',awWind:'best win percentage',awSpeed:'Fastest legs',awSpeedd:'most stolen bases',awProg:'Most improved',awProgd:'rating growth',
@@ -339,9 +339,14 @@ function chemBlock(p){
 // моменты: g.highlights = [{player, t: секунды в ролике YouTube, type: 'HR'|'3B'|'catch'|..., note?}]
 const fmtT=s=>`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
 function ytAt(url,t){ const id=ytId(url); return id?`https://youtu.be/${id}?t=${Math.floor(t)}`:url; }
+/* Клипы «скачать момент» (23.11.2026): каждый эпизод — отдельный mp4 в Cloudflare R2 (index.json: clips_base; у игры g.clips=true).
+   Файл: <clips_base>/<id>/<id>_NNN.mp4, NNN — номер розыгрыша n. Нарезка — tools/make_clips.py → .bat на компьютере. */
+window.clipUrl=(g,n)=>S.clips&&g&&g.clips&&n?`${S.clips}/${g.id}/${g.id}_${String(n).padStart(3,'0')}.mp4`:'';
+const clipOfT=(g,t,pid)=>{ const x=(g.plays||[]).find(x=>x.t===t&&(!pid||x.b===pid||x.fpo===pid))||(g.plays||[]).find(x=>x.t===t); return x?clipUrl(g,x.n):''; };
+window.clipA=(url)=>url?`<a class="pb-dl" href="${url}" download title="${T('hlDl')}" aria-label="${T('hlDl')}" onclick="event.stopPropagation()">⬇</a>`:'';
 function hlRow(h,g,showPlayer){
   const p=S.players[h.player], type=(T('hlTypes')[h.type]||T('hlTypes').play);
-  return `<a class="hl" href="${ytAt(g.video,h.t)}" target="_blank" rel="noopener" data-yt="${ytId(g.video)||''}" data-t="${Math.floor(h.t)}" data-lbl="${esc(type)}${p?' · '+esc(pname(p)):''}"><span class="hl-t">▶ ${fmtT(h.t)}</span><span class="hl-ty">${esc(type)}</span>
+  return `<a class="hl" href="${ytAt(g.video,h.t)}" target="_blank" rel="noopener" data-yt="${ytId(g.video)||''}" data-t="${Math.floor(h.t)}" data-clip="${clipOfT(g,h.t,h.player)}" data-lbl="${esc(type)}${p?' · '+esc(pname(p)):''}"><span class="hl-t">▶ ${fmtT(h.t)}</span><span class="hl-ty">${esc(type)}</span>
     ${showPlayer&&p?`${av(p)}<span class="nm">${esc(pname(p))}</span>`:`<span class="nm">${fmtDate(g.date,{day:'numeric',month:'short'})}</span>`}${h.note?`<span class="muted small">${esc(h.note)}</span>`:''}</a>`;
 }
 function hlBlock(p){
@@ -553,7 +558,7 @@ function hlShow(){
   m.innerHTML=`<div class="hlp-box"><div class="hlp-top"><span class="hl-t">▶ ${fmtT(t)}</span><b>${a.dataset.lbl}</b><span class="hlp-n">${HLP.i+1}/${n}</span><button class="hlp-x" data-x aria-label="×">×</button></div>
     <div class="hlp-v"><iframe src="${src}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="${a.dataset.lbl}"></iframe></div>
     <div class="hlp-nav"><button class="btn" ${HLP.i?'':'disabled'} onclick="hlGo(-1)">‹ ${T('hlPrev')}</button>
-      <a class="btn" href="${a.href}" target="_blank" rel="noopener">${T('hlOpen')}</a>
+      <a class="btn" href="${a.href}" target="_blank" rel="noopener">${T('hlOpen')}</a>${a.dataset.clip?`<a class="btn pri" href="${a.dataset.clip}" download>⬇ ${T('hlDl')}</a>`:''}
       <button class="btn" ${HLP.i<n-1?'':'disabled'} onclick="hlGo(1)">${T('hlNext')} ›</button></div></div>`;
 }
 function hlGo(d){ if(!HLP) return; HLP.i=Math.max(0,Math.min(HLP.list.length-1,HLP.i+d)); hlShow(); }
@@ -580,7 +585,7 @@ window.gamePlays=function(g){
       if(x.dp) d+=` · <b>${T('pbDP')}</b>`;
       if(x.sc&&x.sc.length) d+=`<div class="pb-sc">${T('pbScored')}: ${x.sc.map(nm).join(', ')}</div>`;
       const scored=x.s[0]!==prev[0]||x.s[1]!==prev[1]; prev=x.s;
-      const play=yt&&x.t!=null?`<a class="hl pb-play" href="${ytAt(g.video,x.t)}" target="_blank" rel="noopener" data-yt="${yt}" data-t="${x.t}" data-lbl="${hf.i}${hf.h==='T'?'▲':'▼'} · ${nm(x.b)} — ${R[x.r]||x.r}">▶ ${fmtT(x.t)}</a>`:'';
+      const play=yt&&x.t!=null?`<a class="hl pb-play" href="${ytAt(g.video,x.t)}" target="_blank" rel="noopener" data-yt="${yt}" data-t="${x.t}" data-clip="${clipUrl(g,x.n)}" data-lbl="${hf.i}${hf.h==='T'?'▲':'▼'} · ${nm(x.b)} — ${R[x.r]||x.r}">▶ ${fmtT(x.t)}</a>${clipA(clipUrl(g,x.n))}`:'';
       h+=`<div class="pb-row">${play}<div class="pb-d">${d}</div><div class="pb-st"><span class="pb-o">${'●'.repeat(Math.min(3,x.o))}${'○'.repeat(Math.max(0,3-x.o))}</span><span class="pb-s ${scored?'on':''}">${x.s[0]}:${x.s[1]}</span></div></div>`;
     }
     h+=`</details>`;

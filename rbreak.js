@@ -57,7 +57,7 @@
         const inn=`${x.i}${x.h==='T'?'▲':'▼'}`;
         if(inn!==lastInn){ rows+=`<div class="rb-inn">${x.i} ${T('pbInn')} · ${x.h==='T'?T('pbTop'):T('pbBot')}</div>`; lastInn=inn; }
         const who=x.b===pid?'':`<span class="muted">${nm(x.b)} — ${R[x.r]||x.r} · </span>`;
-        const play=yt&&x.t!=null?`<a class="hl pb-play" href="${ytAt(g.video,x.t)}" target="_blank" rel="noopener" data-yt="${yt}" data-t="${x.t}" data-lbl="${inn} · ${nm(x.b)} — ${R[x.r]||x.r}">▶ ${fmtT(x.t)}</a>`:'<span class="pb-play rb-noplay">—</span>';
+        const play=yt&&x.t!=null?`<a class="hl pb-play" href="${ytAt(g.video,x.t)}" target="_blank" rel="noopener" data-yt="${yt}" data-t="${x.t}" data-clip="${window.clipUrl?clipUrl(g,x.n):''}" data-lbl="${inn} · ${nm(x.b)} — ${R[x.r]||x.r}">▶ ${fmtT(x.t)}</a>`:'<span class="pb-play rb-noplay">—</span>';
         rows+=`<div class="rb-row">${play}<span class="rb-ep">${who}${L.map(([n,v])=>`${esc(n)} <i>${sg(v)}</i>`).join(' · ')}</span><span class="rb-d">${sg(d)}</span><span class="rb-cur">${cur.toFixed(2)}</span></div>`;
       }
       const fin=b.rating, clamp=Math.abs(Math.min(10,Math.max(3,cur))-cur)>0.001;
