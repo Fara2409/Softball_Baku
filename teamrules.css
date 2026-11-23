@@ -23,3 +23,4 @@
 .tr-sw input:checked+i{background:#1E7F4C}.tr-sw input:checked+i::after{left:16px}
 .tr-sw input:checked~span{color:#1E7F4C;font-weight:600}
 .tr-row.off .tr-d{opacity:.5}.tr-row.off{opacity:1}
+@media (max-width:520px){.tr-row{flex-wrap:wrap}.tr-d{flex-basis:100%}.tr-a{margin-left:auto}}
