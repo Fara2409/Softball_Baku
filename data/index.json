@@ -13,5 +13,6 @@
  },
  "analytics": {
   "goatcounter": null
- }
+ },
+ "clips_base": "https://pub-f3788e5b0bad40c7b077941d3f07e241.r2.dev"
 }
