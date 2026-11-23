@@ -24,8 +24,9 @@
   table.lb{min-width:640px}
   .tablewrap{position:relative}
   #lb th:nth-child(3),#lb td:nth-child(3){display:none}           /* позиция — есть на странице игрока */
-  #lb th:first-child,#lb td:first-child{position:sticky;left:0;z-index:2;background:var(--panel);width:28px;padding-left:10px;padding-right:4px}
-  #lb th:nth-child(2),#lb td:nth-child(2){position:sticky;left:38px;z-index:2;background:var(--panel);box-shadow:6px 0 8px -6px rgba(16,35,63,.18);min-width:150px;max-width:170px}
+  #lb{border-collapse:separate;border-spacing:0}               /* у закреплённых столбцов не остаётся щели */
+  #lb th:first-child,#lb td:first-child{position:sticky;left:0;z-index:2;background:var(--panel);box-sizing:border-box;width:36px;min-width:36px;max-width:36px;padding-left:10px;padding-right:2px}
+  #lb th:nth-child(2),#lb td:nth-child(2){position:sticky;left:36px;z-index:2;background:var(--panel);box-shadow:6px 0 8px -6px rgba(16,35,63,.18);min-width:150px;max-width:170px}
   #lb tbody tr:hover td:first-child,#lb tbody tr:hover td:nth-child(2){background:var(--panel2)}
   #lb .pl{gap:8px}
   #lb .pl .av{width:30px;height:30px;flex:none}
