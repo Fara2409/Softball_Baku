@@ -71,3 +71,6 @@
   .foot-brand,.foot-diamond{grid-row:auto}
   .foot-map{grid-column:1 / -1;height:180px}
 }
+/* текст для поисковиков до загрузки приложения (index.html), JS его заменяет */
+.seo-txt{max-width:760px;margin:30px auto;color:var(--muted);font-size:14px;line-height:1.6}
+.seo-txt h1{font-size:24px}.seo-txt h2{font-size:18px;margin-top:18px}
