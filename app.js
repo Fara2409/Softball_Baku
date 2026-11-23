@@ -226,7 +226,7 @@ function drawLB(ps){
   let rank=0;
   for(const p of ps){ const t=p.t; if(t.qual) rank++;
     h+=`<tr data-peek="${p.id}" onclick="location.hash='#player-${p.id}'" style="${t.qual?'':'opacity:.55'}"><td class="l rank">${t.qual?rank:'–'}</td>
-      <td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}${rkBadge(p)}</div><div class="no">#${p.number}${t.qual?'':` · <span class="few">${T('fewG')(p.logAll.length,S.qual)}</span>`}</div></div></div></td>
+      <td class="l"><div class="pl">${av(p)}<div><div class="nm">${pname(p)}${rkBadge(p)}</div><div class="no">#${p.number}</div>${t.qual?'':`<div class="no few">${T('fewG')(p.logAll.length,S.qual)}</div>`}</div></div></td>
       <td class="l">${p.pos.slice(0,2).map((x,i)=>`<span class="chip ${i?'':'main'}">${x[0]}</span>`).join(' ')}</td>
       <td>${rt(t.RAT)}</td><td>${pts(t.OFF)}</td><td>${pts(t.DEF)}</td><td>${t.G}</td><td class="wl">${t.W}–${t.L}</td><td>${avg3(t.AVG)}</td><td>${avg3(t.OBP)}</td><td>${avg3(t.OPS)}</td><td>${t.HR}</td><td>${t.RBI}</td><td>${t.R}</td><td>${t.E}</td></tr>`; }
   const el=document.getElementById('lb'); el.innerHTML=h+'</tbody>';
@@ -234,14 +234,14 @@ function drawLB(ps){
 }
 function chart(p){
   const L=p.log, n=L.length; if(!n) return '';
-  const W0=1000,H0=260,pad=36,bw=Math.min(64,(W0-pad*2)/n*0.62),step=(W0-pad*2)/n, y=v=>H0-40-((v-3)/7)*(H0-70);
+  const W0=innerWidth<700?Math.max(420,n*110+80):1000,H0=260,pad=36,bw=Math.min(64,(W0-pad*2)/n*0.62),step=(W0-pad*2)/n, y=v=>H0-40-((v-3)/7)*(H0-70);
   let s=`<svg viewBox="0 0 ${W0} ${H0}" role="img" aria-label="${T('byGame')}"><defs><linearGradient id="rElite" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6B4BE0"/><stop offset="1" stop-color="#6B4BE0"/></linearGradient></defs>`;
   for(const g of [4,6,8,10]) s+=`<line x1="${pad}" x2="${W0-pad}" y1="${y(g)}" y2="${y(g)}" stroke="#D9E1EC"/><text x="${pad-10}" y="${y(g)+4}" fill="#66758C" font-size="12" text-anchor="end">${g}</text>`;
   L.forEach(({game,b},i)=>{const x=pad+step*i+(step-bw)/2;
     s+=`<a href="#game-${game.id}"><rect x="${x}" y="${y(b.rating)}" width="${bw}" height="${y(3)-y(b.rating)}" rx="6" fill="${RFILL(rclass(b.rating))}"/>
     <text x="${x+bw/2}" y="${y(b.rating)-8}" fill="#10233F" font-size="15" font-weight="800" text-anchor="middle">${b.rating.toFixed(2)}</text>
     <text x="${x+bw/2}" y="${H0-16}" fill="#55657D" font-size="12" text-anchor="middle">${fmtDate(game.date,{day:'numeric',month:'short'})}</text></a>`;});
-  if(p.t.RAT!=null) s+=`<line x1="${pad}" x2="${W0-pad}" y1="${y(p.t.RAT)}" y2="${y(p.t.RAT)}" stroke="#1F5FBF" stroke-dasharray="6 6" stroke-width="2"/><text x="${W0-pad}" y="${y(p.t.RAT)-6}" fill="#1F5FBF" font-size="12" font-weight="700" text-anchor="end">${T('avgLbl')} ${p.t.RAT.toFixed(2)}</text>`;
+  if(p.t.RAT!=null) s+=`<line x1="${pad}" x2="${W0-pad}" y1="${y(p.t.RAT)}" y2="${y(p.t.RAT)}" stroke="#1F5FBF" stroke-dasharray="6 6" stroke-width="2"/><text x="${W0-pad}" y="${y(p.t.RAT)-6}" fill="#1F5FBF" font-size="12" font-weight="700" text-anchor="end" stroke="var(--panel,#fff)" stroke-width="4" paint-order="stroke">${T('avgLbl')} ${p.t.RAT.toFixed(2)}</text>`;
   return s+'</svg>';
 }
 // ±очки (вклад) и разбивка рейтинга на нападение и защиту
@@ -268,7 +268,7 @@ function player(id){
     <div class="section-title"><h2>${T('allGames')}</h2><span class="hint">${window.rbOpen?T('rbTapHint'):''}</span></div><div class="card tablewrap"><table class="lb"><thead><tr><th class="l">${T('date')}</th><th class="l">${T('team')}</th><th class="l">${T('pos')}</th><th>${T('rating')}</th><th title="${T('rOff')}">${T('rOffS')}</th><th title="${T('rDef')}">${T('rDefS')}</th><th>AB</th><th>H</th><th>2B</th><th>3B</th><th>HR</th><th>R</th><th>RBI</th><th>BB</th><th>K</th><th>PO</th><th>A</th><th>E</th><th class="l">${T('result')}</th></tr></thead><tbody>`;
   for(const {game:g,b} of [...p.log].reverse()){
     const tm=g.teams[b.team], res=g.winner===b.team?`<b style="color:var(--r-good)">${T('win')}</b>`:g.winner?`<b style="color:var(--r-low)">${T('loss')}</b>`:T('tie');
-    h+=`<tr onclick="location.hash='#game-${g.id}'"><td class="l">${fmtDate(g.date)}</td><td class="l"><span class="chip" style="background:${tm.color}22;color:${tm.color}">${tm.name}</span></td><td class="l">${b.pos}</td><td><button type="button" class="rt-btn" title="${T('rbOpen')}" onclick="event.stopPropagation();rbOpen('${g.id}','${p.id}')">${rt(b.rating)}</button></td><td>${pts(b.rOff)}</td><td>${pts(b.rDef)}</td><td>${b.AB}</td><td>${b.H}</td><td>${b['2B']}</td><td>${b['3B']}</td><td>${b.HR}</td><td>${b.R}</td><td>${b.RBI}</td><td>${b.BB}</td><td>${b.K}</td><td>${b.PO}</td><td>${b.A}</td><td>${b.E}</td><td class="l">${res} ${g.score[b.team]}:${g.score[b.team==='A'?'B':'A']}</td></tr>`;
+    h+=`<tr onclick="location.hash='#game-${g.id}'"><td class="l nw">${fmtDate(g.date,innerWidth<700?{day:'numeric',month:'short'}:undefined)}</td><td class="l"><span class="chip" style="background:${tm.color}22;color:${tm.color}">${tm.name}</span></td><td class="l">${b.pos}</td><td><button type="button" class="rt-btn" title="${T('rbOpen')}" onclick="event.stopPropagation();rbOpen('${g.id}','${p.id}')">${rt(b.rating)}</button></td><td>${pts(b.rOff)}</td><td>${pts(b.rDef)}</td><td>${b.AB}</td><td>${b.H}</td><td>${b['2B']}</td><td>${b['3B']}</td><td>${b.HR}</td><td>${b.R}</td><td>${b.RBI}</td><td>${b.BB}</td><td>${b.K}</td><td>${b.PO}</td><td>${b.A}</td><td>${b.E}</td><td class="l">${res} ${g.score[b.team]}:${g.score[b.team==='A'?'B':'A']}</td></tr>`;
   }
   app().innerHTML=h+'</tbody></table></div>'+ex.bottom;
 }
