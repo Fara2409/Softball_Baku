@@ -63,7 +63,7 @@
   }
   function joinPage(){
     const yt=(S.links||{}).youtube;
-    const info=[['📍',T('jnWhen'),T('jnWhenTxt')+nextGame()+`<a class="btn sm" href="https://maps.google.com/?q=40.4264,49.9836" target="_blank" rel="noopener">${T('jnMap')}</a>`],
+    const info=[['📍',T('jnWhen'),T('jnWhenTxt')+nextGame()+`<a class="btn sm" href="https://maps.google.com/?q=40.4306275,49.9843899" target="_blank" rel="noopener">${T('jnMap')}</a>`],
       ['💸',T('jnCost'),T('jnCostTxt')],['🧢',T('jnBring'),T('jnBringTxt')],['👨‍👦',T('jnWho'),T('jnWhoTxt')],
       ['⚾',T('jnNew'),T('jnNewTxt')+`<span class="jn-links"><a class="btn sm" href="#rules">${T('jnRules')}</a>${yt?`<a class="btn sm" href="${esc(yt)}" target="_blank" rel="noopener">▶ ${T('jnVideo')}</a>`:''}</span>`]];
     const opt=o=>Object.entries(o).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');

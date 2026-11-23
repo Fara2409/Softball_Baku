@@ -59,7 +59,7 @@ function load(force){
     if(!W.cal) W.cal=await fetch('data/calendar.json?v=202611070315',{cache:'no-cache'}).then(r=>r.json());
     let c=null; try{ c=JSON.parse(localStorage.getItem(CACHE)); }catch(e){}
     if(!force&&c&&Date.now()-c.at<TTL&&c.data&&c.data.hourly&&c.data.daily&&c.data.daily.precipitation_sum){ W.data=c.data; W.at=c.at; return; }
-    const p=W.cal.place||{lat:40.4264,lon:49.9836};
+    const p=W.cal.place||{lat:40.4306275,lon:49.9843899};
     const url=`https://api.open-meteo.com/v1/forecast?latitude=${p.lat}&longitude=${p.lon}`+
       `&hourly=temperature_2m,precipitation,precipitation_probability,weather_code,wind_gusts_10m`+
       `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_gusts_10m_max`+
