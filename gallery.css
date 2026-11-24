@@ -81,3 +81,9 @@ html.theme-dark .bd-kicker{color:#E3C35A}
 @keyframes glSk{to{background-position:-200% 0}}
 @media (max-width:480px){.gl-skel{height:278px}}
 .gl-hero>img{background:#10233F}
+/* YouTube / TikTok на фото команды (24.11.2026): стеклянные «таблетки» в правом верхнем углу */
+.hr-soc{position:absolute;top:14px;right:14px;z-index:2;display:flex;gap:8px}
+.hr-soc-a{display:inline-flex;align-items:center;gap:7px;padding:7px 12px 7px 8px;border-radius:999px;background:rgba(10,20,36,.45);border:1px solid rgba(255,255,255,.28);color:#fff;font:700 13px/1 'Onest',system-ui,sans-serif;text-decoration:none;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .15s,transform .15s}
+.hr-soc-a:hover{background:rgba(10,20,36,.7);transform:translateY(-1px)}
+.hr-soc-a svg{width:20px;height:20px;flex:none}
+@media (max-width:520px){.hr-soc{top:10px;right:10px;gap:6px}.hr-soc-a{padding:6px}.hr-soc-a span{display:none}.hr-soc-a svg{width:22px;height:22px}}

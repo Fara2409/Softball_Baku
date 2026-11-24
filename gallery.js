@@ -54,11 +54,17 @@
     scrollTo({top:t.getBoundingClientRect().top+scrollY-off,behavior:'smooth'}); return false; };
   // фото команды — встроено, чтобы рисовать сразу, не дожидаясь gallery.json (страница не «прыгает» при загрузке)
   const HERO={hero:true,type:'photo',src:'gallery/team-1.jpg',webp:['gallery/team-1-800.webp','gallery/team-1-1200.webp'],title:{ru:'Наша команда',az:'Komandamız',en:'Our team'}};
+  // ссылки на YouTube и TikTok в углу фото команды (24.11.2026)
+  function socPills(){
+    const L=S.links||{}, I=window.SOC_ICON||{};
+    const a=[['youtube','YouTube'],['tiktok','TikTok']].filter(([k])=>L[k]&&I[k]);
+    return a.length?`<div class="hr-soc">${a.map(([k,n])=>`<a class="hr-soc-a" href="${esc(L[k])}" target="_blank" rel="noopener" aria-label="${n}">${I[k]}<span>${n}</span></a>`).join('')}</div>`:'';
+  }
   function hero(){
     let i=(G.items||[]).findIndex(x=>x.hero); if(i<0&&G.items) return '';
     const x=i<0?HERO:G.items[i], np=Object.keys(S.players||{}).length, ng=(S.games||[]).length;
     return `<section class="gl-hero"><img src="${esc(x.webp?x.webp[0]:x.src)}" srcset="${x.webp?`${esc(x.webp[0])} 800w, ${esc(x.webp[1])} 1200w`:`${esc(x.thumb||x.src)} 800w, ${esc(x.src)} 1600w`}" sizes="(max-width:700px) 100vw, 1200px" width="1200" height="900" alt="${ttl(x)}" fetchpriority="high" onclick="glOpen(${Math.max(0,i)})">
-      <div class="hr-shade"></div>
+      <div class="hr-shade"></div>${socPills()}
       <div class="hr-txt"><span class="hr-kick">${T('hrKick')}</span><h1>${T('hrTitle')}</h1><p>${T('hrSub')}</p>
         <div class="hr-stats"><span><b>${np}</b> ${pl(np,'pl')}</span><span><b>${ng}</b> ${pl(ng,'gm')}</span><span><b>2</b> ${LANG==='ru'?'команды':LANG==='az'?'komanda':'teams'}</span></div>
         <div class="hr-btns"><a class="hr-btn pri" href="#rating" onclick="return glToRating()">${T('hrRt')} ↓</a><button type="button" class="hr-btn" onclick="glOpen(${Math.max(0,i)})">${T('hrPh')}</button></div></div></section>`;

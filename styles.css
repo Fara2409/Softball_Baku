@@ -222,3 +222,4 @@ a.gmedia:hover .play{transform:translate(-50%,-50%) scale(1.08)}
 /* «В-П» не переносится на телефоне */
 .lb td.wl,.lb th[data-k="W"]{white-space:nowrap}
 .lb .few{color:var(--muted);font-weight:600}.podium .pod-wait{grid-column:1/-1;margin:0}
+.yt-dot.tt-dot{background:#111;font-size:11px;padding:0}
