@@ -102,7 +102,7 @@ const rkBadge=(p,full)=>isRookie(p)?`<span class="rk" title="${T('rookieHint')((
 
 /* ---------- Загрузка и расчёт ---------- */
 async function load(){
-  const get=u=>fetch(u,{cache:'no-cache'}).then(r=>{if(!r.ok) throw new Error(u); return r.json();});
+  const get=u=>{ const p=window.PRE&&PRE[u]; if(p){ delete PRE[u]; return p.catch(()=>fetch(u,{cache:'no-cache'}).then(r=>{if(!r.ok) throw new Error(u); return r.json();})); } return fetch(u,{cache:'no-cache'}).then(r=>{if(!r.ok) throw new Error(u); return r.json();}); }; // PRE — ранняя загрузка из index.html
   const [idx,pl]=await Promise.all([get('data/index.json'),get('data/players.json')]);
   Object.assign(S,{clips:idx.clips_base||null,analytics:idx.analytics||{},links:idx.links||{},league:idx.league,season:idx.season,start:idx.season_start,demo:!!(idx.demo||pl.demo),scorer:idx.scorer!==false}); // scorer:false в index.json — счётчик временно отключён, кнопки на сайте скрыты
   pl.players.forEach(p=>S.players[p.id]={...p,log:[]});
@@ -361,12 +361,19 @@ function chrome(){
   document.querySelectorAll('[data-t]').forEach(el=>el.textContent=T(el.dataset.t));
   document.querySelectorAll('.top .lang button').forEach(b=>b.classList.toggle('active',b.dataset.lang===LANG));
   document.getElementById('foot').innerHTML=footer();
+  mapLazy(); // карта Google тяжёлая — грузим, только когда футер на экране
   document.querySelectorAll('.foot .lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
 }
 const SOC_ICON={youtube:'<svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4" fill="#c4302b"/><path d="M10 9l5 3-5 3z" fill="#fff"/></svg>',
     tiktok:'<svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#111"/><path d="M13.4 5.2h2.2c.2 1.6 1.2 2.7 2.8 2.9v2.2c-1 0-2-.3-2.8-.8v4.7a4 4 0 1 1-4-4h.4v2.3a1.8 1.8 0 1 0 1.4 1.7z" fill="#25F4EE" transform="translate(-.7 -.5)"/><path d="M13.4 5.2h2.2c.2 1.6 1.2 2.7 2.8 2.9v2.2c-1 0-2-.3-2.8-.8v4.7a4 4 0 1 1-4-4h.4v2.3a1.8 1.8 0 1 0 1.4 1.7z" fill="#FE2C55" transform="translate(.7 .5)"/><path d="M13.4 5.2h2.2c.2 1.6 1.2 2.7 2.8 2.9v2.2c-1 0-2-.3-2.8-.8v4.7a4 4 0 1 1-4-4h.4v2.3a1.8 1.8 0 1 0 1.4 1.7z" fill="#fff"/></svg>',
     whatsapp:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#25D366"/><path d="M8.5 7.5c.3-.4.8-.4 1 0l.9 1.9c.1.3 0 .6-.2.8l-.6.6c.6 1.3 1.7 2.4 3 3l.6-.6c.2-.2.5-.3.8-.2l1.9.9c.4.2.4.7 0 1-1 1.1-2.4 1.3-3.7.6-2-1-3.6-2.6-4.6-4.6-.7-1.3-.5-2.7.9-3.4z" fill="#fff"/></svg>'};
 window.SOC_ICON=SOC_ICON;
+function mapLazy(){
+  const f=document.querySelector('#foot .foot-map iframe[data-src]'); if(!f) return;
+  const go=()=>{ if(f.dataset.src){ f.src=f.dataset.src; f.removeAttribute('data-src'); } };
+  if(!('IntersectionObserver' in window)) return go();
+  const io=new IntersectionObserver(es=>{ if(es.some(e=>e.isIntersecting)){ io.disconnect(); go(); } },{rootMargin:'100px'}); io.observe(f);
+}
 function footer(){
   const lg=S.league||'Softball Baku', vid=[...(S.games||[])].reverse().find(g=>g.video)?.video;
   const startTxt=S.start?(LANG==='en'?fmtDate(S.start,{day:'numeric',month:'long'}):fromDate(S.start)):'';
@@ -385,7 +392,7 @@ function footer(){
     </div>
     <div class="foot-col"><h4>${T('watch')}</h4>${L.youtube?`<a href="${L.youtube}" target="_blank" rel="noopener"><span class="yt-dot">▶</span>${T('channel')}</a>`:''}${L.tiktok?`<a href="${L.tiktok}" target="_blank" rel="noopener"><span class="yt-dot tt-dot">♪</span>${T('tiktok')}</a>`:''}${vid?`<a href="${vid}" target="_blank" rel="noopener"><span class="yt-dot">▶</span>${T('lastVideo')}</a>`:(L.youtube?'':`<span class="muted">${T('videoSoon')}</span>`)}</div>
     <div class="foot-col"><h4>${T('where')}</h4>${I18N[LANG].jnNav?`<a class="foot-join" href="#join">⚾ ${T('jnNav')}</a>`:''}<a class="foot-loc" href="https://maps.google.com/?q=40.4306275,49.9843899" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>${T('place')}</span></a></div>
-    <div class="foot-map"><iframe src="https://maps.google.com/maps?q=40.4306275,49.9843899&t=k&z=17&hl=${LANG}&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="${T('where')}" tabindex="-1"></iframe>
+    <div class="foot-map"><iframe data-src="https://maps.google.com/maps?q=40.4306275,49.9843899&t=k&z=17&hl=${LANG}&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="${T('where')}" tabindex="-1"></iframe>
       <a class="foot-map-open" href="https://www.google.com/maps?q=40.4306275,49.9843899&z=17" target="_blank" rel="noopener">${T('mapOpen')} ↗</a></div>
     <svg class="foot-diamond" viewBox="0 0 200 200" aria-hidden="true">
       <path d="M100 185 L15 100 A120 120 0 0 1 185 100 Z" fill="none" stroke="#C5CFDD" stroke-width="2"/>
