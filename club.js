@@ -267,6 +267,7 @@ function menu(ev){
   m.innerHTML=`<div class="am-who">${personAv(pr,'m')}<div><b>${esc(personName(pr))}</b><span>${esc(C.user.email||'')}</span>${roleBadge(pr.role)}</div></div>
     <a href="#me" onclick="CL.closeMenu()">${T('cProfile')}</a>
     ${isAdmin()?`<a href="#admin" onclick="CL.closeMenu()">${T('cAdmin')}${n?` <i class="acct-dot">${n}</i>`:''}</a>`:''}
+    ${isAdmin()?`<a href="board/">📟 ${T('cOpenBoard')}</a>`:''}
     <button onclick="CL.logout()">${T('cLogout')}</button>`;
   $id('acct').appendChild(m);
   setTimeout(()=>document.addEventListener('click',closeMenuOut),0);
