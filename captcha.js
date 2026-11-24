@@ -4,7 +4,7 @@
    как captchaToken. Секретный ключ хранится только в Supabase (Authentication → Attack Protection), здесь — публичный site key.
    Пока KEY пустой, капча выключена и формы работают как раньше. */
 (function(){
-  const KEY='';   // Turnstile site key (публичный, начинается с 0x4…)
+  const KEY='0x4AAAAAAGQQbB9KjAsFHl2k';   // Turnstile site key (публичный, начинается с 0x4…)
   let loading=null;
   const load=()=>loading||(loading=new Promise((res,rej)=>{
     if(window.turnstile) return res();
