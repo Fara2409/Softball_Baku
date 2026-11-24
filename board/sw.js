@@ -1,5 +1,5 @@
 // Табло работает без интернета: страница и библиотеки берутся из кэша, а в фоне обновляются, когда сеть есть.
-const C='board-v3';
+const C='board-v4';
 const CORE=['./','./index.html','./manifest.json','../icons/icon-192.png','../favicon.ico'];
 const LIB=[];
 self.addEventListener('install',e=>{ e.waitUntil(caches.open(C).then(c=>c.addAll(CORE).then(()=>Promise.all(LIB.map(u=>fetch(u,{mode:'no-cors'}).then(r=>c.put(u,r)).catch(()=>{})))))); self.skipWaiting(); });
