@@ -41,7 +41,7 @@ Object.assign(I18N.ru,{
   cCancelEv:'Отменить',cRestoreEv:'Вернуть',cDelete:'Удалить',cDelQ:'Удалить?',cPast:'прошла',cLiveAdmin:'Онлайн-счёт',
   cScorerOff:'Счётчик игры временно отключён. Вернуть: в data/index.json поставить "scorer": true.',
   cLiveHow:'Откройте на телефоне приложение для записи игры, войдя под аккаунтом админа, — счёт будет транслироваться на сайт автоматически.',
-  cOpenScorer:'Открыть запись игры',cEndLive:'Завершить трансляцию',cDelLive:'Удалить',cDelLiveQ:'Удалить этот онлайн-счёт вместе с комментариями? Отменить будет нельзя.',cNoLiveRow:'Трансляций пока не было',cYou:'вы',cLastSeen:'вход',cNever:'не входил',cSeen:'на сайте',cVisits:n=>`визитов: ${n}`,cSeenSum:(d,w,a)=>`Сегодня заходили: ${d} · за 7 дней: ${w} · всего аккаунтов: ${a}`,
+  cOpenBoard:'Табло (счёт на поле)',cBoardHow:'Табло — крупный счёт, иннинг, ауты и базы. Работает без интернета; если на устройстве выполнен вход под админом, счёт сразу появляется на сайте в «Онлайн-счёте».',cOpenScorer:'Открыть запись игры',cEndLive:'Завершить трансляцию',cDelLive:'Удалить',cDelLiveQ:'Удалить этот онлайн-счёт вместе с комментариями? Отменить будет нельзя.',cNoLiveRow:'Трансляций пока не было',cYou:'вы',cLastSeen:'вход',cNever:'не входил',cSeen:'на сайте',cVisits:n=>`визитов: ${n}`,cSeenSum:(d,w,a)=>`Сегодня заходили: ${d} · за 7 дней: ${w} · всего аккаунтов: ${a}`,
   cLive:'Онлайн',cLivePill:'ОНЛАЙН',cNoLive:'Сейчас игра не идёт',cNoLiveTxt:'Когда начнётся игра, счёт появится здесь в реальном времени.',
   cFinal:'Игра окончена',cFinalShort:'Итог',cPaused:'Нет обновлений',cAtBat:'Отбивает',cOnDeck:'Следующий',cFirstPA:'первый выход сегодня',cTodayL:'сегодня',
   cPlays:'Последние розыгрыши',cLiveBox:'Статистика по ходу игры',cLiveRt:'рейтинг по ходу игры',cUpdated:'обновлено',cWatchLive:'Смотреть онлайн',cRuns:'ран',
@@ -75,7 +75,7 @@ Object.assign(I18N.az,{
   cCancelEv:'Ləğv et',cRestoreEv:'Bərpa et',cDelete:'Sil',cDelQ:'Silinsin?',cPast:'keçib',cLiveAdmin:'Canlı hesab',
   cScorerOff:'Oyun hesablayıcısı müvəqqəti söndürülüb. Qaytarmaq üçün: data/index.json faylında "scorer": true.',
   cLiveHow:'Telefonda oyun qeydi tətbiqini admin hesabı ilə açın — hesab sayta avtomatik canlı ötürüləcək.',
-  cOpenScorer:'Oyun qeydini aç',cEndLive:'Yayımı bitir',cDelLive:'Sil',cDelLiveQ:'Bu canlı hesab şərhləri ilə birlikdə silinsin? Geri qaytarmaq olmayacaq.',cNoLiveRow:'Hələ canlı yayım olmayıb',cYou:'siz',cLastSeen:'giriş',cNever:'daxil olmayıb',cSeen:'saytda',cVisits:n=>`ziyarət: ${n}`,cSeenSum:(d,w,a)=>`Bu gün girənlər: ${d} · 7 gündə: ${w} · cəmi hesab: ${a}`,
+  cOpenBoard:'Tablo (meydançada hesab)',cBoardHow:'Tablo — böyük hesab, inninq, autlar və bazalar. İnternetsiz işləyir; cihazda admin girişi varsa, hesab dərhal saytda «Onlayn hesab»da görünür.',cOpenScorer:'Oyun qeydini aç',cEndLive:'Yayımı bitir',cDelLive:'Sil',cDelLiveQ:'Bu canlı hesab şərhləri ilə birlikdə silinsin? Geri qaytarmaq olmayacaq.',cNoLiveRow:'Hələ canlı yayım olmayıb',cYou:'siz',cLastSeen:'giriş',cNever:'daxil olmayıb',cSeen:'saytda',cVisits:n=>`ziyarət: ${n}`,cSeenSum:(d,w,a)=>`Bu gün girənlər: ${d} · 7 gündə: ${w} · cəmi hesab: ${a}`,
   cLive:'Canlı',cLivePill:'CANLI',cNoLive:'Hazırda oyun getmir',cNoLiveTxt:'Oyun başlayanda hesab burada canlı göstəriləcək.',
   cFinal:'Oyun bitdi',cFinalShort:'Yekun',cPaused:'Yenilənmə yoxdur',cAtBat:'Vuruşda',cOnDeck:'Növbəti',cFirstPA:'bu gün ilk çıxışı',cTodayL:'bu gün',
   cPlays:'Son anlar',cLiveBox:'Oyun boyu statistika',cLiveRt:'oyun boyu reytinq',cUpdated:'yeniləndi',cWatchLive:'Canlı izlə',cRuns:'ran',
@@ -109,7 +109,7 @@ Object.assign(I18N.en,{
   cCancelEv:'Cancel',cRestoreEv:'Restore',cDelete:'Delete',cDelQ:'Delete?',cPast:'past',cLiveAdmin:'Live score',
   cScorerOff:'The game scorer is temporarily turned off. To bring it back, set "scorer": true in data/index.json.',
   cLiveHow:'Open the game scorer on your phone while logged in as admin — the score will stream to the site automatically.',
-  cOpenScorer:'Open the scorer',cEndLive:'End broadcast',cDelLive:'Delete',cDelLiveQ:'Delete this live score together with its comments? This cannot be undone.',cNoLiveRow:'No broadcasts yet',cYou:'you',cLastSeen:'login',cNever:'never',cSeen:'on site',cVisits:n=>`visits: ${n}`,cSeenSum:(d,w,a)=>`Visited today: ${d} · last 7 days: ${w} · accounts: ${a}`,
+  cOpenBoard:'Scoreboard (on the field)',cBoardHow:'The scoreboard shows the score, inning, outs and bases in large type. It works offline; if this device is signed in as admin, the score appears on the site’s live page right away.',cOpenScorer:'Open the scorer',cEndLive:'End broadcast',cDelLive:'Delete',cDelLiveQ:'Delete this live score together with its comments? This cannot be undone.',cNoLiveRow:'No broadcasts yet',cYou:'you',cLastSeen:'login',cNever:'never',cSeen:'on site',cVisits:n=>`visits: ${n}`,cSeenSum:(d,w,a)=>`Visited today: ${d} · last 7 days: ${w} · accounts: ${a}`,
   cLive:'Live',cLivePill:'LIVE',cNoLive:'No game in progress',cNoLiveTxt:'When a game starts, the score will appear here in real time.',
   cFinal:'Final',cFinalShort:'Final',cPaused:'No updates',cAtBat:'At bat',cOnDeck:'On deck',cFirstPA:'first time up today',cTodayL:'today',
   cPlays:'Latest plays',cLiveBox:'Live box score',cLiveRt:'live rating',cUpdated:'updated',cWatchLive:'Watch live',cRuns:'runs',
@@ -601,6 +601,7 @@ function liveMain(){
         <div class="lv-who">${p?av(p,'m'):''}<div><b>${esc(plName(d.batter))}</b><span>${p?`#${p.number} · `:''}${esc(lineToday(b))}</span></div>${b&&b.PA?rt(rating(b,false)):''}</div>
         ${d.next?`<div class="lv-deck">${T('cOnDeck')}: <b>${esc(plName(d.next))}</b></div>`:''}</div></div>`;
   }
+  else if(live&&d.bases&&d.bases.some(Boolean)) h+=`<div class="lv-sit"><div class="card lv-field">${diamondSVG(d.bases)}</div></div>`; // табло (board/): без отбивающего — только базы
   const n=Math.max((d.line&&d.line.A||[]).length,(d.line&&d.line.B||[]).length,1), pad=a=>Array.from({length:n},(_,i)=>(a||[])[i]??(i<(a||[]).length?0:''));
   const pg={teams:{A:{name:esc((tm.A||{}).name||'A'),color:okColor((tm.A||{}).color)},B:{name:esc((tm.B||{}).name||'B'),color:okColor((tm.B||{}).color)}},
     linescore:{A:pad(d.line&&d.line.A),B:pad(d.line&&d.line.B)},score:{A:s.A??0,B:s.B??0},winner:win};
@@ -771,7 +772,7 @@ function drawAdminEvents(){
 function drawAdminLive(){
   const el=$id('adm-live'); if(!el) return; const r=C.live, d=(r&&r.data)||{}, s=d.score||{};
   const off=S.scorer===false;
-  el.innerHTML=`<div class="card adm-live"><p class="cl-p">${T(off?'cScorerOff':'cLiveHow')}</p><div class="cl-btns">${off?'':`<a class="btn" href="scorer/" target="_blank" rel="noopener">📱 ${T('cOpenScorer')}</a>`}
+  el.innerHTML=`<div class="card adm-live"><p class="cl-p">${T(off?'cBoardHow':'cLiveHow')}</p><div class="cl-btns"><a class="btn pri" href="board/">📟 ${T('cOpenBoard')}</a>${off?'':`<a class="btn" href="scorer/" target="_blank" rel="noopener">📱 ${T('cOpenScorer')}</a>`}
     ${r?`<a class="btn" href="#live">${T('cWatchLive')}</a>`:''}</div>
     ${r?`<div class="adm-live-row"><span class="lv-tag ${isLiveNow(r)?'on':''}">${isLiveNow(r)?`<i></i>${T('cLivePill')}`:r.status==='final'?T('cFinal'):T('cPaused')}</span>
       <b>${esc(r.id)}</b><span>${esc(((d.teams||{}).A||{}).name||'A')} ${s.A??0} : ${s.B??0} ${esc(((d.teams||{}).B||{}).name||'B')}</span>

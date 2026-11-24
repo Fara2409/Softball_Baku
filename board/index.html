@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Табло · Softball Baku</title>
+<meta name="theme-color" content="#0B1626">
+<meta name="robots" content="noindex">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Табло">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="../icons/icon-192.png?v=2">
+<link rel="icon" href="../favicon.ico">
+<!-- Табло (24.11.2026): простой счёт вместо счётчика. Только счёт, иннинг, ауты и базы — крупно, кнопками.
+     Работает без интернета (service worker sw.js, состояние в localStorage). Если на этом устройстве выполнен вход под админом,
+     счёт сразу уходит на сайт (#live, таблица live_games), без сети — копится и отправляется, когда сеть появится. -->
+<style>
+:root{--bg:#0B1626;--pan:#13233A;--pan2:#1B2F4C;--line:#29405F;--tx:#F3F6FB;--mut:#8EA3C0;--a:#D85A30;--b:#1f6fc0;--ok:#1E9E5A;--red:#E5484D}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--tx);font:600 16px/1.2 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-user-select:none;user-select:none;overscroll-behavior:none}
+button{font:inherit;color:inherit;border:0;cursor:pointer;touch-action:manipulation}
+#app{min-height:100%;display:flex;flex-direction:column;padding:calc(8px + env(safe-area-inset-top)) calc(10px + env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) calc(10px + env(safe-area-inset-left));gap:10px;max-width:1100px;margin:0 auto}
+.top{display:flex;align-items:center;gap:8px}
+.brand{font-weight:900;letter-spacing:1.5px;font-size:14px;display:flex;align-items:center;gap:6px;flex:1;min-width:0}
+.brand b{color:var(--a)}
+.brand{white-space:nowrap;overflow:hidden}
+@media (max-width:480px){.brand .full{display:none}}
+
+.pill{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--pan);border:1px solid var(--line);font-size:12px;color:var(--mut);white-space:nowrap}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--mut)}
+.pill.on{color:#ffb4b4;border-color:var(--red)}.pill.on i{background:var(--red);animation:bl 1.2s infinite}
+.pill.wait i{background:#E0A030}
+@keyframes bl{50%{opacity:.25}}
+.ic{width:38px;height:38px;border-radius:12px;background:var(--pan);border:1px solid var(--line);display:grid;place-items:center;font-size:18px}
+/* табло */
+.board{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:stretch}
+.tm{background:var(--pan);border-radius:22px;border:2px solid var(--line);padding:12px 10px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;overflow:hidden}
+.tm::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;background:var(--c)}
+.tm.bat{border-color:var(--c);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 35%,transparent)}
+.tm .nm{font-size:clamp(15px,3.6vw,24px);font-weight:800;text-align:center;line-height:1.1;padding:4px 6px;border-radius:8px}
+.tm .bt{font-size:11px;letter-spacing:1.5px;color:var(--mut);height:14px}
+.tm.bat .bt{color:var(--tx)}
+.tm .sc{font-size:clamp(84px,22vw,170px);font-weight:900;line-height:.95;font-variant-numeric:tabular-nums;letter-spacing:-2px}
+.tm .adj{display:flex;gap:8px;width:100%}
+.tm .adj button{flex:1;height:46px;border-radius:14px;background:var(--pan2);font-size:22px;font-weight:800}
+.mid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-width:clamp(96px,22vw,170px)}
+.inn{background:var(--pan);border:1px solid var(--line);border-radius:18px;padding:8px 12px;text-align:center;width:100%}
+.inn small{display:block;font-size:11px;letter-spacing:1.5px;color:var(--mut)}
+.inn b{font-size:clamp(30px,7vw,48px);font-weight:900;display:flex;align-items:center;justify-content:center;gap:4px}
+.inn b em{font-style:normal;font-size:.6em;color:var(--a)}
+.outs{display:flex;gap:8px}
+.outs i{width:clamp(16px,3.6vw,24px);height:clamp(16px,3.6vw,24px);border-radius:50%;border:2px solid var(--mut)}
+.outs i.on{background:#FFD23F;border-color:#FFD23F}
+.dia{width:clamp(96px,22vw,150px)}
+.dia .bs{cursor:pointer}
+/* кнопки */
+.acts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.acts button{border-radius:18px;padding:14px 6px;background:var(--pan2);font-size:clamp(15px,3.4vw,20px);font-weight:800;min-height:clamp(70px,12vh,120px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.acts button small{font-size:11px;font-weight:600;color:var(--mut)}
+.acts .run{background:var(--ok);font-size:clamp(20px,4.6vw,28px)}
+.acts .out{background:#C98A10;font-size:clamp(20px,4.6vw,28px)}
+.acts .run small,.acts .out small{color:rgba(255,255,255,.85)}
+.ls{background:var(--pan);border:1px solid var(--line);border-radius:16px;overflow-x:auto}
+.ls table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+.ls th,.ls td{padding:7px 6px;text-align:center;font-size:14px;border-bottom:1px solid var(--line);min-width:28px}
+.ls tr:last-child td{border-bottom:0}
+.ls th{color:var(--mut);font-size:11px}
+.ls td.l,.ls th.l{text-align:left;padding-left:12px;white-space:nowrap}
+.ls td.cur{background:var(--pan2);border-radius:6px}
+.ls td.r{font-weight:900;font-size:16px}
+.ls .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.side{display:flex;flex-direction:column;gap:10px}
+.foot{display:flex;gap:8px;flex-wrap:wrap}
+.foot button{flex:1;min-width:120px;border-radius:14px;padding:12px;background:var(--pan);border:1px solid var(--line);font-size:14px}
+.over{text-align:center;padding:10px;border-radius:14px;background:#3B1F14;border:1px solid var(--a);font-weight:800}
+/* окно */
+.md{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;justify-content:center;z-index:9;padding:10px}
+.md>div{background:var(--pan);border:1px solid var(--line);border-radius:22px;padding:18px;width:100%;max-width:480px;max-height:90vh;overflow:auto}
+.md h3{margin:0 0 10px;font-size:19px}
+.md p{color:var(--mut);font-weight:500;line-height:1.4;margin:6px 0 12px}
+.md label{display:block;font-size:13px;color:var(--mut);margin:10px 0 4px}
+.md input,.md select{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--tx);font:inherit;font-size:16px}
+.md .row{display:flex;gap:8px;margin-top:14px}.md .row button{flex:1;padding:13px;border-radius:14px;background:var(--pan2)}
+.md .pri{background:var(--a)!important}.md .dng{background:#7A1F1F!important}
+.md .err{color:#ffb4b4}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#000c;padding:10px 16px;border-radius:12px;font-size:14px;z-index:10;pointer-events:none}
+@media (orientation:landscape) and (max-height:560px){
+  #app{flex-direction:row;flex-wrap:wrap;align-content:flex-start}
+  .top{width:100%}
+  .board{flex:1 1 60%}
+  .side{flex:1 1 32%;display:flex;flex-direction:column;gap:10px}
+  .acts{grid-template-columns:1fr 1fr}
+  .tm .sc{font-size:clamp(70px,16vh,150px)}
+  .ls{display:none}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+'use strict';
+const SB_URL='https://walqgchpwehlaqgizwxj.supabase.co', SB_KEY='sb_publishable_p4odhSPoZi-rvOKZ9-9Ngg_P6lA9ehM';
+const K='sbBoard.v1', TEAMS=[{name:'Bina Warriors',color:'#D85A30'},{name:'Gilavar Baku',color:'#1f6fc0'}];
+const $=s=>document.querySelector(s), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
+const fresh=()=>({id:today(),A:{...TEAMS[0]},B:{...TEAMS[1]},inning:1,top:true,outs:0,bases:[0,0,0],line:{A:[0],B:[]},over:false,started:Date.now()});
+let G=load(), H=[];                  // H — история для «Отменить» (только в этой сессии)
+function load(){ try{ const g=JSON.parse(localStorage.getItem(K)); if(g&&g.A) return g; }catch(e){} return fresh(); }
+function save(){ try{ localStorage.setItem(K,JSON.stringify(G)); }catch(e){} draw(); LV.schedule(); }
+function snap(){ H.push(JSON.stringify(G)); if(H.length>200) H.shift(); }
+const bat=()=>G.top?'A':'B';
+const total=t=>(G.line[t]||[]).reduce((a,b)=>a+(+b||0),0);
+function ensureCell(){ const t=bat(), i=G.inning-1; while(G.line[t].length<=i) G.line[t].push(0); }
+function toast(t){ const d=document.createElement('div'); d.className='toast'; d.textContent=t; document.body.appendChild(d); setTimeout(()=>d.remove(),1600); }
+function vib(ms){ try{ navigator.vibrate&&navigator.vibrate(ms||15); }catch(e){} }
+
+/* ---------- действия ---------- */
+const A={
+  run(t){ if(G.over) return; snap(); t=t||bat();
+    if(t===bat()){ ensureCell(); G.line[t][G.inning-1]++; }
+    else { const a=G.line[t]; if(!a.length) a.push(0); a[a.length-1]++; } // поправка счёта команды в защите — в её последний иннинг
+    vib(); save(); },
+  unrun(t){ snap(); const a=G.line[t]; for(let i=a.length-1;i>=0;i--) if(a[i]>0){ a[i]--; break; } save(); },
+  out(){ if(G.over) return; snap(); G.outs++; vib(25);
+    if(G.outs>=3){ nextHalf(true); toast(`3 аута — ${G.top?'▲':'▼'} ${G.inning}`); }
+    save(); },
+  half(){ snap(); nextHalf(true); save(); },
+  base(i){ snap(); G.bases[i]=G.bases[i]?0:1; vib(); save(); },
+  inn(d){ snap(); const h=(G.inning-1)*2+(G.top?0:1)+d; if(h<0){ H.pop(); return; } G.inning=Math.floor(h/2)+1; G.top=h%2===0; G.outs=0; G.bases=[0,0,0]; ensureCell(); save(); },
+  undo(){ if(!H.length){ toast('Нечего отменять'); return; } G=JSON.parse(H.pop()); save(); toast('Отменено'); },
+  end(){ modal(`<h3>Закончить игру?</h3><p>Счёт ${esc(G.A.name)} ${total('A')} : ${total('B')} ${esc(G.B.name)}. На сайте игра отметится как завершённая.</p>
+    <div class="row"><button onclick="closeM()">Отмена</button><button class="pri" onclick="A.endOk()">Закончить</button></div>`); },
+  endOk(){ snap(); G.over=true; G.outs=0; G.bases=[0,0,0]; closeM(); save(); LV.push(true); },
+  resume(){ snap(); G.over=false; save(); },
+  newGame(){ modal(`<h3>Новая игра</h3><p>Текущий счёт будет стёрт с этого устройства. На сайте прошлая трансляция останется.</p>
+    <label>Кто бьёт первым (▲)?</label><select id="m-first"><option value="A">${esc(G.A.name)}</option><option value="B">${esc(G.B.name)}</option></select>
+    <div class="row"><button onclick="closeM()">Отмена</button><button class="dng" onclick="A.newOk()">Начать заново</button></div>`); },
+  newOk(){ const f=$('#m-first').value, a={...G.A}, b={...G.B}; snap(); G=fresh(); if(f==='B'){ G.A=b; G.B=a; } else { G.A=a; G.B=b; } closeM(); save(); toast('Новая игра'); },
+  team(t){ const x=G[t]; modal(`<h3>Команда</h3><label>Название</label><input id="m-nm" value="${esc(x.name)}" maxlength="30">
+    <label>Цвет</label><select id="m-cl">${[['#D85A30','оранжевый'],['#1f6fc0','синий'],['#1E9E5A','зелёный'],['#C0392B','красный'],['#7D3C98','фиолетовый'],['#2C3E50','тёмный']].map(([c,n])=>`<option value="${c}" ${c===x.color?'selected':''}>${n}</option>`).join('')}</select>
+    <div class="row"><button onclick="closeM()">Отмена</button><button class="pri" onclick="A.teamOk('${t}')">Сохранить</button></div>`); },
+  teamOk(t){ snap(); G[t].name=($('#m-nm').value||'').trim()||G[t].name; G[t].color=$('#m-cl').value; closeM(); save(); },
+  swap(){ snap(); [G.A,G.B]=[G.B,G.A]; [G.line.A,G.line.B]=[G.line.B,G.line.A]; save(); }
+};
+function nextHalf(){ G.outs=0; G.bases=[0,0,0]; if(G.top) G.top=false; else { G.top=true; G.inning++; } ensureCell(); }
+
+/* ---------- вид ---------- */
+function dia(){ const b=G.bases, f=on=>on?'#FFD23F':'transparent', s=on=>on?'#FFD23F':'#8EA3C0';
+  const B=(i,x,y)=>`<rect class="bs" onclick="A.base(${i})" x="${x-13}" y="${y-13}" width="26" height="26" transform="rotate(45 ${x} ${y})" fill="${f(b[i])}" stroke="${s(b[i])}" stroke-width="3"/><rect onclick="A.base(${i})" x="${x-24}" y="${y-24}" width="48" height="48" fill="transparent"/>`;
+  return `<svg class="dia" viewBox="0 0 120 100" aria-label="базы">${B(1,60,22)}${B(2,26,56)}${B(0,94,56)}<path d="M54 90h12v-6l-6-6-6 6z" fill="#8EA3C0"/></svg>`; }
+function team(t){ const x=G[t], on=!G.over&&bat()===t;
+  return `<div class="tm ${on?'bat':''}" style="--c:${esc(x.color)}"><div class="bt">${on?'⚾ НА БИТЕ':''}</div>
+    <div class="nm" onclick="A.team('${t}')">${esc(x.name)}</div><div class="sc">${total(t)}</div>
+    <div class="adj"><button onclick="A.unrun('${t}')" aria-label="минус ран">−</button><button onclick="A.run('${t}')" aria-label="плюс ран">+</button></div></div>`; }
+function lines(){ const n=Math.max(G.inning,(G.line.A||[]).length,(G.line.B||[]).length,7);
+  const row=t=>`<tr><td class="l"><span class="dot" style="background:${esc(G[t].color)}"></span>${esc(G[t].name)}</td>${Array.from({length:n},(_,i)=>{ const v=(G.line[t]||[])[i]; const cur=!G.over&&i===G.inning-1&&bat()===t; return `<td class="${cur?'cur':''}">${v==null?'':v}</td>`; }).join('')}<td class="r">${total(t)}</td></tr>`;
+  return `<div class="ls"><table><tr><th class="l"></th>${Array.from({length:n},(_,i)=>`<th>${i+1}</th>`).join('')}<th>R</th></tr>${row('A')}${row('B')}</table></div>`; }
+function draw(){
+  $('#app').innerHTML=`<div class="top"><div class="brand">⚾ <span class="full">SOFTBALL <b>BAKU</b> ·&nbsp;</span>ТАБЛО</div>${LV.pill()}<button class="ic" onclick="A.undo()" title="Отменить последнее">↶</button><button class="ic" onclick="menu()" title="Меню">☰</button></div>
+   <div class="board">${team('A')}<div class="mid"><div class="inn"><small>ИННИНГ</small><b>${G.over?'FINAL':`<em>${G.top?'▲':'▼'}</em>${G.inning}`}</b></div>
+     <div class="outs">${[0,1,2].map(i=>`<i class="${i<G.outs?'on':''}"></i>`).join('')}</div>${dia()}</div>${team('B')}</div>
+   <div class="side">${G.over?`<div class="over">Игра окончена · <a style="color:inherit" href="#" onclick="A.resume();return false">продолжить</a></div>`:
+   `<div class="acts"><button class="run" onclick="A.run()">+1 РАН<small>${esc(G[bat()].name)}</small></button><button class="out" onclick="A.out()">+1 АУТ<small>${G.outs}/3</small></button>
+     <button onclick="A.half()">Смена<small>${G.top?'▼':'▲'} ${G.top?G.inning:G.inning+1}</small></button><button onclick="A.end()">Конец<small>игры</small></button></div>`}
+   ${lines()}</div>`;
+}
+function modal(h){ closeM(); const d=document.createElement('div'); d.className='md'; d.onclick=e=>{ if(e.target===d) closeM(); }; d.innerHTML=`<div>${h}</div>`; document.body.appendChild(d); }
+function closeM(){ document.querySelectorAll('.md').forEach(e=>e.remove()); }
+function menu(){ modal(`<h3>Меню</h3>
+  <div class="row"><button onclick="A.inn(-1)">◀ Пред. половина</button><button onclick="A.inn(1)">След. половина ▶</button></div>
+  <div class="row"><button onclick="closeM();A.swap()">⇄ Поменять команды местами</button></div>
+  <div class="row"><button onclick="closeM();LV.panel()">📡 Трансляция на сайт</button></div>
+  <div class="row"><button onclick="location.href='../#live'">Сайт: онлайн-счёт</button><button onclick="location.href='../'">На сайт</button></div>
+  <div class="row"><button class="dng" onclick="closeM();A.newGame()">Новая игра</button><button onclick="closeM()">Закрыть</button></div>
+  <p>Нажмите на название команды, чтобы изменить его или цвет. Базы на ромбе включаются нажатием. ↶ — отменить последнее действие.</p>`); }
+
+/* ---------- трансляция на сайт (если на устройстве вход под админом) ---------- */
+const LV=(()=>{
+  const X={sb:null,user:null,role:null,state:'load',last:'',lastAt:0,t:null,retry:null};
+  const data=()=>({v:2,src:'board',teams:{A:{name:G.A.name,color:G.A.color},B:{name:G.B.name,color:G.B.color}},
+    score:{A:total('A'),B:total('B')},line:{A:G.line.A.slice(),B:G.line.B.slice()},inning:G.inning,top:G.top,outs:G.outs,bases:G.bases.slice(),
+    batting:bat(),over:!!G.over,venue:'Əmircan'});
+  function pill(){
+    let c='',t='';
+    if(!navigator.onLine) { t=X.lastAt?'без сети · ждёт':'без сети'; c='wait'; }
+    else if(X.state==='load') t='…';
+    else if(X.state==='nosdk') t='офлайн';
+    else if(!X.user||X.role!=='admin') t='не в эфире';
+    else if(X.state==='err') { t='повтор…'; c='wait'; }
+    else if(X.state==='send') { t='отправка'; c='on wait'; }
+    else t=G.over?'финал на сайте':'В ЭФИРЕ', c='on';
+    return `<button class="pill ${c}" onclick="LV.panel()"><i></i>${t}</button>`;
+  }
+  function schedule(){ clearTimeout(X.t); X.t=setTimeout(()=>push(false),700); }
+  async function push(force){
+    if(!X.sb||!X.user||X.role!=='admin'||!navigator.onLine) return;
+    const d=data(), body=JSON.stringify(d); if(!force&&body===X.last) return;
+    X.state='send'; redraw();
+    const {error}=await X.sb.from('live_games').upsert({id:G.id,status:G.over?'final':'live',data:d,updated_at:new Date().toISOString(),updated_by:X.user.id});
+    clearTimeout(X.retry);
+    if(error){ X.state='err'; console.warn('[board]',error); X.retry=setTimeout(()=>push(true),8000); }
+    else { X.state='ok'; X.last=body; X.lastAt=Date.now(); }
+    redraw();
+  }
+  function redraw(){ const p=document.querySelector('.top .pill'); if(p) p.outerHTML=pill(); }
+  async function refresh(){
+    try{ const {data:s}=await X.sb.auth.getSession(); X.user=s&&s.session?s.session.user:null; X.role=null;
+      if(X.user){ const r=await X.sb.from('profiles').select('role').eq('id',X.user.id).maybeSingle(); X.role=r.data?r.data.role:null; }
+      X.state='ok'; }catch(e){ X.state='err'; }
+    redraw();
+  }
+  function panel(){
+    if(X.state==='nosdk'||!X.sb){ modal(`<h3>Трансляция на сайт</h3><p>Сейчас нет связи с сервером. Табло работает и без интернета — счёт сохраняется на этом устройстве. Когда появится интернет, откройте табло заново.</p><div class="row"><button onclick="closeM()">Понятно</button></div>`); return; }
+    if(!X.user) { modal(`<h3>Трансляция на сайт</h3><p>Войдите под аккаунтом админа сайта — счёт будет сразу появляться у зрителей на сайте (Онлайн-счёт). Без входа табло работает только на этом устройстве.</p>
+      <label>Эл. почта</label><input id="lv-em" type="email" autocomplete="email" inputmode="email"><label>Пароль</label><input id="lv-pw" type="password" autocomplete="current-password">
+      <div class="lv-cap" style="margin-top:10px"></div><p class="err" id="lv-er"></p>
+      <div class="row"><button onclick="closeM()">Закрыть</button><button class="pri" onclick="LV.login()">Войти</button></div>`);
+      const cap=$('.lv-cap'); if(cap&&window.CAPTCHA) CAPTCHA.mount(cap); return; }
+    modal(`<h3>Трансляция на сайт</h3><p>Вход: <b style="color:var(--tx)">${esc(X.user.email)}</b>${X.role==='admin'?' (админ). Счёт уходит на сайт после каждого нажатия; без сети — отправится, когда сеть появится.':' — транслировать может только админ.'}</p>
+      ${X.lastAt?`<p>Последняя отправка: ${new Date(X.lastAt).toLocaleTimeString('ru-RU')}</p>`:''}
+      <div class="row"><button onclick="LV.logout()">Выйти</button><button class="pri" onclick="closeM();LV.push(true)">Отправить сейчас</button></div>`);
+  }
+  async function login(){
+    const em=($('#lv-em').value||'').trim(), pw=$('#lv-pw').value, er=$('#lv-er'); er.textContent='';
+    const cap=$('.lv-cap'), captchaToken=window.CAPTCHA?await CAPTCHA.token(cap):undefined;
+    if(captchaToken===null){ er.textContent='Не прошла проверка на робота — попробуйте ещё раз'; return; }
+    const {error}=await X.sb.auth.signInWithPassword({email:em,password:pw,options:captchaToken?{captchaToken}:undefined});
+    if(window.CAPTCHA) CAPTCHA.reset(cap);
+    if(error){ er.textContent=/invalid/i.test(error.message)?'Неверная почта или пароль':error.message; return; }
+    await refresh(); closeM(); toast(X.role==='admin'?'В эфире!':'Вход выполнен, но нет прав админа'); push(true);
+  }
+  async function logout(){ await X.sb.auth.signOut(); await refresh(); closeM(); }
+  function init(){
+    X.sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+    X.sb.auth.onAuthStateChange(()=>setTimeout(()=>refresh().then(()=>push(false)),0));
+  }
+  window.addEventListener('online',()=>{ redraw(); push(true); }); window.addEventListener('offline',redraw);
+  const ok=()=>{ try{ if(!(window.supabase&&window.supabase.createClient)) return false; init(); return true; }catch(e){ return false; } };
+  function boot(){ if(ok()) return;
+    const src=['https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4','https://unpkg.com/@supabase/supabase-js@2.45.4'];
+    (function next(i){ if(i>=src.length){ X.state='nosdk'; redraw(); return; }
+      const s=document.createElement('script'); s.src=src[i]; s.async=true; s.onload=()=>{ if(!ok()) next(i+1); }; s.onerror=()=>next(i+1); document.head.appendChild(s); })(0); }
+  return {pill,schedule,push,panel,login,logout,boot};
+})();
+
+/* ---------- экран не гаснет ---------- */
+let lock=null; async function wake(){ try{ if('wakeLock' in navigator&&document.visibilityState==='visible') lock=await navigator.wakeLock.request('screen'); }catch(e){} }
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible'){ wake(); LV.push(false); } });
+
+/* новый день — новая игра (если старая закончена или пустая) */
+if(G.id!==today()&&(G.over||total('A')+total('B')===0)){ const a=G.A,b=G.B; G=fresh(); G.A=a; G.B=b; }
+draw(); wake(); LV.boot();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(e=>console.warn('[board] sw',e));
+</script>
+<script src="../captcha.js?v=202611241140" defer></script>
+</body>
+</html>
