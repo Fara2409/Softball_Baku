@@ -293,3 +293,6 @@ table.lb.lv-bx{min-width:0}
 /* Дата рождения: два списка в строку (19.11.2026) */
 .bd-sel{display:flex;gap:8px;width:100%}.bd-sel select{flex:1;min-width:0}
 .cl-row .bd-sel{flex:1}
+/* Turnstile (24.11.2026): обычно невидима; если Cloudflare просит подтвердить — окошко по центру */
+.cl-cap{display:flex;justify-content:center}
+.cl-cap:empty{display:none}

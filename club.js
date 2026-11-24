@@ -45,7 +45,7 @@ Object.assign(I18N.ru,{
   cLive:'Онлайн',cLivePill:'ОНЛАЙН',cNoLive:'Сейчас игра не идёт',cNoLiveTxt:'Когда начнётся игра, счёт появится здесь в реальном времени.',
   cFinal:'Игра окончена',cFinalShort:'Итог',cPaused:'Нет обновлений',cAtBat:'Отбивает',cOnDeck:'Следующий',cFirstPA:'первый выход сегодня',cTodayL:'сегодня',
   cPlays:'Последние розыгрыши',cLiveBox:'Статистика по ходу игры',cLiveRt:'рейтинг по ходу игры',cUpdated:'обновлено',cWatchLive:'Смотреть онлайн',cRuns:'ран',
-  cPl:PL_RU,cComments:'Комментарии',cWrite:'Напишите комментарий…',cSend:'Отправить',cLoginToComment:'Войдите, чтобы комментировать',cNoComments:'Комментариев пока нет',
+  cErrCaptcha:'Не прошла проверка на робота. Обновите страницу и попробуйте ещё раз',cmSlow:'Слишком много комментариев подряд — подождите несколько минут',cmNoLinks:'Гостям нельзя оставлять ссылки в комментариях',cPl:PL_RU,cComments:'Комментарии',cWrite:'Напишите комментарий…',cSend:'Отправить',cLoginToComment:'Войдите, чтобы комментировать',cNoComments:'Комментариев пока нет',
   cOffline:'Онлайн-функции сейчас недоступны',cOldBrowser:'На этом устройстве вход не работает: браузер слишком старый для онлайн-функций (вход, «буду / не буду», онлайн-счёт). Статистику, игры и рейтинг можно смотреть как обычно. Войти можно с телефона или компьютера с более новой системой.',cTeamsOnly:'Деление на команды — только для игроков',cTeamsOnlyTxt:'Войдите под аккаунтом игрока. Если вы в команде, но ещё не подтверждены, отправьте заявку в профиле.',cPendingN:n=>`Новых заявок: ${n}`,cNow:'сейчас'
 });
 Object.assign(I18N.az,{
@@ -79,7 +79,7 @@ Object.assign(I18N.az,{
   cLive:'Canlı',cLivePill:'CANLI',cNoLive:'Hazırda oyun getmir',cNoLiveTxt:'Oyun başlayanda hesab burada canlı göstəriləcək.',
   cFinal:'Oyun bitdi',cFinalShort:'Yekun',cPaused:'Yenilənmə yoxdur',cAtBat:'Vuruşda',cOnDeck:'Növbəti',cFirstPA:'bu gün ilk çıxışı',cTodayL:'bu gün',
   cPlays:'Son anlar',cLiveBox:'Oyun boyu statistika',cLiveRt:'oyun boyu reytinq',cUpdated:'yeniləndi',cWatchLive:'Canlı izlə',cRuns:'ran',
-  cPl:PL_AZ,cComments:'Şərhlər',cWrite:'Şərh yazın…',cSend:'Göndər',cLoginToComment:'Şərh yazmaq üçün daxil olun',cNoComments:'Hələ şərh yoxdur',
+  cErrCaptcha:'Robot yoxlaması keçmədi. Səhifəni yeniləyib yenidən cəhd edin',cmSlow:'Ardıcıl çox şərh — bir neçə dəqiqə gözləyin',cmNoLinks:'Qonaqlar şərhlərdə link paylaşa bilməz',cPl:PL_AZ,cComments:'Şərhlər',cWrite:'Şərh yazın…',cSend:'Göndər',cLoginToComment:'Şərh yazmaq üçün daxil olun',cNoComments:'Hələ şərh yoxdur',
   cOffline:'Onlayn funksiyalar hazırda əlçatan deyil',cOldBrowser:'Bu cihazda giriş işləmir: brauzer onlayn funksiyalar (giriş, «gələcəyəm / gəlməyəcəyəm», canlı hesab) üçün çox köhnədir. Statistikaya, oyunlara və reytinqə adi qaydada baxmaq olar. Daha yeni sistemli telefondan və ya kompüterdən daxil ola bilərsiniz.',cTeamsOnly:'Komandalara bölmə yalnız oyunçular üçündür',cTeamsOnlyTxt:'Oyunçu hesabı ilə daxil olun. Komandadasınızsa, amma hələ təsdiqlənməmisinizsə, profildə sorğu göndərin.',cPendingN:n=>`Yeni sorğular: ${n}`,cNow:'indi'
 });
 Object.assign(I18N.en,{
@@ -113,7 +113,7 @@ Object.assign(I18N.en,{
   cLive:'Live',cLivePill:'LIVE',cNoLive:'No game in progress',cNoLiveTxt:'When a game starts, the score will appear here in real time.',
   cFinal:'Final',cFinalShort:'Final',cPaused:'No updates',cAtBat:'At bat',cOnDeck:'On deck',cFirstPA:'first time up today',cTodayL:'today',
   cPlays:'Latest plays',cLiveBox:'Live box score',cLiveRt:'live rating',cUpdated:'updated',cWatchLive:'Watch live',cRuns:'runs',
-  cPl:PL_EN,cComments:'Comments',cWrite:'Write a comment…',cSend:'Send',cLoginToComment:'Log in to comment',cNoComments:'No comments yet',
+  cErrCaptcha:'The robot check failed. Reload the page and try again',cmSlow:'Too many comments in a row — please wait a few minutes',cmNoLinks:'Guests can’t post links in comments',cPl:PL_EN,cComments:'Comments',cWrite:'Write a comment…',cSend:'Send',cLoginToComment:'Log in to comment',cNoComments:'No comments yet',
   cOffline:'Online features are unavailable right now',cOldBrowser:'Logging in does not work on this device: the browser is too old for the online features (login, responses, live score). Stats, games and ratings work as usual. You can log in from a phone or computer with a newer system.',cTeamsOnly:'Team split is for players only',cTeamsOnlyTxt:"Log in with a player account. If you're on the team but not confirmed yet, send a request in your profile.",cPendingN:n=>`New requests: ${n}`,cNow:'now'
 });
 
@@ -158,6 +158,7 @@ function errText(e){
   if(/user_already_exists|already registered|already been registered|already exists/.test(m)) return T('cErrExists');
   if(/weak_password|at least 6|password should/.test(m)) return T('cErrShort');
   if(/email_address_invalid|invalid format|unable to validate email|invalid email/.test(m)) return T('cErrEmail');
+  if(/captcha/.test(m)) return T('cErrCaptcha');
   if(/rate limit|too many|429|over_request/.test(m)||(e&&e.status===429)) return T('cErrRate');
   if(/failed to fetch|networkerror|load failed|network request/.test(m)) return T('cErrNet');
   if(/23505|duplicate key/.test(m)) return T('cErrTaken');
@@ -315,15 +316,16 @@ function auth(mode){
       <label>${T('cPass2')}<input name="pass2" type="password" autocomplete="new-password" minlength="6" required></label>
       <label>${T('cBday')}${bdaySel('')}<span class="cl-hint">${T('cBdayHint')}</span></label>
       <label>${T('cIAm')}<select name="player">${playerOptions('')}</select><span class="cl-hint">${T('cIAmHint')}</span>${I18N[LANG].jnNotListed?`<a class="cl-hint cl-join" href="#join" onclick="CL.close()">${T('jnNotListed')}</a>`:''}</label>
-      <div class="cl-err" id="cl-err"></div><button class="btn pri big" type="submit">${T('cSignup')}</button></form>${guest}`;
+      <div class="cl-cap"></div><div class="cl-err" id="cl-err"></div><button class="btn pri big" type="submit">${T('cSignup')}</button></form>${guest}`;
   } else {
     h=sheetHead(T('cLogin'))+tabs+gOr+`<form class="cl-form" onsubmit="return CL.doLogin(event)" novalidate>
       <label>${T('cEmail')}<input name="email" type="email" autocomplete="email" inputmode="email" required></label>
       <label>${T('cPass')}<input name="pass" type="password" autocomplete="current-password" required></label>
-      <div class="cl-err" id="cl-err"></div><button class="btn pri big" type="submit">${T('cLogin')}</button>
+      <div class="cl-cap"></div><div class="cl-err" id="cl-err"></div><button class="btn pri big" type="submit">${T('cLogin')}</button>
       <button type="button" class="cl-link" onclick="CL.auth('forgot')">${T('cForgot')}</button></form>${guest}`;
   }
   openModal(h,mode==='welcome'?'welcome':'');
+  if(window.CAPTCHA) document.querySelectorAll('#cl-modal .cl-cap').forEach(CAPTCHA.mount);
   if(mode==='signup'&&!C.profAt) loadProfiles().then(()=>{const s=document.querySelector('#cl-modal select[name=player]'); if(s){const v=s.value; s.innerHTML=playerOptions(v);}});
 }
 function formBusy(f,on){ const b=f.querySelector('button[type=submit]'); if(b){ b.disabled=on; b.classList.toggle('busy',on); } }
@@ -333,7 +335,10 @@ async function doLogin(ev){
   if(!/^\S+@\S+\.\S+$/.test(email)){ formErr(T('cErrEmail')); return false; }
   formBusy(f,true); formErr('');
   try{
-    const {data,error}=await C.sb.auth.signInWithPassword({email,password:pass});
+    const cap=f.querySelector('.cl-cap'), captchaToken=window.CAPTCHA?await CAPTCHA.token(cap):undefined;
+    if(captchaToken===null) throw new Error('captcha');
+    const {data,error}=await C.sb.auth.signInWithPassword({email,password:pass,options:captchaToken?{captchaToken}:undefined});
+    if(window.CAPTCHA) CAPTCHA.reset(cap);
     if(error) throw error;
     closeModal(); await onSession(data.session,true);
     toast(T('cHello')(shortName(C.profile)));
@@ -415,7 +420,10 @@ async function doSignup(ev){
   formBusy(f,true); formErr('');
   if(!(await checkMail(f,email))){ formBusy(f,false); return false; }
   try{
-    const {data,error}=await C.sb.auth.signUp({email,password:pass,options:{data:{display_name:name,requested_player_id:pid||null,birthday:bday}}});
+    const cap=f.querySelector('.cl-cap'), captchaToken=window.CAPTCHA?await CAPTCHA.token(cap):undefined;
+    if(captchaToken===null) throw new Error('captcha');
+    const {data,error}=await C.sb.auth.signUp({email,password:pass,options:{data:{display_name:name,requested_player_id:pid||null,birthday:bday},...(captchaToken?{captchaToken}:{})}});
+    if(window.CAPTCHA) CAPTCHA.reset(cap);
     if(error) throw error;
     if(!data.session){ formErr(T('cConfirmNeeded')); formBusy(f,false); return false; }
     closeModal(); await onSession(data.session,true);
@@ -662,7 +670,7 @@ async function sendComment(ev,t){
   const btn=f.querySelector('button'); btn.disabled=true;
   const {error}=await C.sb.from('comments').insert({target:t,user_id:C.user.id,body});
   btn.disabled=false;
-  if(error){ fail(error); return false; }
+  if(error){ const m=String(error.message||''); if(/cm_slow/.test(m)) toast(T('cmSlow')); else if(/cm_links/.test(m)) toast(T('cmNoLinks')); else fail(error); return false; }
   f.body.value=''; f.body.style.height=''; loadComments(t); return false;
 }
 async function delComment(id,t){

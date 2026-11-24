@@ -76,16 +76,22 @@
           <label>${T('jnAge')}<select name="age" required>${opt(T('jnAges'))}</select></label>
           <label>${T('jnExp')}<select name="exp">${opt(T('jnExps'))}</select></label>
           <label class="wide">${T('jnNote')}<textarea name="note" maxlength="300" rows="2"></textarea></label>
+          <label class="jn-hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
           <button class="btn pri big wide" type="submit">${T('jnSend')}</button>
         </form>
         <div class="jn-or"><span>${T('jnOr')}</span></div>
         <a class="btn wa big jn-wa" href="${waLink(WA,T('jnWaTxt'))}" target="_blank" rel="noopener">💬 ${T('jnWa')}</a>
       </div>`;
     const sel=app().querySelector('select[name=age]'); if(sel) sel.value='adult';
+    shownAt=Date.now();
   }
 
+  let shownAt=0;
+  const done=()=>{ document.getElementById('jn-form').innerHTML=`<div class="jn-done">✅ ${T('jnSent')}</div>`; };
   async function send(ev){
     ev.preventDefault(); const f=ev.target, btn=f.querySelector('button[type=submit]');
+    // ловушка для ботов: скрытое поле заполнено или форма отправлена быстрее 3 с — делаем вид, что всё ушло (24.11.2026)
+    if(f.website.value||Date.now()-shownAt<3000){ done(); return false; }
     const name=f.name.value.trim(), phone=f.phone.value.trim().replace(/\s+/g,' ');
     if(!/^[+0-9 ()-]{7,20}$/.test(phone)||phone.replace(/\D/g,'').length<7){ toast(T('jnBadPhone')); f.phone.focus(); return false; }
     const row={name,phone,age:f.age.value,exp:f.exp.value,note:f.note.value.trim()||null,lang:LANG};
@@ -93,7 +99,7 @@
     let ok=false;
     if(c&&c.C.sb){ const {error}=await c.C.sb.from('join_requests').insert(row); ok=!error; if(error) console.warn('[join]',error); }
     btn.disabled=false;
-    if(ok){ document.getElementById('jn-form').innerHTML=`<div class="jn-done">✅ ${T('jnSent')}</div>`; return false; }
+    if(ok){ done(); return false; }
     // нет базы / ошибка — то же самое через WhatsApp
     toast(T('jnErr'));
     window.open(waLink(WA,`${T('jnWaTxt')}\n${name}, ${phone}, ${T('jnAges')[row.age]}, ${T('jnExps')[row.exp]}${row.note?`\n${row.note}`:''}`),'_blank','noopener');

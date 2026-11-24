@@ -490,6 +490,55 @@ grant insert on public.join_requests to anon, authenticated;
 grant select, update, delete on public.join_requests to authenticated;
 grant usage, select on all sequences in schema public to anon, authenticated;
 
+-- ---------- 6l. Защита от ботов и спама (24.11.2026) ----------
+-- Заявки «Хочу играть»: не больше 2 с одного номера за сутки и не больше 20 со всего сайта за час.
+-- Комментарии: гостям — не больше 3 за 10 минут и без ссылок; игрокам — не больше 15 за 10 минут; админу — без ограничений.
+-- Имя в профиле — не длиннее 60 символов.
+create or replace function public.join_requests_guard() returns trigger
+language plpgsql security definer set search_path = public as $$
+declare d text := regexp_replace(new.phone, '\D', '', 'g');
+begin
+  new.status := 'new'; new.created_at := now();
+  if new.name ~* '(https?://|www\.|\.(com|ru|net|xyz|top)\b)' or coalesce(new.note,'') ~* '(https?://|www\.)' then
+    raise exception 'jr_links' using errcode = 'P0001';
+  end if;
+  if (select count(*) from public.join_requests
+       where regexp_replace(phone, '\D', '', 'g') = d and created_at > now() - interval '24 hours') >= 2 then
+    raise exception 'jr_phone_limit' using errcode = 'P0001';
+  end if;
+  if (select count(*) from public.join_requests where created_at > now() - interval '1 hour') >= 20 then
+    raise exception 'jr_rate_limit' using errcode = 'P0001';
+  end if;
+  return new;
+end $$;
+drop trigger if exists join_requests_guard on public.join_requests;
+create trigger join_requests_guard before insert on public.join_requests
+  for each row execute function public.join_requests_guard();
+
+create or replace function public.comments_guard() returns trigger
+language plpgsql security definer set search_path = public as $$
+declare r text := public.my_role(); n int;
+begin
+  new.created_at := now();
+  if r = 'admin' then return new; end if;
+  if r = 'guest' and new.body ~* '(https?://|www\.|t\.me/|wa\.me/)' then
+    raise exception 'cm_links' using errcode = 'P0001';
+  end if;
+  select count(*) into n from public.comments where user_id = new.user_id and created_at > now() - interval '10 minutes';
+  if n >= (case when r = 'player' then 15 else 3 end) then
+    raise exception 'cm_slow' using errcode = 'P0001';
+  end if;
+  return new;
+end $$;
+drop trigger if exists comments_guard on public.comments;
+create trigger comments_guard before insert on public.comments
+  for each row execute function public.comments_guard();
+
+update public.profiles set display_name = left(display_name, 60) where char_length(display_name) > 60;
+do $$ begin
+  alter table public.profiles add constraint profiles_name_len check (char_length(display_name) <= 60);
+exception when duplicate_object then null; end $$;
+
 -- ---------- 7. Доступ сайта к таблицам ----------
 -- С 30.05.2026 Supabase в новых проектах не открывает таблицы автоматически —
 -- выдаём права явно. Что именно разрешено каждому — решают политики RLS выше.

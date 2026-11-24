@@ -33,3 +33,5 @@
 .jn-note{font-size:13px}
 .jn-req-a{display:flex;gap:6px;align-items:center}
 .jn-req-a select{padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:inherit;font:inherit;font-size:13px}
+/* ловушка для ботов (24.11.2026): человек поле не видит */
+.jn-hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}

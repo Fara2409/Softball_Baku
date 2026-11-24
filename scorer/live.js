@@ -54,7 +54,7 @@ function panel(){
   else if(!X.user) h+=`<p>Войдите под аккаунтом админа сайта — счёт будет сразу появляться у зрителей.</p>
     <label>Эл. почта</label><input id="lv-em" type="email" autocomplete="email" inputmode="email">
     <label>Пароль</label><input id="lv-pw" type="password" autocomplete="current-password">
-    <p class="err" id="lv-er"></p><div class="row"><button class="pri" onclick="LIVE.login()">Войти</button><button onclick="closeM()">Закрыть</button></div>`;
+    <div class="lv-cap" style="display:flex;justify-content:center"></div><p class="err" id="lv-er"></p><div class="row"><button class="pri" onclick="LIVE.login()">Войти</button><button onclick="closeM()">Закрыть</button></div>`;
   else if(X.role!=='admin') h+=`<p>Вы вошли как <b>${e(X.user.email)}</b> (${ROLE_RU[X.role]||'гость'}). Транслировать счёт может только админ.</p>
     <div class="row"><button onclick="LIVE.logout()">Выйти</button><button onclick="closeM()">Закрыть</button></div>`;
   else h+=`<p>Вход: <b>${e(X.user.email)}</b> (админ).</p>
@@ -63,6 +63,7 @@ function panel(){
     <div class="row"><button onclick="LIVE.push(true)" ${enabled&&S&&S.started?'':'disabled'}>Отправить сейчас</button><button onclick="window.open('../#live','_blank')">Страница зрителей</button></div>
     <div class="row"><button onclick="LIVE.logout()">Выйти</button><button onclick="closeM()">Закрыть</button></div>`;
   modal(h+'</div>');
+  const cap=document.querySelector('.lv-cap'); if(cap&&window.CAPTCHA) CAPTCHA.mount(cap);
 }
 
 /* ---------- снимок игры ---------- */
@@ -101,8 +102,11 @@ async function refresh(){
 async function login(){
   const em=(document.getElementById('lv-em').value||'').trim(), pw=document.getElementById('lv-pw').value, er=document.getElementById('lv-er');
   er.textContent='';
-  const {error}=await X.sb.auth.signInWithPassword({email:em,password:pw});
-  if(error){ er.textContent=/invalid/i.test(error.message)?'Неверная почта или пароль':error.message; return; }
+  const cap=document.querySelector('.lv-cap'), captchaToken=window.CAPTCHA?await CAPTCHA.token(cap):undefined;
+  if(captchaToken===null){ er.textContent='Не прошла проверка на робота — закройте окно и попробуйте ещё раз'; return; }
+  const {error}=await X.sb.auth.signInWithPassword({email:em,password:pw,options:captchaToken?{captchaToken}:undefined});
+  if(window.CAPTCHA) CAPTCHA.reset(cap);
+  if(error){ er.textContent=/invalid/i.test(error.message)?'Неверная почта или пароль':/captcha/i.test(error.message)?'Не прошла проверка на робота — попробуйте ещё раз':error.message; return; }
   await refresh(); panel(); if(X.role==='admin'&&S&&S.started) push(true);
 }
 async function logout(){ await X.sb.auth.signOut(); await refresh(); panel(); }
