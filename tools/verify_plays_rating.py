@@ -1,5 +1,5 @@
 import json
-W={'1B':.2,'2B':.4,'3B':.6,'HR':.8,'BB':.15,'ROE':.15,'FC':.1,'R':.1,'RBI':.15,'OUT':-.25,'K':-.35,'FPO':.2,'A':.13,'RPO':.07,'PK':.2,'PBB':-.1,'E':-.2,'E2':-.25,'E3':-.3,'OFPO':.2,'OFF2':.25,'OFF3':.3,'OFA':.2,'OFPOS':.15,'CPOS':.15}
+W={'1B':.2,'2B':.4,'3B':.6,'HR':.8,'BB':.15,'ROE':.15,'FC':.1,'R':.1,'RBI':.15,'OUT':-.25,'K':-.35,'FPO':.2,'A':.13,'RPO':.07,'PK':.25,'PBB':-.1,'E':-.2,'E2':-.25,'E3':-.3,'OFPO':.2,'OFF2':.25,'OFF3':.3,'OFA':.2,'OFPOS':.15,'CPOS':.15}
 OF={'LF','CF','RF','LCF','RCF','SF'}
 def boxparts(b):
     g=lambda k:b.get(k,0); roe,fc=g('ROE'),g('FC'); outs=max(0,g('AB')-g('H')-g('K')-roe-fc)
