@@ -296,3 +296,9 @@ table.lb.lv-bx{min-width:0}
 /* Turnstile (24.11.2026): обычно невидима; если Cloudflare просит подтвердить — окошко по центру */
 .cl-cap{display:flex;justify-content:center}
 .cl-cap:empty{display:none}
+/* фото профиля гостя (25.11.2026) */
+.me-ph-row{display:flex;align-items:center;gap:16px;margin-bottom:8px}
+.me-ph-row .av.xl{width:84px;height:84px;font-size:30px}
+.me-ph-btns{display:flex;gap:8px;flex-wrap:wrap}
+.me-ph-up{cursor:pointer}
+.av.cl-photo{background:var(--panel2)}

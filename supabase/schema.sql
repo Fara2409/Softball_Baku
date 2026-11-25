@@ -539,6 +539,34 @@ do $$ begin
   alter table public.profiles add constraint profiles_name_len check (char_length(display_name) <= 60);
 exception when duplicate_object then null; end $$;
 
+-- ---------- 6l. Фото профиля для гостей (25.11.2026) ----------
+-- Гость (без привязки к игроку) может загрузить своё фото. Сайт сам уменьшает его до 256×256 JPEG.
+-- Файлы лежат в публичном хранилище avatars в папке с id пользователя: менять/удалять можно только свою папку.
+-- В профиль можно записать только ссылку на это хранилище (чужие ссылки не принимаются).
+alter table public.profiles add column if not exists avatar_url text;
+do $$ begin
+  alter table public.profiles add constraint profiles_avatar_url check (
+    avatar_url is null or avatar_url ~ '^https://walqgchpwehlaqgizwxj\.supabase\.co/storage/v1/object/public/avatars/[0-9a-f-]{36}/[A-Za-z0-9._-]+$');
+exception when duplicate_object then null; end $$;
+
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('avatars', 'avatars', true, 524288, array['image/jpeg','image/png','image/webp'])
+on conflict (id) do update set public = true, file_size_limit = 524288, allowed_mime_types = array['image/jpeg','image/png','image/webp'];
+
+drop policy if exists "avatars: загрузить своё" on storage.objects;
+create policy "avatars: загрузить своё" on storage.objects for insert to authenticated
+  with check (bucket_id = 'avatars' and (storage.foldername(name))[1] = auth.uid()::text);
+drop policy if exists "avatars: заменить своё" on storage.objects;
+create policy "avatars: заменить своё" on storage.objects for update to authenticated
+  using (bucket_id = 'avatars' and (storage.foldername(name))[1] = auth.uid()::text)
+  with check (bucket_id = 'avatars' and (storage.foldername(name))[1] = auth.uid()::text);
+drop policy if exists "avatars: удалить своё или админ" on storage.objects;
+create policy "avatars: удалить своё или админ" on storage.objects for delete to authenticated
+  using (bucket_id = 'avatars' and ((storage.foldername(name))[1] = auth.uid()::text or public.is_admin()));
+drop policy if exists "avatars: видеть свои файлы" on storage.objects;
+create policy "avatars: видеть свои файлы" on storage.objects for select to authenticated
+  using (bucket_id = 'avatars' and ((storage.foldername(name))[1] = auth.uid()::text or public.is_admin()));
+
 -- ---------- 7. Доступ сайта к таблицам ----------
 -- С 30.05.2026 Supabase в новых проектах не открывает таблицы автоматически —
 -- выдаём права явно. Что именно разрешено каждому — решают политики RLS выше.

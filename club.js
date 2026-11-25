@@ -25,7 +25,7 @@ Object.assign(I18N.ru,{
   cErrTaken:'Этот игрок уже привязан к другому аккаунту',cErrPerm:'Нет прав на это действие',cErrGeneric:'Ошибка',
   cConfirmNeeded:'Аккаунт создан, но сайт требует подтверждение почты. Напишите админу.',cHello:n=>`Здравствуйте, ${n}!`,cReqSent:'Заявка игрока отправлена админу',
   cRole_guest:'Гость',cRole_player:'Игрок',cRole_admin:'Админ',cProfile:'Профиль',cLogout:'Выйти',cAdmin:'Админка',
-  cSave:'Сохранить',cSaved:'Сохранено',cBday:'Дата рождения',cBdayHint:'День и месяц, год не нужен. В этот день на сайте появится поздравление.',cBdayAsk:'Когда у вас день рождения?',cBdayAskTxt:'Укажите день и месяц — в этот день команда поздравит вас на сайте 🎉',cLater:'Позже',cErrBday:'Укажите день и месяц рождения',cDay:'День',cMonth:'Месяц',cMonths:['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'],cLinked:'Вы подтверждены как игрок',cPending:p=>`Заявка отправлена: ${p}. Ждёт подтверждения админа.`,
+  cPhoto:'Фото профиля',cPhotoPick:'Загрузить фото',cPhotoChange:'Сменить фото',cPhotoDel:'Удалить фото',cPhotoHint:'JPG или PNG с телефона или компьютера. Сайт сам обрежет его по кругу и уменьшит.',cPhotoBusy:'Загружаю…',cPhotoErr:'Не удалось загрузить фото. Попробуйте другое (JPG или PNG).',cPhotoOff:'Загрузка фото пока не включена — напишите админу.',cPhotoDelQ:'Удалить фото профиля?',cSave:'Сохранить',cSaved:'Сохранено',cBday:'Дата рождения',cBdayHint:'День и месяц, год не нужен. В этот день на сайте появится поздравление.',cBdayAsk:'Когда у вас день рождения?',cBdayAskTxt:'Укажите день и месяц — в этот день команда поздравит вас на сайте 🎉',cLater:'Позже',cErrBday:'Укажите день и месяц рождения',cDay:'День',cMonth:'Месяц',cMonths:['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'],cLinked:'Вы подтверждены как игрок',cPending:p=>`Заявка отправлена: ${p}. Ждёт подтверждения админа.`,
   cRequest:'Я игрок команды',cSendReq:'Отправить заявку',cCancelReq:'Отменить заявку',cChangePass:'Сменить пароль',cNewPass:'Новый пароль',cPassChanged:'Пароль изменён',
   cNotLogged:'Вы не вошли',cNotLoggedTxt:'Войдите или зарегистрируйтесь, чтобы писать комментарии и отмечаться на игры.',
   cNext:'Ближайшие игры',cNextOne:'Следующая игра',cYes:'Буду',cNo:'Не буду',cMaybe:'Может быть',cComing:'будут',
@@ -59,7 +59,7 @@ Object.assign(I18N.az,{
   cErrTaken:'Bu oyunçu artıq başqa hesaba bağlıdır',cErrPerm:'Bunun üçün icazəniz yoxdur',cErrGeneric:'Xəta',
   cConfirmNeeded:'Hesab yaradıldı, amma sayt e-poçt təsdiqi tələb edir. Adminə yazın.',cHello:n=>`Salam, ${n}!`,cReqSent:'Oyunçu sorğusu adminə göndərildi',
   cRole_guest:'Qonaq',cRole_player:'Oyunçu',cRole_admin:'Admin',cProfile:'Profil',cLogout:'Çıxış',cAdmin:'Admin paneli',
-  cSave:'Yadda saxla',cSaved:'Yadda saxlanıldı',cBday:'Doğum tarixi',cBdayHint:'Gün və ay, il lazım deyil. Həmin gün saytda təbrik görünəcək.',cBdayAsk:'Ad gününüz nə vaxtdır?',cBdayAskTxt:'Gün və ayı qeyd edin — həmin gün komanda sizi saytda təbrik edəcək 🎉',cLater:'Sonra',cErrBday:'Doğum günü və ayını qeyd edin',cDay:'Gün',cMonth:'Ay',cMonths:['yanvar','fevral','mart','aprel','may','iyun','iyul','avqust','sentyabr','oktyabr','noyabr','dekabr'],cLinked:'Siz oyunçu kimi təsdiqlənmisiniz',cPending:p=>`Sorğu göndərilib: ${p}. Admin təsdiqini gözləyir.`,
+  cPhoto:'Profil şəkli',cPhotoPick:'Şəkil yüklə',cPhotoChange:'Şəkli dəyiş',cPhotoDel:'Şəkli sil',cPhotoHint:'Telefondan və ya kompüterdən JPG və ya PNG. Sayt onu dairəvi kəsib kiçildəcək.',cPhotoBusy:'Yüklənir…',cPhotoErr:'Şəkli yükləmək alınmadı. Başqasını yoxlayın (JPG və ya PNG).',cPhotoOff:'Şəkil yükləmə hələ aktiv deyil — adminə yazın.',cPhotoDelQ:'Profil şəkli silinsin?',cSave:'Yadda saxla',cSaved:'Yadda saxlanıldı',cBday:'Doğum tarixi',cBdayHint:'Gün və ay, il lazım deyil. Həmin gün saytda təbrik görünəcək.',cBdayAsk:'Ad gününüz nə vaxtdır?',cBdayAskTxt:'Gün və ayı qeyd edin — həmin gün komanda sizi saytda təbrik edəcək 🎉',cLater:'Sonra',cErrBday:'Doğum günü və ayını qeyd edin',cDay:'Gün',cMonth:'Ay',cMonths:['yanvar','fevral','mart','aprel','may','iyun','iyul','avqust','sentyabr','oktyabr','noyabr','dekabr'],cLinked:'Siz oyunçu kimi təsdiqlənmisiniz',cPending:p=>`Sorğu göndərilib: ${p}. Admin təsdiqini gözləyir.`,
   cRequest:'Mən komandanın oyunçusuyam',cSendReq:'Sorğu göndər',cCancelReq:'Sorğunu ləğv et',cChangePass:'Şifrəni dəyiş',cNewPass:'Yeni şifrə',cPassChanged:'Şifrə dəyişdirildi',
   cNotLogged:'Daxil olmamısınız',cNotLoggedTxt:'Şərh yazmaq və oyunlara qeyd olunmaq üçün daxil olun və ya qeydiyyatdan keçin.',
   cNext:'Növbəti oyunlar',cNextOne:'Növbəti oyun',cYes:'Gələcəyəm',cNo:'Gəlməyəcəyəm',cMaybe:'Bəlkə',cComing:'gəlir',
@@ -93,7 +93,7 @@ Object.assign(I18N.en,{
   cErrTaken:'This player is already linked to another account',cErrPerm:"You don't have permission for this",cErrGeneric:'Error',
   cConfirmNeeded:'Account created, but the site requires email confirmation. Message the admin.',cHello:n=>`Hi, ${n}!`,cReqSent:'Player request sent to the admin',
   cRole_guest:'Guest',cRole_player:'Player',cRole_admin:'Admin',cProfile:'Profile',cLogout:'Log out',cAdmin:'Admin',
-  cSave:'Save',cSaved:'Saved',cBday:'Birthday',cBdayHint:'Day and month, no year needed. On that day the site will congratulate you.',cBdayAsk:'When is your birthday?',cBdayAskTxt:'Add the day and month — the team will congratulate you on the site 🎉',cLater:'Later',cErrBday:'Choose the day and month of your birthday',cDay:'Day',cMonth:'Month',cMonths:['January','February','March','April','May','June','July','August','September','October','November','December'],cLinked:'You are confirmed as a player',cPending:p=>`Request sent: ${p}. Waiting for admin approval.`,
+  cPhoto:'Profile photo',cPhotoPick:'Upload photo',cPhotoChange:'Change photo',cPhotoDel:'Remove photo',cPhotoHint:'JPG or PNG from your phone or computer. The site crops it to a circle and resizes it.',cPhotoBusy:'Uploading…',cPhotoErr:'Could not upload the photo. Try another one (JPG or PNG).',cPhotoOff:'Photo upload is not enabled yet — please message the admin.',cPhotoDelQ:'Remove your profile photo?',cSave:'Save',cSaved:'Saved',cBday:'Birthday',cBdayHint:'Day and month, no year needed. On that day the site will congratulate you.',cBdayAsk:'When is your birthday?',cBdayAskTxt:'Add the day and month — the team will congratulate you on the site 🎉',cLater:'Later',cErrBday:'Choose the day and month of your birthday',cDay:'Day',cMonth:'Month',cMonths:['January','February','March','April','May','June','July','August','September','October','November','December'],cLinked:'You are confirmed as a player',cPending:p=>`Request sent: ${p}. Waiting for admin approval.`,
   cRequest:"I'm on the team",cSendReq:'Send request',cCancelReq:'Cancel request',cChangePass:'Change password',cNewPass:'New password',cPassChanged:'Password changed',
   cNotLogged:'You are not logged in',cNotLoggedTxt:'Log in or sign up to comment and respond to games.',
   cNext:'Upcoming games',cNextOne:'Next game',cYes:"I'm in",cNo:"Can't make it",cMaybe:'Maybe',cComing:'coming',
@@ -142,6 +142,7 @@ function whenShort(iso){
 const plOf=pr=>pr&&pr.player_id&&S.players?S.players[pr.player_id]:null;
 function personAv(pr,size){
   const p=plOf(pr); if(p) return av(p,size||'s');
+  if(pr&&pr.avatar_url) return `<span class="av ${size||'s'} cl-photo"><img src="${esc(pr.avatar_url)}" alt="" loading="lazy" decoding="async"></span>`;
   const n=((pr&&pr.display_name)||'?').trim(), ini=n.split(/\s+/).map(x=>x[0]||'').join('').slice(0,2).toUpperCase()||'?';
   return `<span class="av ${size||'s'} nophoto cl-ini">${esc(ini)}</span>`;
 }
@@ -187,7 +188,8 @@ async function loadProfile(){
 }
 async function loadProfiles(force){
   if(!force&&Date.now()-C.profAt<60e3) return;
-  const {data,error}=await C.sb.from('profiles').select('id,display_name,role,player_id,requested_player_id');
+  let {data,error}=await C.sb.from('profiles').select('id,display_name,role,player_id,requested_player_id,avatar_url');
+  if(error){ C.noAvatar=true; ({data,error}=await C.sb.from('profiles').select('id,display_name,role,player_id,requested_player_id')); }
   if(error){ console.warn('[club] profiles',error); return; }
   C.profiles={}; (data||[]).forEach(p=>C.profiles[p.id]=p); C.profAt=Date.now();
   if(C.user&&C.profiles[C.user.id]) C.profile={...C.profile,...C.profiles[C.user.id]};
@@ -692,6 +694,7 @@ function mePage(){
     <div class="me-grid">
     <div class="card me-card"><h3>${T('cName')}</h3><form class="cl-row" onsubmit="return CL.saveName(event)"><input name="name" maxlength="40" value="${esc(pr.display_name||'')}" required><button class="btn sm" type="submit">${T('cSave')}</button></form></div>
     ${C.bday!=='?'?`<div class="card me-card"><h3>${T('cBday')}</h3><form class="cl-row" onsubmit="return CL.saveBday(event)">${bdaySel(C.bday||'')}<button class="btn sm" type="submit">${T('cSave')}</button></form><span class="cl-hint">${T('cBdayHint')}</span></div>`:''}
+    ${!p?`<div class="card me-card me-photo"><h3>${T('cPhoto')}</h3><div class="me-ph-row">${personAv(pr,'xl')}<div class="me-ph-btns"><label class="btn sm pri me-ph-up"><input type="file" accept="image/*" hidden onchange="CL.photo(this)"><span>${T(pr.avatar_url?'cPhotoChange':'cPhotoPick')}</span></label>${pr.avatar_url?`<button type="button" class="btn sm" onclick="CL.photoDel()">${T('cPhotoDel')}</button>`:''}</div></div><span class="cl-hint">${T('cPhotoHint')}</span></div>`:''}
     <div class="card me-card"><h3>${T('cPlayerL')}</h3>`;
   if(p) h+=`<a class="me-pl" href="#player-${esc(p.id)}">${av(p,'m')}<div><b>${esc(pname(p))}</b><span>#${p.number} · ${T('cLinked')}</span></div></a>`;
   else if(req) h+=`<p class="cl-p">${T('cPending')(`#${req.number} ${esc(pname(req))}`)}</p><button class="btn sm" onclick="CL.request(null)">${T('cCancelReq')}</button>`;
@@ -700,6 +703,48 @@ function mePage(){
     </div><button class="btn me-out" onclick="CL.logout()">${T('cLogout')}</button>`;
   app().innerHTML=h;
   if(!C.profAt) loadProfiles().then(()=>{ if(C.page==='me'&&!p&&!req) { const s=app().querySelector('select[name=player]'); if(s) s.innerHTML=playerOptions(''); } });
+}
+// фото профиля гостя: квадрат 256×256 JPEG по центру, в хранилище avatars/<uid>/<время>.jpg (25.11.2026)
+const AV_BUCKET='avatars';
+function avPath(url){ const m=/\/object\/public\/avatars\/(.+)$/.exec(url||''); return m?decodeURIComponent(m[1]):null; }
+async function shrink(file){
+  let img; try{ img=await createImageBitmap(file,{imageOrientation:'from-image'}); }
+  catch(e){ img=await new Promise((ok,no)=>{ const i=new Image(); i.onload=()=>ok(i); i.onerror=no; i.src=URL.createObjectURL(file); }); }
+  const w=img.width||img.naturalWidth, h=img.height||img.naturalHeight, m=Math.min(w,h), S=256;
+  const c=document.createElement('canvas'); c.width=c.height=S; const x=c.getContext('2d');
+  x.imageSmoothingQuality='high'; x.drawImage(img,(w-m)/2,(h-m)/2,m,m,0,0,S,S);
+  return await new Promise(ok=>c.toBlob(ok,'image/jpeg',.86));
+}
+async function photo(inp){
+  const f=inp.files&&inp.files[0]; inp.value=''; if(!f||!C.user) return;
+  const lbl=document.querySelector('.me-ph-up span'), old=lbl&&lbl.textContent; if(lbl) lbl.textContent=T('cPhotoBusy');
+  try{
+    const blob=await shrink(f); if(!blob) throw new Error('canvas');
+    const path=`${C.user.id}/${Date.now()}.jpg`;
+    const up=await C.sb.storage.from(AV_BUCKET).upload(path,blob,{contentType:'image/jpeg',cacheControl:'31536000',upsert:false});
+    if(up.error){ console.warn('[club] avatar',up.error); toast(/bucket|not found/i.test(up.error.message||'')?T('cPhotoOff'):T('cPhotoErr')); if(lbl) lbl.textContent=old; return; }
+    const url=C.sb.storage.from(AV_BUCKET).getPublicUrl(path).data.publicUrl, prev=avPath(C.profile.avatar_url);
+    const {error}=await C.sb.from('profiles').update({avatar_url:url}).eq('id',C.user.id);
+    if(error){ await C.sb.storage.from(AV_BUCKET).remove([path]); console.warn('[club] avatar_url',error); toast(/avatar_url|column/i.test(error.message||'')?T('cPhotoOff'):T('cPhotoErr')); if(lbl) lbl.textContent=old; return; }
+    if(prev) C.sb.storage.from(AV_BUCKET).remove([prev]).catch(()=>{});
+    C.profile.avatar_url=url; C.profiles[C.user.id]=C.profile; renderAcct(); mePage(); toast(T('cSaved'));
+  }catch(e){ console.warn('[club] avatar',e); toast(T('cPhotoErr')); if(lbl) lbl.textContent=old; }
+}
+async function admPhotoDel(uid){
+  const pr=C.profiles[uid]; if(!isAdmin()||!pr||!pr.avatar_url||!confirm(T('cPhotoDelQ'))) return;
+  const prev=avPath(pr.avatar_url);
+  const {error}=await C.sb.from('profiles').update({avatar_url:null}).eq('id',uid);
+  if(error){ fail(error); return; }
+  if(prev) C.sb.storage.from(AV_BUCKET).remove([prev]).catch(()=>{});
+  pr.avatar_url=null; drawAdminUsers(); toast(T('cSaved'));
+}
+async function photoDel(){
+  if(!C.user||!C.profile.avatar_url||!confirm(T('cPhotoDelQ'))) return;
+  const prev=avPath(C.profile.avatar_url);
+  const {error}=await C.sb.from('profiles').update({avatar_url:null}).eq('id',C.user.id);
+  if(error){ fail(error); return; }
+  if(prev) C.sb.storage.from(AV_BUCKET).remove([prev]).catch(()=>{});
+  C.profile.avatar_url=null; C.profiles[C.user.id]=C.profile; renderAcct(); mePage(); toast(T('cSaved'));
 }
 async function saveName(ev){
   ev.preventDefault(); const v=ev.target.name.value.trim(); if(!v) return false;
@@ -796,7 +841,7 @@ function drawAdminUsers(){
     return `<div class="adm-user">${personAv(pr,'s')}<div class="adm-u-t"><b>${esc(u.display_name||'—')}${self?` <span class="muted">(${T('cYou')})</span>`:''}</b><span class="muted">${esc(u.email||'')} · ${T('cLastSeen')}: ${u.last_sign_in_at?whenShort(u.last_sign_in_at):T('cNever')}${u.last_seen_at?` · <b class="adm-seen ${now-seenT(u)<864e5?'fresh':''}">${T('cSeen')}: ${whenShort(u.last_seen_at)}</b>${u.visits?` · ${T('cVisits')(u.visits)}`:''}`:''}</span></div>
       <div class="adm-u-c"><select onchange="CL.setRole('${esc(u.id)}',this.value)" ${self?'disabled':''}>${['guest','player','admin'].map(r=>`<option value="${r}" ${u.role===r?'selected':''}>${T('cRole_'+r)}</option>`).join('')}</select>
         <select onchange="CL.setPlayer('${esc(u.id)}',this.value)"><option value="">${T('cPlayerL')}: —</option>${sortedPlayers().map(p=>`<option value="${esc(p.id)}" ${u.player_id===p.id?'selected':''}>#${p.number} ${esc(pname(p))}</option>`).join('')}</select>
-        <button class="btn sm" onclick="CL.resetPass('${esc(u.id)}')">🔑 ${T('cReset')}</button><button class="btn sm" onclick="CL.setEmail('${esc(u.id)}')">✉️ ${T('cMailBtn')}</button>${self||u.role==='admin'?'':`<button class="btn sm danger" onclick="CL.delUser('${esc(u.id)}')">🗑 ${T('cDel')}</button>`}</div></div>`; }).join('')+'</div>';
+        <button class="btn sm" onclick="CL.resetPass('${esc(u.id)}')">🔑 ${T('cReset')}</button><button class="btn sm" onclick="CL.setEmail('${esc(u.id)}')">✉️ ${T('cMailBtn')}</button>${pr&&pr.avatar_url?`<button class="btn sm" onclick="CL.admPhotoDel('${esc(u.id)}')">🖼 ${T('cPhotoDel')}</button>`:''}${self||u.role==='admin'?'':`<button class="btn sm danger" onclick="CL.delUser('${esc(u.id)}')">🗑 ${T('cDel')}</button>`}</div></div>`; }).join('')+'</div>';
 }
 async function admUpdate(uid,patch){
   const {error}=await C.sb.from('profiles').update(patch).eq('id',uid);
@@ -874,7 +919,7 @@ async function delLive(){
 const NAV={n:-1}; window.addEventListener('hashchange',()=>{ NAV.n++; }); NAV.n=0;
 
 /* ---------- Подключение к сайту ---------- */
-window.CL={back:fb=>{ if(NAV.n>0) history.back(); else location.hash=fb; },oldBrowser:()=>openModal(sheetHead(T('cLogin'))+`<p class="cl-p">${T('cOldBrowser')}</p>`),redraw:()=>drawWidgets(),events:()=>C.events||[],isAdmin,canDecide:()=>C.ready&&canRsvp(),auth,google,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,rsvp,toTeams,sendComment,delComment,saveName,request,changePass,
+window.CL={back:fb=>{ if(NAV.n>0) history.back(); else location.hash=fb; },oldBrowser:()=>openModal(sheetHead(T('cLogin'))+`<p class="cl-p">${T('cOldBrowser')}</p>`),redraw:()=>drawWidgets(),events:()=>C.events||[],isAdmin,canDecide:()=>C.ready&&canRsvp(),auth,google,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,rsvp,toTeams,sendComment,delComment,saveName,photo,photoDel,admPhotoDel,request,changePass,
   saveBday,approve,reject,setRole,setPlayer,resetPass,setEmail,delUser,copy,addEvent,evStatus,delEvent,endLive,delLive,
   ctx:()=>({C,role,isAdmin,canRsvp,fail,openModal,closeModal,sheetHead})};  // для mvpvote.js и rbreak.js (16.11.2026)
 const TEAMS_PAGE=(window.FEATURE_ROUTES||{}).teams||(()=>home());
