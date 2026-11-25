@@ -64,8 +64,76 @@ function fieldSVG(){
     <path d="M50 92 L24 66 L50 40 L76 66 Z" fill="#E6D3BC"/><path d="M50 86 L30 66 L50 46 L70 66 Z" fill="#DCEFE2"/>`;
   for(const [x,y] of [[76,66],[50,40],[24,66]]) s+=`<rect x="${x-1.6}" y="${y-1.6}" width="3.2" height="3.2" transform="rotate(45 ${x} ${y})" fill="#FFFFFF" stroke="#8A99B0" stroke-width=".3"/>`;
   s+=`<path d="M48.2 91 h3.6 v1.6 l-1.8 1.6 l-1.8 -1.6 z" fill="#1F5FBF"/>`;
+  // дорожка бега (рисуется во время анимации) — дом → 1B → 2B → 3B → дом
+  s+=`<path class="fa-trail" d="M50 92 L76 66 L50 40 L24 66 Z" fill="none" stroke="#F5A524" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="147.1" stroke-dashoffset="147.1"/>`;
+  s+=`<g class="fa-bases">${[[76,66],[50,40],[24,66]].map(([x,y],i)=>`<rect data-b="${i}" x="${x-1.6}" y="${y-1.6}" width="3.2" height="3.2" transform="rotate(45 ${x} ${y})" fill="#FFFFFF" stroke="#8A99B0" stroke-width=".3"/>`).join('')}</g>`;
   for(const [p,[x,y]] of Object.entries(FXY)) s+=`<g><circle cx="${x}" cy="${y}" r="4.6" fill="#FFFFFF" stroke="#1F5FBF" stroke-width=".7"/><text x="${x}" y="${y+1.3}" font-size="3.6" font-weight="800" fill="#10233F" text-anchor="middle">${p}</text></g>`;
+  // бэттер-бегун, мяч с тенью, вспышка удара, «+1»
+  s+=`<ellipse class="fa-shadow" cx="50" cy="62" rx="1.3" ry=".6" fill="rgba(0,0,0,.25)" opacity="0"/>
+    <g class="fa-hit" opacity="0"><circle cx="50" cy="88" r="4" fill="none" stroke="#F5A524" stroke-width=".8"/></g>
+    <g class="fa-run"><circle r="3.4" fill="#F5A524" stroke="#FFFFFF" stroke-width=".9"/><text y="1.2" font-size="3.2" font-weight="900" fill="#10233F" text-anchor="middle">B</text></g>
+    <circle class="fa-ball" cx="50" cy="62" r="1.3" fill="#FFFFFF" stroke="#C0392B" stroke-width=".35"/>
+    <text class="fa-plus" x="50" y="84" font-size="7" font-weight="900" fill="#1E9E5A" text-anchor="middle" opacity="0">+1</text>`;
   return s+'</svg>';
+}
+// анимация розыгрыша для новичков: подача → удар → бег по базам → ран (25.11.2026)
+const FA_TXT={
+  ru:{s:['Подача','Удар','Бег','Ран'],c:['Питчер подаёт мяч бэттеру','Удар! Мяч летит далеко, бэттер бросает биту и бежит','Бег по базам против часовой стрелки','Ран! Бегун коснулся дома — команде +1 очко'],b:['1-я база','2-я база','3-я база','Дом'],r:'Бегун (B) должен коснуться каждой базы по порядку'},
+  az:{s:['Atış','Vuruş','Qaçış','Ran'],c:['Pitçer topu vuruşçuya atır','Vuruş! Top uzağa uçur, vuruşçu bitanı atıb qaçır','Bazalar üzrə saat əqrəbinin əksinə qaçış','Ran! Qaçışçı evə toxundu — komandaya +1 xal'],b:['1-ci baza','2-ci baza','3-cü baza','Ev'],r:'Qaçışçı (B) hər bazaya ardıcıllıqla toxunmalıdır'},
+  en:{s:['Pitch','Hit','Run','Score'],c:['The pitcher throws the ball to the batter','Hit! The ball flies far, the batter drops the bat and runs','Running the bases counter-clockwise','Run scored! The runner touched home — +1 for the team'],b:['1st base','2nd base','3rd base','Home'],r:'The runner (B) must touch every base in order'}
+};
+function faBlock(){
+  const L=FA_TXT[LANG]||FA_TXT.en;
+  return `<div class="fa-box"><div class="fa-steps">${L.s.map((x,i)=>`<span data-s="${i}"><i>${i+1}</i>${x}</span>`).join('')}</div><div class="fa-cap">${L.c[0]}</div><div class="fa-note">${L.r}</div></div>`;
+}
+function fieldAnim(){
+  const svg=document.querySelector('.field-card svg.field'), box=document.querySelector('.field-card .fa-box'); if(!svg||!box) return;
+  if(window._faRaf) cancelAnimationFrame(window._faRaf);
+  const L=FA_TXT[LANG]||FA_TXT.en, q=c=>svg.querySelector(c);
+  const ball=q('.fa-ball'), sh=q('.fa-shadow'), run=q('.fa-run'), trail=q('.fa-trail'), hit=q('.fa-hit'), plus=q('.fa-plus'), bases=[...svg.querySelectorAll('.fa-bases rect')];
+  const cap=box.querySelector('.fa-cap'), steps=[...box.querySelectorAll('.fa-steps span')];
+  const P=[54.5,60.5], H=[50,92], BOX=[43.5,93], B=[[76,66],[50,40],[24,66],[50,92]], FAR=[31,0];
+  const lerp=(a,b,k)=>[a[0]+(b[0]-a[0])*k,a[1]+(b[1]-a[1])*k], cl=k=>Math.max(0,Math.min(1,k)), ez=k=>k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+  const D=11.5, LEG=1.5, RUN0=2.0, LEN=147.1;
+  let lastCap=-1, lastTxt='';
+  const at=(el,[x,y])=>el.setAttribute('transform',`translate(${x} ${y})`);
+  function frame(t){
+    // мяч: пауза у питчера → подача → удар и полёт за поле
+    let bp=P, br=1.3, bo=1, shp=null;
+    if(t<0.7){ bp=P; }
+    else if(t<1.5){ bp=lerp(P,[50,88],ez(cl((t-0.7)/0.8))); }
+    else if(t<3.2){ const k=cl((t-1.5)/1.7); shp=lerp([50,88],FAR,k); bp=[shp[0],shp[1]-Math.sin(Math.PI*k)*9]; br=1.3+Math.sin(Math.PI*k)*1.4; bo=k>.85?(1-k)/.15:1; }
+    else bo=0;
+    ball.setAttribute('cx',bp[0]); ball.setAttribute('cy',bp[1]); ball.setAttribute('r',br); ball.setAttribute('opacity',bo);
+    sh.setAttribute('opacity',shp?0.8*bo:0); if(shp){ sh.setAttribute('cx',shp[0]); sh.setAttribute('cy',shp[1]); }
+    // вспышка удара
+    const hk=cl((t-1.5)/0.5); hit.setAttribute('opacity',t>=1.5&&t<2?1-hk:0); hit.firstElementChild.setAttribute('r',3+hk*6);
+    // бегун по квадрату
+    let rp=BOX, dist=0, reached=-1;
+    if(t>=RUN0){
+      const u=(t-RUN0)/LEG, leg=Math.min(3,Math.floor(u)), k=u>=4?1:ez(u-leg), from=leg===0?BOX:B[leg-1];
+      if(u>=4){ rp=H; dist=LEN; reached=3; } else { rp=lerp(from,B[leg],k); dist=36.77*(leg+k); reached=leg-1; }
+    }
+    at(run,rp); trail.setAttribute('stroke-dashoffset',LEN-dist);
+    bases.forEach((r,i)=>{ const on=reached>=i; r.setAttribute('fill',on?'#F5A524':'#FFFFFF'); r.setAttribute('stroke',on?'#C77F0A':'#8A99B0'); });
+    // «+1» над домом
+    const pk=cl((t-(RUN0+4*LEG))/1.6); plus.setAttribute('opacity',t>=RUN0+4*LEG?(pk<.75?1:(1-pk)/.25):0); plus.setAttribute('y',84-pk*8);
+    // подписи
+    const sIdx=t<1.5?0:t<RUN0+0.6?1:t<RUN0+4*LEG?2:3;
+    let txt=L.c[sIdx]; if(sIdx===2){ const leg=Math.min(3,Math.floor((t-RUN0)/LEG)); txt+=`: <b>${L.b.map((x,i)=>i===leg?`<u>${x}</u>`:x).join(' → ')}</b>`; }
+    if(sIdx!==lastCap){ steps.forEach((e,i)=>e.classList.toggle('on',i===sIdx)); steps.forEach((e,i)=>e.classList.toggle('done',i<sIdx)); lastCap=sIdx; }
+    if(txt!==lastTxt){ cap.innerHTML=txt; lastTxt=txt; }
+  }
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){ frame(RUN0+4*LEG+0.3); return; }
+  let t0=null, vis=true;
+  if('IntersectionObserver' in window){ const io=new IntersectionObserver(es=>{ vis=es[0].isIntersecting; }); io.observe(svg); }
+  const tick=now=>{
+    if(!svg.isConnected){ window._faRaf=null; return; }
+    if(t0===null) t0=now;
+    if(vis) frame(((now-t0)/1000)%D);
+    window._faRaf=requestAnimationFrame(tick);
+  };
+  window._faRaf=requestAnimationFrame(tick);
 }
 // пример (без имени и фото): цифры лучшего игрока периода — общий рейтинг и разбивка «нападение / защита»
 function rateExample(){
@@ -85,7 +153,7 @@ window.rulesPage=function(){
   const NUM={P:1,C:2,'1B':3,'2B':4,'3B':5,SS:6,LF:7,LCF:8,RCF:9,RF:10};
   let h=`<div class="pagehead"><span class="eyebrow">${S.league}</span><h1>${R.title}</h1><p class="muted">${R.sub}</p></div>`;
   h+=`<div class="rules-top"><div class="card rule">${'<h3>'+R.sec[0][0]+'</h3>'+R.sec[0][1]}</div>
-     <div class="card rule field-card">${fieldSVG()}<div class="poslist">${Object.entries(NUM).map(([p,n])=>`<div><b>${p}</b><span>${POS_NAMES[LANG][p]}</span><i>${n}</i></div>`).join('')}</div></div></div>`;
+     <div class="card rule field-card"><div class="fa-wrap">${fieldSVG()}${faBlock()}</div><div class="poslist">${Object.entries(NUM).map(([p,n])=>`<div><b>${p}</b><span>${POS_NAMES[LANG][p]}</span><i>${n}</i></div>`).join('')}</div></div></div>`;
   h+=`<div class="rules-grid">${R.sec.slice(1,3).map(([t,b])=>`<div class="card rule"><h3>${t}</h3>${b}</div>`).join('')}</div>`;
   // рейтинг — веса берутся прямо из формулы в app.js
   const fmt=v=>(v>0?'+':v<0?'−':'±')+Math.abs(v).toFixed(2).replace(/0$/,'');
@@ -97,4 +165,5 @@ window.rulesPage=function(){
   h+=`<div class="section-title"><h2 data-ic="book">${G.t}</h2></div><div class="card gloss">${G.items.map(([k,v])=>`<div><b>${k}</b><span>${v}</span></div>`).join('')}</div>`;
   h+=`<div class="section-title"><h2 data-ic="shield">${R.sec[3][0]}</h2></div><div class="card rule">${R.sec[3][1]}</div>`;
   app().innerHTML=h;
+  fieldAnim();
 };

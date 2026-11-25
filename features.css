@@ -241,3 +241,23 @@ html.hlp-open{overflow:hidden}
   .hlp.full .hlp-nav{padding:6px 12px;flex-wrap:nowrap}.hlp.full .hlp-nav .btn{padding:7px 10px;font-size:13px;flex:0 1 auto}
   .hlp.full .hlp-nav a.btn:not(.pri){display:none}
 }
+/* анимация розыгрыша на странице правил (25.11.2026) */
+.fa-wrap{display:flex;flex-direction:column;gap:10px;min-width:0}
+.fa-box{display:flex;flex-direction:column;gap:8px}
+.fa-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.fa-steps span{display:flex;align-items:center;justify-content:center;gap:5px;padding:6px 4px;border-radius:999px;border:1px solid var(--line);font-size:12.5px;font-weight:700;color:var(--muted);transition:background .25s,color .25s,border-color .25s;white-space:nowrap}
+.fa-steps i{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;background:var(--panel2);font-size:10.5px;font-weight:800;color:var(--muted);font-style:normal}
+.fa-steps span.done{color:var(--text)}
+.fa-steps span.on{border-color:#F5A524;background:rgba(245,165,36,.14);color:var(--text)}
+.fa-steps span.on i,.fa-steps span.done i{background:#F5A524;color:#10233F}
+.fa-cap{min-height:42px;font-size:14px;line-height:1.45;font-weight:600;color:var(--text)}
+.fa-cap b{color:#E08E0B}
+.fa-note{font-size:12px;color:var(--dim)}
+@media (max-width:420px){.fa-steps span{font-size:11.5px;gap:3px}.fa-steps i{width:15px;height:15px}}
+.fa-cap b{font-weight:600;color:var(--muted)}.fa-cap u{text-decoration:none;color:#E08E0B;font-weight:800}
+.field-card{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}
+.fa-steps{display:flex;flex-wrap:wrap}.fa-steps span{flex:1 1 auto;padding:6px 10px}
+@media (max-width:900px){.field-card{grid-template-columns:1fr}}
+.fa-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}.fa-steps span{padding:6px 3px;font-size:12px;gap:4px}
+.fa-box{container-type:inline-size}
+@container (max-width:400px){.fa-steps i{display:none}}
