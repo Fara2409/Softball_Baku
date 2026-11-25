@@ -108,8 +108,8 @@ function feedBlock(){
       ${prev?`<div class="np-prev"><span class="np-prev-h">${T('npPrev')}</span>${prev}</div>`:''}</div>`;
   } else { // вырезки из газеты на пробковой доске
     const rot=[-2.2,1.6,-1.2,2.4,-1.8,1.1,-.8], seen=new Set(mvp?[mvp.id]:[]);
-    h=`<div class="np np-c"><a class="np-clip np-clip-lead" href="#game-${g.id}" style="--r:-1deg"><span class="np-tape"></span><div class="np-paper-name">${T('npName')} · ${T('npNo')(cur.no)} · ${date}</div><div class="np-cl-row"><div><h4>${head}</h4><p>${lead}</p></div>${mvp?bigPhoto(mvp,'np-ph'):''}</div></a>
-      ${items.map((e,i)=>{ const p=e.pid&&P(e.pid), ph=p&&!seen.has(p.id); if(p) seen.add(p.id); return `<a class="np-clip" href="${e.href}" style="--r:${rot[i%rot.length]}deg"><span class="np-tape"></span><span class="np-kick">${K[e.ic]||''}</span>${ph?bigPhoto(p,'np-ph'):''}<p>${e.txt}</p></a>`; }).join('')}</div>`;
+    h=`<div class="np np-c"><a class="np-clip np-clip-lead" href="#game-${g.id}" style="--r:-1deg"${mvp?` data-pid="${mvp.id}"`:''}><span class="np-tape"></span><div class="np-paper-name">${T('npName')} · ${T('npNo')(cur.no)} · ${date}</div><div class="np-cl-row"><div><h4>${head}</h4><p>${lead}</p></div>${mvp?bigPhoto(mvp,'np-ph'):''}</div></a>
+      ${items.map((e,i)=>{ const p=e.pid&&P(e.pid), ph=p&&!seen.has(p.id); if(p) seen.add(p.id); return `<a class="np-clip" href="${e.href}" style="--r:${rot[i%rot.length]}deg"${p?` data-pid="${p.id}"`:''}><span class="np-tape"></span><span class="np-kick">${K[e.ic]||''}</span>${ph?bigPhoto(p,'np-ph'):''}<p>${e.txt}</p></a>`; }).join('')}</div>`;
   }
   return `<div class="section-title"><h2>${T('fdTitle')}</h2><span class="hint">${T('fdHint')}</span></div>${h}`;
 }
@@ -209,4 +209,56 @@ const _route=route; route=function(){
   const box=document.createElement('div'); box.className='feed-sec'; box.innerHTML=f;
   if(anchor) anchor.after(box); else app().appendChild(box);
 };
+})();
+
+/* красные стрелки «маркером» от главной новости к заметкам про того же игрока (25.11.2026) */
+(function(){
+  const NS='http://www.w3.org/2000/svg';
+  function draw(box){
+    const lead=box.querySelector('.np-clip-lead[data-pid]'); let svg=box.querySelector(':scope > svg.np-arw');
+    if(svg) svg.remove(); if(!lead) return;
+    const pid=lead.dataset.pid, tg=[...box.querySelectorAll('.np-clip:not(.np-clip-lead)')].filter(e=>e.dataset.pid===pid);
+    if(!tg.length) return;
+    const B=box.getBoundingClientRect(), L=lead.getBoundingClientRect();
+    svg=document.createElementNS(NS,'svg'); svg.setAttribute('class','np-arw'); svg.setAttribute('width',B.width); svg.setAttribute('height',B.height);
+    svg.innerHTML='<defs><marker id="npAh" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1 L8 5 L1 9" fill="none" stroke="#C8231E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>';
+    const lc={x:L.left+L.width/2-B.left,y:L.top+L.height/2-B.top};
+    tg.forEach((t,i)=>{
+      const R=t.getBoundingClientRect(), c={x:R.left+R.width/2-B.left,y:R.top+R.height/2-B.top};
+      // точка выхода — край главной вырезки в сторону цели, точка входа — край цели (чуть внутрь)
+      const edge=(r,from,to,pad)=>{ const dx=to.x-from.x, dy=to.y-from.y, hw=r.width/2+pad, hh=r.height/2+pad, k=Math.min(Math.abs(hw/(dx||1e-6)),Math.abs(hh/(dy||1e-6))); return {x:from.x+dx*k,y:from.y+dy*k}; };
+      let a,b,cx,cy;
+      if(R.top<L.bottom-10&&R.bottom>L.top+10){ // тот же ряд — дугой поверх вырезок, в поле над рядом
+        a={x:L.right-B.left-34,y:L.top-B.top+4}; b={x:R.left-B.left+Math.min(46,R.width*.3),y:R.top-B.top+2};
+        cx=(a.x+b.x)/2; cy=Math.min(a.y,b.y)-Math.min(44,12+Math.abs(b.x-a.x)*.1);
+      } else if(R.top-L.bottom>70){ // далеко (между ними есть другие вырезки) — по краю доски
+        const left=(R.left+R.width/2)<(B.left+B.width/2), sx=left?7:B.width-7, ty=R.top-B.top+Math.min(40,R.height*.35);
+        const ax=left?L.left-B.left+18:L.right-B.left-18, ay=L.bottom-B.top-2, bx=left?R.left-B.left+6:R.right-B.left-6;
+        const p=document.createElementNS(NS,'path');
+        p.setAttribute('d',`M${ax} ${ay} Q${sx} ${ay+4} ${sx} ${ay+30} L${sx} ${ty-18} Q${sx} ${ty} ${bx} ${ty}`);
+        const L2=Math.abs(ty-ay)+Math.abs(ax-sx)+Math.abs(bx-sx)+40, dl=.25+i*.35; p.style.setProperty('--len',Math.ceil(L2)); p.style.animationDelay=dl+'s';
+        if(box._arwDone){ p.style.animation='none'; p.style.strokeDashoffset=0; p.setAttribute('marker-end','url(#npAh)'); } else setTimeout(()=>p.setAttribute('marker-end','url(#npAh)'),(dl+.8)*1000);
+        svg.appendChild(p); return;
+      } else if(R.top>=L.bottom-10){ // ниже — по просвету между рядами
+        b={x:R.left-B.left+Math.min(40,R.width*.25),y:R.top-B.top+2};
+        a={x:Math.max(L.left-B.left+30,Math.min(L.right-B.left-30,b.x)),y:L.bottom-B.top-2};
+        const gy=(L.bottom+R.top)/2-B.top; cx=b.x===a.x?a.x:(a.x+b.x)/2; cy=gy+ (b.x===a.x?0:-4);
+        if(Math.abs(b.x-a.x)>40){ cx=b.x-10; cy=gy; }
+      } else { const e=edge(L,lc,c,4), f2=edge(R,c,lc,-10); a=e; b=f2; const mx=(a.x+b.x)/2,my=(a.y+b.y)/2,dx=b.x-a.x,dy=b.y-a.y,len2=Math.hypot(dx,dy)||1; cx=mx-dy/len2*30; cy=my+dx/len2*30; }
+      const len=Math.hypot(b.x-a.x,b.y-a.y)+40;
+      const p=document.createElementNS(NS,'path');
+      p.setAttribute('d',`M${a.x.toFixed(1)} ${a.y.toFixed(1)} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${b.x.toFixed(1)} ${b.y.toFixed(1)}`);
+      const dl=.25+i*.35; p.style.setProperty('--len',Math.ceil(len*1.3)); p.style.animationDelay=dl+'s'; if(box._arwDone) { p.style.animation='none'; p.style.strokeDashoffset=0; p.setAttribute('marker-end','url(#npAh)'); } else setTimeout(()=>p.setAttribute('marker-end','url(#npAh)'),(dl+.8)*1000);
+      svg.appendChild(p);
+    });
+    box.appendChild(svg); setTimeout(()=>{ box._arwDone=true; },2500);
+  }
+  const seen=new WeakSet();
+  function scan(){ document.querySelectorAll('.np-c').forEach(box=>{ if(seen.has(box)) return; seen.add(box);
+    const go=()=>requestAnimationFrame(()=>draw(box)); go();
+    if('ResizeObserver' in window){ let w=0; new ResizeObserver(es=>{ const nw=Math.round(es[0].contentRect.width); if(nw!==w){ w=nw; go(); } }).observe(box); }
+    box.querySelectorAll('img').forEach(im=>{ if(!im.complete) im.addEventListener('load',go,{once:true}); });
+  }); }
+  new MutationObserver(scan).observe(document.documentElement,{childList:true,subtree:true});
+  if(document.readyState!=='loading') scan(); else document.addEventListener('DOMContentLoaded',scan);
 })();
