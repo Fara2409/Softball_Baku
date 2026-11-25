@@ -1,0 +1,79 @@
+/* dark.css — СОБРАНО АВТОМАТИЧЕСКИ из light.css + theme.css скриптом tools/build_dark.py, руками не править.
+   Тёмная тема меняет только цвета; форма элементов (шрифты, размеры, кнопки) — из light.css, одинаковая в обеих темах. */
+html.theme-dark{--bg:#070D18;--panel:#0E1A2C;--panel2:#15233A;--line:#1B2B45;--text:#EEF2F8;--muted:#93A3BB;--dim:#6F819C;--amber:#F5A524;--tint:#16294A;--text2:#C9D4E5;--r-low:#D1584C;--r-avg:#6F819C;--r-mid:#DF7D18;--r-good:#2AB16A;--r-great:#2C94E1;--r-elite:#967FE9;--r-elite-a:#967FE9;--r-elite-b:#967FE9;color-scheme:dark}
+html.theme-dark .top{background:rgba(10,19,34,.94)}
+html.theme-dark .brand-mark .ball{filter:drop-shadow(0 1px 2px rgba(0,0,0,0.4))}
+html.theme-dark .eq-strip{background:#0A1322;color:#293445}
+html.theme-dark .foot{background:#0E1A2C}
+html.theme-dark .foot-pill{border-color:#24406E}
+html.theme-dark .rt{background:#0E1A2C!important}
+html.theme-dark .av{background:linear-gradient(145deg,#15233A,#142032)}
+html.theme-dark .av.nophoto{background:radial-gradient(circle at 30% 25%,#13213A,#142032 75%)}
+html.theme-dark .pod .place, html.theme-dark .pc-num, html.theme-dark .phead .bignum, html.theme-dark .season-num{color:rgba(238,242,248,0.05)}
+html.theme-dark .gmedia{background:#142032}
+html.theme-dark .pcard:hover{box-shadow:0 12px 30px rgba(0,0,0,0.256)}
+html.theme-dark .card{box-shadow:0 1px 2px rgba(0,0,0,0.064)}
+html.theme-dark .peek{background:#0E1A2C;box-shadow:0 18px 50px rgba(0,0,0,0.352)}
+html.theme-dark .pk-top{background:linear-gradient(135deg,var(--tint) 0%,#142032 100%)}
+html.theme-dark .pk-photo{background:radial-gradient(circle at 30% 25%,#13213A,#142032 75%)}
+html.theme-dark .pk-num{color:rgba(60,125,223,0.16)}
+html.theme-dark .off-chip{background:rgba(60,125,223,0.1)}
+html.theme-dark .tm-p:hover{border-color:#2A3950}
+html.theme-dark .aw-ic{border-color:#24406E}
+html.theme-dark .toast{background:#EEF2F8;box-shadow:0 8px 24px rgba(0,0,0,0.48)}
+html.theme-dark .modal{background:rgba(238,242,248,0.45)}
+html.theme-dark .hlp{background:rgba(238,242,248,0.6)}
+html.theme-dark .sheet, html.theme-dark .acct-menu{box-shadow:0 18px 50px rgba(0,0,0,0.352)}
+html.theme-dark .cl-err{color:#DD3B32}
+html.theme-dark body .stip{background:#EEF2F8}
+html.theme-dark .bs-n span{color:#3A4D6B}
+html.theme-dark .mvp-ph{background:#142032}
+html.theme-dark .medal{border-color:#0E1A2C}
+html.theme-dark .fd-hr{background:#2B1414;color:#FF7A6B}
+html.theme-dark .fd-streak{background:#2B1A0E;color:#FF9A4D}
+html.theme-dark .fd-big{background:#1E1840;color:#B9A6FF}
+html.theme-dark .fd-perfect{background:#0F2A22;color:#5FE0A8}
+html.theme-dark .fd-rec{background:#2A1E08;color:#FFC664}
+html.theme-dark .fd-debut{color:#7FB8FF}
+html.theme-dark .rx-eq .pos, html.theme-dark .pts.pos{color:#5FD08E}
+html.theme-dark .rx-eq .neg, html.theme-dark .pts.neg{color:#FF8A80}
+@media (max-width:820px){
+  html.theme-dark.tab-mode .tabbar{background:rgba(13,24,40,.94);box-shadow:0 10px 30px rgba(0,0,0,.5)}
+}
+html.theme-dark .live-pill, html.theme-dark .lv-tag.on{background:#300404;border-color:#ED7E81;color:#DD3B32}
+html.theme-dark .live-pill b{color:#DD3B32}
+html.theme-dark .ev.ev-special{background:radial-gradient(120% 140% at 100% 50%,rgba(60,125,223,0.12),transparent 55%),var(--panel)}
+html.theme-dark .ev-badge{filter:drop-shadow(0 8px 18px rgba(0,0,0,0.48))}
+html.theme-dark .ev-x{background:#300404;color:#DD3B32}
+html.theme-dark .who-row.y .who-lbl, html.theme-dark .adm-ev-who i.y, html.theme-dark .cl-role.r-player, html.theme-dark .adm-seen.fresh{color:#2AB16A}
+html.theme-dark .who-row.m .who-lbl, html.theme-dark .adm-ev-who i.m{color:#DF7D18}
+html.theme-dark .who-row.n .who-lbl, html.theme-dark .adm-ev-who i.n, html.theme-dark .btn.danger:hover{color:#DD3B32}
+html.theme-dark .lv-mini.on{border-color:#590F0F;background:linear-gradient(90deg,#300404 0%,var(--panel) 55%)}
+html.theme-dark .lv-play.run, html.theme-dark .lv-bx tr.atbat td{background:rgba(60,125,223,0.07)}
+html.theme-dark .cl-role.r-admin{background:rgba(60,125,223,0.1);border-color:rgba(60,125,223,0.35)}
+html.theme-dark .g-btn{border-color:#303640}
+html.theme-dark .wx-card.best{background:linear-gradient(180deg,rgba(60,125,223,0.07),var(--panel) 60%)}
+html.theme-dark .wx-hol{color:#3C7DDF;background:rgba(60,125,223,0.08);border-color:rgba(60,125,223,0.3)}
+html.theme-dark .good .wx-v, html.theme-dark .wx-chip.good{color:#2AB16A}
+html.theme-dark .risk .wx-v, html.theme-dark .wx-chip.risk{color:#DF7D18}
+html.theme-dark .bad .wx-v, html.theme-dark .wx-chip.bad{color:#DD3B32}
+html.theme-dark .wd em.hi{color:#3C7DDF}
+html.theme-dark .wd.today{border-color:#2A3950}
+html.theme-dark .wd.wd-game{border-color:rgba(60,125,223,0.5);background:linear-gradient(180deg,rgba(60,125,223,0.07),var(--panel) 55%)}
+html.theme-dark .wd-game.good{border-color:rgba(42,177,106,0.5);background:linear-gradient(180deg,rgba(42,177,106,0.08),var(--panel) 55%)}
+html.theme-dark .wd-game.risk{border-color:rgba(223,125,24,0.5)}
+html.theme-dark .wd-game.bad{border-color:rgba(221,59,50,0.45);background:linear-gradient(180deg,rgba(221,59,50,0.07),var(--panel) 55%)}
+html.theme-dark .nw-arr{background:rgba(14,26,44,0.96);box-shadow:0 6px 18px rgba(0,0,0,0.288)}
+html.theme-dark .nw-card:hover{border-color:#2A3950}
+html.theme-dark .nw-src{background:#EEF2F8}
+html.theme-dark .nw-ph{color:#293445}
+html.theme-dark .nw-img{background:#142032}
+html.theme-dark .ia-done{background:rgba(42,177,106,0.1);color:#2AB16A}
+html.theme-dark body .ia-btn{border-color:#24406E}
+html.theme-dark body .ia-modal{background:rgba(238,242,248,0.45)}
+html.theme-dark body .ia-banner{background:rgba(14,26,44,0.98);border-color:#24406E;box-shadow:0 10px 30px rgba(0,0,0,0.32)}
+html.theme-dark body .ia-head img{box-shadow:0 6px 18px rgba(0,0,0,0.4)}
+html.theme-dark .eq-strip .o{stroke:#3A5378}
+html.theme-dark .eq-strip .o.w{fill:#0A1322}
+html.theme-dark .eq-strip .r{stroke:#B0453D}
+html.theme-dark .eq-strip .r.f{fill:#B0453D}

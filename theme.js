@@ -206,7 +206,7 @@
   }
   window.sbTheme=function(){
     const d=!isDark(), l=document.getElementById('light-css');
-    document.documentElement.classList.toggle('theme-dark',d); if(l) l.disabled=d;
+    document.documentElement.classList.toggle('theme-dark',d);
     const m=document.querySelector('meta[name=theme-color]'); if(m) m.content=d?'#070D18':'#FFFFFF';
     try{ localStorage.setItem('sb.theme',d?'dark':'light'); }catch(e){}
     drawThm();
