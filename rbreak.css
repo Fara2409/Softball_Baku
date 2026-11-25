@@ -45,3 +45,7 @@ tbody tr:first-child .rt-btn{animation:rtPulse 2s ease-out 3}
 /* 25.11: внутри кнопки рейтинга — один фон, как у страницы (без заливки пилюли и кружка), в обеих темах */
 html .rt-btn,html .rt-btn:hover{background:transparent!important}
 html .rt-btn .rt,html.theme-dark .rt-btn .rt{background:transparent!important;box-shadow:none!important}
+/* столбики графика «Рейтинг по играм» тоже открывают разбор (25.11.2026) */
+.bar-go{cursor:pointer;outline:none}
+.bar-go .bar-r{transition:filter .15s}
+.bar-go:hover .bar-r,.bar-go:focus-visible .bar-r{filter:brightness(1.12) drop-shadow(0 4px 8px rgba(0,0,0,.18))}

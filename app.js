@@ -240,9 +240,9 @@ function chart(p){
   let s=`<svg viewBox="0 0 ${W0} ${H0}" role="img" aria-label="${T('byGame')}"><defs><linearGradient id="rElite" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6B4BE0"/><stop offset="1" stop-color="#6B4BE0"/></linearGradient></defs>`;
   for(const g of [4,6,8,10]) s+=`<line x1="${pad}" x2="${W0-pad}" y1="${y(g)}" y2="${y(g)}" stroke="#D9E1EC"/><text x="${pad-10}" y="${y(g)+4}" fill="#66758C" font-size="12" text-anchor="end">${g}</text>`;
   L.forEach(({game,b},i)=>{const x=pad+step*i+(step-bw)/2;
-    s+=`<a href="#game-${game.id}"><rect x="${x}" y="${y(b.rating)}" width="${bw}" height="${y(3)-y(b.rating)}" rx="6" fill="${RFILL(rclass(b.rating))}"/>
+    s+=`<g class="bar-go" role="button" tabindex="0" onclick="rbOpen('${game.id}','${p.id}')" onkeydown="if(event.key==='Enter')rbOpen('${game.id}','${p.id}')"><title>${T('rbOpen')}</title><rect x="${pad+step*i}" y="0" width="${step}" height="${H0}" fill="transparent"/><rect class="bar-r" x="${x}" y="${y(b.rating)}" width="${bw}" height="${y(3)-y(b.rating)}" rx="6" fill="${RFILL(rclass(b.rating))}"/>
     <text x="${x+bw/2}" y="${y(b.rating)-8}" fill="#10233F" font-size="15" font-weight="800" text-anchor="middle">${b.rating.toFixed(2)}</text>
-    <text x="${x+bw/2}" y="${H0-16}" fill="#55657D" font-size="12" text-anchor="middle">${fmtDate(game.date,{day:'numeric',month:'short'})}</text></a>`;});
+    <text x="${x+bw/2}" y="${H0-16}" fill="#55657D" font-size="12" text-anchor="middle">${fmtDate(game.date,{day:'numeric',month:'short'})}</text></g>`;});
   if(p.t.RAT!=null) s+=`<line x1="${pad}" x2="${W0-pad}" y1="${y(p.t.RAT)}" y2="${y(p.t.RAT)}" stroke="#1F5FBF" stroke-dasharray="6 6" stroke-width="2"/><text x="${W0-pad}" y="${y(p.t.RAT)-6}" fill="#1F5FBF" font-size="12" font-weight="700" text-anchor="end" stroke="var(--panel,#fff)" stroke-width="4" paint-order="stroke">${T('avgLbl')} ${p.t.RAT.toFixed(2)}</text>`;
   return s+'</svg>';
 }
