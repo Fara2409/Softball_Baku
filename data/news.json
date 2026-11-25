@@ -1,6 +1,38 @@
 {
  "items": [
   {
+   "source": "MLB",
+   "title": "Mariners bringing back old friend Carlos Santana on Minor League deal (source)",
+   "link": "https://www.mlb.com/news/carlos-santana-mariners-minor-league-deal",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/v1795577601/mlb/gpfxj6qcrnzwkdummuoc",
+   "date": "2026-11-25T06:32:00Z"
+  },
+  {
+   "source": "MLB",
+   "title": "Small ball is having a moment. Will more teams take note?",
+   "link": "https://www.mlb.com/news/small-ball-moment-brewers-2026-championship",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/lpmq55san8hdrrz8bpxg",
+   "date": "2026-11-25T03:25:06Z"
+  },
+  {
+   "source": "MLB",
+   "title": "Let's build a lineup of MLB's best 25-and-under stars",
+   "link": "https://www.mlb.com/news/best-players-in-mlb-25-and-under-heading-into-2027",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/iwpiaxzm84numxa1fotj",
+   "date": "2026-11-25T03:22:41Z"
+  },
+  {
+   "source": "MLB",
+   "title": "4 questions about free-agent market after flurry of deals",
+   "link": "https://www.mlb.com/news/mlb-free-agency-questions-entering-thanksgiving",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/t94wjdzznryyeav4gl1b",
+   "date": "2026-11-25T02:33:13Z"
+  },
+  {
    "source": "CBS",
    "title": "MLB rumors: Corey Seager willing to waive his NTC for Phillies, plus news on Mets, Nationals, Yankees, more",
    "link": "https://www.cbssports.com/mlb/news/mlb-rumors-mets-cubs-twins-guardians-kris-bubic/",
@@ -49,38 +81,6 @@
    "date": "2026-11-24T23:17:23Z"
   },
   {
-   "source": "MLB",
-   "title": "Newest Mariner already has seal of approval -- and catchy nickname -- from J-Rod",
-   "link": "https://www.mlb.com/news/maikel-garcia-introduced-by-mariners",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/vzezlfdpdkzkd9oqam3k",
-   "date": "2026-11-24T23:13:11Z"
-  },
-  {
-   "source": "MLB",
-   "title": "Here's what to know about Kaima Taira and how the Blue Jays could utilize him",
-   "link": "https://www.mlb.com/news/kaima-taira-profile-blue-jays",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/uhhnrcd8bkwn0axfvef4",
-   "date": "2026-11-24T21:44:05Z"
-  },
-  {
-   "source": "MLB",
-   "title": "Take a trip to Japan (and into the sumo ring!) with Paul Skenes and Livvy Dunne",
-   "link": "https://www.mlb.com/news/paul-skenes-livvy-dunne-visit-japan",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/dg8z8ziu8yo9ws1augkc",
-   "date": "2026-11-24T21:19:53Z"
-  },
-  {
-   "source": "MLB",
-   "title": "The latest MLB rumors and free-agent news",
-   "link": "https://www.mlb.com/news/mlb-rumors-trades-and-signings",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/ohww7kflprhko3e7nxdh",
-   "date": "2026-11-24T20:53:00Z"
-  },
-  {
    "source": "CBS",
    "title": "Freddy Peralta lands with Orioles: After post-trade turnaround, ALCS MVP scores five-year, $125 million deal",
    "link": "https://www.cbssports.com/mlb/news/freddy-peralta-orioles-free-agency-contract/",
@@ -97,5 +97,5 @@
    "date": "2026-11-24T19:29:54Z"
   }
  ],
- "updated": "2026-11-25T02:30:51Z"
+ "updated": "2026-11-25T14:24:40Z"
 }
