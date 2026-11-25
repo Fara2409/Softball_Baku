@@ -91,8 +91,14 @@ html .np-c .np-clip,html:not(.theme-dark) .np-clip{background:none;clip-path:non
 .np-tape{top:-12px;width:86px;height:25px;z-index:2;background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,0) 45%,rgba(0,0,0,.04)),rgba(236,221,164,.78);box-shadow:none;
   clip-path:polygon(0 6%,3% 22%,0 40%,3% 58%,0 76%,3% 92%,1% 100%,99% 100%,97% 86%,100% 68%,97% 50%,100% 32%,97% 14%,100% 0,0 0)}
 .np-clip-lead .np-tape{width:110px}
-/* стрелки */
-.np-arw{position:absolute;left:0;top:0;pointer-events:none;z-index:3;overflow:visible}
-.np-arw path{fill:none;stroke:#C8231E;stroke-width:3;stroke-linecap:round;opacity:.88;stroke-dasharray:var(--len) var(--len);stroke-dashoffset:var(--len);animation:npDraw .9s ease-out forwards}
-@keyframes npDraw{to{stroke-dashoffset:0}}
-@media (prefers-reduced-motion:reduce){.np-arw path{animation:none;stroke-dashoffset:0}}
+/* скотч наклеен «как попало»: разное место, угол и длина; у некоторых — два кусочка по углам (25.11.2026) */
+.np-clip::after{content:none}
+.np-c>.np-clip:nth-child(7n+1) .np-tape{left:50%;transform:translateX(-50%) rotate(-3deg)}
+.np-c>.np-clip:nth-child(7n+2) .np-tape{left:-26px;top:-4px;width:62px;transform:rotate(-38deg)}
+.np-c>.np-clip:nth-child(7n+3) .np-tape{left:62%;width:74px;transform:translateX(-50%) rotate(5deg)}
+.np-c>.np-clip:nth-child(7n+4) .np-tape{left:auto;right:-24px;top:-4px;width:62px;transform:rotate(34deg)}
+.np-c>.np-clip:nth-child(7n+4)::after{content:"";position:absolute;left:-24px;top:-4px;width:62px;height:25px;transform:rotate(-34deg);z-index:2;background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,0) 45%,rgba(0,0,0,.04)),rgba(236,221,164,.78);clip-path:polygon(0 6%,3% 22%,0 40%,3% 58%,0 76%,3% 92%,1% 100%,99% 100%,97% 86%,100% 68%,97% 50%,100% 32%,97% 14%,100% 0,0 0)}
+.np-c>.np-clip:nth-child(7n+5) .np-tape{left:34%;width:92px;transform:translateX(-50%) rotate(-6deg)}
+.np-c>.np-clip:nth-child(7n+6) .np-tape{left:-24px;top:-2px;width:60px;transform:rotate(-34deg)}
+.np-c>.np-clip:nth-child(7n+6)::after{content:"";position:absolute;right:-22px;bottom:4px;width:60px;height:24px;transform:rotate(-30deg);z-index:2;background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,0) 45%,rgba(0,0,0,.04)),rgba(236,221,164,.78);clip-path:polygon(0 6%,3% 22%,0 40%,3% 58%,0 76%,3% 92%,1% 100%,99% 100%,97% 86%,100% 68%,97% 50%,100% 32%,97% 14%,100% 0,0 0)}
+.np-c>.np-clip:nth-child(7n+7) .np-tape{left:56%;width:80px;transform:translateX(-50%) rotate(2deg)}
