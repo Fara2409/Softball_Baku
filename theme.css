@@ -241,4 +241,4 @@ html.mn-open{overflow:hidden}
 @media (prefers-reduced-motion:reduce){ .mn-sheet,.mn-back{transition:none} }
 
 /* футер не прыгает, пока грузится содержимое (23.11.2026) */
-#app{min-height:calc(100vh - 160px)}
+#app{min-height:100vh} /* 25.11.2026: футер ниже первого экрана, пока грузится страница (без сдвигов) */

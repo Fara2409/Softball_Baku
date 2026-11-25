@@ -165,6 +165,7 @@
   function draw(){
     if(!fetchBd()) setTimeout(()=>{ if(fetchBd()) draw(); },1500);
     const a=document.getElementById('app'); if(!a||!isHome()||!S.league) return;
+    const ld=a.querySelector(':scope > .loading'); if(ld) ld.remove(); // 25.11.2026: иначе «…» уезжает вниз под фото команды — большой сдвиг страницы на телефоне
     let box=a.querySelector('.gallery-sec'); const h=G.items?block():`<div class="gl-skel"></div>`; if(!h){ if(box) box.remove(); return; }
     if(!box){ box=document.createElement('div'); box.className='gallery-sec'; a.prepend(box); }
     box.innerHTML=h;

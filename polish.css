@@ -94,3 +94,6 @@
 #lb tr.lb-sep td span{display:block;margin:6px 0;padding:9px 14px;background:color-mix(in srgb,var(--amber,#D85A30) 9%,transparent);border-top:1px dashed color-mix(in srgb,var(--amber,#D85A30) 45%,transparent);border-bottom:1px dashed color-mix(in srgb,var(--amber,#D85A30) 45%,transparent);color:var(--muted);font-size:13px;font-weight:600;text-align:left;white-space:normal}
 #lb tr.lb-sep:hover td{background:none}
 @media (max-width:600px){#lb tr.lb-sep td span{position:sticky;left:0;width:calc(100vw - 48px);box-sizing:border-box;font-size:12px}}
+/* SEO-текст под футером (25.11.2026): мелкий, не мешает */
+.seo-txt{margin:0 auto 24px;padding:0 18px;font-size:12px;opacity:.75}
+.seo-txt h1{font-size:15px}.seo-txt h2{font-size:13px;margin-top:10px}
