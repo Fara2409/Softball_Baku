@@ -261,3 +261,5 @@ html.hlp-open{overflow:hidden}
 .fa-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}.fa-steps span{padding:6px 3px;font-size:12px;gap:4px}
 .fa-box{container-type:inline-size}
 @container (max-width:400px){.fa-steps i{display:none}}
+/* верхний и нижний ряды правил — одинаковые колонки (25.11.2026) */
+@media (min-width:901px){.rules-top,.rules-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}}
