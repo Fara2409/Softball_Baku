@@ -80,3 +80,63 @@
   .wd.wd-game{flex:0 0 230px}
   .wx-now b{font-size:24px}
 }
+
+/* ===== Погода как в Google + карточки игровых дней (25.11.2026) ===== */
+.gw-wrap{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);gap:16px;align-items:start}
+@media (max-width:900px){.gw-wrap{grid-template-columns:1fr}}
+.gw{padding:18px 20px 14px;margin:0}
+.gw-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+.gw-loc{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:15px}
+.gw-upd{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:999px;padding:4px 10px;font:600 12px/1 inherit;cursor:pointer}
+.gw-main{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:flex-start}
+.gw-now{display:flex;align-items:flex-start;gap:6px}
+.gw-ic{font-size:52px;line-height:1;margin-right:4px}
+.gw-t{font-size:60px;line-height:.95;font-weight:500;font-variant-numeric:tabular-nums}
+.gw-u{font-size:18px;margin-top:4px;color:var(--muted)}
+.gw-meta{display:flex;flex-direction:column;gap:3px;margin-left:12px;font-size:13px;color:var(--muted);line-height:1.35}
+.gw-meta b{color:var(--text,inherit);font-weight:700}
+.gw-when{display:flex;flex-direction:column;align-items:flex-end;text-align:right;gap:2px;color:var(--muted);font-size:14px}
+.gw-when b{font-size:20px;color:var(--text,inherit);font-weight:600}
+.gw-tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:12px 0 6px;overflow-x:auto}
+.gw-tabs button{border:0;background:none;color:var(--muted);font:600 14px/1 inherit;padding:10px 10px;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+.gw-tabs button.on{color:var(--text,inherit);border-bottom-color:#F4B400}
+.gw-chart{position:relative;height:150px;margin:0 0 4px}
+.gw-svg{position:absolute;left:0;top:0;width:100%;height:120px}
+.gw-lbl span,.gw-hrs span{position:absolute;transform:translateX(-50%);font-size:12px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.gw-lbl span.b{color:var(--text,inherit);font-weight:800}
+.gw-hrs span{top:126px}
+.gw-days{display:flex;gap:4px;overflow-x:auto;padding:4px 0 2px;scrollbar-width:thin}
+.gw-day{flex:1 0 74px;position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px 8px;border-radius:14px;border:2px solid transparent;background:none;color:inherit;font:inherit;cursor:pointer}
+.gw-day:hover{background:var(--panel2)}
+.gw-day.on{background:var(--panel2)}
+.gw-day.gd-wait{border-color:#F2B705}
+.gw-day.gd-ok{border-color:#1E9E5A}
+.gw-dn{font-size:13px;font-weight:700}
+.gw-di{font-size:26px;line-height:1}
+.gw-dt{font-size:13px;color:var(--muted);white-space:nowrap}.gw-dt b{color:var(--text,inherit)}
+.gw-ball{position:absolute;top:-8px;right:-4px;font-style:normal;font-size:14px}
+/* карточки игровых дней: жёлтая рамка — ждём подтверждения, зелёная — игра подтверждена */
+.gd-list{display:flex;flex-direction:column;gap:12px}
+.gd{position:relative;background:var(--panel);border:3px solid #F2B705;border-radius:20px;padding:16px 18px;cursor:pointer;box-shadow:0 6px 18px rgba(16,35,63,.06)}
+.gd.ok{border-color:#1E9E5A}
+.gd-h{display:flex;align-items:center;gap:8px;font-weight:900;font-size:17px;letter-spacing:1.2px;text-transform:uppercase}
+.gd-h em{font-style:normal;font-size:12px;letter-spacing:0;text-transform:none;color:#B07D00;background:#FFF4CC;border-radius:999px;padding:3px 8px}
+.gd-ball{font-size:20px}
+.gd-r{display:flex;justify-content:space-between;align-items:center;margin:10px 0 8px;gap:10px}
+.gd-dt{display:flex;flex-direction:column;gap:3px}
+.gd-dt b{font-size:20px}
+.gd-dt span{color:var(--muted);font-weight:600;font-size:14px}
+.gd-w{display:flex;align-items:center;gap:6px;font-size:30px;font-weight:800}
+.gd-w span{font-size:30px}
+.gd-v{display:flex;align-items:center;gap:8px;font-weight:800;font-size:16px}
+.gd-v i{width:12px;height:12px;border-radius:50%;background:#1E9E5A}
+.gd.risk .gd-v i{background:#F2B705}.gd.bad .gd-v i{background:#D93025}
+.gd-d{color:var(--muted);font-size:13px;margin-top:6px;line-height:1.4}
+.gd-st{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);font-weight:800;font-size:14px;color:#9A6B00}
+.gd.ok .gd-st{color:#1E7F4C}
+.gd .wx-set{margin-top:10px}
+.gd-none{margin:0}
+.wx-src{margin:8px 0 0;text-align:right}.wx-src a{color:inherit}
+@media (max-width:520px){.gw{padding:14px}.gw-t{font-size:50px}.gw-ic{font-size:42px}.gw-meta{margin-left:6px;font-size:12px}.gw-when b{font-size:17px}.gw-day{flex-basis:64px}}
+.gw-wrap>*,.gw{min-width:0}.gw{overflow:hidden}
+@media (max-width:520px){.gw-when{flex-direction:row;flex-wrap:wrap;align-items:baseline;text-align:left;gap:4px 10px;width:100%}.gw-when b{font-size:15px}}

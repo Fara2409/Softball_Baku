@@ -58,7 +58,7 @@
   function socPills(){
     const L=S.links||{}, I=window.SOC_ICON||{};
     const a=[['youtube','YouTube'],['tiktok','TikTok']].filter(([k])=>L[k]&&I[k]);
-    return a.length?`<div class="hr-soc">${a.map(([k,n])=>`<a class="hr-soc-a" href="${esc(L[k])}" target="_blank" rel="noopener" aria-label="${n}">${I[k]}<span>${n}</span></a>`).join('')}</div>`:'';
+    return a.length?`<div class="hr-soc">${a.map(([k,n])=>`<a class="hr-soc-a hr-${k}" href="${esc(L[k])}" target="_blank" rel="noopener" aria-label="${n}" title="${n}">${I[k]}</a>`).join('')}</div>`:''; // только значки, крупно (25.11.2026)
   }
   function hero(){
     let i=(G.items||[]).findIndex(x=>x.hero); if(i<0&&G.items) return '';
@@ -67,7 +67,7 @@
       <div class="hr-shade"></div>${socPills()}
       <div class="hr-txt"><span class="hr-kick">${T('hrKick')}</span><h1>${T('hrTitle')}</h1><p>${T('hrSub')}</p>
         <div class="hr-stats"><span><b>${np}</b> ${pl(np,'pl')}</span><span><b>${ng}</b> ${pl(ng,'gm')}</span><span><b>2</b> ${LANG==='ru'?'команды':LANG==='az'?'komanda':'teams'}</span></div>
-        <div class="hr-btns"><a class="hr-btn pri" href="#rating" onclick="return glToRating()">${T('hrRt')} ↓</a><button type="button" class="hr-btn" onclick="glOpen(${Math.max(0,i)})">${T('hrPh')}</button></div></div></section>`;
+        <div class="hr-btns"><a class="hr-btn pri" href="#rating" onclick="return glToRating()">${T('hrRt')} ↓</a></div></div><button type="button" class="hr-full" onclick="glOpen(${Math.max(0,i)})" aria-label="${T('hrPh')}" title="${T('hrPh')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button></section>`;
   }
   function block(){
     if(!G.items||!G.items.length) return '';

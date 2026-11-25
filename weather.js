@@ -9,7 +9,7 @@
 (function(){
 
 const SITE='https://softball.az/';
-const CACHE='sb.wx.v3', TTL=15*60e3;
+const CACHE='sb.wx.v4', TTL=15*60e3;
 Object.assign(I18N.ru,{
   wxTitle:'Погода в игровые дни',wxSub:'Амирджан · воскресенья и праздничные дни · прогноз обновляется автоматически каждые 15 минут',
   wxGood:'Игровая погода',wxRisk:'Под вопросом',wxBad:'Неигровая погода',wxWait:'Ждём подтверждения игры',wxBest:'Лучший день',wxFar:'прогноз на 8+ дней, может измениться',
@@ -58,12 +58,12 @@ function load(force){
   W.busy=(async()=>{
     if(!W.cal) W.cal=await fetch('data/calendar.json?v=202611070315',{cache:'no-cache'}).then(r=>r.json());
     let c=null; try{ c=JSON.parse(localStorage.getItem(CACHE)); }catch(e){}
-    if(!force&&c&&Date.now()-c.at<TTL&&c.data&&c.data.hourly&&c.data.daily&&c.data.daily.precipitation_sum){ W.data=c.data; W.at=c.at; return; }
+    if(!force&&c&&Date.now()-c.at<TTL&&c.data&&c.data.hourly&&c.data.hourly.relative_humidity_2m&&c.data.daily&&c.data.daily.precipitation_sum){ W.data=c.data; W.at=c.at; return; }
     const p=W.cal.place||{lat:40.4306275,lon:49.9843899};
     const url=`https://api.open-meteo.com/v1/forecast?latitude=${p.lat}&longitude=${p.lon}`+
-      `&hourly=temperature_2m,precipitation,precipitation_probability,weather_code,wind_gusts_10m`+
+      `&hourly=temperature_2m,precipitation,precipitation_probability,weather_code,wind_gusts_10m,relative_humidity_2m,wind_speed_10m`+
       `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_gusts_10m_max`+
-      `&current=temperature_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m`+
+      `&current=temperature_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,relative_humidity_2m`+
       `&timezone=Asia%2FBaku&forecast_days=16`;
     const r=await fetch(url); if(!r.ok) throw new Error('HTTP '+r.status);
     W.data=await r.json(); W.err=false; W.at=Date.now();
@@ -193,15 +193,90 @@ function nowBox(){
   return `<div class="wx-now"><span class="wx-now-l">${T('wxNowT')}</span><span class="wx-now-ic">${icon(c.weather_code||0)}</span><b>${Math.round(c.temperature_2m)}°</b>
     <span class="muted">${c.apparent_temperature!=null?T('wxFeels')(Math.round(c.apparent_temperature))+' · ':''}${c.wind_speed_10m!=null?T('wxWindNow')(Math.round(c.wind_speed_10m)):''}</span></div>`;
 }
+/* ---------- новый вид (25.11.2026): как погода в Google + карточки игровых дней ---------- */
+Object.assign(I18N.ru,{gwLoc:'Амирджан',gwHava:'Погода',gwProb:'Вероятность осадков',gwHum:'Влажность',gwWind:'Ветер',gwT:'Температура',gwP:'Осадки',gwW:'Ветер',
+  gdTitle:'Игровой день',gdWait:'Ждём подтверждения',gdOk:'Игра подтверждена',gdNone:'В ближайшие дни игровых дней нет',
+  gwC:{0:'Ясно',1:'Преимущественно ясно',2:'Переменная облачность',3:'Облачно',45:'Туман',51:'Морось',61:'Дождь',66:'Ледяной дождь',71:'Снег',80:'Ливень',85:'Снегопад',95:'Гроза'}});
+Object.assign(I18N.az,{gwLoc:'Əmircan',gwHava:'Hava',gwProb:'Yağış ehtimalı',gwHum:'Rütubət',gwWind:'Külək',gwT:'Temperatur',gwP:'Yağış ehtimalı',gwW:'Külək',
+  gdTitle:'Oyun günü',gdWait:'Təsdiq gözlənilir',gdOk:'Oyun təsdiqlənib',gdNone:'Yaxın günlərdə oyun günü yoxdur',
+  gwC:{0:'Açıq',1:'Əsasən açıq',2:'Dəyişkən buludlu',3:'Buludlu',45:'Duman',51:'Çiskin',61:'Yağış',66:'Buzlu yağış',71:'Qar',80:'Leysan',85:'Qar yağır',95:'İldırım'}});
+Object.assign(I18N.en,{gwLoc:'Amirjan',gwHava:'Weather',gwProb:'Chance of rain',gwHum:'Humidity',gwWind:'Wind',gwT:'Temperature',gwP:'Precipitation',gwW:'Wind',
+  gdTitle:'Game day',gdWait:'Awaiting confirmation',gdOk:'Game confirmed',gdNone:'No game days coming up',
+  gwC:{0:'Clear',1:'Mostly clear',2:'Partly cloudy',3:'Cloudy',45:'Fog',51:'Drizzle',61:'Rain',66:'Freezing rain',71:'Snow',80:'Showers',85:'Snow showers',95:'Thunderstorm'}});
+const GW={day:0,tab:'t'};
+const condTxt=c=>{ const M=T('gwC'), ks=Object.keys(M).map(Number).sort((a,b)=>b-a); for(const k of ks) if(c>=k) return M[k]; return M[0]; };
+const wdLong=ymd=>{ const d=new Date(ymd+'T12:00:00Z'); if(LANG==='az') return WD_AZ[d.getUTCDay()].toLowerCase(); return d.toLocaleDateString(LOCALE[LANG],{timeZone:'UTC',weekday:'long'}); };
+const wdShort=ymd=>{ const d=new Date(ymd+'T12:00:00Z'); if(LANG==='az') return WD_AZ_S[d.getUTCDay()]; const w=d.toLocaleDateString(LOCALE[LANG],{timeZone:'UTC',weekday:'short'}).replace('.',''); return w[0].toUpperCase()+w.slice(1); };
+function hourIdx(ymd,h){ const H=W.data.hourly; return H.time.indexOf(`${ymd}T${pad(h)}:00`); }
+function gwState(L){
+  const d=L[Math.min(GW.day,L.length-1)], H=W.data.hourly, C=W.data.current||{}, now=d.i===0;
+  const h=now?bakuHour():12, k=hourIdx(d.ymd,h);
+  const v=(a,f)=>k>=0&&a?a[k]:f;
+  return {d,h,
+    temp:Math.round(now&&C.temperature_2m!=null?C.temperature_2m:v(H.temperature_2m,d.max)),
+    code:now&&C.weather_code!=null?C.weather_code:v(H.weather_code,d.code),
+    prob:v(H.precipitation_probability,d.prob??0)??0,
+    hum:Math.round(now&&C.relative_humidity_2m!=null?C.relative_humidity_2m:v(H.relative_humidity_2m,null)??0),
+    wind:Math.round(now&&C.wind_speed_10m!=null?C.wind_speed_10m:v(H.wind_speed_10m,0)??0)};
+}
+function gwChart(s){
+  const H=W.data.hourly, start=s.d.i===0?bakuHour():2, pts=[];
+  for(let j=0;j<8;j++){ const hh=start+j*3, base=hourIdx(s.d.ymd,0); if(base<0) break; const k=base+hh; if(k>=H.time.length) break;
+    const val=GW.tab==='t'?H.temperature_2m[k]:GW.tab==='p'?(H.precipitation_probability||[])[k]:(H.wind_speed_10m||[])[k];
+    pts.push({lab:H.time[k].slice(11,16),v:Math.round(val??0)}); }
+  if(!pts.length) return '';
+  const Wd=640,Hh=120,px=20,top=26,bot=30, vs=pts.map(p=>p.v);
+  let mn=Math.min(...vs), mx=Math.max(...vs); if(GW.tab!=='t'){ mn=0; mx=Math.max(mx,GW.tab==='p'?100:20); } if(mx===mn) mx=mn+1;
+  const X=i=>px+i*(Wd-2*px)/(pts.length-1||1), Y=v=>top+(Hh-top-bot)*(1-(v-mn)/(mx-mn));
+  const col=GW.tab==='t'?'#F4B400':GW.tab==='p'?'#4285F4':'#7E8C9E', fill=GW.tab==='t'?'rgba(244,180,0,.18)':GW.tab==='p'?'rgba(66,133,244,.16)':'rgba(126,140,158,.14)';
+  const line=pts.map((p,i)=>`${X(i).toFixed(1)},${Y(p.v).toFixed(1)}`).join(' ');
+  const unit=GW.tab==='p'?'%':'';
+  return `<svg class="gw-svg" viewBox="0 0 ${Wd} ${Hh}" preserveAspectRatio="none" aria-hidden="true">
+    <polygon points="${X(0)},${Hh-bot} ${line} ${X(pts.length-1)},${Hh-bot}" fill="${fill}"/><polyline points="${line}" fill="none" stroke="${col}" stroke-width="2.5" vector-effect="non-scaling-stroke"/></svg>
+    <div class="gw-lbl">${pts.map((p,i)=>`<span style="left:${(X(i)/Wd*100).toFixed(2)}%;top:${(Y(p.v)/Hh*100-18).toFixed(1)}%" class="${i===0?'b':''}">${p.v}${unit}</span>`).join('')}</div>
+    <div class="gw-hrs">${pts.map((p,i)=>`<span style="left:${(X(i)/Wd*100).toFixed(2)}%">${p.lab}</span>`).join('')}</div>`;
+}
+function gwCard(L){
+  if(!L.length) return '';
+  const s=gwState(L), now=s.d.i===0;
+  const gd=d=>d.g&&!d.g.past;
+  return `<div class="card gw">
+    <div class="gw-top"><span class="gw-loc"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>${T('gwLoc')}</span>
+      ${W.at?`<button class="gw-upd" onclick="WX.refresh()" title="${T('wxRefresh')}">↻ ${new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Baku',hour:'2-digit',minute:'2-digit'}).format(new Date(W.at))}</button>`:''}</div>
+    <div class="gw-main"><div class="gw-now"><span class="gw-ic">${icon(s.code)}</span><b class="gw-t">${s.temp}</b><span class="gw-u">°C</span>
+      <div class="gw-meta"><span>${T('gwProb')}: <b>${s.prob}%</b></span><span>${T('gwHum')}: <b>${s.hum}%</b></span><span>${T('gwWind')}: <b>${s.wind} ${T('wxKmh')}</b></span></div></div>
+      <div class="gw-when"><b>${T('gwHava')}</b><span>${wdLong(s.d.ymd)} ${pad(s.h)}:00</span><span>${condTxt(s.code)}</span></div></div>
+    <div class="gw-tabs">${[['t','gwT'],['p','gwP'],['w','gwW']].map(([k,l])=>`<button class="${GW.tab===k?'on':''}" onclick="WX.tab('${k}')">${T(l)}</button>`).join('')}</div>
+    <div class="gw-chart">${gwChart(s)}</div>
+    <div class="gw-days">${L.map((d,j)=>`<button class="gw-day ${j===GW.day?'on':''} ${gd(d)?(d.g.ev?'gd-ok':'gd-wait'):''}" onclick="WX.day(${j})">
+      <span class="gw-dn">${j===0?T('wxToday'):wdShort(d.ymd)}</span>${gd(d)?'<i class="gw-ball">⚾</i>':''}<span class="gw-di">${icon(d.code)}</span><span class="gw-dt"><b>${d.max}°</b> ${d.min}°</span></button>`).join('')}</div>
+  </div>`;
+}
+function gdCard(d){
+  const e=d.g, admin=window.CL&&CL.isAdmin&&CL.isAdmin(), ok=e.ev;
+  const det=[]; if(e.prob!=null) det.push(`☔ ${e.prob}%`); det.push(`💨 ${e.gust} ${T('wxKmh')}`); if(e.rain>=0.1) det.push(`${e.rain} mm`);
+  return `<div class="gd ${ok?'ok':'wait'} ${e.v}" onclick="WX.day(${GW._map&&GW._map[d.ymd]!=null?GW._map[d.ymd]:0})">
+    <div class="gd-h"><span class="gd-ball">⚾</span>${e.period?esc(e.period.name[LANG]||e.period.name.az):T('gdTitle')}${e.best?` <em>★ ${T('wxBest')}</em>`:''}</div>
+    <div class="gd-r"><div class="gd-dt"><b>${wdShort(d.ymd)} ${shortDate(d.ymd)}</b><span>🕗 ${e.start}–${e.end}</span></div><div class="gd-w"><span>${icon(e.code)}</span>${e.tmax??d.max}°</div></div>
+    <div class="gd-v"><i></i>${T(VL[e.v])}</div>
+    <div class="gd-d">${det.join(' · ')}${e.note.length?` · ${e.note.join(' · ')}`:''}${e.far?` · ${T('wxFar')}`:''}</div>
+    <div class="gd-st">${ok?`✅ ${T('gdOk')}`:`⏳ ${T('gdWait')}`}</div>
+    ${!ok&&admin&&e.v!=='bad'?`<button class="btn sm wx-set" onclick="event.stopPropagation();WX.setGame('${e.ymd}')">+ ${T('wxSet')}</button>`:''}
+  </div>`;
+}
 function section(compact){
-  const L=W.data?days(compact?7:16):[];
+  const L=W.data?days(compact?8:16):[];
+  GW._map={}; L.forEach((d,j)=>GW._map[d.ymd]=j);
+  if(GW.day>=L.length) GW.day=0;
   let body;
   if(!W.data) body=W.err?`<div class="card empty" style="margin-top:0">${T('wxErr')}</div>`:`<div class="loading" style="padding:20px">…</div>`;
-  else body=`<div class="wd-grid">${L.map(dayTile).join('')}</div>`;
+  else { const G2=L.filter(d=>d.g&&!d.g.past);
+    body=`<div class="gw-wrap">${gwCard(L)}<div class="gd-list">${G2.length?G2.map(gdCard).join(''):`<div class="card empty gd-none">${T('gdNone')}</div>`}</div></div>`; }
   const hasGame=L.some(d=>d.g&&!d.g.past);
-  return `<div class="section-title wx-title"><h2>${T('wxTitle2')}</h2>${hasGame?`<button class="btn sm" onclick="WX.copy()">${T('wxCopy')}</button>`:''}</div>
-    <div class="wx-top">${nowBox()}<p class="wx-sub muted">${T('wxSub2')}${W.at?` · ${T('wxUpd')(new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Baku',hour:'2-digit',minute:'2-digit'}).format(new Date(W.at)))} <button class="cl-link wx-ref" onclick="WX.refresh()">↻ ${T('wxRefresh')}</button>`:''}</p></div>${body}<p class="wx-src"><a href="https://open-meteo.com/" target="_blank" rel="noopener">${T('wxSrc')}</a></p>`;
+  return `<div class="section-title wx-title"><h2>${T('wxTitle2')}</h2>${hasGame?`<button class="btn sm" onclick="WX.copy()">${T('wxCopy')}</button>`:''}</div>${body}
+    <p class="wx-src muted small"><a href="https://open-meteo.com/" target="_blank" rel="noopener">${T('wxSrc')}</a></p>`;
 }
+
 function drawSec(){ const el=document.getElementById('wx-sec'); if(el) el.innerHTML=section(el.dataset.compact==='1'); }
 function draw(){ drawSec(); if(window.CL&&CL.redraw) CL.redraw(); }
 function copy(){
@@ -222,7 +297,7 @@ function chip(iso){
   return `<span class="wx-chip ${e.v}" title="${esc(e.why.join(' · ')||T('wxNoRain'))}">${icon(e.code)} ${t}° · ${T(VL[e.v])}</span>`;
 }
 function refresh(){ const b=document.querySelector('.wx-ref'); if(b) b.textContent='…'; return load(true).then(draw); }
-window.WX={copy,setGame,chip,candidates,drawSec,refresh,ready:()=>!!W.data};
+window.WX={copy,setGame,chip,candidates,drawSec,refresh,ready:()=>!!W.data,day:j=>{ GW.day=j; drawSec(); },tab:k=>{ GW.tab=k; drawSec(); }};
 
 const _route=route; route=function(){
   _route();
