@@ -165,5 +165,5 @@ window.rulesPage=function(){
   h+=`<div class="section-title"><h2 data-ic="book">${G.t}</h2></div><div class="card gloss">${G.items.map(([k,v])=>`<div><b>${k}</b><span>${v}</span></div>`).join('')}</div>`;
   h+=`<div class="section-title"><h2 data-ic="shield">${R.sec[3][0]}</h2></div><div class="card rule">${R.sec[3][1]}</div>`;
   app().innerHTML=h;
-  fieldAnim();
+  fieldAnim(); if(window.rulesViz) rulesViz();
 };
