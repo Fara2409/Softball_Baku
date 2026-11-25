@@ -38,3 +38,7 @@ tbody tr:first-child .rt-btn{animation:rtPulse 2s ease-out 3}
 @media (max-width:600px){.rt-go{font-size:0;gap:0}.rt-go::after{border-left-width:6px;border-top-width:5px;border-bottom-width:5px}.rt-btn{padding-right:8px}.rb-tip{font-size:12px;padding:5px 10px}}
 @media (prefers-reduced-motion:reduce){tbody tr:first-child .rt-btn{animation:none}}
 .tablewrap .lb .chip,.tablewrap .lb td:last-child{white-space:nowrap}
+/* 25.11.2026: без надписи «Разбор» (только ▸) и без второй окружности — рамка одна, у кнопки */
+.rt-btn .rt-go{font-size:0;gap:0}
+.rt-btn .rt{border:0!important;box-shadow:none!important;background:none!important;padding:0 2px 0 6px;min-width:0}
+.rt-btn{padding:4px 10px 4px 6px}
