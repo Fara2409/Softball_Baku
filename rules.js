@@ -5,8 +5,8 @@ const RULES={
   sec:[
    ['Коротко об игре',`<p>Две команды по очереди нападают и защищаются. Нападающая команда бьёт по мячу и бежит по базам против часовой стрелки: <b>1-я → 2-я → 3-я → дом</b>. Каждый игрок, добежавший до дома, приносит команде <b>ран</b> (очко).</p>
     <p>Защита старается сделать <b>три аута</b>, после этого команды меняются. Когда обе команды отбили, заканчивается <b>иннинг</b>. Побеждает тот, кто набрал больше ранов.</p>`],
-   ['Отбивание',`<ul><li><b>Страйк</b>: мяч прошёл через зону удара или бэттер промахнулся. 3 страйка — <b>страйк-аут</b>.</li>
-    <li><b>Бол</b>: подача мимо зоны. 4 бола — бэттер идёт на 1-ю базу (<b>BB</b>).</li>
+   ['Отбивание',`<ul><li><b>Страйк</b>: питчер подаёт мяч по дуге, и мяч упал на пластину (если бэттер не отбил) или бэттер промахнулся. 3 страйка — <b>страйк-аут</b>.</li>
+    <li><b>Бол</b>: мяч упал мимо пластины, и бэттер не бил. 4 бола — бэттер идёт на 1-ю базу (<b>BB</b>).</li>
     <li><b>Фол</b>: мяч улетел за линии поля. Считается страйком, но третьим страйком быть не может.</li>
     <li><b>Хит</b>: удар, после которого бэттер сам добежал до базы. Сингл, дабл, трипл, а <b>хоум-ран</b> — когда он обежал все базы.</li></ul>`],
    ['Как делают аут',`<ul><li><b>Страйк-аут</b>: три страйка.</li><li><b>Флай-аут</b>: защитник поймал мяч с лёту.</li>
@@ -18,8 +18,8 @@ const RULES={
   sec:[
    ['Oyun haqqında qısaca',`<p>İki komanda növbə ilə hücum və müdafiə edir. Hücum edən komanda topu vurur və bazalar üzrə saat əqrəbinin əksinə qaçır: <b>1-ci → 2-ci → 3-cü → ev</b>. Evə çatan hər oyunçu komandaya <b>ran</b> (xal) qazandırır.</p>
     <p>Müdafiə <b>üç aut</b> etməyə çalışır, bundan sonra komandalar yerlərini dəyişir. Hər iki komanda vurduqdan sonra <b>inninq</b> bitir. Daha çox ran toplayan qalib gəlir.</p>`],
-   ['Vuruş',`<ul><li><b>Strayk</b>: top vuruş zonasından keçdi və ya vuran yayındı. 3 strayk — <b>strayk-aut</b>.</li>
-    <li><b>Bol</b>: zonadan kənar atış. 4 bol — vuran 1-ci bazaya gedir (<b>BB</b>).</li>
+   ['Vuruş',`<ul><li><b>Strayk</b>: pitçer topu qövslə atır və top lövhənin üstünə düşdü (vuruşçu vurmadısa) və ya vuran yayındı. 3 strayk — <b>strayk-aut</b>.</li>
+    <li><b>Bol</b>: top lövhədən kənara düşdü və vuruşçu vurmadı. 4 bol — vuran 1-ci bazaya gedir (<b>BB</b>).</li>
     <li><b>Faul</b>: top meydanın xətlərindən kənara uçdu. Strayk sayılır, amma üçüncü strayk ola bilməz.</li>
     <li><b>Hit</b>: vurandan sonra oyunçu özü bazaya çatır. Sinql, dabl, tripl, <b>homeran</b> isə bütün bazaları dolananda.</li></ul>`],
    ['Aut necə edilir',`<ul><li><b>Strayk-aut</b>: üç strayk.</li><li><b>Flay-aut</b>: müdafiəçi topu havada tutdu.</li>
@@ -31,8 +31,8 @@ const RULES={
   sec:[
    ['The game in brief',`<p>Two teams take turns batting and fielding. The batting team hits the ball and runs the bases counter-clockwise: <b>1st → 2nd → 3rd → home</b>. Every player who reaches home scores a <b>run</b>.</p>
     <p>The fielding team tries to make <b>three outs</b>, then the teams switch. When both teams have batted, the <b>inning</b> is over. The team with more runs wins.</p>`],
-   ['Batting',`<ul><li><b>Strike</b>: the pitch crosses the strike zone or the batter swings and misses. 3 strikes — <b>strikeout</b>.</li>
-    <li><b>Ball</b>: a pitch outside the zone. 4 balls — the batter walks to first base (<b>walk</b>).</li>
+   ['Batting',`<ul><li><b>Strike</b>: the pitch is thrown in an arc and lands on the plate (if the batter doesn't hit it), or the batter swings and misses. 3 strikes — <b>strikeout</b>.</li>
+    <li><b>Ball</b>: the pitch lands off the plate and the batter doesn't swing. 4 balls — the batter walks to first base (<b>walk</b>).</li>
     <li><b>Foul</b>: the ball goes outside the foul lines. It counts as a strike, but can't be the third one.</li>
     <li><b>Hit</b>: the batter reaches base on his own. Single, double, triple — and a <b>home run</b> when he rounds all the bases.</li></ul>`],
    ['How outs are made',`<ul><li><b>Strikeout</b>: three strikes.</li><li><b>Fly out</b>: a fielder catches the ball in the air.</li>

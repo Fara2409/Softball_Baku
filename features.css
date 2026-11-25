@@ -280,3 +280,4 @@ html.hlp-open{overflow:hidden}
 .rv-d.on{fill:#F5A524;stroke:#F5A524}
 @media (max-width:480px){.rv-list li,.rv-note{grid-template-columns:88px minmax(0,1fr);gap:11px}.rv-pic{width:88px}}
 .card.rule ul.rv-list{padding-left:0;margin-left:0}.card.rule ul.rv-list li::marker{content:none}
+.rv-plate{fill:#fff;stroke:var(--dim);stroke-width:.6}

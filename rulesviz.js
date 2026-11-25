@@ -8,35 +8,40 @@ const STAMP=(c,txt,x,y,col)=>`<g class="${c}" opacity="0" transform="translate($
 const DOTS=(lbl,n,x0,y)=>`<text x="${x0-9}" y="${y+3}" font-size="8" font-weight="800" class="rv-tx">${lbl}</text>`+Array.from({length:n},(_,i)=>`<circle class="rv-d" cx="${x0+i*9}" cy="${y}" r="3"/>`).join('');
 const RUN=c=>`<g class="${c}"><circle r="3.6" fill="#F5A524" stroke="#fff" stroke-width=".9"/></g>`;
 const FLD=c=>`<g class="${c}"><circle r="3.8" fill="#1F5FBF" stroke="#fff" stroke-width=".9"/></g>`;
+const SH=`<ellipse class="rv-sh" rx="2.6" ry="1" fill="rgba(0,0,0,.25)" opacity="0"/>`;
+const FLDS=`<g transform="translate(84 41)"><circle r="3.8" fill="#1F5FBF" stroke="#fff" stroke-width=".9"/><text y="1.3" font-size="3.6" font-weight="900" fill="#fff" text-anchor="middle">P</text></g>`;
 const BASE=(x,y)=>`<rect x="${x-3}" y="${y-3}" width="6" height="6" transform="rotate(45 ${x} ${y})" fill="#fff" stroke="#8A99B0" stroke-width=".6"/>`;
 const DIAM=`<path d="M46 60 L4 18 M46 60 L88 18" class="rv-ln"/><path d="M46 60 L4 18 A60 60 0 0 1 88 18 Z" class="rv-fair"/>
   <path d="M46 58 L62 42 L46 26 L30 42 Z" fill="none" class="rv-ln"/>${BASE(62,42)}${BASE(46,26)}${BASE(30,42)}`;
-const ZONE=`<rect x="34" y="8" width="24" height="32" rx="2" class="rv-zone"/><rect class="rv-zf" x="34" y="8" width="24" height="32" rx="2" opacity="0"/>`;
+// слоупитч, вид сбоку: питчер справа, мяч по высокой дуге, пластина на земле (упал на пластину — страйк, мимо — бол)
+const ZONE=`<path d="M4 46 H88" class="rv-ln"/><rect class="rv-zf" x="33" y="42" width="22" height="7" rx="2" opacity="0"/><rect x="36" y="44.6" width="16" height="2.8" rx="1" class="rv-plate"/>${FLDS}<g transform="translate(29 41)" opacity=".9"><circle r="3.8" fill="#F5A524" stroke="#fff" stroke-width=".9"/><text y="1.3" font-size="3.6" font-weight="900" fill="#10233F" text-anchor="middle">B</text></g>${SH}`;
 const pos=(el,x,y,s=1)=>el&&el.setAttribute('transform',`translate(${x.toFixed(2)} ${y.toFixed(2)}) scale(${s.toFixed(3)})`);
 const op=(el,o)=>el&&el.setAttribute('opacity',Math.max(0,Math.min(1,o)).toFixed(3));
 function ring(el,t,t0,x,y,col){ if(!el) return; const k=(t-t0)/.6; if(k<0||k>1){op(el,0);return;} el.setAttribute('cx',x);el.setAttribute('cy',y);el.setAttribute('r',3+k*8);el.setAttribute('stroke',col);op(el,1-k); }
 function stamp(el,t,t0,t1){ if(!el) return; const on=t>=t0&&t<t1; op(el,on?1:0); if(on){ const k=cl((t-t0)/.25), s=k<1?.4+.8*k-(k>.7?(k-.7)*1.2:0):1; const m=/translate\(([^)]*)\)/.exec(el.getAttribute('transform')); el.setAttribute('transform',`translate(${m?m[1]:'0 0'}) scale(${s.toFixed(3)})`); } }
 function dots(q,n,ts,t){ q('.rv-d',true).forEach((d,i)=>d.classList.toggle('on',t>=ts[i])); }
 // pitch: мяч летит от питчера (справа) к зоне; end — точка прихода
-function pitch(b,t,t0,ex,ey){ const k=(t-t0)/.7; if(k<0||k>1.35){op(b,0);return;} const kk=ez(cl(k)); pos(b,lerp(82,ex,kk),lerp(22,ey,kk)-Math.sin(Math.PI*cl(k))*4,lerp(1.25,.85,kk)); op(b,k<.12?k/.12:k>1.15?(1.35-k)/.2:1); }
+const PD=.8;
+function pitch(b,t,t0,ex,ey,q){ const k=(t-t0)/PD, sh=q&&q('.rv-sh'); if(k<0||k>1.35){op(b,0);op(sh,0);return;} const kk=cl(k);
+  pos(b,lerp(81,ex,kk),lerp(39,43,kk)-Math.sin(Math.PI*kk)*34,.9); op(b,k>1.15?(1.35-k)/.2:1);
+  if(sh){ sh.setAttribute('cx',lerp(81,ex,kk)); sh.setAttribute('cy',46.5); op(sh,k>1.15?0:.6); } }
 function arc(b,sh,t,t0,t1,x0,y0,x1,y1,h){ const k=(t-t0)/(t1-t0); if(k<0||k>1){op(b,0);op(sh,0);return false;} const x=lerp(x0,x1,k), y=lerp(y0,y1,k); pos(b,x,y-Math.sin(Math.PI*k)*h,1+Math.sin(Math.PI*k)*.5); op(b,1); if(sh){ sh.setAttribute('cx',x);sh.setAttribute('cy',y);op(sh,.5);} return true; }
-const SH=`<ellipse class="rv-sh" rx="2.6" ry="1" fill="rgba(0,0,0,.25)" opacity="0"/>`;
 
 const SC={
- strike:{D:5.2,svg:ZONE+DOTS('S',3,40,55)+BALL()+RING('rv-r')+STAMP('rv-st','K',75,30,'#D64541'),
-  f(t,q){ const T=[.3,1.5,2.7]; let hit=-1; T.forEach((t0,i)=>{ if(t>=t0&&t<t0+1.2) hit=i; }); if(hit<0) op(q('.rv-b'),0); else pitch(q('.rv-b'),t,T[hit],46,24);
-    op(q('.rv-zf'),T.some(t0=>t>t0+.7&&t<t0+1.1)?.35:0); dots(q,3,T.map(x=>x+.7),t); ring(q('.rv-r'),t,T.find(t0=>t>=t0+.7&&t<t0+1.3)+.7||-9,46,24,'#1E9E5A'); stamp(q('.rv-st'),t,3.6,5); }},
- ball:{D:6.6,svg:ZONE+DOTS('B',4,36,55)+BALL()+RING('rv-r')+STAMP('rv-st','BB → 1B',62,30,'#1E9E5A'),
-  f(t,q){ const T=[.3,1.4,2.5,3.6], E=[[70,44],[20,10],[72,12],[18,40]]; let hit=-1; T.forEach((t0,i)=>{ if(t>=t0&&t<t0+1.1) hit=i; }); if(hit<0) op(q('.rv-b'),0); else pitch(q('.rv-b'),t,T[hit],E[hit][0],E[hit][1]);
-    op(q('.rv-zf'),0); dots(q,4,T.map(x=>x+.7),t); const i=T.findIndex(t0=>t>=t0+.7&&t<t0+1.3); ring(q('.rv-r'),t,i<0?-9:T[i]+.7,i<0?0:E[i][0],i<0?0:E[i][1],'#D64541'); stamp(q('.rv-st'),t,4.6,6.4); }},
+ strike:{D:5.4,svg:ZONE+DOTS('S',3,18,58)+BALL()+RING('rv-r')+STAMP('rv-st','K',20,16,'#D64541'),
+  f(t,q){ const T=[.3,1.6,2.9], X=[44,42,46]; let hit=-1; T.forEach((t0,i)=>{ if(t>=t0&&t<t0+1.3) hit=i; }); if(hit<0){op(q('.rv-b'),0);op(q('.rv-sh'),0);} else pitch(q('.rv-b'),t,T[hit],X[hit],43,q);
+    op(q('.rv-zf'),T.some(t0=>t>t0+PD&&t<t0+PD+.45)?.45:0); dots(q,3,T.map(x=>x+PD),t); const i=T.findIndex(t0=>t>=t0+PD&&t<t0+PD+.6); ring(q('.rv-r'),t,i<0?-9:T[i]+PD,i<0?0:X[i],45,'#1E9E5A'); stamp(q('.rv-st'),t,4,5.3); }},
+ ball:{D:7,svg:ZONE+DOTS('B',4,18,58)+BALL()+RING('rv-r')+STAMP('rv-st','BB → 1B',30,16,'#1E9E5A'),
+  f(t,q){ const T=[.3,1.5,2.7,3.9], X=[62,22,65,25]; let hit=-1; T.forEach((t0,i)=>{ if(t>=t0&&t<t0+1.2) hit=i; }); if(hit<0){op(q('.rv-b'),0);op(q('.rv-sh'),0);} else pitch(q('.rv-b'),t,T[hit],X[hit],43,q);
+    op(q('.rv-zf'),0); dots(q,4,T.map(x=>x+PD),t); const i=T.findIndex(t0=>t>=t0+PD&&t<t0+PD+.6); ring(q('.rv-r'),t,i<0?-9:T[i]+PD,i<0?0:X[i],45,'#D64541'); stamp(q('.rv-st'),t,5,6.8); }},
  foul:{D:3.6,svg:DIAM+SH+BALL()+RING('rv-r')+STAMP('rv-st','FOUL',70,54,'#D64541'),
   f(t,q){ const on=arc(q('.rv-b'),q('.rv-sh'),t,.4,1.6,46,58,80,50,16); if(!on&&t>1.6) op(q('.rv-b'),0); ring(q('.rv-r'),t,1.6,80,50,'#D64541'); op(q('.rv-fair'),.9); stamp(q('.rv-st'),t,1.7,3.3); }},
  hit:{D:4.2,svg:DIAM+SH+BALL()+RING('rv-r')+RUN('rv-run')+STAMP('rv-st','HIT',78,56,'#1E9E5A'),
   f(t,q){ arc(q('.rv-b'),q('.rv-sh'),t,.4,1.5,46,58,64,10,14); if(t>1.5) op(q('.rv-b'),0); ring(q('.rv-r'),t,1.5,64,10,'#1E9E5A');
     const k=ez(cl((t-.6)/1.3)); pos(q('.rv-run'),lerp(42,62,k),lerp(58,42,k)); stamp(q('.rv-st'),t,2,4); }},
- k:{D:4,svg:ZONE+DOTS('S',3,40,55)+BALL()+STAMP('rv-st','OUT',74,30,'#D64541'),
-  f(t,q){ const T=[.2,.9,1.6]; let hit=-1; T.forEach((t0,i)=>{ if(t>=t0&&t<t0+.75) hit=i; }); if(hit<0) op(q('.rv-b'),0); else pitch(q('.rv-b'),t,T[hit],46,24);
-    op(q('.rv-zf'),T.some(t0=>t>t0+.7&&t<t0+.95)?.35:0); dots(q,3,T.map(x=>x+.7),t); stamp(q('.rv-st'),t,2.5,3.8); }},
+ k:{D:4.4,svg:ZONE+DOTS('S',3,18,58)+BALL()+STAMP('rv-st','OUT',22,16,'#D64541'),
+  f(t,q){ const T=[.2,1.1,2.0]; let hit=-1; T.forEach((t0,i)=>{ if(t>=t0&&t<t0+.9) hit=i; }); if(hit<0){op(q('.rv-b'),0);op(q('.rv-sh'),0);} else pitch(q('.rv-b'),t,T[hit],44,43,q);
+    op(q('.rv-zf'),T.some(t0=>t>t0+PD&&t<t0+PD+.3)?.45:0); dots(q,3,T.map(x=>x+PD),t); stamp(q('.rv-st'),t,2.9,4.3); }},
  fly:{D:4,svg:`<path d="M4 54 H88" class="rv-ln"/>`+SH+FLD('rv-f')+BALL()+STAMP('rv-st','OUT',26,20,'#D64541'),
   f(t,q){ const fx=lerp(58,68,ez(cl((t-.3)/1.2))); pos(q('.rv-f'),fx,50); const on=arc(q('.rv-b'),q('.rv-sh'),t,.2,1.6,8,52,68,48,40);
     if(!on){ if(t>=1.6&&t<3.6){ pos(q('.rv-b'),fx+1,47,.9); op(q('.rv-b'),1);} else op(q('.rv-b'),0); op(q('.rv-sh'),0);} stamp(q('.rv-st'),t,1.7,3.6); }},
