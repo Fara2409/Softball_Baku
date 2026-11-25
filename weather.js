@@ -252,6 +252,15 @@ function gwCard(L){
       <span class="gw-dn">${j===0?T('wxToday'):wdShort(d.ymd)}</span>${gd(d)?'<i class="gw-ball">⚾</i>':''}<span class="gw-di">${icon(d.code)}</span><span class="gw-dt"><b>${d.max}°</b> ${d.min}°</span></button>`).join('')}</div>
   </div>`;
 }
+// анимированные песочные часы для «ждём подтверждения» (25.11.2026): своё SVG + CSS, без внешних библиотек
+const SAND=`<span class="sand" aria-hidden="true"><svg viewBox="0 0 40 56">
+  <defs><clipPath id="sandTop"><path d="M10 9h20c0 8-6 12-9 16h-2c-3-4-9-8-9-16z"/></clipPath><clipPath id="sandBot"><path d="M19 31h2c3 4 9 8 9 16H10c0-8 6-12 9-16z"/></clipPath></defs>
+  <rect x="6" y="3" width="28" height="5" rx="2.5" class="sd-cap"/><rect x="6" y="48" width="28" height="5" rx="2.5" class="sd-cap"/>
+  <path d="M9 8h22c0 10-7 14-9.5 20C24 34 31 38 31 48H9c0-10 7-14 9.5-20C16 22 9 18 9 8z" class="sd-glass"/>
+  <g clip-path="url(#sandTop)"><rect x="8" y="9" width="24" height="17" class="sd-sand sd-top"/></g>
+  <g clip-path="url(#sandBot)"><rect x="8" y="31" width="24" height="17" class="sd-sand sd-bot"/></g>
+  <rect x="19.2" y="25" width="1.6" height="22" rx=".8" class="sd-sand sd-flow"/>
+</svg></span>`;
 function gdCard(d){
   const e=d.g, admin=window.CL&&CL.isAdmin&&CL.isAdmin(), ok=e.ev;
   const det=[]; if(e.prob!=null) det.push(`☔ ${e.prob}%`); det.push(`💨 ${e.gust} ${T('wxKmh')}`); if(e.rain>=0.1) det.push(`${e.rain} mm`);
@@ -260,7 +269,7 @@ function gdCard(d){
     <div class="gd-r"><div class="gd-dt"><b>${wdShort(d.ymd)} ${shortDate(d.ymd)}</b><span>🕗 ${e.start}–${e.end}</span></div><div class="gd-w"><span>${icon(e.code)}</span>${e.tmax??d.max}°</div></div>
     <div class="gd-v"><i></i>${T(VL[e.v])}</div>
     <div class="gd-d">${det.join(' · ')}${e.note.length?` · ${e.note.join(' · ')}`:''}${e.far?` · ${T('wxFar')}`:''}</div>
-    <div class="gd-st">${ok?`✅ ${T('gdOk')}`:`⏳ ${T('gdWait')}`}</div>
+    <div class="gd-st">${ok?`✅ ${T('gdOk')}`:`${SAND}<span>${T('gdWait')}</span>`}</div>
     ${!ok&&admin&&e.v!=='bad'?`<button class="btn sm wx-set" onclick="event.stopPropagation();WX.setGame('${e.ymd}')">+ ${T('wxSet')}</button>`:''}
   </div>`;
 }

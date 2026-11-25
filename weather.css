@@ -140,3 +140,20 @@
 @media (max-width:520px){.gw{padding:14px}.gw-t{font-size:50px}.gw-ic{font-size:42px}.gw-meta{margin-left:6px;font-size:12px}.gw-when b{font-size:17px}.gw-day{flex-basis:64px}}
 .gw-wrap>*,.gw{min-width:0}.gw{overflow:hidden}
 @media (max-width:520px){.gw-when{flex-direction:row;flex-wrap:wrap;align-items:baseline;text-align:left;gap:4px 10px;width:100%}.gw-when b{font-size:15px}}
+/* песочные часы: песок пересыпается 2.6 с, потом часы переворачиваются; рамка карточки мягко «дышит» */
+.gd-st{display:flex;align-items:center;gap:8px}
+.sand{display:inline-flex;width:22px;height:30px;flex:none;animation:sdFlip 3.2s cubic-bezier(.6,0,.3,1) infinite;transform-origin:50% 50%}
+.sand svg{width:100%;height:100%;overflow:visible}
+.sd-cap{fill:#9A6B00}
+.sd-glass{fill:rgba(242,183,5,.10);stroke:#9A6B00;stroke-width:2;stroke-linejoin:round}
+.sd-sand{fill:#F2B705}
+.sd-top{transform-box:fill-box;transform-origin:50% 100%;animation:sdTop 3.2s linear infinite}
+.sd-bot{transform-box:fill-box;transform-origin:50% 100%;animation:sdBot 3.2s linear infinite}
+.sd-flow{animation:sdFlow 3.2s linear infinite}
+@keyframes sdTop{0%{transform:scaleY(1)}80%,100%{transform:scaleY(0)}}
+@keyframes sdBot{0%{transform:scaleY(0)}80%,100%{transform:scaleY(1)}}
+@keyframes sdFlow{0%,2%{opacity:0}6%,76%{opacity:1}80%,100%{opacity:0}}
+@keyframes sdFlip{0%,80%{transform:rotate(0)}100%{transform:rotate(180deg)}}
+.gd.wait{animation:gdGlow 2.4s ease-in-out infinite}
+@keyframes gdGlow{0%,100%{box-shadow:0 6px 18px rgba(16,35,63,.06),0 0 0 0 rgba(242,183,5,0)}50%{box-shadow:0 6px 18px rgba(16,35,63,.06),0 0 0 6px rgba(242,183,5,.18)}}
+@media (prefers-reduced-motion:reduce){.sand,.sd-top,.sd-bot,.sd-flow,.gd.wait{animation:none}}
