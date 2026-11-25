@@ -1,0 +1,73 @@
+/* Лента событий — газета (25.11.2026). Три варианта: .np-a классика, .np-b таблоид, .np-c вырезки */
+.np{--ink:#1d1a16;--paper:#f7f2e6;--rule:#2b2620;color:var(--ink);font-family:Georgia,"Times New Roman",Times,serif}
+.np a{color:inherit;text-decoration:none}
+.np-kick{display:inline-block;font:800 11px/1 'Onest',system-ui,sans-serif;letter-spacing:1.6px;text-transform:uppercase;color:#a3301c;margin-bottom:6px}
+.np-prev{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:baseline;border-top:3px double var(--rule);margin-top:16px;padding-top:10px;font-size:13px}
+.np-prev-h{font:800 11px/1 'Onest',system-ui,sans-serif;letter-spacing:1.6px;text-transform:uppercase}
+.np-prev-i span{display:block;font-style:italic;opacity:.8}
+.np-prev-i:hover{text-decoration:underline}
+.np-nophoto{display:grid;place-items:center;background:#e7dfcc;font-size:40px}
+.np .av{filter:grayscale(1) contrast(1.05)}
+
+/* A — классическая газета */
+.np-a{background:var(--paper);background-image:radial-gradient(rgba(120,90,40,.06) 1px,transparent 1px);background-size:4px 4px;border-radius:6px;padding:22px 26px 18px;box-shadow:0 1px 0 #e8dfc9,0 12px 28px rgba(60,40,10,.12);border:1px solid #e3d8bf}
+.np-a .np-mast{text-align:center;border-bottom:4px double var(--rule);padding-bottom:10px;margin-bottom:16px}
+.np-a .np-meta{display:flex;justify-content:space-between;gap:10px;font:700 11px/1 'Onest',system-ui,sans-serif;letter-spacing:1px;text-transform:uppercase;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:6px 0;margin-bottom:10px}
+.np-a .np-title{margin:0;font-size:clamp(30px,5.4vw,54px);font-weight:900;letter-spacing:-.5px;line-height:1;font-family:Georgia,"Times New Roman",serif}
+.np-a .np-tag{font-style:italic;font-size:14px;margin-top:6px}
+.np-a .np-lead{display:grid;grid-template-columns:1fr 210px;gap:20px;align-items:start;border-bottom:1px solid var(--rule);padding-bottom:16px}
+.np-a .np-lead h4{margin:0 0 8px;font-size:clamp(28px,4.4vw,44px);line-height:1.02;font-weight:900}
+.np-a .np-lead p{margin:0;font-size:17px;font-style:italic}
+.np-a .np-lead p b{font-weight:700}
+.np-a figure{margin:0}
+.np-a .np-ph{width:100%;aspect-ratio:1;object-fit:cover;filter:grayscale(1) sepia(.25) contrast(1.1);border:1px solid var(--rule)}
+.np-a figcaption{font-size:12px;font-style:italic;text-align:center;margin-top:4px}
+.np-a .np-cols{display:grid;grid-template-columns:repeat(3,1fr);margin-top:14px}
+.np-a .np-art{padding:4px 16px 12px;border-left:1px solid var(--rule)}
+.np-a .np-art:nth-child(3n+1){border-left:0;padding-left:0}
+.np-a .np-art p{margin:0 0 8px;font-size:16px;line-height:1.35;font-weight:700}
+.np-a .np-art:hover p{text-decoration:underline}
+.np-a .np-by{display:flex;align-items:center;gap:6px;font-size:12px;font-style:italic}
+.np-a .np-by .av{width:24px;height:24px}
+@media (max-width:700px){.np-a{padding:16px}.np-a .np-lead{grid-template-columns:1fr 110px;gap:12px}.np-a .np-lead p{font-size:15px}.np-a .np-cols{grid-template-columns:1fr}.np-a .np-art{border-left:0;padding:10px 0;border-top:1px solid rgba(43,38,32,.25)}.np-a .np-meta span:nth-child(3){display:none}}
+
+/* B — спортивный таблоид */
+.np-b{background:#fff;border-radius:6px;overflow:hidden;border:1px solid #ddd;box-shadow:0 12px 28px rgba(0,0,0,.1);font-family:'Onest',system-ui,sans-serif}
+.np-b .np-mast{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#c8102e;color:#fff;padding:10px 18px}
+.np-b .np-title{margin:0;font:900 clamp(22px,4vw,36px)/1 'Roboto Condensed','Onest',sans-serif;text-transform:uppercase;letter-spacing:.5px;font-style:italic}
+.np-b .np-mast span{font-weight:700;font-size:12px;opacity:.9;white-space:nowrap}
+.np-b-grid{display:grid;grid-template-columns:1.5fr 1fr}
+.np-b .np-lead{position:relative;display:block;min-height:300px;background:#111;color:#fff;overflow:hidden}
+.np-b .np-lead .np-ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.75}
+.np-b .np-lead-t{position:absolute;left:0;right:0;bottom:0;padding:18px;background:linear-gradient(0deg,rgba(0,0,0,.85),transparent)}
+.np-b .np-lead .np-kick{background:#FFD400;color:#111;padding:4px 8px}
+.np-b .np-lead h4{margin:4px 0 6px;font:900 clamp(30px,5vw,52px)/.95 'Roboto Condensed','Onest',sans-serif;text-transform:uppercase}
+.np-b .np-lead p{margin:0;font-size:14px}.np-b .np-lead p a{text-decoration:underline}
+.np-b .np-brief{padding:12px 16px;border-left:4px solid #c8102e}
+.np-b .np-brief-h{font:900 18px/1 'Roboto Condensed',sans-serif;text-transform:uppercase;border-bottom:3px solid #111;padding-bottom:6px;margin-bottom:6px}
+.np-b .np-art{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid #eee}
+.np-b .np-art:last-child{border-bottom:0}
+.np-b .np-art .np-kick{color:#c8102e;margin-bottom:2px}
+.np-b .np-art p{margin:0;font-weight:700;font-size:14px;line-height:1.3}
+.np-b .np-art .av{filter:none}
+.np-b .np-prev{margin:0;padding:10px 18px;border-top:3px solid #111;font-family:'Onest',system-ui,sans-serif}
+@media (max-width:760px){.np-b-grid{grid-template-columns:1fr}.np-b .np-brief{border-left:0;border-top:4px solid #c8102e}.np-b .np-lead{min-height:260px}}
+
+/* C — вырезки на пробковой доске */
+.np-c{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:22px 18px;padding:24px 20px;border-radius:14px;background:#b98a56;background-image:radial-gradient(rgba(70,40,10,.25) 1.2px,transparent 1.6px),radial-gradient(rgba(255,230,190,.18) 1px,transparent 1.4px);background-size:7px 7px,11px 11px;box-shadow:inset 0 0 0 8px #8a5a2b,inset 0 0 30px rgba(0,0,0,.3)}
+.np-clip{position:relative;display:block;background:var(--paper);padding:16px 14px 14px;transform:rotate(var(--r));box-shadow:0 6px 14px rgba(0,0,0,.28);transition:transform .2s;clip-path:polygon(0 2%,4% 0,12% 1.5%,22% 0,35% 1%,48% 0,60% 1.5%,74% 0,86% 1%,100% 0,99% 20%,100% 45%,98.5% 70%,100% 100%,80% 98.5%,62% 100%,44% 98.5%,26% 100%,10% 98.5%,0 100%,1.5% 70%,0 40%)}
+.np-clip:hover{transform:rotate(0) scale(1.03);z-index:2}
+.np-tape{position:absolute;top:-2px;left:50%;width:70px;height:20px;transform:translateX(-50%) rotate(-3deg);background:rgba(255,250,220,.75);box-shadow:0 1px 2px rgba(0,0,0,.15)}
+.np-clip p{margin:6px 0 0;font-size:16px;font-weight:700;line-height:1.3}
+.np-clip .np-ph{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;filter:grayscale(1) sepia(.3) contrast(1.1);margin-top:4px}
+.np-clip-lead{grid-column:span 2}
+.np-clip-lead h4{margin:6px 0;font-size:30px;line-height:1.05;font-weight:900}
+.np-clip-lead p{font-style:italic;font-weight:400}
+.np-clip-lead p a{text-decoration:underline}
+.np-paper-name{font:800 11px/1.3 'Onest',system-ui,sans-serif;letter-spacing:1px;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px}
+@media (max-width:520px){.np-c{grid-template-columns:1fr 1fr;gap:16px 12px;padding:16px 12px}.np-clip-lead{grid-column:1/-1}.np-clip p{font-size:13px}.np-clip-lead h4{font-size:24px}}
+/* тёмная тема: газета остаётся газетой (светлая бумага) */
+.np-c .np-clip-lead{display:flex;flex-direction:column;justify-content:center}
+.np-clip{align-self:start}
+.np-cl-row{display:flex;gap:14px;align-items:center}.np-cl-row>div{flex:1}.np-cl-row .np-ph{width:120px;flex:none;margin:0}
+@media (max-width:520px){.np-cl-row .np-ph{width:80px}}

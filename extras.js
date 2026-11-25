@@ -70,16 +70,50 @@ function feedEvents(){
   return out;
 }
 const FD_IC={game:'plate',debut:'cap',hr:'hr',streak:'fire',big:'star',perfect:'target',rec:'trophy'};
-function feedBlock(){
-  const games=S.games.filter(g=>g.stats); if(!games.length) return '';
-  // новые игры сверху, внутри игры — по важности
-  const all=feedEvents(), byGame=[];
-  for(const g of [...games].reverse()) byGame.push(...all.filter(e=>e.g===g).sort((p,q)=>p.w-q.w));
-  const L=byGame.slice(0,8);
-  return `<div class="section-title"><h2>${T('fdTitle')}</h2><span class="hint">${T('fdHint')}</span></div>
-    <div class="card feed">${L.map(e=>{ const p=e.pid&&P(e.pid);
-      return `<a class="fd-row" href="${e.href}"><span class="fd-ic fd-${e.ic}">${(window.SBI||(()=>""))(FD_IC[e.ic]||"ball",20)}</span>${p?av(p):''}<span class="fd-t">${e.txt}</span><span class="fd-d">${fmtDate(e.g.date,{day:'numeric',month:'short'})}</span></a>`; }).join('')}</div>`;
+/* ---------- лента событий в виде газеты (25.11.2026): 3 варианта оформления, выбор — localStorage sb.fdv (a/b/c) ---------- */
+Object.assign(I18N.ru,{npName:'Вестник Softball Baku',npTag:'Еженедельная газета любительского софтбола · Баку',npNo:n=>`№ ${n}`,npPrice:'Цена: одна хорошая подача',npPrev:'Прошлые выпуски',npMore:'Читать',npBrief:'Коротко',
+  npK:{game:'Итог игры',hr:'Хоум-ран',streak:'Серия',big:'Звезда игры',perfect:'Идеальная игра',rec:'Рекорд',debut:'Дебют'},npMvp:'Игрок матча',npRt:'рейтинг'});
+Object.assign(I18N.az,{npName:'Softball Baku Qəzeti',npTag:'Həvəskar softbolun həftəlik qəzeti · Bakı',npNo:n=>`№ ${n}`,npPrice:'Qiyməti: bir yaxşı atış',npPrev:'Əvvəlki saylar',npMore:'Oxu',npBrief:'Qısa xəbərlər',
+  npK:{game:'Oyunun nəticəsi',hr:'Homeran',streak:'Seriya',big:'Oyunun ulduzu',perfect:'Mükəmməl oyun',rec:'Rekord',debut:'Debüt'},npMvp:'Oyunun ən yaxşısı',npRt:'reytinq'});
+Object.assign(I18N.en,{npName:'The Softball Baku Times',npTag:'The weekly paper of amateur softball · Baku',npNo:n=>`No. ${n}`,npPrice:'Price: one good pitch',npPrev:'Past issues',npMore:'Read',npBrief:'In brief',
+  npK:{game:'Final score',hr:'Home run',streak:'Streak',big:'Star of the game',perfect:'Perfect day',rec:'Record',debut:'Debut'},npMvp:'Player of the game',npRt:'rating'});
+const strip=s=>String(s).replace(/<span>.*?<\/span>/,'');
+function paperIssues(){
+  const games=S.games.filter(g=>g.stats); if(!games.length) return [];
+  const all=feedEvents();
+  return [...games].reverse().map(g=>({g,no:games.indexOf(g)+1,ev:all.filter(e=>e.g===g&&e.ic!=='game').sort((p,q)=>p.w-q.w)}));
 }
+function bigPhoto(p,cls){ return p&&p.photo?`<img class="${cls}" src="${avSrc(p.photo,'xl')}" alt="${esc(pname(p))}" loading="lazy">`:`<span class="${cls} np-nophoto">⚾</span>`; }
+function feedBlock(){
+  const I=paperIssues(); if(!I.length) return '';
+  const v=(()=>{ try{ const q=new URLSearchParams(location.search).get('gazeta'); if(/^[abc]$/.test(q||'')) localStorage.setItem('sb.fdv',q); return localStorage.getItem('sb.fdv')||'a'; }catch(e){ return 'a'; } })(); // ?gazeta=a|b|c — посмотреть вариант
+  const cur=I[0], g=cur.g, win=g.score.A>g.score.B?'A':g.score.B>g.score.A?'B':null, a=win||'A', b=a==='A'?'B':'A';
+  const mvp=g.mvp&&P(g.mvp.player), K=T('npK'), date=fmtDate(g.date,{day:'numeric',month:'long',year:'numeric'});
+  const head=`${esc(g.teams[a].name)} ${g.score[a]}:${g.score[b]} ${esc(g.teams[b].name)}`;
+  const lead=mvp?`${T('npMvp')} — <b>${esc(pname(mvp))}</b>, ${T('npRt')} ${g.mvp.rating.toFixed(1)}`:''; // без вложенных ссылок: вся заметка — ссылка на игру
+  const items=cur.ev.slice(0,v==='c'?6:5);
+  const prev=I.slice(1,4).map(x=>{ const w=x.g.score.A>=x.g.score.B?'A':'B', l=w==='A'?'B':'A';
+    return `<a class="np-prev-i" href="#game-${x.g.id}"><b>${T('npNo')(x.no)}</b> · ${fmtDate(x.g.date,{day:'numeric',month:'short'})}<span>${esc(x.g.teams[w].name)} ${x.g.score[w]}:${x.g.score[l]} ${esc(x.g.teams[l].name)}</span></a>`; }).join('');
+  let h='';
+  if(v==='a'){ // классическая газета: шапка с названием, крупный заголовок, колонки
+    h=`<div class="np np-a"><div class="np-mast"><div class="np-meta"><span>${T('npNo')(cur.no)}</span><span>${date}</span><span>${T('npPrice')}</span></div>
+      <h3 class="np-title">${T('npName')}</h3><div class="np-tag">${T('npTag')}</div></div>
+      <a class="np-lead" href="#game-${g.id}"><div class="np-lead-t"><span class="np-kick">${K.game}</span><h4>${head}</h4><p>${lead}</p></div>${mvp?`<figure>${bigPhoto(mvp,'np-ph')}<figcaption>${esc(pname(mvp))}</figcaption></figure>`:''}</a>
+      <div class="np-cols">${items.map(e=>{ const p=e.pid&&P(e.pid); return `<a class="np-art" href="${e.href}"><span class="np-kick">${K[e.ic]||''}</span><p>${e.txt}</p>${p?`<span class="np-by">${av(p)}${esc(pname(p))}</span>`:''}</a>`; }).join('')}</div>
+      ${prev?`<div class="np-prev"><span class="np-prev-h">${T('npPrev')}</span>${prev}</div>`:''}</div>`;
+  } else if(v==='b'){ // спортивный таблоид: красная шапка, огромный заголовок, фото звезды, колонка «Коротко»
+    h=`<div class="np np-b"><div class="np-mast"><h3 class="np-title">${T('npName')}</h3><span>${T('npNo')(cur.no)} · ${date}</span></div>
+      <div class="np-b-grid"><a class="np-lead" href="#game-${g.id}">${mvp?bigPhoto(mvp,'np-ph'):''}<div class="np-lead-t"><span class="np-kick">${K.game}</span><h4>${head}</h4><p>${lead}</p></div></a>
+      <div class="np-brief"><div class="np-brief-h">${T('npBrief')}</div>${items.map(e=>{ const p=e.pid&&P(e.pid); return `<a class="np-art" href="${e.href}">${p?av(p):''}<div><span class="np-kick">${K[e.ic]||''}</span><p>${e.txt}</p></div></a>`; }).join('')}</div></div>
+      ${prev?`<div class="np-prev"><span class="np-prev-h">${T('npPrev')}</span>${prev}</div>`:''}</div>`;
+  } else { // вырезки из газеты на пробковой доске
+    const rot=[-2.2,1.6,-1.2,2.4,-1.8,1.1,-.8], seen=new Set(mvp?[mvp.id]:[]);
+    h=`<div class="np np-c"><a class="np-clip np-clip-lead" href="#game-${g.id}" style="--r:-1deg"><span class="np-tape"></span><div class="np-paper-name">${T('npName')} · ${T('npNo')(cur.no)} · ${date}</div><div class="np-cl-row"><div><h4>${head}</h4><p>${lead}</p></div>${mvp?bigPhoto(mvp,'np-ph'):''}</div></a>
+      ${items.map((e,i)=>{ const p=e.pid&&P(e.pid), ph=p&&!seen.has(p.id); if(p) seen.add(p.id); return `<a class="np-clip" href="${e.href}" style="--r:${rot[i%rot.length]}deg"><span class="np-tape"></span><span class="np-kick">${K[e.ic]||''}</span>${ph?bigPhoto(p,'np-ph'):''}<p>${e.txt}</p></a>`; }).join('')}</div>`;
+  }
+  return `<div class="section-title"><h2>${T('fdTitle')}</h2><span class="hint">${T('fdHint')}</span></div>${h}`;
+}
+window.fdVariant=v=>{ try{ localStorage.setItem('sb.fdv',v); }catch(e){} const s=document.querySelector('.feed-sec'); if(s) s.innerHTML=feedBlock(); };
 
 /* ---------- карта ударов ---------- */
 const XY={P:[150,168],C:[150,226],'1B':[204,160],'2B':[180,124],SS:[120,124],'3B':[96,160],LF:[62,82],LCF:[104,54],CF:[150,42],RCF:[196,54],RF:[238,82]};
