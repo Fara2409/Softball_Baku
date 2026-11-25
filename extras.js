@@ -86,7 +86,7 @@ function paperIssues(){
 function bigPhoto(p,cls){ return p&&p.photo?`<img class="${cls}" src="${avSrc(p.photo,'xl')}" alt="${esc(pname(p))}" loading="lazy">`:`<span class="${cls} np-nophoto">⚾</span>`; }
 function feedBlock(){
   const I=paperIssues(); if(!I.length) return '';
-  const v=(()=>{ try{ const q=new URLSearchParams(location.search).get('gazeta'); if(/^[abc]$/.test(q||'')) localStorage.setItem('sb.fdv',q); return localStorage.getItem('sb.fdv')||'a'; }catch(e){ return 'a'; } })(); // ?gazeta=a|b|c — посмотреть вариант
+  const v=(()=>{ try{ const q=new URLSearchParams(location.search).get('gazeta'); if(/^[abc]$/.test(q||'')) localStorage.setItem('sb.fdv',q); return localStorage.getItem('sb.fdv')||'c'; }catch(e){ return 'c'; } })(); // ?gazeta=a|b|c — посмотреть вариант
   const cur=I[0], g=cur.g, win=g.score.A>g.score.B?'A':g.score.B>g.score.A?'B':null, a=win||'A', b=a==='A'?'B':'A';
   const mvp=g.mvp&&P(g.mvp.player), K=T('npK'), date=fmtDate(g.date,{day:'numeric',month:'long',year:'numeric'});
   const head=`${esc(g.teams[a].name)} ${g.score[a]}:${g.score[b]} ${esc(g.teams[b].name)}`;
