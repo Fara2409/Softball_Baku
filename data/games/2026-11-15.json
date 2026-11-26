@@ -118,7 +118,7 @@
    "PK": 0,
    "PBB": 0,
    "A": 5,
-   "E": 3,
+   "E": 2,
    "E2": 1,
    "E3": 0
   },
@@ -342,7 +342,7 @@
    "PK": 0,
    "PBB": 0,
    "A": 0,
-   "E": 0,
+   "E": 1,
    "E2": 0,
    "E3": 0
   },
@@ -1694,7 +1694,7 @@
    "d": "CF",
    "bt": "g",
    "e": [
-    "sergey-molchanov"
+    "sediyar-aliyev"
    ],
    "sc": [
     "ramiz-ismayilov",
