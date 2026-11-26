@@ -61,13 +61,33 @@ const BASE=6.0;
 const W={'1B':.2,'2B':.4,'3B':.6,HR:.8,BB:.15,ROE:.15,FC:.1,R:.1,RBI:.15,OUT:-.25,K:-.35,
   FPO:.2,A:.1,RPO:.07,PK:.25,PBB:-.1,E:-.2,E2:-.25,E3:-.3,OFPO:.2,OFF2:.25,OFF3:.3,OFA:.2,OFPOS:.15,CPOS:.15,RA:.07,HA:.03,HPO:.2}; // 26.11.2026: передача на аут A +0.1 (во всех играх, было +0.13); если мяч получил от партнёра — RA +0.07, а помощнику (первым обработал и отдал, в т.ч. филдеру) — HA +0.03; // CPOS: бонус кэтчеру за позицию +0.15 за игру (16.11.2026); HPO: кэтчер поймал бросок и выбил бегуна на доме +0.2 вместо +0.07 (26.11.2026); // 16.11.2026 баланс аутфилда: филдер (LF/CF/RF/LCF/RCF) — флай-аут по самому дальнему бегуну: пусто или 1-я база +0.2, 2-я +0.25 (OFF2 в box), 3-я +0.3 (OFF3), передача на аут +0.2, бонус за позицию +0.15 за игру; // 13.11.2026: ошибка по числу баз, отданных самому дальнему бегуну: 1 база −0.2, 2 базы −0.25, 3+ базы −0.3 (E2/E3 в box; остальные E — по 1 базе) // 12.11.2026: R .1, RBI .15 (меньше зависимость от команды), FPO .2, A .13, принятый бросок .07 (защита весомее) // E −0.2 с 09.11.2026 (было −0.4) // бонуса за победу нет (убран 07.11.2026)
 const OF_POS=new Set(['LF','CF','RF','LCF','RCF','SF']);   // SF — между полем и квадратом, считается полевым (22.11.2026)
+// Цена ошибки по позициям (26.11.2026): ошибка = EK × средняя цена удачного розыгрыша своей позиции,
+// ×1.25 за 2 базы, ×1.5 за 3+. EK подбирается так, чтобы общий штраф по лиге был как при −0.2/−0.25/−0.3.
+// Считается сама по играм межсезонья (до S.start): после каждой такой игры цены уточняются, с 1 января — заморожены.
+// Позиции с малым числом розыгрышей (< 10, напр. C) — обычная цена −0.2.
+const EPOS={};
+const posGrp=pos=>{const p=String(pos||'').split(/[\/,\s]/)[0];return OF_POS.has(p)?'OF':p};
+function calibrateErr(games,start){
+  const G={};let cur=0;
+  for(const g of games){ if(start&&g.date>=start) continue;
+    for(const b of g.box||[]){ const k=posGrp(b.pos),of=k==='OF',x=G[k]=G[k]||{pl:0,pts:0,eu:0};
+      const fpo=b.FPO||0,rpo=Math.max(0,(b.PO||0)-fpo-(b.KPO||0)),A=b.A||0,o2=b.OFF2||0,o3=b.OFF3||0;
+      x.pl+=fpo+rpo+A; x.pts+=(of?W.OFPO*(fpo-o2-o3)+W.OFF2*o2+W.OFF3*o3+W.OFA*A:W.FPO*fpo+W.A*A)+W.RPO*rpo;
+      const e1=(b.E||0)-(b.E2||0)-(b.E3||0),e2=b.E2||0,e3=b.E3||0; x.eu+=e1+1.25*e2+1.5*e3; cur+=W.E*e1+W.E2*e2+W.E3*e3; } }
+  let units=0; for(const k in G){ const x=G[k]; x.avg=x.pl>=10?x.pts/x.pl:null; units+=x.eu*(x.avg??-W.E); }
+  const EK=units>0?-cur/units:0;
+  for(const k in EPOS) delete EPOS[k];
+  for(const k in G) if(G[k].avg!=null&&EK>0) EPOS[k]=Math.round(EK*G[k].avg*100)/100;
+  EPOS._k=Math.round(EK*100)/100; return EPOS;
+}
+const errUnit=pos=>EPOS[posGrp(pos)]??-W.E; // цена ошибки на 1 базу (положительное число)
 // Вклад в нападение и защиту (очки сверх BASE), без округления
 function ratingParts(b){
   const roe=b.ROE||0, fc=b.FC||0, outs=Math.max(0,b.AB-b.H-b.K-roe-fc);  /* FC (выбор полевого) — не аут: +0.1 (решение 15.11.2026); в AVG/OBP — AB без хита, как в MLB */
   const off=W['1B']*b['1B']+W['2B']*b['2B']+W['3B']*b['3B']+W.HR*b.HR+W.BB*b.BB+W.ROE*roe+W.FC*fc+W.R*b.R+W.RBI*b.RBI+W.OUT*outs+W.K*b.K;
   const fpo=b.FPO||0,kpo=b.KPO||0,rpo=Math.max(0,(b.PO||0)-fpo-kpo); // в старых протоколах без FPO/KPO все PO считаются принятыми бросками
   const of=OF_POS.has(String(b.pos||'').split(/[\/,\s]/)[0]); // аутфилд: реже получает мяч → ловля и передача дороже + бонус за позицию (16.11.2026)
-  const def=(of?W.OFPO*(fpo-(b.OFF2||0)-(b.OFF3||0))+W.OFF2*(b.OFF2||0)+W.OFF3*(b.OFF3||0):W.FPO*fpo)+W.RPO*Math.max(0,rpo-(b.HPO||0))+W.HPO*(b.HPO||0)+((of?W.OFA:W.A)*Math.max(0,(b.A||0)-(b.RA||0)-(b.HA||0))+W.RA*(b.RA||0)+W.HA*(b.HA||0))+(of?W.OFPOS:0)+(String(b.pos||'').split(/[\/,\s]/)[0]==='C'?W.CPOS:0)+W.PK*(b.PK||0)+W.PBB*(b.PBB||0)+W.E*((b.E||0)-(b.E2||0)-(b.E3||0))+W.E2*(b.E2||0)+W.E3*(b.E3||0);
+  const def=(of?W.OFPO*(fpo-(b.OFF2||0)-(b.OFF3||0))+W.OFF2*(b.OFF2||0)+W.OFF3*(b.OFF3||0):W.FPO*fpo)+W.RPO*Math.max(0,rpo-(b.HPO||0))+W.HPO*(b.HPO||0)+((of?W.OFA:W.A)*Math.max(0,(b.A||0)-(b.RA||0)-(b.HA||0))+W.RA*(b.RA||0)+W.HA*(b.HA||0))+(of?W.OFPOS:0)+(String(b.pos||'').split(/[\/,\s]/)[0]==='C'?W.CPOS:0)+W.PK*(b.PK||0)+W.PBB*(b.PBB||0)-errUnit(b.pos)*(((b.E||0)-(b.E2||0)-(b.E3||0))+1.25*(b.E2||0)+1.5*(b.E3||0)); // ошибка — по цене своей позиции (26.11.2026)
   return {off,def};
 }
 function rating(b,won){
@@ -109,6 +129,7 @@ async function load(){
   if(window.DEMO_MODE&&window.makeDemoGames){ S.demo=true; S.games=makeDemoGames(Object.values(S.players)); }
   else S.games=await Promise.all((idx.games||[]).map(id=>get(`data/games/${id}.json`)));
   S.games.sort((a,b)=>a.date.localeCompare(b.date));
+  calibrateErr(S.games,S.start); // цены ошибок по позициям — по играм межсезонья
   for(const g of S.games){
     g.winner=g.score.A>g.score.B?'A':g.score.B>g.score.A?'B':null;
     for(const b of g.box){ b.rating=rating(b,g.winner===b.team); const rp=ratingParts(b); b.rOff=rp.off; b.rDef=rp.def; S.players[b.player]?.log.push({game:g,b}); }
