@@ -157,7 +157,7 @@ window.rulesPage=function(){
   h+=`<div class="rules-grid">${R.sec.slice(1,3).map(([t,b])=>`<div class="card rule"><h3>${t}</h3>${b}</div>`).join('')}</div>`;
   // рейтинг — веса берутся прямо из формулы в app.js
   const fmt=v=>(v>0?'+':v<0?'−':'±')+Math.abs(v).toFixed(2).replace(/0$/,'');
-  const bat=['1B','2B','3B','HR','BB','ROE','R','RBI','OUT','K'], def=['FPO','A2','RA','HA','OFPO','OFF2','OFF3','OFA','OFPOS','CPOS','RPO','PK','PBB','E','E2','E3'];
+  const bat=['1B','2B','3B','HR','BB','ROE','R','RBI','OUT','K'], def=['FPO','A','RA','HA','OFPO','OFF2','OFF3','OFA','OFPOS','CPOS','RPO','PK','PBB','E','E2','E3'];
   const row=k=>(k in W)?`<div class="w-row"><span>${X.n[k]}</span><b class="${W[k]>0?'pos':W[k]<0?'neg':''}">${fmt(W[k])}</b></div>`:'';
   h+=`<div class="section-title"><h2 data-ic="chart">${X.t}</h2></div><div class="card rule"><p>${X.intro(typeof BASE!=='undefined'?BASE:6)}</p>
      <div class="w-cols"><div><h4>${X.bat}</h4>${bat.map(row).join('')}</div><div><h4>${X.def}</h4>${def.map(row).join('')}</div><div>${'WIN' in W?`<h4>${X.win}</h4>${row('WIN')}`:''}
