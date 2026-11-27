@@ -402,7 +402,9 @@ async function finishOAuth(){
       const {data,error}=await C.sb.auth.verifyOtp({token_hash:th,type:typ});
       if(error) throw error;
       if(data&&data.session) await onSession(data.session,true);
-      if(typ==='recovery') auth('newpass');
+      // сброс пароля: тип recovery, либо (если в шаблоне письма указан другой тип) недавний запрос сброса у этого пользователя
+      const u=(data&&data.user)||C.user||{}, rec=u.recovery_sent_at&&Date.now()-new Date(u.recovery_sent_at).getTime()<2*3600e3;
+      if(typ==='recovery'||rec) auth('newpass');
       else if(typ==='email_change') toast(T('cSaved'));
       else toast(T('cConfirmedOk'));
     }catch(e){ console.warn('[club] verifyOtp',e); toast(T('cLinkBad')); rerender(); }
