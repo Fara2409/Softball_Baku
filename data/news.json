@@ -2,6 +2,46 @@
  "items": [
   {
    "source": "MLB",
+   "title": "Hot Stove Rumors: Arozarena, Suzuki, Morejon, Blue Jays, Orioles",
+   "link": "https://www.mlb.com/news/mlb-rumors-and-2026-27-free-agent-news-november-25",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/vzoetdmhokslqdz6nbny",
+   "date": "2026-11-27T03:03:00Z"
+  },
+  {
+   "source": "MLB",
+   "title": "The 16 most jaw-dropping Statcast feats of 2026",
+   "link": "https://www.mlb.com/news/top-statcast-plays-of-2026",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/v1795731680/mlb/aageaoo40rr7omkyg0q7",
+   "date": "2026-11-27T01:56:06Z"
+  },
+  {
+   "source": "MLB",
+   "title": "Presenting the 2026 ... All-Awardless Team!",
+   "link": "https://www.mlb.com/news/mlb-all-awardless-team-2026",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/oltopiumayyvgoscmxmc",
+   "date": "2026-11-27T01:55:37Z"
+  },
+  {
+   "source": "MLB",
+   "title": "The SP market is moving fast. Which teams still need one, and who's out there?",
+   "link": "https://www.mlb.com/news/starting-pitching-free-agent-market-update-before-thanksgiving-2026",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/l7glbotingxnkx4ywm3f",
+   "date": "2026-11-27T01:50:00Z"
+  },
+  {
+   "source": "MLB",
+   "title": "From 17 to 25, here is the best prospect at each age",
+   "link": "https://www.mlb.com/news/best-mlb-prospects-by-age-2026",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/hkeerihq71sls29o94aa",
+   "date": "2026-11-26T21:24:42Z"
+  },
+  {
+   "source": "MLB",
    "title": "A Thanksgiving dinner made entirely of Minor League logos? Dig in!",
    "link": "https://www.mlb.com/news/thanksgiving-dinner-made-of-minor-league-logos",
    "summary": "",
@@ -41,46 +81,6 @@
    "date": "2026-11-26T14:35:10Z"
   },
   {
-   "source": "MLB",
-   "title": "26 things Sarah Langs is thankful for from the 2026 baseball season (which was the best!)",
-   "link": "https://www.mlb.com/news/things-to-be-thankful-for-from-2026-mlb-season",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/rr3vrwzsyg3kfprdxwgj",
-   "date": "2026-11-26T05:00:00Z"
-  },
-  {
-   "source": "MLB",
-   "title": "Twins add righty reliever Ginkel on 2-year deal (sources)",
-   "link": "https://www.mlb.com/news/kevin-ginkel-twins-deal",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/wou3fk7pegjvfmrpuuwt",
-   "date": "2026-11-26T04:27:00Z"
-  },
-  {
-   "source": "MLB",
-   "title": "The most unlikely and unusual pitcher wins of 2026",
-   "link": "https://www.mlb.com/news/most-unusual-pitcher-wins-of-2026",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/sj5dtoqyfnrj7f6npsx3",
-   "date": "2026-11-26T04:11:53Z"
-  },
-  {
-   "source": "MLB",
-   "title": "Rockies continue to bolster starting pitching, add Peterson, Sandoval (sources)",
-   "link": "https://www.mlb.com/news/david-peterson-rockies-deal",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/dqk15accyexfqy9ikcl3",
-   "date": "2026-11-26T03:09:00Z"
-  },
-  {
-   "source": "MLB",
-   "title": "The SP market is moving fast. Which teams still need one, and who's out there?",
-   "link": "https://www.mlb.com/news/starting-pitching-free-agent-market-update-before-thanksgiving-2026",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/l7glbotingxnkx4ywm3f",
-   "date": "2026-11-26T01:50:00Z"
-  },
-  {
    "source": "CBS",
    "title": "MLB rumors: Kevin Gausman finds new home, plus latest on Royals, Phillies, Rockies, Cubs, Mariners, more",
    "link": "https://www.cbssports.com/mlb/news/mlb-rumors-alec-bohm-royals-randy-arozarena-seiya-suzuki-phillies-mets-padres-red-sox/",
@@ -97,5 +97,5 @@
    "date": "2026-11-26T01:31:07Z"
   }
  ],
- "updated": "2026-11-26T21:33:52Z"
+ "updated": "2026-11-27T04:16:08Z"
 }
