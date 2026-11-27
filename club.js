@@ -393,6 +393,21 @@ async function google(){
 }
 async function finishOAuth(){
   const q=new URLSearchParams(location.search), code=q.get('code'), err=q.get('error'), conf=q.get('confirmed')||q.get('reset'), rst=q.get('reset');
+  // ссылки из писем вида ?token_hash=…&type=recovery|signup|email работают в любом браузере и на любом устройстве (27.11.2026)
+  const th=q.get('token_hash'), typ=q.get('type');
+  if(th&&typ){
+    C.welcomed=true; closeModal();
+    try{ history.replaceState(null,'',location.pathname+(location.hash||'#rating')); }catch(e){}
+    try{
+      const {data,error}=await C.sb.auth.verifyOtp({token_hash:th,type:typ});
+      if(error) throw error;
+      if(data&&data.session) await onSession(data.session,true);
+      if(typ==='recovery') auth('newpass');
+      else if(typ==='email_change') toast(T('cSaved'));
+      else toast(T('cConfirmedOk'));
+    }catch(e){ console.warn('[club] verifyOtp',e); toast(T('cLinkBad')); rerender(); }
+    return true;
+  }
   if(!code&&!err) return false;
   C.welcomed=true; closeModal();
   const ret=lsGet('sb.ret','')||location.hash||'#rating'; lsSet('sb.ret','');
