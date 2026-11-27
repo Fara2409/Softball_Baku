@@ -23,7 +23,7 @@ Object.assign(I18N.ru,{
   cErrCreds:'Неверная почта или пароль',cErrExists:'Эта почта уже зарегистрирована — войдите',cErrShort:'Пароль должен быть не короче 6 символов',
   cErrEmail:'Проверьте адрес почты',cErrName:'Укажите имя',cErrNet:'Нет связи. Попробуйте чуть позже.',cErrRate:'Слишком много попыток — подождите несколько минут',
   cErrTaken:'Этот игрок уже привязан к другому аккаунту',cErrPerm:'Нет прав на это действие',cErrGeneric:'Ошибка',
-  cConfirmNeeded:'Аккаунт создан, но сайт требует подтверждение почты. Напишите админу.',cHello:n=>`Здравствуйте, ${n}!`,cReqSent:'Заявка игрока отправлена админу',
+  cConfirmNeeded:'Аккаунт создан, но сайт требует подтверждение почты. Напишите админу.',cSentT:'Проверьте почту',cSentP:e=>`Мы отправили письмо на <b>${e}</b>. Откройте его и нажмите ссылку — после этого почта будет подтверждена. Если письма нет пару минут, загляните в папку «Спам».`,cConfirmedOk:'Почта подтверждена — добро пожаловать!',cConfirmedLogin:'Почта подтверждена. Теперь войдите с вашей почтой и паролем.',cLinkBad:'Ссылка устарела или уже использована. Попробуйте войти с почтой и паролем.',cHello:n=>`Здравствуйте, ${n}!`,cReqSent:'Заявка игрока отправлена админу',
   cRole_guest:'Гость',cRole_player:'Игрок',cRole_admin:'Админ',cProfile:'Профиль',cLogout:'Выйти',cAdmin:'Админка',
   cPhoto:'Фото профиля',cPhotoPick:'Загрузить фото',cPhotoChange:'Сменить фото',cPhotoDel:'Удалить фото',cPhotoHint:'JPG или PNG с телефона или компьютера. Сайт сам обрежет его по кругу и уменьшит.',cPhotoBusy:'Загружаю…',cPhotoErr:'Не удалось загрузить фото. Попробуйте другое (JPG или PNG).',cPhotoOff:'Загрузка фото пока не включена — напишите админу.',cPhotoDelQ:'Удалить фото профиля?',cSave:'Сохранить',cSaved:'Сохранено',cBday:'Дата рождения',cBdayHint:'День и месяц, год не нужен. В этот день на сайте появится поздравление.',cBdayAsk:'Когда у вас день рождения?',cBdayAskTxt:'Укажите день и месяц — в этот день команда поздравит вас на сайте 🎉',cLater:'Позже',cErrBday:'Укажите день и месяц рождения',cDay:'День',cMonth:'Месяц',cMonths:['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'],cLinked:'Вы подтверждены как игрок',cPending:p=>`Заявка отправлена: ${p}. Ждёт подтверждения админа.`,
   cRequest:'Я игрок команды',cSendReq:'Отправить заявку',cCancelReq:'Отменить заявку',cChangePass:'Сменить пароль',cNewPass:'Новый пароль',cPassChanged:'Пароль изменён',
@@ -57,7 +57,7 @@ Object.assign(I18N.az,{
   cErrCreds:'E-poçt və ya şifrə səhvdir',cErrExists:'Bu e-poçt artıq qeydiyyatdadır — daxil olun',cErrShort:'Şifrə ən azı 6 simvol olmalıdır',
   cErrEmail:'E-poçtu yoxlayın',cErrName:'Adınızı yazın',cErrNet:'Bağlantı yoxdur. Bir az sonra yenidən cəhd edin.',cErrRate:'Çox cəhd — bir neçə dəqiqə gözləyin',
   cErrTaken:'Bu oyunçu artıq başqa hesaba bağlıdır',cErrPerm:'Bunun üçün icazəniz yoxdur',cErrGeneric:'Xəta',
-  cConfirmNeeded:'Hesab yaradıldı, amma sayt e-poçt təsdiqi tələb edir. Adminə yazın.',cHello:n=>`Salam, ${n}!`,cReqSent:'Oyunçu sorğusu adminə göndərildi',
+  cConfirmNeeded:'Hesab yaradıldı, amma sayt e-poçt təsdiqi tələb edir. Adminə yazın.',cSentT:'E-poçtunuzu yoxlayın',cSentP:e=>`<b>${e}</b> ünvanına məktub göndərdik. Onu açıb linkə klikləyin — bundan sonra e-poçt təsdiqlənəcək. Bir neçə dəqiqəyə məktub gəlməsə, «Spam» qovluğuna baxın.`,cConfirmedOk:'E-poçt təsdiqləndi — xoş gəlmisiniz!',cConfirmedLogin:'E-poçt təsdiqləndi. İndi e-poçt və şifrənizlə daxil olun.',cLinkBad:'Link köhnəlib və ya artıq istifadə olunub. E-poçt və şifrə ilə daxil olmağa çalışın.',cHello:n=>`Salam, ${n}!`,cReqSent:'Oyunçu sorğusu adminə göndərildi',
   cRole_guest:'Qonaq',cRole_player:'Oyunçu',cRole_admin:'Admin',cProfile:'Profil',cLogout:'Çıxış',cAdmin:'Admin paneli',
   cPhoto:'Profil şəkli',cPhotoPick:'Şəkil yüklə',cPhotoChange:'Şəkli dəyiş',cPhotoDel:'Şəkli sil',cPhotoHint:'Telefondan və ya kompüterdən JPG və ya PNG. Sayt onu dairəvi kəsib kiçildəcək.',cPhotoBusy:'Yüklənir…',cPhotoErr:'Şəkli yükləmək alınmadı. Başqasını yoxlayın (JPG və ya PNG).',cPhotoOff:'Şəkil yükləmə hələ aktiv deyil — adminə yazın.',cPhotoDelQ:'Profil şəkli silinsin?',cSave:'Yadda saxla',cSaved:'Yadda saxlanıldı',cBday:'Doğum tarixi',cBdayHint:'Gün və ay, il lazım deyil. Həmin gün saytda təbrik görünəcək.',cBdayAsk:'Ad gününüz nə vaxtdır?',cBdayAskTxt:'Gün və ayı qeyd edin — həmin gün komanda sizi saytda təbrik edəcək 🎉',cLater:'Sonra',cErrBday:'Doğum günü və ayını qeyd edin',cDay:'Gün',cMonth:'Ay',cMonths:['yanvar','fevral','mart','aprel','may','iyun','iyul','avqust','sentyabr','oktyabr','noyabr','dekabr'],cLinked:'Siz oyunçu kimi təsdiqlənmisiniz',cPending:p=>`Sorğu göndərilib: ${p}. Admin təsdiqini gözləyir.`,
   cRequest:'Mən komandanın oyunçusuyam',cSendReq:'Sorğu göndər',cCancelReq:'Sorğunu ləğv et',cChangePass:'Şifrəni dəyiş',cNewPass:'Yeni şifrə',cPassChanged:'Şifrə dəyişdirildi',
@@ -91,7 +91,7 @@ Object.assign(I18N.en,{
   cErrCreds:'Wrong email or password',cErrExists:'This email is already registered — log in',cErrShort:'Password must be at least 6 characters',
   cErrEmail:'Check the email address',cErrName:'Enter your name',cErrNet:'No connection. Try again a bit later.',cErrRate:'Too many attempts — wait a few minutes',
   cErrTaken:'This player is already linked to another account',cErrPerm:"You don't have permission for this",cErrGeneric:'Error',
-  cConfirmNeeded:'Account created, but the site requires email confirmation. Message the admin.',cHello:n=>`Hi, ${n}!`,cReqSent:'Player request sent to the admin',
+  cConfirmNeeded:'Account created, but the site requires email confirmation. Message the admin.',cSentT:'Check your email',cSentP:e=>`We sent an email to <b>${e}</b>. Open it and click the link to confirm your address. If it doesn't arrive in a couple of minutes, check your Spam folder.`,cConfirmedOk:'Email confirmed — welcome!',cConfirmedLogin:'Email confirmed. Now sign in with your email and password.',cLinkBad:'The link has expired or was already used. Try signing in with your email and password.',cHello:n=>`Hi, ${n}!`,cReqSent:'Player request sent to the admin',
   cRole_guest:'Guest',cRole_player:'Player',cRole_admin:'Admin',cProfile:'Profile',cLogout:'Log out',cAdmin:'Admin',
   cPhoto:'Profile photo',cPhotoPick:'Upload photo',cPhotoChange:'Change photo',cPhotoDel:'Remove photo',cPhotoHint:'JPG or PNG from your phone or computer. The site crops it to a circle and resizes it.',cPhotoBusy:'Uploading…',cPhotoErr:'Could not upload the photo. Try another one (JPG or PNG).',cPhotoOff:'Photo upload is not enabled yet — please message the admin.',cPhotoDelQ:'Remove your profile photo?',cSave:'Save',cSaved:'Saved',cBday:'Birthday',cBdayHint:'Day and month, no year needed. On that day the site will congratulate you.',cBdayAsk:'When is your birthday?',cBdayAskTxt:'Add the day and month — the team will congratulate you on the site 🎉',cLater:'Later',cErrBday:'Choose the day and month of your birthday',cDay:'Day',cMonth:'Month',cMonths:['January','February','March','April','May','June','July','August','September','October','November','December'],cLinked:'You are confirmed as a player',cPending:p=>`Request sent: ${p}. Waiting for admin approval.`,
   cRequest:"I'm on the team",cSendReq:'Send request',cCancelReq:'Cancel request',cChangePass:'Change password',cNewPass:'New password',cPassChanged:'Password changed',
@@ -358,20 +358,21 @@ async function google(){
   }catch(e){ console.warn('[club]',e); toast(T('cGoogleErr')); }
 }
 async function finishOAuth(){
-  const q=new URLSearchParams(location.search), code=q.get('code'), err=q.get('error');
+  const q=new URLSearchParams(location.search), code=q.get('code'), err=q.get('error'), conf=q.get('confirmed');
   if(!code&&!err) return false;
   C.welcomed=true; closeModal();
   const ret=lsGet('sb.ret','')||location.hash||'#rating'; lsSet('sb.ret','');
   try{ history.replaceState(null,'',location.pathname+ret); }catch(e){}
-  if(err){ toast(T('cGoogleErr')); rerender(); return true; }
+  if(err){ toast(conf?T('cLinkBad'):T('cGoogleErr')); rerender(); return true; }
   try{
     const {data,error}=await C.sb.auth.exchangeCodeForSession(code);
     if(error) throw error;
     await onSession(data.session,true);
     const pr=C.profile||{}, fresh=C.user&&C.user.created_at&&Date.now()-new Date(C.user.created_at).getTime()<10*60e3;
-    if(fresh&&!pr.player_id&&!pr.requested_player_id){ toast(T('cGooglePick')); location.hash='#me'; }
+    if(conf) toast(T('cConfirmedOk'));
+    else if(fresh&&!pr.player_id&&!pr.requested_player_id){ toast(T('cGooglePick')); location.hash='#me'; }
     else toast(T('cHello')(shortName(pr)));
-  }catch(e){ console.warn('[club]',e); toast(T('cGoogleErr')); rerender(); }
+  }catch(e){ console.warn('[club]',e); toast(conf?T('cConfirmedLogin'):T('cGoogleErr')); rerender(); }
   return true;
 }
 // ---- проверка почты при регистрации (12.11.2026: игрок написал …@olimpes.sz вместо .az) ----
@@ -425,10 +426,10 @@ async function doSignup(ev){
   try{
     const cap=f.querySelector('.cl-cap'), captchaToken=window.CAPTCHA?await CAPTCHA.token(cap):undefined;
     if(captchaToken===null) throw new Error('captcha');
-    const {data,error}=await C.sb.auth.signUp({email,password:pass,options:{data:{display_name:name,requested_player_id:pid||null,birthday:bday},...(captchaToken?{captchaToken}:{})}});
+    const {data,error}=await C.sb.auth.signUp({email,password:pass,options:{emailRedirectTo:location.origin+'/?confirmed=1',data:{display_name:name,requested_player_id:pid||null,birthday:bday},...(captchaToken?{captchaToken}:{})}});
     if(window.CAPTCHA) CAPTCHA.reset(cap);
     if(error) throw error;
-    if(!data.session){ formErr(T('cConfirmNeeded')); formBusy(f,false); return false; }
+    if(!data.session){ f.innerHTML=`<div class="cl-sent"><div class="cl-sent-ic">📩</div><h3>${T('cSentT')}</h3><p>${T('cSentP')(esc(email))}</p><button type="button" class="btn pri" onclick="CL.close()">OK</button></div>`; return false; }
     closeModal(); await onSession(data.session,true);
     toast(pid?T('cReqSent'):T('cHello')(name.split(/\s+/)[0]));
   }catch(e){ formErr(errText(e)); }

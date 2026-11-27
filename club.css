@@ -302,3 +302,8 @@ table.lb.lv-bx{min-width:0}
 .me-ph-btns{display:flex;gap:8px;flex-wrap:wrap}
 .me-ph-up{cursor:pointer}
 .av.cl-photo{background:var(--panel2)}
+/* «проверьте почту» после регистрации (27.11.2026) */
+.cl-sent{text-align:center;padding:8px 4px}
+.cl-sent-ic{font-size:44px;line-height:1;margin-bottom:8px}
+.cl-sent h3{margin:0 0 8px}
+.cl-sent p{margin:0 0 16px;color:var(--muted);line-height:1.5}
