@@ -18,7 +18,7 @@ Object.assign(I18N.ru,{
   cGoogle:'Войти через Google',cOr:'или по почте',cGoogleErr:'Не получилось войти через Google. Попробуйте ещё раз.',cGooglePick:'Добро пожаловать! Выберите себя из состава, чтобы отмечаться на игры.',cLogin:'Войти',cSignup:'Регистрация',cGuest:'Продолжить как гость',cWelcome:'Добро пожаловать!',
   cWelcomeTxt:'Смотреть сайт можно без регистрации. С аккаунтом можно писать комментарии, а игроки отмечают, придут ли на игру.',
   cName:'Ваше имя',cEmail:'Эл. почта',cPass:'Пароль',cPass2:'Повторите пароль',cErrMismatch:'Пароли не совпадают',cPassHint:'минимум 6 символов',cIAm:'Вы играете в команде?',cFan:'— Нет, я болельщик —',
-  cIAmHint:'Когда админ подтвердит, сможете отмечать «буду / не буду».',cForgot:'Забыли пароль?',
+  cIAmHint:'Когда админ подтвердит, сможете отмечать «буду / не буду».',cForgot:'Забыли пароль?',cRstTxt:'Введите почту, с которой регистрировались, — пришлём ссылку для нового пароля.',cRstBtn:'Прислать ссылку',cRstSentP:e=>`Если аккаунт с почтой <b>${e}</b> есть, мы отправили на неё ссылку. Откройте письмо и нажмите ссылку — сайт попросит придумать новый пароль. Письма нет пару минут — загляните в «Спам».`,cRstAlt:'Вошли через Google? Пароль не нужен — просто нажмите «Войти через Google».',cRstNoMail:'Не приходит письмо? Напишите админу:',cNewPassT:'Новый пароль',cNewPassTxt:'Придумайте новый пароль для входа.',cNewPassBtn:'Сохранить пароль',
   cForgotTxt:'Напишите админу — он задаст вам временный пароль. После входа поменяйте его в профиле.',cBack:'Назад',cTakenSfx:'уже зарегистрирован',
   cErrCreds:'Неверная почта или пароль',cErrExists:'Эта почта уже зарегистрирована — войдите',cErrShort:'Пароль должен быть не короче 6 символов',
   cErrEmail:'Проверьте адрес почты',cErrName:'Укажите имя',cErrNet:'Нет связи. Попробуйте чуть позже.',cErrRate:'Слишком много попыток — подождите несколько минут',
@@ -52,7 +52,7 @@ Object.assign(I18N.az,{
   cGoogle:'Google ilə daxil ol',cOr:'və ya e-poçtla',cGoogleErr:'Google ilə daxil olmaq alınmadı. Yenidən cəhd edin.',cGooglePick:'Xoş gəlmisiniz! Oyunlara qeyd olunmaq üçün heyətdən özünüzü seçin.',cLogin:'Daxil ol',cSignup:'Qeydiyyat',cGuest:'Qonaq kimi davam et',cWelcome:'Xoş gəlmisiniz!',
   cWelcomeTxt:'Saytı izləmək üçün qeydiyyat lazım deyil. Hesabla şərh yaza bilərsiniz, oyunçular isə oyuna gəlib-gəlməyəcəklərini qeyd edir.',
   cName:'Adınız',cEmail:'E-poçt',cPass:'Şifrə',cPass2:'Şifrəni təkrarlayın',cErrMismatch:'Şifrələr eyni deyil',cPassHint:'ən azı 6 simvol',cIAm:'Komandada oynayırsınız?',cFan:'— Xeyr, mən azarkeşəm —',
-  cIAmHint:'Admin təsdiq edəndən sonra «gələcəyəm / gəlməyəcəyəm» qeyd edə biləcəksiniz.',cForgot:'Şifrəni unutmusunuz?',
+  cIAmHint:'Admin təsdiq edəndən sonra «gələcəyəm / gəlməyəcəyəm» qeyd edə biləcəksiniz.',cForgot:'Şifrəni unutmusunuz?',cRstTxt:'Qeydiyyatdan keçdiyiniz e-poçtu yazın — yeni şifrə üçün link göndərəcəyik.',cRstBtn:'Link göndər',cRstSentP:e=>`<b>${e}</b> ilə hesab varsa, ora link göndərdik. Məktubu açıb linkə klikləyin — sayt yeni şifrə istəyəcək. Bir neçə dəqiqəyə gəlməsə, «Spam» qovluğuna baxın.`,cRstAlt:'Google ilə daxil olmusunuz? Şifrə lazım deyil — sadəcə «Google ilə daxil ol» düyməsini basın.',cRstNoMail:'Məktub gəlmir? Adminə yazın:',cNewPassT:'Yeni şifrə',cNewPassTxt:'Daxil olmaq üçün yeni şifrə yaradın.',cNewPassBtn:'Şifrəni saxla',
   cForgotTxt:'Adminə yazın — o sizə müvəqqəti şifrə verəcək. Daxil olandan sonra onu profilinizdə dəyişin.',cBack:'Geri',cTakenSfx:'artıq qeydiyyatdadır',
   cErrCreds:'E-poçt və ya şifrə səhvdir',cErrExists:'Bu e-poçt artıq qeydiyyatdadır — daxil olun',cErrShort:'Şifrə ən azı 6 simvol olmalıdır',
   cErrEmail:'E-poçtu yoxlayın',cErrName:'Adınızı yazın',cErrNet:'Bağlantı yoxdur. Bir az sonra yenidən cəhd edin.',cErrRate:'Çox cəhd — bir neçə dəqiqə gözləyin',
@@ -86,7 +86,7 @@ Object.assign(I18N.en,{
   cGoogle:'Continue with Google',cOr:'or with email',cGoogleErr:'Could not sign in with Google. Please try again.',cGooglePick:'Welcome! Pick yourself from the roster to reply to games.',cLogin:'Log in',cSignup:'Sign up',cGuest:'Continue as guest',cWelcome:'Welcome!',
   cWelcomeTxt:'You can browse without an account. With one you can comment, and players mark whether they are coming to games.',
   cName:'Your name',cEmail:'Email',cPass:'Password',cPass2:'Repeat password',cErrMismatch:"Passwords don't match",cPassHint:'at least 6 characters',cIAm:'Do you play on the team?',cFan:"— No, I'm a fan —",
-  cIAmHint:"Once the admin confirms, you can mark whether you're coming.",cForgot:'Forgot password?',
+  cIAmHint:"Once the admin confirms, you can mark whether you're coming.",cForgot:'Forgot password?',cRstTxt:'Enter the email you signed up with — we will send a link to set a new password.',cRstBtn:'Send link',cRstSentP:e=>`If there is an account for <b>${e}</b>, we sent a link to it. Open the email and click the link — the site will ask for a new password. Nothing after a couple of minutes? Check Spam.`,cRstAlt:'Signed in with Google? No password needed — just tap “Sign in with Google”.',cRstNoMail:'No email? Message the admin:',cNewPassT:'New password',cNewPassTxt:'Choose a new password for signing in.',cNewPassBtn:'Save password',
   cForgotTxt:'Message the admin — they will set a temporary password for you. Change it in your profile after logging in.',cBack:'Back',cTakenSfx:'already registered',
   cErrCreds:'Wrong email or password',cErrExists:'This email is already registered — log in',cErrShort:'Password must be at least 6 characters',
   cErrEmail:'Check the email address',cErrName:'Enter your name',cErrNet:'No connection. Try again a bit later.',cErrRate:'Too many attempts — wait a few minutes',
@@ -309,8 +309,17 @@ function auth(mode){
       <h2>${T('cWelcome')}</h2><p>${T('cWelcomeTxt')}</p></div>
       ${gBtn}<div class="cl-btns"><button class="btn pri" onclick="CL.auth('login')">${T('cLogin')}</button><button class="btn" onclick="CL.auth('signup')">${T('cSignup')}</button></div>${guest}`;
   } else if(mode==='forgot'){
-    h=sheetHead(T('cForgot'))+`<p class="cl-p">${T('cForgotTxt')}</p>${S.links&&S.links.whatsapp?`<a class="btn wa" href="${esc(S.links.whatsapp)}" target="_blank" rel="noopener">WhatsApp</a>`:''}
+    h=sheetHead(T('cForgot'))+`<form class="cl-form" onsubmit="return CL.doReset(event)" novalidate><p class="cl-p">${T('cRstTxt')}</p>
+      <label>${T('cEmail')}<input name="email" type="email" autocomplete="email" inputmode="email" required></label>
+      <div class="cl-cap"></div><div class="cl-err" id="cl-err"></div><button class="btn pri big" type="submit">${T('cRstBtn')}</button>
+      <span class="cl-hint">${T('cRstAlt')}</span>
+      ${S.links&&S.links.whatsapp?`<span class="cl-hint">${T('cRstNoMail')} <a href="${esc(S.links.whatsapp)}" target="_blank" rel="noopener">WhatsApp</a></span>`:''}</form>
       <button class="cl-guest" onclick="CL.auth('login')">← ${T('cBack')}</button>`;
+  } else if(mode==='newpass'){
+    h=sheetHead(T('cNewPassT'))+`<form class="cl-form" onsubmit="return CL.doNewPass(event)" novalidate><p class="cl-p">${T('cNewPassTxt')}</p>
+      <label>${T('cPass')} <span class="muted">· ${T('cPassHint')}</span><input name="pass" type="password" autocomplete="new-password" minlength="6" required></label>
+      <label>${T('cPass2')}<input name="pass2" type="password" autocomplete="new-password" minlength="6" required></label>
+      <div class="cl-err" id="cl-err"></div><button class="btn pri big" type="submit">${T('cNewPassBtn')}</button></form>`;
   } else if(mode==='signup'){
     h=sheetHead(T('cSignup'))+tabs+gOr+`<form class="cl-form" onsubmit="return CL.doSignup(event)" novalidate>
       <label>${T('cName')}<input name="name" autocomplete="name" maxlength="40" required></label>
@@ -333,6 +342,31 @@ function auth(mode){
 }
 function formBusy(f,on){ const b=f.querySelector('button[type=submit]'); if(b){ b.disabled=on; b.classList.toggle('busy',on); } }
 function formErr(msg){ const el=$id('cl-err'); if(el) el.textContent=msg||''; }
+// сброс пароля по почте (27.11.2026): ссылка возвращает на сайт с ?reset=1, там задаётся новый пароль
+async function doReset(ev){
+  ev.preventDefault(); const f=ev.target, email=f.email.value.trim();
+  if(!/^\S+@\S+\.\S+$/.test(email)){ formErr(T('cErrEmail')); return false; }
+  formBusy(f,true); formErr('');
+  try{
+    const cap=f.querySelector('.cl-cap'), captchaToken=window.CAPTCHA?await CAPTCHA.token(cap):undefined;
+    if(captchaToken===null) throw new Error('captcha');
+    const {error}=await C.sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+'/?reset=1',...(captchaToken?{captchaToken}:{})});
+    if(window.CAPTCHA) CAPTCHA.reset(cap);
+    if(error) throw error;
+    f.innerHTML=`<div class="cl-sent"><div class="cl-sent-ic">📩</div><h3>${T('cSentT')}</h3><p>${T('cRstSentP')(esc(email))}</p><button type="button" class="btn pri" onclick="CL.close()">OK</button></div>`;
+    return false;
+  }catch(e){ formErr(errText(e)); }
+  formBusy(f,false); return false;
+}
+async function doNewPass(ev){
+  ev.preventDefault(); const f=ev.target, v=f.pass.value;
+  if(v.length<6){ formErr(T('cErrShort')); return false; }
+  if(v!==f.pass2.value){ formErr(T('cErrMismatch')); return false; }
+  formBusy(f,true); formErr('');
+  const {error}=await C.sb.auth.updateUser({password:v});
+  if(error){ formErr(errText(error)); formBusy(f,false); return false; }
+  closeModal(); toast(T('cPassChanged')); return false;
+}
 async function doLogin(ev){
   ev.preventDefault(); const f=ev.target, email=f.email.value.trim(), pass=f.pass.value;
   if(!/^\S+@\S+\.\S+$/.test(email)){ formErr(T('cErrEmail')); return false; }
@@ -358,7 +392,7 @@ async function google(){
   }catch(e){ console.warn('[club]',e); toast(T('cGoogleErr')); }
 }
 async function finishOAuth(){
-  const q=new URLSearchParams(location.search), code=q.get('code'), err=q.get('error'), conf=q.get('confirmed');
+  const q=new URLSearchParams(location.search), code=q.get('code'), err=q.get('error'), conf=q.get('confirmed')||q.get('reset'), rst=q.get('reset');
   if(!code&&!err) return false;
   C.welcomed=true; closeModal();
   const ret=lsGet('sb.ret','')||location.hash||'#rating'; lsSet('sb.ret','');
@@ -369,6 +403,7 @@ async function finishOAuth(){
     if(error) throw error;
     await onSession(data.session,true);
     const pr=C.profile||{}, fresh=C.user&&C.user.created_at&&Date.now()-new Date(C.user.created_at).getTime()<10*60e3;
+    if(rst){ auth('newpass'); return true; }
     if(conf) toast(T('cConfirmedOk'));
     else if(fresh&&!pr.player_id&&!pr.requested_player_id){ toast(T('cGooglePick')); location.hash='#me'; }
     else toast(T('cHello')(shortName(pr)));
@@ -920,7 +955,7 @@ async function delLive(){
 const NAV={n:-1}; window.addEventListener('hashchange',()=>{ NAV.n++; }); NAV.n=0;
 
 /* ---------- Подключение к сайту ---------- */
-window.CL={back:fb=>{ if(NAV.n>0) history.back(); else location.hash=fb; },oldBrowser:()=>openModal(sheetHead(T('cLogin'))+`<p class="cl-p">${T('cOldBrowser')}</p>`),redraw:()=>drawWidgets(),events:()=>C.events||[],isAdmin,canDecide:()=>C.ready&&canRsvp(),auth,google,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,rsvp,toTeams,sendComment,delComment,saveName,photo,photoDel,admPhotoDel,request,changePass,
+window.CL={back:fb=>{ if(NAV.n>0) history.back(); else location.hash=fb; },oldBrowser:()=>openModal(sheetHead(T('cLogin'))+`<p class="cl-p">${T('cOldBrowser')}</p>`),redraw:()=>drawWidgets(),events:()=>C.events||[],isAdmin,canDecide:()=>C.ready&&canRsvp(),auth,google,close:closeModal,menu,closeMenu,logout,doLogin,doSignup,doReset,doNewPass,rsvp,toTeams,sendComment,delComment,saveName,photo,photoDel,admPhotoDel,request,changePass,
   saveBday,approve,reject,setRole,setPlayer,resetPass,setEmail,delUser,copy,addEvent,evStatus,delEvent,endLive,delLive,
   ctx:()=>({C,role,isAdmin,canRsvp,fail,openModal,closeModal,sheetHead})};  // для mvpvote.js и rbreak.js (16.11.2026)
 const TEAMS_PAGE=(window.FEATURE_ROUTES||{}).teams||(()=>home());
