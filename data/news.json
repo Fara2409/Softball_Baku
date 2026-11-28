@@ -1,6 +1,30 @@
 {
  "items": [
   {
+   "source": "CBS",
+   "title": "MLB rumors: Yankees prioritizing Adrian Morejon, plus latest on Cardinals, D-backs, Orioles",
+   "link": "https://www.cbssports.com/mlb/news/mlb-rumors-yankees-adrian-morejon-cardinals-diamondbacks-orioles-kona-takahashi/",
+   "summary": "Here are your hot stove rumors for Saturday, Nov. 28",
+   "image": "https://sportshub.cbsistatic.com/i/2026/11/28/af34620d-454f-47bd-8df4-59a9addb4510/morejon-getty.png",
+   "date": "2026-11-28T16:02:54Z"
+  },
+  {
+   "source": "MLB",
+   "title": "The latest MLB rumors and free-agent news",
+   "link": "https://www.mlb.com/news/mlb-rumors-trades-and-signings",
+   "summary": "",
+   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/mlb/ohww7kflprhko3e7nxdh",
+   "date": "2026-11-28T14:15:00Z"
+  },
+  {
+   "source": "CBS",
+   "title": "2026-27 MLB free agent tracker: Pre-Thanksgiving frenzy finds new homes for Skubal, Rogers, Peralta, more",
+   "link": "https://www.cbssports.com/mlb/news/mlb-free-agent-tracker-2026-27/",
+   "summary": "Where will the best players in free agency wind up? Follow along as we keep track of all the moves from an unusual offseason",
+   "image": "https://sportshub.cbsistatic.com/i/2026/11/22/9523f06c-5211-42e7-bc4b-339132386b75/skubal-getty-3.png",
+   "date": "2026-11-28T14:08:57Z"
+  },
+  {
    "source": "MLB",
    "title": "Active Cubs agree on deal with lefty reliever Yarbrough (source)",
    "link": "https://www.mlb.com/news/ryan-yarbrough-cubs-contract",
@@ -57,14 +81,6 @@
    "date": "2026-11-28T01:09:59Z"
   },
   {
-   "source": "MLB",
-   "title": "Utley has been trending toward HOF election. Here's why he belongs",
-   "link": "https://www.mlb.com/news/chase-utley-case-for-2027-hall-of-fame-class",
-   "summary": "",
-   "image": "https://img.mlbstatic.com/mlb-images/image/upload/t_16x9/t_w1024/v1795822360/mlb/ezfahdrnjx4rl1n5ztpp",
-   "date": "2026-11-28T00:14:59Z"
-  },
-  {
    "source": "CBS",
    "title": "Henry Davis trade grades: Pirates cut ties with former No. 1 pick, add utilityman Tim Tawa from Diamondbacks",
    "link": "https://www.cbssports.com/mlb/news/henry-davis-trade-grades-pirates-diamondbacks-tim-tawa/",
@@ -74,28 +90,12 @@
   },
   {
    "source": "CBS",
-   "title": "2026-27 MLB free agent tracker: Pre-Thanksgiving frenzy finds new homes for Skubal, Rogers, Peralta, more",
-   "link": "https://www.cbssports.com/mlb/news/mlb-free-agent-tracker-2026-27/",
-   "summary": "Where will the best players in free agency wind up? Follow along as we keep track of all the moves from an unusual offseason",
-   "image": "https://sportshub.cbsistatic.com/i/2026/11/22/9523f06c-5211-42e7-bc4b-339132386b75/skubal-getty-3.png",
-   "date": "2026-11-27T21:35:23Z"
-  },
-  {
-   "source": "CBS",
    "title": "Jazz Chisholm Jr. signing with Blue Jays: Two-time All-Star staying in AL East on one-year deal, per reports",
    "link": "https://www.cbssports.com/mlb/news/blue-jays-jazz-chisholm-free-agency-contract/",
    "summary": "Chisholm was an All-Star for the Yankees in 2025 but his offensive production slipped badly in 2026",
    "image": "https://sportshub.cbsistatic.com/i/2026/11/05/60e2ce32-e08f-4c5a-ba2e-3eb4eaa8a314/jazz-getty-1.png",
    "date": "2026-11-27T21:31:11Z"
-  },
-  {
-   "source": "CBS",
-   "title": "How Shohei Ohtani and the Dodgers are handling his two-way status after injury-riddled 2026 season",
-   "link": "https://www.cbssports.com/mlb/news/shohei-ohtani-dodgers-two-way-status-2027-season/",
-   "summary": "Injuries limited the four-time MVP to just 85 ⅔ innings pitched last season",
-   "image": "https://sportshub.cbsistatic.com/i/2026/11/27/38e4a1a9-df5f-4e36-8670-f6358ad8ba18/ohtani-getty.png",
-   "date": "2026-11-27T18:38:05Z"
   }
  ],
- "updated": "2026-11-28T07:51:05Z"
+ "updated": "2026-11-28T16:54:52Z"
 }
